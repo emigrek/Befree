@@ -1,0 +1,12 @@
+{
+  "extends": ["universe", "plugin:react-hooks/recommended"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "bracketSameLine": false,
+        "endOfLine": "auto"
+      }
+    ]
+  }
+}
