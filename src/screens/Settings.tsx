@@ -4,10 +4,10 @@ import { Text } from 'react-native-paper';
 
 import { Screen } from '@/components/Screen';
 
-const Dashboard: FC = () => {
+const Settings: FC = () => {
   return (
     <Screen style={style.screen}>
-      <Text variant={'titleLarge'}>Dashboard</Text>
+      <Text variant={'titleLarge'}>Theme</Text>
     </Screen>
   );
 };
@@ -20,4 +20,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { Dashboard };
+export { Settings };

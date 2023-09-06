@@ -1,3 +1,5 @@
+import { DarkTheme, DefaultTheme } from '@react-navigation/native';
+import merge from 'deepmerge';
 import { useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper';
@@ -7,6 +9,9 @@ import { colors as colorOverrides } from './colors';
 import { useGlobalStore } from '@/store';
 import { Themes } from '@/store/theme';
 
+const CombinedDarkTheme = merge(DarkTheme, MD3DarkTheme);
+const CombinedLightTheme = merge(DefaultTheme, MD3LightTheme);
+
 export const useDynamicTheme = () => {
   const colorScheme = useColorScheme();
   const userTheme = useGlobalStore(state => state.theme);
@@ -15,11 +20,11 @@ export const useDynamicTheme = () => {
     const theme =
       userTheme === Themes.System
         ? colorScheme === Themes.Dark
-          ? MD3DarkTheme
-          : MD3LightTheme
+          ? CombinedDarkTheme
+          : CombinedLightTheme
         : userTheme === Themes.Dark
-        ? MD3DarkTheme
-        : MD3LightTheme;
+        ? CombinedDarkTheme
+        : CombinedLightTheme;
 
     return {
       ...theme,

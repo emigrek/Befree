@@ -1,9 +1,15 @@
-import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 
-import Dashboard from '@/screens/Dashboard';
+import { useDynamicTheme } from './theme';
+
+import { Root as RootStack } from '@/navigation';
 
 const Root = () => {
-  return <Dashboard />;
+  return (
+    <NavigationContainer theme={useDynamicTheme()}>
+      <RootStack />
+    </NavigationContainer>
+  );
 };
 
 export default Root;

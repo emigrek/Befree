@@ -1,13 +1,24 @@
-import React from 'react';
+import { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 
 import { Screen } from '@/components/Screen';
+import { OnboradingProps } from '@/navigation';
+import { useGlobalStore } from '@/store';
 
-const Onboarding = () => {
+const Onboarding: FC<OnboradingProps> = ({ navigation }) => {
+  const setOnboarded = useGlobalStore(state => state.setOnboarded);
+
+  const handleOnboarding = () => {
+    setOnboarded(true);
+    navigation.navigate('Authentication');
+  };
+
   return (
     <Screen style={style.screen}>
-      <Text>Onboarding</Text>
+      <Button onPress={handleOnboarding} mode={'contained'}>
+        Get started
+      </Button>
     </Screen>
   );
 };
@@ -20,4 +31,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default Onboarding;
+export { Onboarding };
