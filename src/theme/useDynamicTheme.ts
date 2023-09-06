@@ -4,15 +4,16 @@ import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper';
 
 import { colors as colorOverrides } from './colors';
 
-import { Themes, useThemeStore } from '@/stores/theme';
+import { useGlobalStore } from '@/store';
+import { Themes } from '@/store/theme';
 
 export const useDynamicTheme = () => {
   const colorScheme = useColorScheme();
-  const userTheme = useThemeStore(state => state.theme);
+  const userTheme = useGlobalStore(state => state.theme);
 
   return useMemo(() => {
     const theme =
-      userTheme === 'system'
+      userTheme === Themes.System
         ? colorScheme === Themes.Dark
           ? MD3DarkTheme
           : MD3LightTheme

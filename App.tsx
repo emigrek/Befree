@@ -1,21 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
 import { PaperProvider } from 'react-native-paper';
 
-import Main from '@/main';
-import { useThemeStore } from '@/stores/theme';
+import Root from '@/root';
+import { useGlobalStore } from '@/store';
+import { Themes } from '@/store/theme';
 import { useDynamicTheme } from '@/theme';
 
 export default function App() {
-  const theme = useThemeStore(state => state.theme);
+  const theme = useGlobalStore(state => state.theme);
+
+  const statusBarTheme =
+    theme === Themes.System
+      ? 'auto'
+      : theme === Themes.Light
+      ? Themes.Dark
+      : Themes.Light;
 
   return (
     <PaperProvider theme={useDynamicTheme()}>
-      <StatusBar
-        style={
-          theme === 'system' ? 'auto' : theme === 'light' ? 'dark' : 'light'
-        }
-      />
-      <Main />
+      <StatusBar style={statusBarTheme} />
+      <Root />
     </PaperProvider>
   );
 }
