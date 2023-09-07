@@ -10,16 +10,15 @@ import { RootStackParamList } from '@/navigation/types';
 const Authentication: FC<AuthenticationProps> = () => {
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
 
+  const handleSignIn = () => {
+    navigate('Main', {
+      screen: 'Home',
+    });
+  };
+
   return (
     <Screen style={style.screen}>
-      <Button
-        mode={'contained'}
-        onPress={() =>
-          navigate('Main', {
-            screen: 'Dashboard',
-          })
-        }
-      >
+      <Button mode={'contained'} onPress={handleSignIn}>
         Sign in
       </Button>
     </Screen>

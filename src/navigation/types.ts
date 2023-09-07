@@ -7,7 +7,7 @@ export type InitializationStackParamList = {
 };
 
 export type MainStackParamList = {
-  Dashboard: undefined;
+  Home: undefined;
   Settings: undefined;
 };
 

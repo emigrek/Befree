@@ -1,4 +1,4 @@
 export { Authentication } from './Authentication';
-export { Dashboard } from './Dashboard';
+export { Home } from './Home';
 export { Onboarding } from './Onboarding';
 export { Settings } from './Settings';

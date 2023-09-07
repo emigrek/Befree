@@ -4,16 +4,17 @@ import { Initialization } from './Initialization';
 import { Main } from './Main';
 import { RootStackParamList } from './types';
 
-import { useGlobalStore } from '@/store';
+import { useAuthStore, useGlobalStore } from '@/store';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const Root = () => {
   const onboarded = useGlobalStore(state => state.onboarded);
+  const user = useAuthStore(state => state.user);
 
   return (
     <Stack.Navigator initialRouteName={'Initialization'}>
-      {!onboarded && (
+      {(!onboarded || !user) && (
         <Stack.Screen
           options={{
             headerShown: false,
@@ -22,13 +23,15 @@ const Root = () => {
           component={Initialization}
         />
       )}
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name={'Main'}
-        component={Main}
-      />
+      {user && (
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name={'Main'}
+          component={Main}
+        />
+      )}
     </Stack.Navigator>
   );
 };

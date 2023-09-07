@@ -2,7 +2,7 @@ import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navig
 
 import { MainStackParamList } from './types';
 
-import { Dashboard, Settings } from '@/screens';
+import { Home, Settings } from '@/screens';
 import { useDynamicTheme } from '@/theme';
 
 const Tab = createMaterialBottomTabNavigator<MainStackParamList>();
@@ -12,23 +12,20 @@ const Main = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName={'Dashboard'}
+      initialRouteName={'Home'}
       shifting={true}
-      sceneAnimationEnabled={false}
       activeColor={colors.primary}
       barStyle={{
-        backgroundColor: colors.background,
-        borderTopWidth: 2,
-        borderTopColor: colors.border,
+        backgroundColor: colors.tabContainer,
       }}
       compact={true}
     >
       <Tab.Screen
-        name={'Dashboard'}
-        component={Dashboard}
+        name={'Home'}
+        component={Home}
         options={{
-          tabBarLabel: 'Dashboard',
-          tabBarIcon: 'view-dashboard',
+          tabBarLabel: 'Home',
+          tabBarIcon: 'home',
         }}
       />
       <Tab.Screen

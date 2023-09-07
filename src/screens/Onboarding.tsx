@@ -9,14 +9,14 @@ import { useGlobalStore } from '@/store';
 const Onboarding: FC<OnboradingProps> = ({ navigation }) => {
   const setOnboarded = useGlobalStore(state => state.setOnboarded);
 
-  const handleOnboarding = () => {
+  const handleOnboard = () => {
     setOnboarded(true);
     navigation.navigate('Authentication');
   };
 
   return (
     <Screen style={style.screen}>
-      <Button onPress={handleOnboarding} mode={'contained'}>
+      <Button onPress={handleOnboard} mode={'contained'}>
         Get started
       </Button>
     </Screen>
