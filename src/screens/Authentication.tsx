@@ -1,24 +1,17 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { Screen } from '@/components/Screen';
+import { useGoogleAuth } from '@/hooks/useGoogleAuth';
 import { AuthenticationProps } from '@/navigation';
-import { RootStackParamList } from '@/navigation/types';
 
 const Authentication: FC<AuthenticationProps> = () => {
-  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
-
-  const handleSignIn = () => {
-    navigate('Main', {
-      screen: 'Home',
-    });
-  };
+  const [promptAsync] = useGoogleAuth();
 
   return (
     <Screen style={style.screen}>
-      <Button mode={'contained'} onPress={handleSignIn}>
+      <Button mode={'contained'} onPress={() => promptAsync()}>
         Sign in
       </Button>
     </Screen>

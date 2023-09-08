@@ -1,13 +1,19 @@
+import { signOut } from 'firebase/auth';
 import { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Switch, Text } from 'react-native-paper';
 
 import { Screen } from '@/components/Screen';
+import { auth } from '@/services/firebase';
 import { useGlobalStore } from '@/store';
 import { Themes } from '@/store/theme';
 
 const Settings: FC = () => {
   const { theme, setTheme, onboarded, setOnboarded } = useGlobalStore();
+
+  const handleSignOut = () => {
+    signOut(auth);
+  };
 
   return (
     <Screen style={style.screen}>
@@ -30,6 +36,11 @@ const Settings: FC = () => {
         <View style={style.settingDetails}>
           <Switch value={onboarded} onValueChange={setOnboarded} />
         </View>
+      </View>
+      <View style={style.setting}>
+        <Button mode={'contained'} onPress={handleSignOut}>
+          Logout
+        </Button>
       </View>
     </Screen>
   );
