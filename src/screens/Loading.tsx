@@ -1,16 +1,15 @@
 import { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import { ActivityIndicator, ActivityIndicatorProps } from 'react-native-paper';
 
 import { Screen } from '@/components/Screen';
-import { useAuthStore } from '@/store';
 
-const Home: FC = () => {
-  const { user } = useAuthStore(state => ({ user: state.user }));
+interface LoadingProps extends ActivityIndicatorProps {}
 
+const Loading: FC<LoadingProps> = props => {
   return (
     <Screen style={style.screen}>
-      <Text variant={'titleLarge'}>{user?.displayName}</Text>
+      <ActivityIndicator {...props} />
     </Screen>
   );
 };
@@ -19,8 +18,7 @@ const style = StyleSheet.create({
   screen: {
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 10,
   },
 });
 
-export { Home };
+export { Loading };

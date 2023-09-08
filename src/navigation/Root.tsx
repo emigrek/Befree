@@ -1,63 +1,46 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { User } from 'firebase/auth';
 import { useCallback } from 'react';
 
-import { Initialization } from './Initialization';
 import { Main } from './Main';
-import { RootStackParamList } from './types';
 
 import { useAuthStateListener } from '@/hooks/useAuthStateListener';
-import { useAuthStore } from '@/store';
-
-const Stack = createStackNavigator<RootStackParamList>();
+import { Authentication, Loading, Onboarding } from '@/screens';
+import { useAuthStore, useGlobalStore } from '@/store';
 
 const Root = () => {
-  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
-  const { setUser } = useAuthStore(state => ({
+  const { user, setUser } = useAuthStore(state => ({
+    user: state.user,
     setUser: state.setUser,
+  }));
+  const { onboarded } = useGlobalStore(state => ({
+    onboarded: state.onboarded,
   }));
 
   const handleSignIn = useCallback(
     (u: User) => {
       setUser(u);
-      navigate('Main', {
-        screen: 'Home',
-      });
     },
-    [navigate, setUser],
+    [setUser],
   );
 
   const handleSignOut = useCallback(() => {
     setUser(null);
-    navigate('Initialization', {
-      screen: 'Authentication',
-    });
-  }, [navigate, setUser]);
+  }, [setUser]);
 
-  useAuthStateListener({
+  const { loading } = useAuthStateListener({
     signInCallback: handleSignIn,
     signOutCallback: handleSignOut,
   });
 
-  return (
-    <Stack.Navigator initialRouteName={'Initialization'}>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name={'Initialization'}
-        component={Initialization}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name={'Main'}
-        component={Main}
-      />
-    </Stack.Navigator>
-  );
+  if (!onboarded) {
+    return <Onboarding />;
+  }
+
+  if (loading) {
+    return <Loading size={'large'} />;
+  }
+
+  return user ? <Main /> : <Authentication />;
 };
 
 export { Root };

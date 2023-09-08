@@ -8,7 +8,11 @@ import { auth } from '@/services/firebase';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export const useGoogleAuth = () => {
+type GoogleAuthProps = {
+  successCallback?: () => void;
+};
+
+export const useGoogleAuth = ({ successCallback }: GoogleAuthProps) => {
   const [, response, promptAsync] = Google.useAuthRequest({
     ...googleConfig,
   });
@@ -17,9 +21,13 @@ export const useGoogleAuth = () => {
     if (response?.type === 'success') {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential);
+      signInWithCredential(auth, credential).then(() => {
+        successCallback && successCallback();
+      });
     }
-  }, [response]);
+  }, [response, successCallback]);
 
-  return [promptAsync];
+  return {
+    promptAsync,
+  };
 };
