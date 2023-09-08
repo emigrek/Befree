@@ -1,3 +1,4 @@
+export { Add } from './Add';
 export { Authentication } from './Authentication';
 export { Home } from './Home';
 export { Loading } from './Loading';

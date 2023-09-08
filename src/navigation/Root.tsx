@@ -1,11 +1,15 @@
+import { createStackNavigator } from '@react-navigation/stack';
 import { User } from 'firebase/auth';
 import { useCallback } from 'react';
 
 import { Main } from './Main';
+import { RootStackParamList } from './types';
 
 import { useAuthStateListener } from '@/hooks/useAuthStateListener';
-import { Authentication, Loading, Onboarding } from '@/screens';
+import { Add, Authentication, Loading, Onboarding } from '@/screens';
 import { useAuthStore, useGlobalStore } from '@/store';
+
+const RootStack = createStackNavigator<RootStackParamList>();
 
 const Root = () => {
   const { user, setUser } = useAuthStore(state => ({
@@ -32,15 +36,30 @@ const Root = () => {
     signOutCallback: handleSignOut,
   });
 
-  if (!onboarded) {
-    return <Onboarding />;
-  }
+  if (!onboarded) return <Onboarding />;
 
-  if (loading) {
-    return <Loading size={'large'} />;
-  }
+  if (loading) return <Loading size={'large'} />;
 
-  return user ? <Main /> : <Authentication />;
+  if (!user) return <Authentication />;
+
+  return (
+    <RootStack.Navigator
+      initialRouteName="Main"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <RootStack.Screen name="Main" component={Main} />
+      <RootStack.Screen
+        name="Add"
+        component={Add}
+        options={{
+          presentation: 'modal',
+          gestureEnabled: true,
+        }}
+      />
+    </RootStack.Navigator>
+  );
 };
 
 export { Root };
