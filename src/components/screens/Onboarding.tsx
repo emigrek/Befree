@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
-import { Screen } from '@/components/Screen';
+import { Screen } from '@/components/ui/Screen';
 import { useGlobalStore } from '@/store';
 
 const Onboarding: FC = () => {

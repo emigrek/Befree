@@ -5,12 +5,12 @@ import {
   SafeAreaViewProps,
 } from 'react-native-safe-area-context';
 
-import { useDynamicTheme } from '@/theme';
+import { useTheme } from '@/theme';
 
 interface ScreenProps extends SafeAreaViewProps {}
 
 const Screen: FC<ScreenProps> = ({ style, ...props }) => {
-  const { colors } = useDynamicTheme();
+  const { colors } = useTheme();
 
   return (
     <SafeAreaView

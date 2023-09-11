@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Switch, Text } from 'react-native-paper';
 
-import { Screen } from '@/components/Screen';
+import { Screen } from '@/components/ui/Screen';
 import { auth } from '@/services/firebase';
 import { useGlobalStore } from '@/store';
 import { Themes } from '@/store/theme';
@@ -39,7 +39,7 @@ const Settings: FC = () => {
       </View>
       <View style={style.setting}>
         <Button mode={'contained'} onPress={handleSignOut}>
-          Logout
+          Sign out
         </Button>
       </View>
     </Screen>

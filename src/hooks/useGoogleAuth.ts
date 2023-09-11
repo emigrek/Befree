@@ -1,12 +1,9 @@
 import * as Google from 'expo-auth-session/providers/google';
-import * as WebBrowser from 'expo-web-browser';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { useEffect } from 'react';
 
 import googleConfig from '@/config/google';
 import { auth } from '@/services/firebase';
-
-WebBrowser.maybeCompleteAuthSession();
 
 type GoogleAuthProps = {
   successCallback?: () => void;

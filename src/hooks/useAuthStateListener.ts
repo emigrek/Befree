@@ -4,31 +4,24 @@ import { useEffect, useState } from 'react';
 import { auth } from '@/services/firebase';
 
 interface AuthStateListenerProps {
-  signInCallback: (user: User) => void;
-  signOutCallback: () => void;
+  onUserChange: (user: User | null) => void;
 }
 
 export const useAuthStateListener = ({
-  signInCallback,
-  signOutCallback,
+  onUserChange,
 }: AuthStateListenerProps) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
-      if (!user) {
-        signOutCallback();
-      } else {
-        signInCallback(user);
-      }
-
+      onUserChange(user);
       setLoading(false);
     });
 
-    return () => {
-      unsubscribe();
-    };
-  }, [signInCallback, signOutCallback]);
+    return unsubscribe;
+  }, [onUserChange]);
 
-  return { loading };
+  return {
+    loading,
+  };
 };

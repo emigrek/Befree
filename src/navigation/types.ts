@@ -1,14 +1,20 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export type MainStackParamList = {
-  Home: undefined;
-  AddModalTrigger: undefined;
-  Settings: undefined;
+export type AuthDrawerStackParamList = {
+  Modals: undefined;
 };
 
-export type RootStackParamList = {
-  Main: undefined;
+export type BottomTabsStackParamList = {
+  Home: undefined;
+  Notifications: undefined;
+};
+
+export type ModalsStackParamList = {
+  BottomTabs: undefined;
   Add: undefined;
 };
 
-export type AddScreenProps = NativeStackScreenProps<RootStackParamList, 'Add'>;
+export type AddScreenProps = NativeStackScreenProps<
+  ModalsStackParamList,
+  'Add'
+>;

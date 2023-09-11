@@ -1,1 +1,1 @@
-export { SecureAuthStore } from './SecureStore';
+export { SecureAuthStore } from './secureAuthStore';

@@ -15,7 +15,7 @@ import { Themes } from '@/store/theme';
 const CombinedDarkTheme = merge(DarkTheme, MD3DarkTheme);
 const CombinedLightTheme = merge(DefaultTheme, MD3LightTheme);
 
-export const useDynamicTheme = () => {
+export const useTheme = () => {
   const colorScheme = useColorScheme();
   const userTheme = useGlobalStore(state => state.theme);
 

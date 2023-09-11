@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "BeFree",
+    "name": "Befree",
     "slug": "befree",
-    "description": "Break free from your bad habits with BeFree. Say goodbye to old patterns and embrace personal transformation.",
+    "description": "Break free from your bad habits with Befree. Say goodbye to old patterns and embrace personal transformation.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

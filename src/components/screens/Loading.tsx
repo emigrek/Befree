@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { ActivityIndicator, ActivityIndicatorProps } from 'react-native-paper';
 
-import { Screen } from '@/components/Screen';
+import { Screen } from '@/components/ui/Screen';
 
 interface LoadingProps extends ActivityIndicatorProps {}
 

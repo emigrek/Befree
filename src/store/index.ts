@@ -6,8 +6,6 @@ import { AppSlice, createAppSlice } from './app';
 import { SessionSlice, createSessionSlice } from './session';
 import { ThemeSlice, createThemeSlice } from './theme';
 
-import { SecureAuthStore } from '@/utils';
-
 export const useGlobalStore = create<ThemeSlice & AppSlice>()(
   persist(
     (...a) => ({
@@ -21,14 +19,6 @@ export const useGlobalStore = create<ThemeSlice & AppSlice>()(
   ),
 );
 
-export const useAuthStore = create<SessionSlice>()(
-  persist(
-    (...a) => ({
-      ...createSessionSlice(...a),
-    }),
-    {
-      name: 'auth-storage',
-      storage: createJSONStorage(() => SecureAuthStore),
-    },
-  ),
-);
+export const useAuthStore = create<SessionSlice>()((...a) => ({
+  ...createSessionSlice(...a),
+}));

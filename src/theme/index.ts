@@ -1,3 +1,3 @@
-export { useDynamicTheme } from './useDynamicTheme';
+export { useTheme } from './useTheme';
 
 export { dark, light } from './overrides';

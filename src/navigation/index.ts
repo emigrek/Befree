@@ -1,2 +1,2 @@
-export { Main } from './Main';
-export { Root } from './Root';
+export { BottomTabsStack } from './BottomTabsStack';
+export { ModalsStack } from './ModalsStack';
