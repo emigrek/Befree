@@ -9,11 +9,18 @@ const pl: Translation = {
     cancel: 'Nie',
     confirm: 'Tak',
     account: 'Konto',
-    theme: 'Motyw',
+    on: 'Włącz',
+    off: 'Wyłącz',
   },
   screens: {
     notifications: {
       label: 'Powiadomienia',
+    },
+  },
+  bottomSheets: {
+    theme: {
+      title: 'Ciemny motyw',
+      device: 'Użyj ustawień urządzenia',
     },
   },
 };

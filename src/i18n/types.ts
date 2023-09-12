@@ -7,11 +7,18 @@ export interface Translation {
     cancel: string;
     close: string;
     account: string;
-    theme: string;
+    on: string;
+    off: string;
   };
   screens: {
     notifications: {
       label: string;
+    };
+  };
+  bottomSheets: {
+    theme: {
+      title: string;
+      device: string;
     };
   };
 }

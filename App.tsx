@@ -10,7 +10,7 @@ import { PaperProvider } from 'react-native-paper';
 
 import { Authentication, Loading, Onboarding } from '@/components/screens';
 import { useAuthStateListener } from '@/hooks/useAuthStateListener';
-import { AuthDrawerStack } from '@/navigation/AuthDrawerStack';
+import { AuthDrawerStack } from '@/navigation';
 import { useAuthStore, useGlobalStore } from '@/store';
 import { AppSlice } from '@/store/app';
 import { ThemeSlice } from '@/store/theme';

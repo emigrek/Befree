@@ -10,7 +10,6 @@ import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
 import { Theme, Themes } from '@/store/theme';
 import { useTheme } from '@/theme';
-import { capitalize } from '@/utils';
 
 const ThemeChanger = () => {
   const { theme, setTheme } = useGlobalStore(state => ({
@@ -19,7 +18,7 @@ const ThemeChanger = () => {
   }));
   const { colors } = useTheme();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['33%'], []);
+  const snapPoints = useMemo(() => ['35%'], []);
 
   const handleBottomSheetOpen = () => {
     bottomSheetRef.current?.expand();
@@ -60,30 +59,43 @@ const ThemeChanger = () => {
           handleIndicatorStyle={{ backgroundColor: colors.inverseSurface }}
         >
           <View style={style.container}>
-            <Text variant="titleLarge">{i18n.t(['labels', 'theme'])}</Text>
+            <Text variant="titleLarge">
+              {i18n.t(['bottomSheets', 'theme', 'title'])}
+            </Text>
             <Divider />
             <View style={style.radioContainer}>
-              {Object.values(Themes).map((t, i) => (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() => handleThemeChange(t)}
-                  style={style.radio}
-                >
-                  <Text style={style.title} variant={'bodyMedium'}>
-                    {capitalize(t)}
-                  </Text>
-                  <RadioButton
-                    status={t === theme ? 'checked' : 'unchecked'}
-                    value={t}
-                  />
-                </TouchableOpacity>
-              ))}
+              {Object.values(Themes)
+                .sort()
+                .map((t, i) => (
+                  <TouchableOpacity
+                    key={i}
+                    onPress={() => handleThemeChange(t)}
+                    style={style.radio}
+                  >
+                    <Text
+                      style={[style.radioTitle, { color: colors.outline }]}
+                      variant={'bodyLarge'}
+                    >
+                      {titleForTheme(t)}
+                    </Text>
+                    <RadioButton
+                      status={t === theme ? 'checked' : 'unchecked'}
+                      value={t}
+                    />
+                  </TouchableOpacity>
+                ))}
             </View>
           </View>
         </BottomSheet>
       </Portal>
     </>
   );
+};
+
+const titleForTheme = (t: Theme) => {
+  if (t === Themes.Light) return i18n.t(['labels', 'off']);
+  else if (t === Themes.Dark) return i18n.t(['labels', 'on']);
+  else return i18n.t(['bottomSheets', 'theme', 'device']);
 };
 
 const style = StyleSheet.create({
@@ -97,7 +109,7 @@ const style = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 20,
-    gap: 10,
+    gap: 15,
   },
   radioContainer: {},
   radio: {
@@ -105,7 +117,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
   },
-  title: {
+  radioTitle: {
     flex: 1,
   },
 });
