@@ -11,7 +11,6 @@ const FAB: FC<FABProps> = ({ style, ...props }) => {
 
   return (
     <PaperFAB
-      color={colors.onSurface}
       style={[
         styles.fab,
         {

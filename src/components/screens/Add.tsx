@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 
 import { Screen } from '@/components/ui/Screen';
+import i18n from '@/i18n';
 import { AddScreenProps } from '@/navigation/types';
 
 const Add: FC<AddScreenProps> = ({ navigation }) => {
@@ -12,8 +13,7 @@ const Add: FC<AddScreenProps> = ({ navigation }) => {
 
   return (
     <Screen style={style.screen}>
-      <Text>Add</Text>
-      <Button onPress={handleClose}>Close</Button>
+      <Button onPress={handleClose}>{i18n.t(['labels', 'close'])}</Button>
     </Screen>
   );
 };

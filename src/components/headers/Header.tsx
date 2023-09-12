@@ -22,7 +22,7 @@ const Header: FC<BottomTabHeaderProps> = ({ options, route }) => {
   const { colors } = useTheme();
   const title = getHeaderTitle(options, route.name);
   const { openDrawer } = useNavigation<AuthDrawerStackNavigationProp>();
-  const isHome = title === 'Home';
+  const isHome = route.name === 'Home';
 
   return (
     <Appbar.Header

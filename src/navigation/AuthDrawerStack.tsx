@@ -16,11 +16,9 @@ const AuthDrawerStack = () => {
       initialRouteName="Modals"
       screenOptions={{
         headerShown: false,
-        swipeEnabled: true,
         swipeEdgeWidth: width / 1.5,
         swipeMinDistance: 50,
       }}
-      backBehavior={'none'}
       drawerContent={props => <AuthDrawer {...props} />}
     >
       <Navigator.Screen name="Modals" component={ModalsStack} />

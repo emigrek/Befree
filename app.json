@@ -12,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "userInterfaceStyle": "automatic",
@@ -40,6 +42,9 @@
         "projectId": "6a0af6a7-06f7-4017-84e0-6974291edf74"
       }
     },
-    "scheme": "befree"
+    "scheme": "befree",
+    "plugins": [
+      "expo-localization"
+    ]
   }
 }

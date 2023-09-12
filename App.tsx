@@ -5,6 +5,7 @@ import * as SystemUI from 'expo-system-ui';
 import * as WebBrowser from 'expo-web-browser';
 import { User } from 'firebase/auth';
 import { useCallback } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
 import { Authentication, Loading, Onboarding } from '@/components/screens';
@@ -44,10 +45,11 @@ function App() {
   return <AuthDrawerStack />;
 }
 
-export default function Wrappers() {
+export default function WrappedApp() {
   const theme = useTheme();
   const statusBarTheme = useStatusBarTheme();
 
+  // Prevents white theme flash when Theme store is not hydrated
   const isHydrated = usePersistedStoreHydrationState<ThemeSlice & AppSlice>({
     persistStore: useGlobalStore.persist,
     onFinishHydration: async () => {
@@ -58,11 +60,13 @@ export default function Wrappers() {
   if (!isHydrated) return null;
 
   return (
-    <NavigationContainer theme={theme}>
-      <PaperProvider theme={theme}>
-        <StatusBar style={statusBarTheme} />
-        <App />
-      </PaperProvider>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer theme={theme}>
+        <PaperProvider theme={theme}>
+          <StatusBar style={statusBarTheme} />
+          <App />
+        </PaperProvider>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }

@@ -9,6 +9,7 @@ import { BottomTabsStackParamList, ModalsStackParamList } from './types';
 import { Header } from '@/components/headers';
 import { Home } from '@/components/screens';
 import { FAB } from '@/components/ui/FAB';
+import i18n from '@/i18n';
 import { useTheme } from '@/theme';
 
 const Navigator = createBottomTabNavigator<BottomTabsStackParamList>();
@@ -47,6 +48,7 @@ const BottomTabsStack = () => {
             borderTopWidth: 1,
             borderTopColor: colors.border,
           },
+          title: i18n.t(['screens', route.name.toLowerCase(), 'label']),
           tabBarIcon: props => {
             const { focusedName, name } = bottomTabsIconMap[route.name];
 
@@ -60,7 +62,12 @@ const BottomTabsStack = () => {
         <Navigator.Screen name={'Home'} component={Home} />
         <Navigator.Screen name={'Notifications'} component={View} />
       </Navigator.Navigator>
-      <FAB icon="plus" onPress={() => navigate('Add')} />
+      <FAB
+        icon="plus"
+        color={colors.inverseOnSurface}
+        mode={'flat'}
+        onPress={() => navigate('Add')}
+      />
     </>
   );
 };

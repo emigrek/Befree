@@ -21,14 +21,14 @@ export const useTheme = () => {
 
   return useMemo(() => {
     const dark = {
-      ...CombinedLightTheme,
+      ...CombinedDarkTheme,
       colors: {
         ...CombinedDarkTheme.colors,
         ...darkColorsOverride,
       },
     };
     const light = {
-      ...CombinedDarkTheme,
+      ...CombinedLightTheme,
       colors: {
         ...CombinedLightTheme.colors,
         ...lightColorsOverride,

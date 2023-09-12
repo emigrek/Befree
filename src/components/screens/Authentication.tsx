@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 
 import { Screen } from '@/components/ui/Screen';
 import { useGoogleAuth } from '@/hooks/useGoogleAuth';
+import i18n from '@/i18n';
 
 const Authentication: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,8 +22,13 @@ const Authentication: FC = () => {
 
   return (
     <Screen style={style.screen}>
-      <Button loading={loading} mode={'contained'} onPress={handleSignIn}>
-        Sign in using Google
+      <Button
+        icon={'google'}
+        loading={loading}
+        mode={'contained'}
+        onPress={handleSignIn}
+      >
+        {i18n.t(['labels', 'signIn'])}
       </Button>
     </Screen>
   );
