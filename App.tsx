@@ -1,10 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
+import * as NavigationBar from 'expo-navigation-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import * as WebBrowser from 'expo-web-browser';
-import { User } from 'firebase/auth';
-import { useCallback } from 'react';
+import { User, getIdToken } from 'firebase/auth';
+import { useCallback, useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
@@ -30,6 +31,7 @@ function App() {
   const { loading } = useAuthStateListener({
     onUserChange: useCallback(
       (u: User | null) => {
+        if (u) getIdToken(u);
         setUser(u);
       },
       [setUser],
@@ -56,6 +58,10 @@ export default function WrappedApp() {
       await SplashScreen.hideAsync();
     },
   });
+
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync(theme.colors.background);
+  }, [isHydrated, theme]);
 
   if (!isHydrated) return null;
 

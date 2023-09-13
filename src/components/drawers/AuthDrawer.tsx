@@ -5,7 +5,13 @@ import {
 import { signOut } from 'firebase/auth';
 import React, { FC } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { Drawer, IconButton, Title, Tooltip } from 'react-native-paper';
+import {
+  Divider,
+  Drawer,
+  IconButton,
+  Title,
+  Tooltip,
+} from 'react-native-paper';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import { DrawerItem } from './types';
@@ -48,7 +54,10 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
 
   return (
     <>
-      <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView
+        style={{ backgroundColor: colors.background }}
+        {...props}
+      >
         <View style={style.content}>
           <View style={style.user}>
             <View style={style.userDetails}>
@@ -58,6 +67,7 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
               </Tooltip>
             </View>
             <Title style={style.title}>{user?.displayName}</Title>
+            <Divider />
           </View>
           <Drawer.Section showDivider={false}>
             {items.map((item, key) => (
@@ -87,6 +97,7 @@ const style = StyleSheet.create({
     flex: 1,
     marginTop: 20,
     marginHorizontal: 5,
+    gap: 10,
   },
   user: {
     paddingHorizontal: 20,
@@ -99,7 +110,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    marginTop: 20,
+    marginVertical: 20,
     fontWeight: 'bold',
   },
 });

@@ -7,6 +7,7 @@ import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper';
 import {
   dark as darkColorsOverride,
   light as lightColorsOverride,
+  lightsOut as lightsOutOverride,
 } from './overrides';
 
 import { useGlobalStore } from '@/store';
@@ -17,7 +18,10 @@ const CombinedLightTheme = merge(DefaultTheme, MD3LightTheme);
 
 export const useTheme = () => {
   const colorScheme = useColorScheme();
-  const userTheme = useGlobalStore(state => state.theme);
+  const { userTheme, lightsOut } = useGlobalStore(state => ({
+    userTheme: state.theme,
+    lightsOut: state.lightsOut,
+  }));
 
   return useMemo(() => {
     const dark = {
@@ -25,6 +29,7 @@ export const useTheme = () => {
       colors: {
         ...CombinedDarkTheme.colors,
         ...darkColorsOverride,
+        ...(lightsOut && lightsOutOverride),
       },
     };
     const light = {
@@ -45,5 +50,5 @@ export const useTheme = () => {
         : light;
 
     return theme;
-  }, [userTheme, colorScheme]);
+  }, [userTheme, colorScheme, lightsOut]);
 };

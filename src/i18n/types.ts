@@ -17,7 +17,10 @@ export interface Translation {
   };
   bottomSheets: {
     theme: {
-      title: string;
+      modeTitle: string;
+      themeTitle: string;
+      lightsOut: string;
+      dim: string;
       device: string;
     };
   };

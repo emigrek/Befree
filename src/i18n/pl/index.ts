@@ -19,7 +19,10 @@ const pl: Translation = {
   },
   bottomSheets: {
     theme: {
-      title: 'Ciemny motyw',
+      modeTitle: 'Tryb ciemny',
+      themeTitle: 'Ciemny motyw',
+      lightsOut: 'Zgaszone światło',
+      dim: 'Przyciemnienie',
       device: 'Użyj ustawień urządzenia',
     },
   },

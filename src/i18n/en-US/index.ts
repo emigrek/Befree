@@ -19,7 +19,10 @@ const enUS: Translation = {
   },
   bottomSheets: {
     theme: {
-      title: 'Dark theme',
+      modeTitle: 'Dark mode',
+      themeTitle: 'Dark theme',
+      lightsOut: 'Lights out',
+      dim: 'Dim',
       device: 'Use device settings',
     },
   },
