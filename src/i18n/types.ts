@@ -11,8 +11,21 @@ export interface Translation {
     off: string;
   };
   screens: {
+    home: {
+      gretting: string;
+    };
     notifications: {
       label: string;
+    };
+    addictions: {
+      label: string;
+    };
+    authentication: {
+      title: string;
+      subtitle: string;
+      errorMessage: string;
+      dismissMessage: string;
+      cancelMessage: string;
     };
   };
   bottomSheets: {

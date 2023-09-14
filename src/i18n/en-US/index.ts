@@ -13,8 +13,21 @@ const enUS: Translation = {
     off: 'Off',
   },
   screens: {
+    home: {
+      gretting: 'Hello, %{name}! 👋',
+    },
     notifications: {
       label: 'Notifications',
+    },
+    addictions: {
+      label: 'Addictions',
+    },
+    authentication: {
+      title: 'Authentication',
+      subtitle: 'Please sign in to save your data across devices',
+      errorMessage: 'There was an error, try again',
+      cancelMessage: `You've cancelled signing in`,
+      dismissMessage: `You've dismissed sign in window`,
     },
   },
   bottomSheets: {

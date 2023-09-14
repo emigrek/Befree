@@ -13,8 +13,21 @@ const pl: Translation = {
     off: 'Wyłącz',
   },
   screens: {
+    home: {
+      gretting: 'Cześć, %{name}! 👋',
+    },
     notifications: {
       label: 'Powiadomienia',
+    },
+    addictions: {
+      label: 'Uzależnienia',
+    },
+    authentication: {
+      title: 'Logowanie',
+      subtitle: 'Zaloguj się aby dzielić danę między urządzeniami',
+      errorMessage: 'Wystąpił błąd, spróbuj ponownie',
+      cancelMessage: `Logowanie zostało przerwane`,
+      dismissMessage: `Okno logowania zostało porzucone`,
     },
   },
   bottomSheets: {

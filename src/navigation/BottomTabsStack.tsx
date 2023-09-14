@@ -1,13 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { View } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import { BottomTabsStackParamList, ModalsStackParamList } from './types';
 
 import { Header } from '@/components/headers';
-import { Home } from '@/components/screens';
+import { Addictions, Home, Notifications } from '@/components/screens';
 import { FAB } from '@/components/ui/FAB';
 import i18n from '@/i18n';
 import { useTheme } from '@/theme';
@@ -25,6 +24,10 @@ const bottomTabsIconMap: BottomTabsIconMap = {
   Home: {
     name: 'home-outline',
     focusedName: 'home',
+  },
+  Addictions: {
+    name: 'grid-outline',
+    focusedName: 'grid',
   },
   Notifications: {
     name: 'notifications-outline',
@@ -54,14 +57,20 @@ const BottomTabsStack = () => {
             const { focusedName, name } = bottomTabsIconMap[route.name];
 
             return (
-              <TabBarIcon name={name} focusedName={focusedName} {...props} />
+              <TabBarIcon
+                {...props}
+                name={name}
+                focusedName={focusedName}
+                size={26}
+              />
             );
           },
         })}
         initialRouteName={'Home'}
       >
         <Navigator.Screen name={'Home'} component={Home} />
-        <Navigator.Screen name={'Notifications'} component={View} />
+        <Navigator.Screen name={'Addictions'} component={Addictions} />
+        <Navigator.Screen name={'Notifications'} component={Notifications} />
       </Navigator.Navigator>
       <FAB
         icon="plus"

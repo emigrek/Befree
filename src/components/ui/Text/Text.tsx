@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { StyleSheet, Text, TextProps } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Text, TextProps } from 'react-native-paper';
 
-interface BoldProps extends TextProps {}
+interface BoldProps extends TextProps<string> {}
 
 const Bold: FC<BoldProps> = ({ style, ...props }) => {
   return <Text style={[style, styles.bold]} {...props} />;
