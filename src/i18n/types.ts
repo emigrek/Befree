@@ -27,6 +27,10 @@ export interface Translation {
       dismissMessage: string;
       cancelMessage: string;
     };
+    onboarding: {
+      skip: string;
+      getStarted: string;
+    };
   };
   bottomSheets: {
     theme: {

@@ -29,6 +29,10 @@ const pl: Translation = {
       cancelMessage: `Logowanie zostało przerwane`,
       dismissMessage: `Okno logowania zostało porzucone`,
     },
+    onboarding: {
+      getStarted: 'Zacznij',
+      skip: 'Pomiń',
+    },
   },
   bottomSheets: {
     theme: {

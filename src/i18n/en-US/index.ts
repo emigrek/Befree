@@ -29,6 +29,10 @@ const enUS: Translation = {
       cancelMessage: `You've cancelled signing in`,
       dismissMessage: `You've dismissed sign in window`,
     },
+    onboarding: {
+      getStarted: 'Get started',
+      skip: 'Skip',
+    },
   },
   bottomSheets: {
     theme: {
