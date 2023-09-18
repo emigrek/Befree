@@ -32,6 +32,20 @@ const enUS: Translation = {
     onboarding: {
       getStarted: 'Get started',
       skip: 'Skip',
+      titles: [
+        'Welcome',
+        'Track Progress',
+        'Set Goals',
+        'Daily Motivation',
+        'Ready to Begin',
+      ],
+      descriptions: [
+        `Welcome to Befree, your companion on the journey to breaking free from addiction.`,
+        'Use our tracking tools to monitor your progress and celebrate each milestone along the way.',
+        'Define your personal goals and aspirations. Breaking free from addiction is a step towards achieving them.',
+        'Receive daily motivational quotes and messages to keep you inspired on your path to recovery.',
+        "You're all set to start your journey towards a healthier, addiction-free life. Let's take that first step together!",
+      ],
     },
   },
   bottomSheets: {

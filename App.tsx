@@ -4,15 +4,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import * as WebBrowser from 'expo-web-browser';
-import { User, getIdToken } from 'firebase/auth';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
-import { Authentication, Loading, Onboarding } from '@/components/screens';
-import { useAuthStateListener } from '@/hooks/useAuthStateListener';
-import { AuthDrawerStack } from '@/navigation';
-import { useAuthStore, useGlobalStore } from '@/store';
+import { RootStack } from '@/navigation';
+import { useGlobalStore } from '@/store';
 import { AppSlice } from '@/store/app';
 import { ThemeSlice } from '@/store/theme';
 import { usePersistedStoreHydrationState } from '@/store/usePersistedStoreHydrationState';
@@ -20,34 +17,10 @@ import { useTheme } from '@/theme';
 import { useStatusBarTheme } from '@/theme/useStatusBarTheme';
 
 SystemUI.setBackgroundColorAsync('transparent');
-SplashScreen.preventAutoHideAsync();
 WebBrowser.maybeCompleteAuthSession();
 WebBrowser.warmUpAsync('com.android.chrome');
 
-function App() {
-  const onboarded = useGlobalStore(state => state.onboarded);
-  const { user, setUser } = useAuthStore();
-
-  const { loading } = useAuthStateListener({
-    onUserChange: useCallback(
-      (u: User | null) => {
-        if (u) getIdToken(u);
-        setUser(u);
-      },
-      [setUser],
-    ),
-  });
-
-  if (loading) return <Loading size={'large'} />;
-
-  if (!onboarded) return <Onboarding />;
-
-  if (!user) return <Authentication />;
-
-  return <AuthDrawerStack />;
-}
-
-export default function WrappedApp() {
+export default function App() {
   const theme = useTheme();
   const statusBarTheme = useStatusBarTheme();
 
@@ -70,7 +43,7 @@ export default function WrappedApp() {
       <NavigationContainer theme={theme}>
         <PaperProvider theme={theme}>
           <StatusBar style={statusBarTheme} />
-          <App />
+          <RootStack />
         </PaperProvider>
       </NavigationContainer>
     </GestureHandlerRootView>

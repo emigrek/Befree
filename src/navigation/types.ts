@@ -7,7 +7,6 @@ export type AuthDrawerStackParamList = {
 export type BottomTabsStackParamList = {
   Home: undefined;
   Addictions: undefined;
-  Notifications: undefined;
 };
 
 export type ModalsStackParamList = {

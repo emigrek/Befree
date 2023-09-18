@@ -32,6 +32,20 @@ const pl: Translation = {
     onboarding: {
       getStarted: 'Zacznij',
       skip: 'Pomiń',
+      titles: [
+        'Witaj',
+        'Sledź postępy',
+        'Ustal Cele',
+        'Codzienna Motywacja',
+        'Gotowy Rozpocząć',
+      ],
+      descriptions: [
+        `Witaj w Befree, twoim towarzyszem w podróży ku wolności od uzależnień.`,
+        'Korzystaj z naszych narzędzi śledzenia, aby monitorować swój postęp i świętować każdy kamień milowy po drodze.',
+        'Określ swoje osobiste cele i aspiracje. Wyjście z uzależnienia to krok w kierunku ich osiągnięcia.',
+        'Otrzymuj codzienne motywacyjne cytaty i wiadomości, aby zachować inspirację na swojej ścieżce do zdrowia.',
+        'Jesteś gotowy, aby rozpocząć swoją podróż ku zdrowszemu, wolnemu od uzależnień życiu. Zaczynajmy ten pierwszy krok razem!',
+      ],
     },
   },
   bottomSheets: {

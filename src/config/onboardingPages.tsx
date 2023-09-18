@@ -8,6 +8,7 @@ import {
 } from '@/components/illustrations';
 import { Welcome } from '@/components/illustrations/Welcome';
 import { IllustrationProps } from '@/components/illustrations/types';
+import i18n from '@/i18n';
 
 export interface OnboardingPage {
   title: string;
@@ -17,32 +18,28 @@ export interface OnboardingPage {
 
 export const onboardingPages: OnboardingPage[] = [
   {
-    title: 'Welcome',
-    description: `Welcome to Befree, your companion on the journey to breaking free from addiction.`,
+    title: i18n.t(['screens', 'onboarding', 'titles'])[0],
+    description: i18n.t(['screens', 'onboarding', 'descriptions'])[0],
     illustration: Welcome,
   },
   {
-    title: 'Track Progress',
-    description:
-      'Use our tracking tools to monitor your progress and celebrate each milestone along the way.',
+    title: i18n.t(['screens', 'onboarding', 'titles'])[1],
+    description: i18n.t(['screens', 'onboarding', 'descriptions'])[1],
     illustration: Progress,
   },
   {
-    title: 'Set Goals',
-    description:
-      'Define your personal goals and aspirations. Breaking free from addiction is a step towards achieving them.',
+    title: i18n.t(['screens', 'onboarding', 'titles'])[2],
+    description: i18n.t(['screens', 'onboarding', 'descriptions'])[2],
     illustration: Target,
   },
   {
-    title: 'Daily Motivation',
-    description:
-      'Receive daily motivational quotes and messages to keep you inspired on your path to recovery.',
+    title: i18n.t(['screens', 'onboarding', 'titles'])[3],
+    description: i18n.t(['screens', 'onboarding', 'descriptions'])[3],
     illustration: PushNotifications,
   },
   {
-    title: 'Ready to Begin',
-    description:
-      "You're all set to start your journey towards a healthier, addiction-free life. Let's take that first step together!",
+    title: i18n.t(['screens', 'onboarding', 'titles'])[4],
+    description: i18n.t(['screens', 'onboarding', 'descriptions'])[4],
     illustration: Explore,
   },
 ];

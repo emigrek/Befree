@@ -1,6 +1,7 @@
 export const dark = {
   primary: '#1CB084',
-  secondary: '#178C69',
+  secondary: '#1cb0a9',
+  secondaryContainer: '#205c59',
 };
 
 export const lightsOut = {
@@ -9,5 +10,6 @@ export const lightsOut = {
 
 export const light = {
   primary: '#1CB084',
-  secondary: '#178C69',
+  secondary: '#1cb0a9',
+  secondaryContainer: '#68bdb8',
 };

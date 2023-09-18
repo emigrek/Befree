@@ -5,8 +5,8 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import { BottomTabsStackParamList, ModalsStackParamList } from './types';
 
-import { Header } from '@/components/headers';
-import { Addictions, Home, Notifications } from '@/components/screens';
+import { BottomTabsHeader } from '@/components/headers';
+import { Addictions, Home } from '@/components/screens';
 import { FAB } from '@/components/ui/FAB';
 import i18n from '@/i18n';
 import { useTheme } from '@/theme';
@@ -29,10 +29,6 @@ const bottomTabsIconMap: BottomTabsIconMap = {
     name: 'grid-outline',
     focusedName: 'grid',
   },
-  Notifications: {
-    name: 'notifications-outline',
-    focusedName: 'notifications',
-  },
 };
 
 type ModalStackNavigationProp = StackNavigationProp<ModalsStackParamList>;
@@ -46,7 +42,7 @@ const BottomTabsStack = () => {
       <Navigator.Navigator
         screenOptions={({ route }) => ({
           tabBarShowLabel: false,
-          header: props => <Header {...props} />,
+          header: props => <BottomTabsHeader {...props} />,
           tabBarStyle: {
             borderTopWidth: 1,
             borderTopColor: colors.border,
@@ -70,7 +66,6 @@ const BottomTabsStack = () => {
       >
         <Navigator.Screen name={'Home'} component={Home} />
         <Navigator.Screen name={'Addictions'} component={Addictions} />
-        <Navigator.Screen name={'Notifications'} component={Notifications} />
       </Navigator.Navigator>
       <FAB
         icon="plus"

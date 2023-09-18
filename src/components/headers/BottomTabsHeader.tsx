@@ -17,7 +17,7 @@ import { useTheme } from '@/theme';
 type AuthDrawerStackNavigationProp =
   DrawerNavigationProp<AuthDrawerStackParamList>;
 
-const Header: FC<BottomTabHeaderProps> = ({ options, route }) => {
+const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
   const user = useAuthStore(state => state.user);
   const { colors } = useTheme();
   const title = getHeaderTitle(options, route.name);
@@ -68,4 +68,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { Header };
+export { BottomTabsHeader };

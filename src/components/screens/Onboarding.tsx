@@ -1,8 +1,13 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Text } from 'react-native-paper';
 import Animated, {
+  Extrapolate,
+  SharedValue,
+  interpolate,
   runOnJS,
+  useAnimatedRef,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useDerivedValue,
@@ -17,14 +22,13 @@ import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const Onboarding: FC = () => {
   const setOnboarded = useGlobalStore(state => state.setOnboarded);
+  const scrollRef = useAnimatedRef<ScrollView>();
   const translateX = useSharedValue(0);
-  const [buttonText, setButtonText] = useState<string>(
-    i18n.t(['screens', 'onboarding', 'skip']),
-  );
+  const [onLastPage, setOnLastPage] = useState<boolean>(false);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: event => {
@@ -36,31 +40,36 @@ const Onboarding: FC = () => {
     return Math.round(translateX.value / width);
   });
 
-  const changeText = (seenAll: boolean) => {
-    setButtonText(
-      seenAll
-        ? i18n.t(['screens', 'onboarding', 'getStarted'])
-        : i18n.t(['screens', 'onboarding', 'skip']),
-    );
+  const handleLastPage = (onLastPage: boolean) => {
+    setOnLastPage(onLastPage);
   };
 
   useDerivedValue(() => {
     'worklet';
-    runOnJS(changeText)(activePageIndex.value + 1 === onboardingPages.length);
+    runOnJS(handleLastPage)(
+      activePageIndex.value + 1 === onboardingPages.length,
+    );
   });
 
-  const handleOnboarding = () => {
-    setOnboarded(true);
-  };
+  const handleSkip = useCallback(() => {
+    if (activePageIndex.value === onboardingPages.length - 1) {
+      setOnboarded(true);
+      return;
+    }
+    scrollRef.current?.scrollTo({
+      x: width * (onboardingPages.length - 1),
+    });
+  }, [scrollRef, activePageIndex.value, setOnboarded]);
 
   return (
     <Screen style={style.screen}>
       <Animated.ScrollView
+        ref={scrollRef as any}
         style={style.scrollView}
         horizontal
-        pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={scrollHandler}
+        pagingEnabled
       >
         {onboardingPages.map((page, i) => (
           <Page key={i} {...page} />
@@ -69,11 +78,18 @@ const Onboarding: FC = () => {
       <View style={style.navigation}>
         <View style={style.pagination}>
           {onboardingPages.map((page, i) => (
-            <Dot key={i} index={i} activeIndex={activePageIndex} />
+            <Dot
+              key={i}
+              index={i}
+              translateX={translateX}
+              activeIndex={activePageIndex}
+            />
           ))}
         </View>
-        <Button onPress={handleOnboarding} mode={'contained'}>
-          {buttonText}
+        <Button onPress={handleSkip} mode={'contained-tonal'}>
+          {onLastPage
+            ? i18n.t(['screens', 'onboarding', 'getStarted'])
+            : i18n.t(['screens', 'onboarding', 'skip'])}
         </Button>
       </View>
     </Screen>
@@ -83,17 +99,29 @@ const Onboarding: FC = () => {
 const Dot = ({
   index,
   activeIndex,
+  translateX,
 }: {
   index: number;
-  activeIndex: Animated.SharedValue<number>;
+  translateX: SharedValue<number>;
+  activeIndex: SharedValue<number>;
 }) => {
   const { colors } = useTheme();
   const animatedDotStyle = useAnimatedStyle(() => {
     const active = index === activeIndex.value;
+    const widthAnimation = interpolate(
+      translateX.value,
+      [(index - 1) * width, index * width, (index + 1) * width],
+      [15, 20, 15],
+      Extrapolate.CLAMP,
+    );
     return {
-      backgroundColor: withTiming(active ? colors.primary : colors.border, {
-        duration: 100,
-      }),
+      backgroundColor: withTiming(
+        active ? colors.secondaryContainer : colors.border,
+        {
+          duration: 100,
+        },
+      ),
+      width: widthAnimation,
     };
   });
 
@@ -105,20 +133,22 @@ const Page: FC<OnboardingPage> = ({
   title,
   illustration: Illustration,
 }) => {
+  const { colors } = useTheme();
   return (
-    <Screen style={style.page}>
-      <View style={style.illustrationContainer}>
-        {Illustration && <Illustration />}
-      </View>
+    <View style={style.page}>
+      {Illustration && <Illustration />}
       <View>
-        <Bold style={style.title} variant="displayMedium">
+        <Bold style={style.title} variant="displaySmall">
           {title}
         </Bold>
-        <Text style={style.description} variant={'bodyMedium'}>
+        <Text
+          style={[style.description, { color: colors.outline }]}
+          variant={'bodyMedium'}
+        >
           {description}
         </Text>
       </View>
-    </Screen>
+    </View>
   );
 };
 
@@ -129,40 +159,34 @@ const style = StyleSheet.create({
     gap: 5,
   },
   page: {
-    paddingHorizontal: 30,
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    paddingBottom: 100,
+    paddingHorizontal: 60,
     width,
-    height,
+    justifyContent: 'space-evenly',
+    paddingBottom: 60,
+    flex: 1,
   },
   scrollView: {
     flex: 1,
   },
   pagination: {
     flexDirection: 'row',
-    gap: 3,
+    gap: 6,
   },
   dot: {
     width: 15,
-    aspectRatio: 1,
-    borderRadius: 15,
+    height: 15,
+    borderRadius: 9,
   },
   navigation: {
     height: 40,
     width,
     marginBottom: 50,
-    paddingHorizontal: 50,
+    paddingHorizontal: 60,
     gap: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  illustrationContainer: {
-    height: height / 2.8,
-    aspectRatio: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    zIndex: 2,
   },
   title: {
     textAlign: 'center',

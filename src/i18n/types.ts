@@ -30,6 +30,8 @@ export interface Translation {
     onboarding: {
       skip: string;
       getStarted: string;
+      titles: string[];
+      descriptions: string[];
     };
   };
   bottomSheets: {
