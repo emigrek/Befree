@@ -4,6 +4,7 @@ import { useWindowDimensions } from 'react-native';
 import { BottomTabsStack } from './BottomTabsStack';
 import { ModalsStackParamList } from './types';
 
+import { ModalsHeader } from '@/components/headers';
 import { Add } from '@/components/screens';
 
 const Navigator = createStackNavigator<ModalsStackParamList>();
@@ -14,7 +15,12 @@ const ModalsStack = () => {
   return (
     <Navigator.Navigator
       initialRouteName="BottomTabs"
-      screenOptions={{ headerShown: false }}
+      screenOptions={({ route }) => {
+        return {
+          headerShown: route.name === 'Add',
+          header: props => <ModalsHeader {...props} />,
+        };
+      }}
     >
       <Navigator.Screen name="BottomTabs" component={BottomTabsStack} />
       <Navigator.Screen
