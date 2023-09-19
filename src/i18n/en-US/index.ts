@@ -48,6 +48,11 @@ const enUS: Translation = {
       ],
     },
   },
+  modals: {
+    add: {
+      label: 'Add addiction',
+    },
+  },
   bottomSheets: {
     theme: {
       modeTitle: 'Dark mode',

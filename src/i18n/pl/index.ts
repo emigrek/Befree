@@ -48,6 +48,11 @@ const pl: Translation = {
       ],
     },
   },
+  modals: {
+    add: {
+      label: 'Dodaj uzależnienie',
+    },
+  },
   bottomSheets: {
     theme: {
       modeTitle: 'Tryb ciemny',

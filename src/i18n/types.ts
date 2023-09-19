@@ -34,6 +34,11 @@ export interface Translation {
       descriptions: string[];
     };
   };
+  modals: {
+    add: {
+      label: string;
+    };
+  };
   bottomSheets: {
     theme: {
       modeTitle: string;

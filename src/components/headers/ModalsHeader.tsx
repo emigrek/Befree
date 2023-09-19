@@ -2,8 +2,8 @@ import { getHeaderTitle } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import { StackHeaderProps, StackNavigationProp } from '@react-navigation/stack';
 import React, { FC } from 'react';
-import { StyleSheet } from 'react-native';
-import { Appbar } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Appbar, Text } from 'react-native-paper';
 
 import { ModalsStackParamList } from '@/navigation/types';
 import { useTheme } from '@/theme';
@@ -25,7 +25,13 @@ const ModalsHeader: FC<StackHeaderProps> = ({ options, route }) => {
       ]}
     >
       {canGoBack() ? <Appbar.BackAction onPress={goBack} /> : null}
-      <Appbar.Content title={title} />
+      <View style={style.container}>
+        <View style={style.center}>
+          <Text variant={'titleMedium'} style={{ textAlign: 'center' }}>
+            {title}
+          </Text>
+        </View>
+      </View>
     </Appbar.Header>
   );
 };

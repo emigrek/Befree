@@ -6,6 +6,7 @@ import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
 import { Add } from '@/components/screens';
+import i18n from '@/i18n';
 
 const Navigator = createStackNavigator<ModalsStackParamList>();
 
@@ -19,6 +20,7 @@ const ModalsStack = () => {
         return {
           headerShown: route.name === 'Add',
           header: props => <ModalsHeader {...props} />,
+          title: i18n.t(['modals', route.name.toLowerCase(), 'label']),
         };
       }}
     >
