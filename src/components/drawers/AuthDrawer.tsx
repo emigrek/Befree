@@ -5,16 +5,7 @@ import {
 import { signOut } from 'firebase/auth';
 import React, { FC } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import {
-  Divider,
-  Drawer,
-  IconButton,
-  Title,
-  Tooltip,
-} from 'react-native-paper';
-import Ionicon from 'react-native-vector-icons/Ionicons';
-
-import { DrawerItem } from './types';
+import { IconButton, Title, Tooltip } from 'react-native-paper';
 
 import { ThemeChanger } from '@/components/ui/ThemeChanger';
 import { UserAvatar } from '@/components/ui/UserAvatar';
@@ -22,14 +13,6 @@ import i18n from '@/i18n';
 import { auth } from '@/services/firebase';
 import { useAuthStore } from '@/store';
 import { useTheme } from '@/theme';
-
-const items: DrawerItem[] = [
-  {
-    icon: 'person',
-    label: i18n.t(['labels', 'account']),
-    onPress: () => {},
-  },
-];
 
 const AuthDrawer: FC<DrawerContentComponentProps> = props => {
   const user = useAuthStore(state => state.user);
@@ -67,24 +50,7 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
               </Tooltip>
             </View>
             <Title style={style.title}>{user?.displayName}</Title>
-            <Divider />
           </View>
-          <Drawer.Section showDivider={false}>
-            {items.map((item, key) => (
-              <Drawer.Item
-                key={key}
-                label={item.label}
-                onPress={item.onPress}
-                icon={props => (
-                  <Ionicon
-                    name={item.icon}
-                    color={colors.onBackground}
-                    size={props.size}
-                  />
-                )}
-              />
-            ))}
-          </Drawer.Section>
         </View>
       </DrawerContentScrollView>
       <ThemeChanger />
