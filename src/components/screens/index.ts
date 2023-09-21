@@ -1,4 +1,3 @@
-export { Add } from './Add';
 export { Addictions } from './Addictions';
 export { Authentication } from './Authentication';
 export { Home } from './Home';

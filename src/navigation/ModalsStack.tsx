@@ -2,10 +2,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useWindowDimensions } from 'react-native';
 
 import { BottomTabsStack } from './BottomTabsStack';
+import { CreationWizardStack } from './CreationWizardStack';
 import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
-import { Add } from '@/components/screens';
 import i18n from '@/i18n';
 
 const Navigator = createStackNavigator<ModalsStackParamList>();
@@ -27,7 +27,7 @@ const ModalsStack = () => {
       <Navigator.Screen name="BottomTabs" component={BottomTabsStack} />
       <Navigator.Screen
         name="Add"
-        component={Add}
+        component={CreationWizardStack}
         options={{
           presentation: 'modal',
           gestureEnabled: true,

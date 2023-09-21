@@ -2,13 +2,13 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react';
 import { TextInput as NativeTextInput } from 'react-native';
 import { TextInput as PaperTextInput } from 'react-native-paper';
 
-import { useDynamicTheme } from '@/theme';
+import { useTheme } from '@/theme';
 
 const TextInput = forwardRef<
   ElementRef<typeof NativeTextInput>,
   ComponentPropsWithoutRef<typeof PaperTextInput>
 >((props, ref) => {
-  const { colors } = useDynamicTheme();
+  const { colors } = useTheme();
 
   return (
     <PaperTextInput

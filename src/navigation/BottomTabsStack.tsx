@@ -1,9 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
-import { BottomTabsStackParamList, ModalsStackParamList } from './types';
+import { BottomTabsStackParamList, ModalStackNavigationProp } from './types';
 
 import { BottomTabsHeader } from '@/components/headers';
 import { Addictions, Home } from '@/components/screens';
@@ -30,8 +29,6 @@ const bottomTabsIconMap: BottomTabsIconMap = {
     focusedName: 'grid',
   },
 };
-
-type ModalStackNavigationProp = StackNavigationProp<ModalsStackParamList>;
 
 const BottomTabsStack = () => {
   const { colors } = useTheme();
