@@ -11,6 +11,9 @@ const pl: Translation = {
     account: 'Konto',
     on: 'Włącz',
     off: 'Wyłącz',
+    next: 'Dalej',
+    add: 'Dodaj',
+    back: 'Wstecz',
   },
   screens: {
     home: {
@@ -46,6 +49,25 @@ const pl: Translation = {
         'Otrzymuj codzienne motywacyjne cytaty i wiadomości, aby zachować inspirację na swojej ścieżce do zdrowia.',
         'Jesteś gotowy, aby rozpocząć swoją podróż ku zdrowszemu, wolnemu od uzależnień życiu. Zaczynajmy ten pierwszy krok razem!',
       ],
+    },
+    creationWizard: {
+      name: {
+        title: 'Nazwa',
+        description: 'Jak nazwiesz swoje uzależnienie?',
+        placeholder: 'Nazwa uzależnienia',
+      },
+      image: {
+        title: 'Obraz',
+        description: 'Dodaj obraz, aby łatwiej rozpoznać swoje uzależnienie',
+      },
+      startDate: {
+        title: 'Data rozpoczęcia',
+        description: 'Kiedy rozpocząłeś swoją podróż?',
+      },
+      tags: {
+        title: 'Tagi',
+        description: 'Dodaj tagi, aby z łatwością znaleźć swoje uzależenienie',
+      },
     },
   },
   modals: {

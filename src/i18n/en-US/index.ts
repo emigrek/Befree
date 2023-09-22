@@ -11,6 +11,9 @@ const enUS: Translation = {
     account: 'Account',
     on: 'On',
     off: 'Off',
+    next: 'Next',
+    add: 'Add',
+    back: 'Back',
   },
   screens: {
     home: {
@@ -46,6 +49,25 @@ const enUS: Translation = {
         'Receive daily motivational quotes and messages to keep you inspired on your path to recovery.',
         "You're all set to start your journey towards a healthier, addiction-free life. Let's take that first step together!",
       ],
+    },
+    creationWizard: {
+      name: {
+        title: 'Name',
+        description: 'How will you name your addiction?',
+        placeholder: 'Addiction name',
+      },
+      image: {
+        title: 'Image',
+        description: 'Add an image to easily recognize your addiction',
+      },
+      startDate: {
+        title: 'Start date',
+        description: 'When did you start your journey?',
+      },
+      tags: {
+        title: 'Tags',
+        description: 'Add tags to easily find your addiction',
+      },
     },
   },
   modals: {

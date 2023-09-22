@@ -9,6 +9,9 @@ export interface Translation {
     account: string;
     on: string;
     off: string;
+    next: string;
+    add: string;
+    back: string;
   };
   screens: {
     home: {
@@ -32,6 +35,25 @@ export interface Translation {
       getStarted: string;
       titles: string[];
       descriptions: string[];
+    };
+    creationWizard: {
+      name: {
+        title: string;
+        description: string;
+        placeholder: string;
+      };
+      image: {
+        title: string;
+        description: string;
+      };
+      startDate: {
+        title: string;
+        description: string;
+      };
+      tags: {
+        title: string;
+        description: string;
+      };
     };
   };
   modals: {

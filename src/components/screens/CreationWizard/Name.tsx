@@ -42,32 +42,54 @@
 
 import React, { FC } from 'react';
 import { View } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 
 import style from './style';
 
 import { Screen } from '@/components/ui/Screen';
 import { Subtitle } from '@/components/ui/Text';
+import { TextInput } from '@/components/ui/TextInput';
+import i18n from '@/i18n';
 import { CreationWizardNameScreenProps } from '@/navigation/types';
+import { useCreationWizardStore } from '@/store';
 
 const Name: FC<CreationWizardNameScreenProps> = ({ navigation }) => {
+  const { name, setName } = useCreationWizardStore(state => ({
+    name: state.name,
+    setName: state.setName,
+  }));
+
   const next = () => {
     navigation.navigate('StartDate');
   };
 
   return (
     <Screen style={style.screen}>
-      <View style={style.texts}>
-        <Text variant="displaySmall">Name</Text>
-        <Subtitle variant="bodyMedium">
-          Name bad habit that you want to get rid of
-        </Subtitle>
+      <View style={style.container}>
+        <View style={style.texts}>
+          <Text variant="headlineMedium">
+            {i18n.t(['screens', 'creationWizard', 'name', 'title'])}
+          </Text>
+          <Subtitle variant="bodyMedium">
+            {i18n.t(['screens', 'creationWizard', 'name', 'description'])}
+          </Subtitle>
+        </View>
+        <TextInput
+          value={name}
+          onChangeText={setName}
+          style={style.input}
+          placeholder={i18n.t([
+            'screens',
+            'creationWizard',
+            'name',
+            'placeholder',
+          ])}
+        />
       </View>
-      <TextInput style={style.input} placeholder="Addiction name" />
       <View style={style.floating}>
         <View />
-        <Button mode="contained" onPress={next}>
-          Next
+        <Button disabled={!name} mode="contained" onPress={next}>
+          {i18n.t(['labels', 'next'])}
         </Button>
       </View>
     </Screen>

@@ -4,7 +4,8 @@ const style = StyleSheet.create({
   screen: {
     flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 30,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
     gap: 30,
   },
   input: {
@@ -21,6 +22,14 @@ const style = StyleSheet.create({
   },
   texts: {
     width: '100%',
+  },
+  container: {
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    paddingHorizontal: 20,
+    bottom: '50%',
+    gap: 20,
   },
 });
 

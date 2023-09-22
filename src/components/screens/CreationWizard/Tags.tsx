@@ -6,6 +6,8 @@ import { Button, Text } from 'react-native-paper';
 import style from './style';
 
 import { Screen } from '@/components/ui/Screen';
+import { Subtitle } from '@/components/ui/Text';
+import i18n from '@/i18n';
 import {
   CreationWizardTagsScreenProps,
   ModalStackNavigationProp,
@@ -26,13 +28,20 @@ const Tags: FC<CreationWizardTagsScreenProps> = ({ navigation }) => {
 
   return (
     <Screen style={style.screen}>
-      <View style={style.texts}>
-        <Text variant="displaySmall">Tags</Text>
+      <View style={style.container}>
+        <View style={style.texts}>
+          <Text variant="displaySmall">
+            {i18n.t(['screens', 'creationWizard', 'tags', 'title'])}
+          </Text>
+          <Subtitle variant="bodyMedium">
+            {i18n.t(['screens', 'creationWizard', 'tags', 'description'])}
+          </Subtitle>
+        </View>
       </View>
       <View style={style.floating}>
-        <Button onPress={back}>Back</Button>
+        <Button onPress={back}>{i18n.t(['labels', 'back'])}</Button>
         <Button mode="contained" onPress={next}>
-          Add
+          {i18n.t(['labels', 'add'])}
         </Button>
       </View>
     </Screen>
