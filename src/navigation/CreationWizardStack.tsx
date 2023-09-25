@@ -8,6 +8,7 @@ import {
   StartDate,
   Tags,
 } from '@/components/screens/CreationWizard';
+import Navigation from '@/components/screens/CreationWizard/Navigation';
 
 const Navigator = createStackNavigator<CreationStackParamList>();
 
@@ -16,12 +17,12 @@ const CreationWizardStack = () => {
     <Navigator.Navigator
       initialRouteName="Name"
       screenOptions={{
-        headerShown: false,
+        header: () => <Navigation />,
       }}
     >
       <Navigator.Screen name="Name" component={Name} />
-      <Navigator.Screen name="StartDate" component={StartDate} />
       <Navigator.Screen name="Image" component={Image} />
+      <Navigator.Screen name="StartDate" component={StartDate} />
       <Navigator.Screen name="Tags" component={Tags} />
     </Navigator.Navigator>
   );

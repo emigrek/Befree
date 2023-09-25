@@ -1,6 +1,7 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+
+// PARAM LIST TYPES
 
 export type AuthDrawerStackParamList = {
   Modals: undefined;
@@ -16,9 +17,6 @@ export type ModalsStackParamList = {
   Add: undefined;
 };
 
-export type ModalStackNavigationProp =
-  StackNavigationProp<ModalsStackParamList>;
-
 export type CreationStackParamList = {
   Name: undefined;
   StartDate: undefined;
@@ -26,27 +24,14 @@ export type CreationStackParamList = {
   Tags: undefined;
 };
 
-export type AddScreenProps = NativeStackScreenProps<
-  ModalsStackParamList,
-  'Add'
->;
+// NAVIGATION PROP TYPES
 
-export type CreationWizardImageScreenProps = NativeStackScreenProps<
-  CreationStackParamList,
-  'Image'
->;
+export type ModalStackNavigationProp =
+  StackNavigationProp<ModalsStackParamList>;
 
-export type CreationWizardNameScreenProps = NativeStackScreenProps<
-  CreationStackParamList,
-  'Name'
->;
+export type CreationStackNavigationProp =
+  StackNavigationProp<CreationStackParamList>;
 
-export type CreationWizardStartDateScreenProps = NativeStackScreenProps<
-  CreationStackParamList,
-  'StartDate'
->;
+// SCREEN PROPS
 
-export type CreationWizardTagsScreenProps = NativeStackScreenProps<
-  CreationStackParamList,
-  'Tags'
->;
+export type AddScreenProps = StackScreenProps<ModalsStackParamList, 'Add'>;

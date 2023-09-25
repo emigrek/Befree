@@ -13,12 +13,13 @@ const style = StyleSheet.create({
   },
   floating: {
     position: 'absolute',
-    bottom: 30,
     left: 0,
     right: 0,
+    bottom: 20,
     flexDirection: 'row',
     paddingHorizontal: 30,
     justifyContent: 'space-between',
+    zIndex: 20,
   },
   texts: {
     width: '100%',

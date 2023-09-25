@@ -40,9 +40,9 @@
 
 // export { Add };
 
-import React, { FC } from 'react';
+import React from 'react';
 import { View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 
 import style from './style';
 
@@ -50,18 +50,13 @@ import { Screen } from '@/components/ui/Screen';
 import { Subtitle } from '@/components/ui/Text';
 import { TextInput } from '@/components/ui/TextInput';
 import i18n from '@/i18n';
-import { CreationWizardNameScreenProps } from '@/navigation/types';
 import { useCreationWizardStore } from '@/store';
 
-const Name: FC<CreationWizardNameScreenProps> = ({ navigation }) => {
+const Name = () => {
   const { name, setName } = useCreationWizardStore(state => ({
     name: state.name,
     setName: state.setName,
   }));
-
-  const next = () => {
-    navigation.navigate('StartDate');
-  };
 
   return (
     <Screen style={style.screen}>
@@ -85,12 +80,6 @@ const Name: FC<CreationWizardNameScreenProps> = ({ navigation }) => {
             'placeholder',
           ])}
         />
-      </View>
-      <View style={style.floating}>
-        <View />
-        <Button disabled={!name} mode="contained" onPress={next}>
-          {i18n.t(['labels', 'next'])}
-        </Button>
       </View>
     </Screen>
   );
