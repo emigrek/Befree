@@ -1,3 +1,4 @@
+import { useKeyboard } from '@react-native-community/hooks';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useWindowDimensions } from 'react-native';
 
@@ -12,14 +13,15 @@ const Navigator = createStackNavigator<ModalsStackParamList>();
 
 const ModalsStack = () => {
   const { height } = useWindowDimensions();
+  const { keyboardShown } = useKeyboard();
 
   return (
     <Navigator.Navigator
       initialRouteName="BottomTabs"
       screenOptions={({ route }) => {
         return {
-          headerShown: route.name === 'Add',
           header: props => <ModalsHeader {...props} />,
+          headerShown: route.name === 'Add' && !keyboardShown,
           title: i18n.t(['modals', route.name.toLowerCase(), 'label']),
         };
       }}

@@ -4,9 +4,10 @@ import {
   StackNavigationState,
   useNavigation,
 } from '@react-navigation/native';
-import React, { useCallback, useMemo } from 'react';
+import { StackHeaderProps } from '@react-navigation/stack';
+import React, { FC, useCallback, useMemo } from 'react';
 import { View } from 'react-native';
-import { Button, Portal } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 
 import style from './style';
 
@@ -17,7 +18,7 @@ import {
   ModalStackNavigationProp,
 } from '@/navigation/types';
 
-const Navigation = () => {
+const Navigation: FC<StackHeaderProps> = props => {
   const creationStackNavigation = useNavigation<CreationStackNavigationProp>();
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
 
@@ -62,16 +63,14 @@ const Navigation = () => {
   }, [creationStackNavigation, pushNext]);
 
   return (
-    <Portal>
-      <View style={style.floating}>
-        <Button onPress={back}>{i18n.t(['labels', 'back'])}</Button>
-        <Button mode="contained" onPress={next}>
-          {isLastScreenInStack
-            ? i18n.t(['labels', 'add'])
-            : i18n.t(['labels', 'next'])}
-        </Button>
-      </View>
-    </Portal>
+    <View style={style.floating} {...props}>
+      <Button onPress={back}>{i18n.t(['labels', 'back'])}</Button>
+      <Button mode="contained" onPress={next}>
+        {isLastScreenInStack
+          ? i18n.t(['labels', 'add'])
+          : i18n.t(['labels', 'next'])}
+      </Button>
+    </View>
   );
 };
 

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const style = StyleSheet.create({
   screen: {
@@ -13,13 +13,12 @@ const style = StyleSheet.create({
   },
   floating: {
     position: 'absolute',
-    left: 0,
+    top: Dimensions.get('window').height - 120,
     right: 0,
-    bottom: 20,
+    left: 0,
+    paddingHorizontal: 20,
     flexDirection: 'row',
-    paddingHorizontal: 30,
     justifyContent: 'space-between',
-    zIndex: 20,
   },
   texts: {
     width: '100%',
