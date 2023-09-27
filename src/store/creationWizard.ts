@@ -5,9 +5,7 @@ export interface CreationWizardSlice {
   setName: (name: string) => void;
   startDate: Date;
   setStartDate: (startDate: Date) => void;
-  tags: string[];
-  setTags: (tags: string[]) => void;
-  image: string;
+  image: string | null;
   setImage: (image: string) => void;
 }
 
@@ -18,8 +16,6 @@ export const createCreationWizardSlice: StateCreator<
   setName: (name: string) => set({ name }),
   startDate: new Date(),
   setStartDate: (startDate: Date) => set({ startDate }),
-  tags: [],
-  setTags: (tags: string[]) => set({ tags }),
-  image: '',
-  setImage: (image: string) => set({ image }),
+  image: null,
+  setImage: (image: string | null) => set({ image }),
 });

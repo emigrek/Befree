@@ -51,22 +51,14 @@ const pl: Translation = {
       ],
     },
     creationWizard: {
-      name: {
-        title: 'Nazwa',
-        description: 'Jak nazwiesz swoje uzależnienie?',
-        placeholder: 'Nazwa uzależnienia',
-      },
-      image: {
-        title: 'Obraz',
-        description: 'Dodaj obraz, aby łatwiej rozpoznać swoje uzależnienie',
+      nameAndImage: {
+        title: 'Nazwa i obraz',
+        description: 'Z jakim uzależnieniem chcesz skonczyć?',
+        placeholder: 'np. Alkohol',
       },
       startDate: {
         title: 'Data rozpoczęcia',
         description: 'Kiedy rozpocząłeś swoją podróż?',
-      },
-      tags: {
-        title: 'Tagi',
-        description: 'Dodaj tagi, aby z łatwością znaleźć swoje uzależenienie',
       },
     },
   },

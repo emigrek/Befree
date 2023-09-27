@@ -40,35 +40,65 @@
 
 // export { Add };
 
+import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import { View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Image, View } from 'react-native';
+import { Text, TextInput, TouchableRipple } from 'react-native-paper';
 
 import style from './style';
 
-import { Screen } from '@/components/ui/Screen';
 import { Subtitle } from '@/components/ui/Text';
-import { TextInput } from '@/components/ui/TextInput';
 import i18n from '@/i18n';
 import { useCreationWizardStore } from '@/store';
+import { useTheme } from '@/theme';
 
-const Name = () => {
-  const { name, setName } = useCreationWizardStore(state => ({
+const NameAndImage = () => {
+  const { colors } = useTheme();
+  const { name, setName, image, setImage } = useCreationWizardStore(state => ({
     name: state.name,
     setName: state.setName,
+    image: state.image,
+    setImage: state.setImage,
   }));
 
+  const handleImageSelect = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (result.canceled) return;
+
+    setImage(result.assets[0].uri);
+  };
+
   return (
-    <Screen style={style.screen}>
+    <View style={style.screen}>
       <View style={style.container}>
         <View style={style.texts}>
           <Text variant="headlineMedium">
-            {i18n.t(['screens', 'creationWizard', 'name', 'title'])}
+            {i18n.t(['screens', 'creationWizard', 'nameAndImage', 'title'])}
           </Text>
           <Subtitle variant="bodyMedium">
-            {i18n.t(['screens', 'creationWizard', 'name', 'description'])}
+            {i18n.t([
+              'screens',
+              'creationWizard',
+              'nameAndImage',
+              'description',
+            ])}
           </Subtitle>
         </View>
+        <TouchableRipple
+          style={[
+            style.imageContainer,
+            { backgroundColor: colors.surfaceVariant },
+          ]}
+          onPress={handleImageSelect}
+        >
+          <>{image && <Image source={{ uri: image }} style={style.image} />}</>
+        </TouchableRipple>
         <TextInput
           value={name}
           onChangeText={setName}
@@ -76,13 +106,13 @@ const Name = () => {
           placeholder={i18n.t([
             'screens',
             'creationWizard',
-            'name',
+            'nameAndImage',
             'placeholder',
           ])}
         />
       </View>
-    </Screen>
+    </View>
   );
 };
 
-export { Name };
+export { NameAndImage };

@@ -18,10 +18,8 @@ export type ModalsStackParamList = {
 };
 
 export type CreationStackParamList = {
-  Name: undefined;
+  NameAndImage: undefined;
   StartDate: undefined;
-  Image: undefined;
-  Tags: undefined;
 };
 
 // NAVIGATION PROP TYPES

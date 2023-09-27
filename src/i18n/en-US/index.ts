@@ -51,22 +51,14 @@ const enUS: Translation = {
       ],
     },
     creationWizard: {
-      name: {
-        title: 'Name',
-        description: 'How will you name your addiction?',
-        placeholder: 'Addiction name',
-      },
-      image: {
-        title: 'Image',
-        description: 'Add an image to easily recognize your addiction',
+      nameAndImage: {
+        title: 'Name and image',
+        description: 'What addiction do you want to break free from?',
+        placeholder: 'e.g. Alcohol',
       },
       startDate: {
         title: 'Start date',
         description: 'When did you start your journey?',
-      },
-      tags: {
-        title: 'Tags',
-        description: 'Add tags to easily find your addiction',
       },
     },
   },

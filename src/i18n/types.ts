@@ -37,20 +37,12 @@ export interface Translation {
       descriptions: string[];
     };
     creationWizard: {
-      name: {
+      nameAndImage: {
         title: string;
         description: string;
         placeholder: string;
       };
-      image: {
-        title: string;
-        description: string;
-      };
       startDate: {
-        title: string;
-        description: string;
-      };
-      tags: {
         title: string;
         description: string;
       };

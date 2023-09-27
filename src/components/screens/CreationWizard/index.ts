@@ -1,4 +1,2 @@
-export { Image } from './Image';
-export { Name } from './Name';
+export { NameAndImage } from './NameAndImage';
 export { StartDate } from './StartDate';
-export { Tags } from './Tags';
