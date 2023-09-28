@@ -15,12 +15,16 @@ import i18n from '@/i18n';
 import {
   CreationStackNavigationProp,
   CreationStackParamList,
-  ModalStackNavigationProp,
 } from '@/navigation/types';
+import { useCreationWizardStore } from '@/store';
 
-const Navigation: FC<StackHeaderProps> = props => {
+interface NavigationProps extends StackHeaderProps {
+  completeCallback?: () => void;
+}
+
+const Navigation: FC<NavigationProps> = ({ completeCallback, ...props }) => {
+  const { name } = useCreationWizardStore(state => ({ name: state.name }));
   const creationStackNavigation = useNavigation<CreationStackNavigationProp>();
-  const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
 
   const isLastScreenInStack = useMemo(() => {
     const currentRouteName =
@@ -45,13 +49,11 @@ const Navigation: FC<StackHeaderProps> = props => {
       if (nextRouteName) {
         return StackActions.push(nextRouteName);
       } else {
-        modalStackNavigation.navigate('BottomTabs', {
-          screen: 'Addictions',
-        });
+        completeCallback && completeCallback();
         return CommonActions.reset(state);
       }
     },
-    [modalStackNavigation],
+    [completeCallback],
   );
 
   const back = useCallback(() => {
@@ -65,7 +67,7 @@ const Navigation: FC<StackHeaderProps> = props => {
   return (
     <View style={style.floating} {...props}>
       <Button onPress={back}>{i18n.t(['labels', 'back'])}</Button>
-      <Button mode="contained" onPress={next}>
+      <Button mode="contained" onPress={next} disabled={name === ''}>
         {isLastScreenInStack
           ? i18n.t(['labels', 'add'])
           : i18n.t(['labels', 'next'])}

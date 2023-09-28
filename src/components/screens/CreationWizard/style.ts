@@ -34,13 +34,18 @@ const style = StyleSheet.create({
   },
   texts: {
     width: '100%',
+    textAlign: 'center',
+  },
+  details: {
+    gap: 10,
+    width: '90%',
   },
   container: {
-    gap: 15,
+    gap: 25,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 60,
+    marginBottom: 90,
   },
 });
 

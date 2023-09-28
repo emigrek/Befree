@@ -1,13 +1,26 @@
 import { StateCreator } from 'zustand';
 
-export interface CreationWizardSlice {
+export type CreationWizardSlice = CreationWizardSliceState &
+  CreationWizardSliceActions;
+
+export interface CreationWizardSliceState {
   name: string;
-  setName: (name: string) => void;
   startDate: Date;
-  setStartDate: (startDate: Date) => void;
   image: string | null;
-  setImage: (image: string) => void;
 }
+
+export interface CreationWizardSliceActions {
+  setName: (name: string) => void;
+  setStartDate: (startDate: Date) => void;
+  setImage: (image: string) => void;
+  reset: () => void;
+}
+
+const initialState: CreationWizardSliceState = {
+  name: '',
+  startDate: new Date(),
+  image: null,
+};
 
 export const createCreationWizardSlice: StateCreator<
   CreationWizardSlice
@@ -18,4 +31,5 @@ export const createCreationWizardSlice: StateCreator<
   setStartDate: (startDate: Date) => set({ startDate }),
   image: null,
   setImage: (image: string | null) => set({ image }),
+  reset: () => set(initialState),
 });
