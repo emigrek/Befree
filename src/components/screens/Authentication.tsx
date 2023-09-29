@@ -1,3 +1,4 @@
+import { UserCredential } from 'firebase/auth';
 import { FC, useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, HelperText, Text } from 'react-native-paper';
@@ -8,16 +9,21 @@ import { Bold } from '@/components/ui/Text';
 import { useErrorState } from '@/hooks/useErrorState';
 import { useGoogleAuth } from '@/hooks/useGoogleAuth';
 import i18n from '@/i18n';
+import { createUser } from '@/services/firestore';
 
 const Authentication: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { visible, message, setVisible, setMessage, clear } = useErrorState();
 
   const { promptAsync } = useGoogleAuth({
-    successCallback: useCallback(() => {
-      setLoading(false);
-      clear();
-    }, [clear]),
+    successCallback: useCallback(
+      (credential: UserCredential) => {
+        setLoading(false);
+        createUser(credential);
+        clear();
+      },
+      [clear],
+    ),
     errorCallback: useCallback(() => {
       setLoading(false);
       setMessage(i18n.t(['screens', 'authentication', 'errorMessage']));

@@ -13,8 +13,8 @@ import Animated, {
 import { Dot } from './Dot';
 import { Page } from './Page';
 
+import { onboardingPages } from '@/components/screens/Onboarding/onboardingPages';
 import { Screen } from '@/components/ui/Screen';
-import { onboardingPages } from '@/config/onboardingPages';
 import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
 

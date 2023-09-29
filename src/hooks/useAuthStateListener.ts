@@ -13,12 +13,10 @@ export const useAuthStateListener = ({
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, user => {
+    return onAuthStateChanged(auth, user => {
       onUserChange(user);
       setLoading(false);
     });
-
-    return unsubscribe;
   }, [onUserChange]);
 
   return {

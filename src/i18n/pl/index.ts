@@ -27,7 +27,7 @@ const pl: Translation = {
     },
     authentication: {
       title: 'Logowanie',
-      subtitle: 'Zaloguj się aby dzielić danę między urządzeniami',
+      subtitle: 'Zaloguj się aby dzielić dane między urządzeniami',
       errorMessage: 'Wystąpił błąd, spróbuj ponownie',
       cancelMessage: `Logowanie zostało przerwane`,
       dismissMessage: `Okno logowania zostało porzucone`,

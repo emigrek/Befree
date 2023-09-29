@@ -5,6 +5,8 @@ import firebaseConfig from '@/config/firebase';
 import { SecureAuthStore } from '@/utils';
 
 const app = initializeApp(firebaseConfig);
-export const auth = initializeAuth(app, {
+const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(SecureAuthStore),
 });
+
+export { auth };
