@@ -5,18 +5,38 @@ import { CreationStackParamList, ModalStackNavigationProp } from './types';
 
 import { NameAndImage, StartDate } from '@/components/screens/CreationWizard';
 import Navigation from '@/components/screens/CreationWizard/Navigation';
-import { useCreationWizardStore } from '@/store';
+import { createAddiction } from '@/services/firestore';
+import { useAuthStore, useCreationWizardStore } from '@/store';
 
 const Navigator = createStackNavigator<CreationStackParamList>();
 
 const CreationWizardStack = () => {
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
+  const user = useAuthStore(state => state.user);
+
+  const { name, startDate, image } = useCreationWizardStore(state => ({
+    name: state.name,
+    startDate: state.startDate,
+    image: state.image,
+  }));
   const resetCreationWizard = useCreationWizardStore(state => state.reset);
 
-  const onComplete = () => {
+  const onComplete = async () => {
+    if (!user) return;
+
     modalStackNavigation.navigate('BottomTabs', {
       screen: 'Addictions',
     });
+
+    const addiction: UnidentifiedAddiction = {
+      name,
+      startDate,
+      image,
+      tags: [],
+    };
+
+    await createAddiction(user, addiction);
+
     resetCreationWizard();
   };
 

@@ -9,4 +9,4 @@ const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(SecureAuthStore),
 });
 
-export { auth };
+export { app, auth };
