@@ -44,6 +44,8 @@ const StartDate = () => {
         setStartDate(
           set(startDate, {
             date: date.getDate(),
+            month: date.getMonth(),
+            year: date.getFullYear(),
           }),
         );
       }

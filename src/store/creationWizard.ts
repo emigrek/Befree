@@ -7,6 +7,8 @@ export interface CreationWizardSliceState {
   name: string;
   startDate: Date;
   image: string | null;
+  loading: boolean;
+  errors: string[];
 }
 
 export interface CreationWizardSliceActions {
@@ -14,12 +16,16 @@ export interface CreationWizardSliceActions {
   setStartDate: (startDate: Date) => void;
   setImage: (image: string) => void;
   reset: () => void;
+  setLoading: (loading: boolean) => void;
+  setErrors: (errors: string[]) => void;
 }
 
 const initialState: CreationWizardSliceState = {
   name: '',
   startDate: new Date(),
   image: null,
+  loading: false,
+  errors: [],
 };
 
 export const createCreationWizardSlice: StateCreator<
@@ -31,5 +37,9 @@ export const createCreationWizardSlice: StateCreator<
   setStartDate: (startDate: Date) => set({ startDate }),
   image: null,
   setImage: (image: string | null) => set({ image }),
+  loading: false,
+  setLoading: (loading: boolean) => set({ loading }),
+  errors: [],
+  setErrors: (errors: string[]) => set({ errors }),
   reset: () => set(initialState),
 });

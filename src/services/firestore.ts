@@ -11,7 +11,7 @@ import {
 import { customAlphabet } from 'nanoid/non-secure';
 import { useEffect, useState } from 'react';
 
-import { uploadImage } from './storage';
+import { useImageUpload } from './storage';
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
@@ -32,20 +32,42 @@ export const createUser = async (credential: UserCredential) => {
   return setDoc(doc(firestore, 'users', uid), fUser);
 };
 
-export const createAddiction = async (
-  user: User,
-  addiction: UnidentifiedAddiction,
-) => {
-  const { uid } = user;
-  const { name, startDate, image, tags } = addiction;
-  const addictionId = nanoid();
+export const useAddictionCreator = (user: User | null) => {
+  const { upload, imageUploadProgress, imageUploadStatus } = useImageUpload();
 
-  if (!image) {
+  const create = async (addiction: UnidentifiedAddiction) => {
+    if (!user) return;
+
+    const { uid } = user;
+    const { name, startDate, image, tags } = addiction;
+    const addictionId = nanoid();
+
+    if (!image) {
+      const fAddiction = {
+        id: addictionId,
+        name,
+        startDate,
+        image,
+        tags,
+        createdAt: serverTimestamp(),
+      };
+
+      return setDoc(
+        doc(firestore, 'users', uid, 'addictions', fAddiction.id),
+        fAddiction,
+      );
+    }
+
+    const downloadUrl = await upload(
+      `users/${uid}/addictions/${addictionId}`,
+      image,
+    );
+
     const fAddiction = {
       id: addictionId,
       name,
       startDate,
-      image,
+      image: downloadUrl,
       tags,
       createdAt: serverTimestamp(),
     };
@@ -54,26 +76,9 @@ export const createAddiction = async (
       doc(firestore, 'users', uid, 'addictions', fAddiction.id),
       fAddiction,
     );
-  }
-
-  const imageDownloadUrl = await uploadImage(
-    `users/${uid}/addictions/${addictionId}.jpg`,
-    image,
-  );
-
-  const fAddiction = {
-    id: addictionId,
-    name,
-    startDate,
-    image: imageDownloadUrl,
-    tags,
-    createdAt: serverTimestamp(),
   };
 
-  return setDoc(
-    doc(firestore, 'users', uid, 'addictions', fAddiction.id),
-    fAddiction,
-  );
+  return { create, imageUploadProgress, imageUploadStatus };
 };
 
 export const useAddictions = (user: User | null) => {

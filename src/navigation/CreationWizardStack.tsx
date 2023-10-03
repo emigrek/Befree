@@ -1,11 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useEffect } from 'react';
 
 import { CreationStackParamList, ModalStackNavigationProp } from './types';
 
-import { NameAndImage, StartDate } from '@/components/screens/CreationWizard';
+import {
+  ImageUploading,
+  NameAndImage,
+  StartDate,
+} from '@/components/screens/CreationWizard';
 import Navigation from '@/components/screens/CreationWizard/Navigation';
-import { createAddiction } from '@/services/firestore';
+import { useAddictionCreator } from '@/services/firestore';
 import { useAuthStore, useCreationWizardStore } from '@/store';
 
 const Navigator = createStackNavigator<CreationStackParamList>();
@@ -20,13 +25,11 @@ const CreationWizardStack = () => {
     image: state.image,
   }));
   const resetCreationWizard = useCreationWizardStore(state => state.reset);
+  const { create, imageUploadProgress, imageUploadStatus } =
+    useAddictionCreator(user);
 
-  const onComplete = async () => {
+  const onWizardComplete = async () => {
     if (!user) return;
-
-    modalStackNavigation.navigate('BottomTabs', {
-      screen: 'Addictions',
-    });
 
     const addiction: UnidentifiedAddiction = {
       name,
@@ -35,17 +38,28 @@ const CreationWizardStack = () => {
       tags: [],
     };
 
-    await createAddiction(user, addiction);
-
-    resetCreationWizard();
+    await create(addiction);
   };
+
+  useEffect(() => {
+    if (imageUploadStatus === 'complete') {
+      resetCreationWizard();
+      modalStackNavigation.navigate('BottomTabs', {
+        screen: 'Addictions',
+      });
+    }
+  }, [imageUploadStatus, modalStackNavigation, resetCreationWizard]);
+
+  if (imageUploadStatus) {
+    return <ImageUploading progress={imageUploadProgress} />;
+  }
 
   return (
     <Navigator.Navigator
       initialRouteName="NameAndImage"
       screenOptions={{
         header: props => (
-          <Navigation completeCallback={onComplete} {...props} />
+          <Navigation completeCallback={onWizardComplete} {...props} />
         ),
       }}
     >

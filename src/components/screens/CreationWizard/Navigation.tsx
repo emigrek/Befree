@@ -23,7 +23,11 @@ interface NavigationProps extends StackHeaderProps {
 }
 
 const Navigation: FC<NavigationProps> = ({ completeCallback, ...props }) => {
-  const { name } = useCreationWizardStore(state => ({ name: state.name }));
+  const { name, errors, loading } = useCreationWizardStore(state => ({
+    name: state.name,
+    errors: state.errors,
+    loading: state.loading,
+  }));
   const creationStackNavigation = useNavigation<CreationStackNavigationProp>();
 
   const isLastScreenInStack = useMemo(() => {
@@ -67,7 +71,12 @@ const Navigation: FC<NavigationProps> = ({ completeCallback, ...props }) => {
   return (
     <View style={style.floating} {...props}>
       <Button onPress={back}>{i18n.t(['labels', 'back'])}</Button>
-      <Button mode="contained" onPress={next} disabled={name === ''}>
+      <Button
+        mode="contained"
+        onPress={next}
+        disabled={Boolean(errors.length) || !name}
+        loading={loading}
+      >
         {isLastScreenInStack
           ? i18n.t(['labels', 'add'])
           : i18n.t(['labels', 'next'])}

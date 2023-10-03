@@ -47,6 +47,11 @@ const style = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 90,
   },
+  progress: {
+    height: 24,
+    width: '100%',
+    borderRadius: 12,
+  },
 });
 
 export default style;

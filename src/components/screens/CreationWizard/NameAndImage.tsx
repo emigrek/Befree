@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
 import { Image, View } from 'react-native';
-import { TextInput, TouchableRipple } from 'react-native-paper';
+import { HelperText, TextInput, TouchableRipple } from 'react-native-paper';
 
 import style from './style';
 
@@ -12,12 +12,15 @@ import { useTheme } from '@/theme';
 
 const NameAndImage = () => {
   const { colors } = useTheme();
-  const { name, setName, image, setImage } = useCreationWizardStore(state => ({
-    name: state.name,
-    setName: state.setName,
-    image: state.image,
-    setImage: state.setImage,
-  }));
+  const { name, setName, image, setImage, setErrors, errors } =
+    useCreationWizardStore(state => ({
+      name: state.name,
+      setName: state.setName,
+      image: state.image,
+      setImage: state.setImage,
+      errors: state.errors,
+      setErrors: state.setErrors,
+    }));
 
   const handleImageSelect = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -33,6 +36,7 @@ const NameAndImage = () => {
   };
 
   const handleTextChange = (text: string) => {
+    setErrors(!text ? [...errors, 'name'] : errors.filter(e => e !== 'name'));
     setName(text);
   };
 
@@ -75,6 +79,9 @@ const NameAndImage = () => {
               'placeholder',
             ])}
           />
+          <HelperText type="error" visible={errors.includes('name')}>
+            {i18n.t(['screens', 'creationWizard', 'nameAndImage', 'nameError'])}
+          </HelperText>
         </View>
       </View>
     </View>
