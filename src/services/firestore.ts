@@ -1,9 +1,16 @@
+import {
+  addDays,
+  addMonths,
+  addYears,
+  differenceInMilliseconds,
+} from 'date-fns';
 import { User, UserCredential } from 'firebase/auth';
 import {
   collection,
   doc,
   getFirestore,
   onSnapshot,
+  orderBy,
   query,
   serverTimestamp,
   setDoc,
@@ -83,30 +90,77 @@ export const useAddictionCreator = (user: User | null) => {
 
 export const useAddictions = (user: User | null) => {
   const [addictions, setAddictions] = useState<Addiction[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!user) {
-      return;
-    }
-    const q = query(collection(firestore, 'users', user.uid, 'addictions'));
+    if (!user) return;
+    setLoading(true);
+
+    const q = query(
+      collection(firestore, 'users', user.uid, 'addictions'),
+      orderBy('startDate', 'asc'),
+    );
+
     return onSnapshot(q, snapshot => {
-      const newAddictions: Addiction[] = [];
-
-      snapshot.forEach(addiction => {
-        // type-coverage:ignore-next-line
-        const { id, name, startDate, image, tags } = addiction.data();
-        newAddictions.push({
-          id,
-          name,
-          startDate: startDate.toDate(),
-          image,
-          tags,
-        });
-      });
-
-      setAddictions(newAddictions);
+      setAddictions(
+        snapshot.docs.map(doc => ({
+          id: doc.get('id'),
+          name: doc.get('name'),
+          startDate: doc.get('startDate').toDate(),
+          image: doc.get('image'),
+          tags: doc.get('tags'),
+        })),
+      );
+      setLoading(false);
     });
   }, [user]);
 
-  return { addictions };
+  return { addictions, loading };
 };
+
+export const getGoal = (date: Date) => {
+  const timeDiff = differenceInMilliseconds(new Date(), date);
+  let goalType: GoalType;
+
+  if (timeDiff < 86400000) {
+    goalType = GoalType.Day;
+  } else if (timeDiff < 604800000) {
+    goalType = GoalType.Week;
+  } else if (timeDiff < 2592000000) {
+    goalType = GoalType.Month;
+  } else if (timeDiff < 15552000000) {
+    goalType = GoalType.HalfYear;
+  } else {
+    goalType = GoalType.Year;
+  }
+
+  let goalAt = new Date(date);
+
+  switch (goalType) {
+    case GoalType.Day:
+      goalAt = addDays(goalAt, 1);
+      break;
+    case GoalType.Week:
+      goalAt = addDays(goalAt, 7);
+      break;
+    case GoalType.Month:
+      goalAt = addMonths(goalAt, 1);
+      break;
+    case GoalType.HalfYear:
+      goalAt = addMonths(goalAt, 6);
+      break;
+    case GoalType.Year:
+      goalAt = addYears(goalAt, 1);
+      break;
+  }
+
+  return { goalAt, goalType };
+};
+
+export enum GoalType {
+  Day = 'day',
+  Week = 'week',
+  Month = 'month',
+  HalfYear = 'half-year',
+  Year = 'year',
+}

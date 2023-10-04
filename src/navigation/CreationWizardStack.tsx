@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useEffect } from 'react';
 
 import { CreationStackParamList, ModalStackNavigationProp } from './types';
 
@@ -38,17 +37,13 @@ const CreationWizardStack = () => {
       tags: [],
     };
 
-    await create(addiction);
-  };
-
-  useEffect(() => {
-    if (imageUploadStatus === 'complete') {
+    await create(addiction).then(() => {
       resetCreationWizard();
       modalStackNavigation.navigate('BottomTabs', {
         screen: 'Addictions',
       });
-    }
-  }, [imageUploadStatus, modalStackNavigation, resetCreationWizard]);
+    });
+  };
 
   if (imageUploadStatus) {
     return <ImageUploading progress={imageUploadProgress} />;

@@ -12,6 +12,7 @@ export interface Translation {
     next: string;
     add: string;
     back: string;
+    freeFor: string;
   };
   screens: {
     home: {
@@ -22,6 +23,13 @@ export interface Translation {
     };
     addictions: {
       label: string;
+      goalTypes: {
+        day: string;
+        week: string;
+        month: string;
+        'half-year': string;
+        year: string;
+      };
     };
     authentication: {
       title: string;
@@ -41,6 +49,7 @@ export interface Translation {
         title: string;
         description: string;
         placeholder: string;
+        nameError: string;
       };
       startDate: {
         title: string;

@@ -14,6 +14,7 @@ const pl: Translation = {
     next: 'Dalej',
     add: 'Dodaj',
     back: 'Wstecz',
+    freeFor: 'Wolny przez %{time}',
   },
   screens: {
     home: {
@@ -24,6 +25,13 @@ const pl: Translation = {
     },
     addictions: {
       label: 'Uzależnienia',
+      goalTypes: {
+        day: 'Dzień',
+        week: 'Tydzień',
+        month: 'Miesiąc',
+        'half-year': 'Pół roku',
+        year: 'Rok',
+      },
     },
     authentication: {
       title: 'Logowanie',
@@ -55,6 +63,7 @@ const pl: Translation = {
         title: 'Nazwa i obraz',
         description: 'Z jakim uzależnieniem chcesz skonczyć?',
         placeholder: 'np. Alkohol',
+        nameError: 'Nazwa jest wymagana',
       },
       startDate: {
         title: 'Data rozpoczęcia',

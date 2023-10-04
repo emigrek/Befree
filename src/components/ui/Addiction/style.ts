@@ -2,31 +2,41 @@ import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
   surface: {
-    marginVertical: 7,
+    marginVertical: 4,
     marginHorizontal: 9,
     borderRadius: 15,
-    height: 115,
+    height: 110,
     flexDirection: 'row-reverse',
+    alignItems: 'center',
     overflow: 'hidden',
-    paddingVertical: 11,
-    paddingHorizontal: 10,
+    paddingHorizontal: 9,
     gap: 50,
   },
   image: {
     width: '100%',
     aspectRatio: 1,
     resizeMode: 'center',
+    borderRadius: 10,
   },
   imageContainer: {
-    flex: 0.5,
-    borderRadius: 9,
-    overflow: 'hidden',
+    flex: 0.4,
+    justifyContent: 'center',
   },
   textContainer: {
     flex: 1,
-    paddingVertical: 5,
-    paddingHorizontal: 9,
-    justifyContent: 'space-between',
+    paddingHorizontal: 2,
+    gap: 10,
+  },
+  details: {
+    gap: 13,
+  },
+  progressContainer: {
+    gap: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  progress: {
+    flex: 1,
   },
   name: {
     fontSize: 20,
@@ -34,6 +44,6 @@ export const style = StyleSheet.create({
     textAlign: 'center',
   },
   flatlist: {
-    paddingVertical: 10,
+    paddingVertical: 4,
   },
 });

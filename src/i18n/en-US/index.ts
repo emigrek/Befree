@@ -14,6 +14,7 @@ const enUS: Translation = {
     next: 'Next',
     add: 'Add',
     back: 'Back',
+    freeFor: 'Free for %{time}',
   },
   screens: {
     home: {
@@ -24,6 +25,13 @@ const enUS: Translation = {
     },
     addictions: {
       label: 'Addictions',
+      goalTypes: {
+        day: 'Day',
+        week: 'Week',
+        month: 'Month',
+        'half-year': 'Half-year',
+        year: 'Year',
+      },
     },
     authentication: {
       title: 'Authentication',
@@ -55,6 +63,7 @@ const enUS: Translation = {
         title: 'Name and image',
         description: 'What addiction do you want to break free from?',
         placeholder: 'e.g. Alcohol',
+        nameError: 'Name is required',
       },
       startDate: {
         title: 'Start date',
