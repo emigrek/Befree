@@ -58,18 +58,18 @@ const StartDate = () => {
     <Screen style={style.screen}>
       <View style={style.container}>
         <View style={style.texts}>
-          <Bold variant="displaySmall" style={style.texts}>
+          <Bold variant="headlineSmall" style={style.texts}>
             {i18n.t(['screens', 'creationWizard', 'startDate', 'title'])}
           </Bold>
-          <Subtitle variant="bodyMedium" style={style.texts}>
+          <Subtitle variant="bodySmall" style={style.texts}>
             {i18n.t(['screens', 'creationWizard', 'startDate', 'description'])}
           </Subtitle>
         </View>
         <View style={style.details}>
           <Button
-            contentStyle={{ height: 52 }}
+            contentStyle={{ height: 42 }}
             mode="contained-tonal"
-            labelStyle={{ fontSize: 16 }}
+            labelStyle={{ fontSize: 17 }}
             onPress={() => setTimeModalVisible(true)}
           >
             {format(startDate, 'HH:mm dd/MM/yyyy')}
@@ -86,6 +86,10 @@ const StartDate = () => {
             visible={dateModalVisible}
             onConfirm={onDateModalConfirm}
             onDismiss={onDateModalDismiss}
+            validRange={{
+              startDate: undefined,
+              endDate: new Date(),
+            }}
             mode="single"
             locale={i18n.locale}
             disableStatusBarPadding={true}

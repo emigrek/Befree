@@ -2,8 +2,9 @@ import { FC, useCallback, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { useTimer } from 'react-use-precision-timer';
 
-import { Loading } from './Loading';
+import { Empty } from './Empty';
 
+import { Loading } from '@/components/screens/Loading';
 import { Addiction } from '@/components/ui/Addiction';
 import { style } from '@/components/ui/Addiction/style';
 import { useAddictions } from '@/services/firestore';
@@ -23,6 +24,10 @@ const Addictions: FC = () => {
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (!addictions.length) {
+    return <Empty />;
   }
 
   return (

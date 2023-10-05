@@ -5,7 +5,7 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import { StackHeaderProps } from '@react-navigation/stack';
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, useCallback, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
@@ -19,10 +19,15 @@ import {
 import { useCreationWizardStore } from '@/store';
 
 interface NavigationProps extends StackHeaderProps {
+  startCallback?: () => void;
   completeCallback?: () => void;
 }
 
-const Navigation: FC<NavigationProps> = ({ completeCallback, ...props }) => {
+const Navigation: FC<NavigationProps> = ({
+  startCallback,
+  completeCallback,
+  ...props
+}) => {
   const { name, errors, loading } = useCreationWizardStore(state => ({
     name: state.name,
     errors: state.errors,
@@ -67,6 +72,10 @@ const Navigation: FC<NavigationProps> = ({ completeCallback, ...props }) => {
   const next = useCallback(() => {
     creationStackNavigation.dispatch(pushNext());
   }, [creationStackNavigation, pushNext]);
+
+  useEffect(() => {
+    startCallback && startCallback();
+  }, [startCallback]);
 
   return (
     <View style={style.floating} {...props}>

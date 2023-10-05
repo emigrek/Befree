@@ -15,6 +15,7 @@ const pl: Translation = {
     add: 'Dodaj',
     back: 'Wstecz',
     freeFor: 'Wolny przez %{time}',
+    goal: 'Cel',
   },
   screens: {
     home: {
@@ -68,6 +69,9 @@ const pl: Translation = {
       startDate: {
         title: 'Data rozpoczęcia',
         description: 'Kiedy rozpocząłeś swoją podróż?',
+      },
+      uploading: {
+        title: 'Tworzenie...',
       },
     },
   },

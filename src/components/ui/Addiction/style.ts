@@ -3,14 +3,13 @@ import { StyleSheet } from 'react-native';
 export const style = StyleSheet.create({
   surface: {
     marginVertical: 4,
-    marginHorizontal: 9,
-    borderRadius: 15,
-    height: 110,
-    flexDirection: 'row-reverse',
+    borderRadius: 10,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     overflow: 'hidden',
-    paddingHorizontal: 9,
-    gap: 50,
+    padding: 10,
+    gap: 20,
   },
   image: {
     width: '100%',
@@ -18,25 +17,45 @@ export const style = StyleSheet.create({
     resizeMode: 'center',
     borderRadius: 10,
   },
-  imageContainer: {
-    flex: 0.4,
-    justifyContent: 'center',
-  },
+  imageContainer: {},
   textContainer: {
     flex: 1,
-    paddingHorizontal: 2,
-    gap: 10,
+    gap: 4,
   },
   details: {
-    gap: 13,
+    flex: 1,
+    gap: 4,
   },
   progressContainer: {
-    gap: 10,
     flexDirection: 'row',
+  },
+  progressGoal: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  progress: {
+  progressDetails: {
+    marginHorizontal: 10,
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  divider: {
     flex: 1,
+  },
+  progress: {
+    width: 120,
+    height: 6,
+    borderRadius: 4,
   },
   name: {
     fontSize: 20,
@@ -44,6 +63,7 @@ export const style = StyleSheet.create({
     textAlign: 'center',
   },
   flatlist: {
-    paddingVertical: 4,
+    paddingVertical: 3,
+    paddingHorizontal: 5,
   },
 });

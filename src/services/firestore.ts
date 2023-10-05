@@ -3,6 +3,7 @@ import {
   addMonths,
   addYears,
   differenceInMilliseconds,
+  differenceInYears,
 } from 'date-fns';
 import { User, UserCredential } from 'firebase/auth';
 import {
@@ -59,7 +60,7 @@ export const useAddictionCreator = (user: User | null) => {
         createdAt: serverTimestamp(),
       };
 
-      return setDoc(
+      return await setDoc(
         doc(firestore, 'users', uid, 'addictions', fAddiction.id),
         fAddiction,
       );
@@ -79,7 +80,7 @@ export const useAddictionCreator = (user: User | null) => {
       createdAt: serverTimestamp(),
     };
 
-    return setDoc(
+    return await setDoc(
       doc(firestore, 'users', uid, 'addictions', fAddiction.id),
       fAddiction,
     );
@@ -98,7 +99,7 @@ export const useAddictions = (user: User | null) => {
 
     const q = query(
       collection(firestore, 'users', user.uid, 'addictions'),
-      orderBy('startDate', 'asc'),
+      orderBy('startDate', 'desc'),
     );
 
     return onSnapshot(q, snapshot => {
@@ -150,7 +151,7 @@ export const getGoal = (date: Date) => {
       goalAt = addMonths(goalAt, 6);
       break;
     case GoalType.Year:
-      goalAt = addYears(goalAt, 1);
+      goalAt = addYears(goalAt, differenceInYears(new Date(), date) + 1);
       break;
   }
 

@@ -13,6 +13,7 @@ export interface Translation {
     add: string;
     back: string;
     freeFor: string;
+    goal: string;
   };
   screens: {
     home: {
@@ -54,6 +55,9 @@ export interface Translation {
       startDate: {
         title: string;
         description: string;
+      };
+      uploading: {
+        title: string;
       };
     };
   };

@@ -5,7 +5,7 @@ const style = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 30,
+    paddingHorizontal: 50,
   },
   input: {
     width: '100%',
@@ -47,10 +47,14 @@ const style = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 90,
   },
-  progress: {
-    height: 24,
+  progressContainer: {
+    position: 'absolute',
+    bottom: 148,
+    zIndex: -1,
     width: '100%',
-    borderRadius: 12,
+  },
+  progress: {
+    height: 25,
   },
 });
 

@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useCallback } from 'react';
 
 import { CreationStackParamList, ModalStackNavigationProp } from './types';
 
@@ -23,9 +24,17 @@ const CreationWizardStack = () => {
     startDate: state.startDate,
     image: state.image,
   }));
-  const resetCreationWizard = useCreationWizardStore(state => state.reset);
+  const { reset, setStartDate, setLoading } = useCreationWizardStore(state => ({
+    reset: state.reset,
+    setStartDate: state.setStartDate,
+    setLoading: state.setLoading,
+  }));
   const { create, imageUploadProgress, imageUploadStatus } =
     useAddictionCreator(user);
+
+  const onWizardStart = useCallback(() => {
+    setStartDate(new Date());
+  }, [setStartDate]);
 
   const onWizardComplete = async () => {
     if (!user) return;
@@ -37,8 +46,9 @@ const CreationWizardStack = () => {
       tags: [],
     };
 
+    setLoading(true);
     await create(addiction).then(() => {
-      resetCreationWizard();
+      reset();
       modalStackNavigation.navigate('BottomTabs', {
         screen: 'Addictions',
       });
@@ -54,7 +64,11 @@ const CreationWizardStack = () => {
       initialRouteName="NameAndImage"
       screenOptions={{
         header: props => (
-          <Navigation completeCallback={onWizardComplete} {...props} />
+          <Navigation
+            startCallback={onWizardStart}
+            completeCallback={onWizardComplete}
+            {...props}
+          />
         ),
       }}
     >

@@ -15,6 +15,7 @@ const enUS: Translation = {
     add: 'Add',
     back: 'Back',
     freeFor: 'Free for %{time}',
+    goal: 'Goal',
   },
   screens: {
     home: {
@@ -68,6 +69,9 @@ const enUS: Translation = {
       startDate: {
         title: 'Start date',
         description: 'When did you start your journey?',
+      },
+      uploading: {
+        title: 'Uploading...',
       },
     },
   },

@@ -44,10 +44,10 @@ const NameAndImage = () => {
     <View style={style.screen}>
       <View style={style.container}>
         <View style={style.texts}>
-          <Bold variant="displaySmall" style={style.texts}>
+          <Bold variant="headlineSmall" style={style.texts}>
             {i18n.t(['screens', 'creationWizard', 'nameAndImage', 'title'])}
           </Bold>
-          <Subtitle variant="bodyMedium" style={style.texts}>
+          <Subtitle variant="bodySmall" style={style.texts}>
             {i18n.t([
               'screens',
               'creationWizard',

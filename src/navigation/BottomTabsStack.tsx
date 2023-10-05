@@ -25,8 +25,8 @@ const bottomTabsIconMap: BottomTabsIconMap = {
     focusedName: 'home',
   },
   Addictions: {
-    name: 'grid-outline',
-    focusedName: 'grid',
+    name: 'list-outline',
+    focusedName: 'list',
   },
 };
 
