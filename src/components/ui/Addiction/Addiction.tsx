@@ -48,7 +48,7 @@ const Addiction: FC<Addiction> = addiction => {
         style={[
           style.surface,
           visible && {
-            backgroundColor: colors.onPrimaryContainer + '20',
+            backgroundColor: colors.onSecondary,
           },
         ]}
       >

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { Image as RNImage, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
 
@@ -16,16 +16,23 @@ interface ImageProps {
 const Image: FC<ImageProps> = ({ image, name, size = 66, roundness = 8 }) => {
   const { colors } = useTheme();
 
+  const imageText = useMemo(() => {
+    return name
+      .split(' ')
+      .map(word =>
+        word.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/) ? word : word[0],
+      )
+      .join('');
+  }, [name]);
+
   if (!image) {
     return (
       <View style={style.imageContainer}>
         <Avatar.Text
-          style={{ backgroundColor: colors.secondary, borderRadius: roundness }}
+          style={{ backgroundColor: colors.secondary }}
           size={size}
-          label={name
-            .split(' ')
-            .map(word => word[0])
-            .join('')}
+          label={imageText}
+          labelStyle={{ color: colors.onSecondary }}
         />
       </View>
     );
