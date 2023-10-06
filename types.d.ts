@@ -1,7 +1,7 @@
 interface Addiction {
   id: string;
   name: string;
-  startDate: Date;
+  relapses: Date[];
   image: string | null;
   tags: string[];
 }

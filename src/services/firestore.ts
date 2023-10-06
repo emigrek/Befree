@@ -7,6 +7,7 @@ import {
 } from 'date-fns';
 import { User, UserCredential } from 'firebase/auth';
 import {
+  Timestamp,
   collection,
   doc,
   getFirestore,
@@ -15,11 +16,14 @@ import {
   query,
   serverTimestamp,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useImageUpload } from './storage';
+
+import { useAuthStore } from '@/store';
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
@@ -47,14 +51,14 @@ export const useAddictionCreator = (user: User | null) => {
     if (!user) return;
 
     const { uid } = user;
-    const { name, startDate, image, tags } = addiction;
+    const { name, relapses, image, tags } = addiction;
     const addictionId = nanoid();
 
     if (!image) {
       const fAddiction = {
         id: addictionId,
         name,
-        startDate,
+        relapses,
         image,
         tags,
         createdAt: serverTimestamp(),
@@ -74,7 +78,7 @@ export const useAddictionCreator = (user: User | null) => {
     const fAddiction = {
       id: addictionId,
       name,
-      startDate,
+      relapses,
       image: downloadUrl,
       tags,
       createdAt: serverTimestamp(),
@@ -99,19 +103,22 @@ export const useAddictions = (user: User | null) => {
 
     const q = query(
       collection(firestore, 'users', user.uid, 'addictions'),
-      orderBy('startDate', 'desc'),
+      orderBy('createdAt', 'desc'),
     );
 
     return onSnapshot(q, snapshot => {
       setAddictions(
         snapshot.docs.map(doc => ({
-          id: doc.get('id'),
+          id: doc.id,
+          relapses: doc
+            .get('relapses')
+            .map((relapse: Timestamp) => relapse.toDate()),
           name: doc.get('name'),
-          startDate: doc.get('startDate').toDate(),
           image: doc.get('image'),
           tags: doc.get('tags'),
         })),
       );
+
       setLoading(false);
     });
   }, [user]);
@@ -165,3 +172,56 @@ export enum GoalType {
   HalfYear = 'half-year',
   Year = 'year',
 }
+
+export const useAddiction = (addiction: Addiction) => {
+  const user = useAuthStore(state => state.user);
+
+  const lastRelapse = useMemo(() => {
+    const { relapses } = addiction;
+    const lastRelapse = relapses[relapses.length - 1];
+
+    return lastRelapse;
+  }, [addiction]);
+
+  const edit = (a: UnidentifiedAddiction) => {
+    if (!user) return;
+
+    const addictionRef = doc(
+      firestore,
+      'users',
+      user.uid,
+      'addictions',
+      addiction.id,
+    );
+
+    return updateDoc(addictionRef, a);
+  };
+
+  const relapse = () => {
+    const { relapses } = addiction;
+    const newRelapses = [...relapses, new Date()];
+
+    return edit({ ...addiction, relapses: newRelapses });
+  };
+
+  const freeFor = useCallback(() => {
+    const now = new Date();
+    const diff = now.getTime() - lastRelapse.getTime();
+
+    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24) - years * 365);
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    const y = years ? `${years}y ` : '';
+    const d = days ? `${days}d ` : '';
+    const h = hours ? `${hours}h ` : '';
+    const m = minutes ? `${minutes}m ` : '';
+    const s = `${seconds}s`;
+
+    return `${y}${d}${h}${m}${s}`;
+  }, [lastRelapse]);
+
+  return { edit, lastRelapse, freeFor, relapse };
+};

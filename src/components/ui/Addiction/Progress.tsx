@@ -8,10 +8,10 @@ import { Bold } from '@/components/ui/Text';
 import i18n from '@/i18n';
 import { getGoal } from '@/services/firestore';
 
-const Progress = ({ startDate }: { startDate: Date }) => {
+const Progress = ({ date }: { date: Date }) => {
   const goal = useMemo(() => {
-    return getGoal(startDate);
-  }, [startDate]);
+    return getGoal(date);
+  }, [date]);
 
   return (
     <View style={style.progressContainer}>
@@ -19,7 +19,7 @@ const Progress = ({ startDate }: { startDate: Date }) => {
         {i18n.t(['labels', 'goal']).toUpperCase()}
       </Bold>
       <View style={style.progressGoal}>
-        <Goal goal={goal} startDate={startDate} />
+        <Goal goal={goal} date={date} />
       </View>
     </View>
   );

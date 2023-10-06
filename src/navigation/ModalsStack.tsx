@@ -6,6 +6,7 @@ import { CreationWizardStack } from './CreationWizardStack';
 import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
+import { Addiction } from '@/components/screens/Addiction';
 import i18n from '@/i18n';
 
 const Navigator = createStackNavigator<ModalsStackParamList>();
@@ -19,7 +20,7 @@ const ModalsStack = () => {
       screenOptions={({ route }) => {
         return {
           header: props => <ModalsHeader {...props} />,
-          headerShown: route.name === 'Add',
+          headerShown: route.name !== 'BottomTabs',
           title: i18n.t(['modals', route.name.toLowerCase(), 'label']),
         };
       }}
@@ -28,6 +29,15 @@ const ModalsStack = () => {
       <Navigator.Screen
         name="Add"
         component={CreationWizardStack}
+        options={{
+          presentation: 'modal',
+          gestureEnabled: true,
+          gestureResponseDistance: height / 1.5,
+        }}
+      />
+      <Navigator.Screen
+        name="Addiction"
+        component={Addiction}
         options={{
           presentation: 'modal',
           gestureEnabled: true,

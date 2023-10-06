@@ -16,6 +16,7 @@ const enUS: Translation = {
     back: 'Back',
     freeFor: 'Free for %{time}',
     goal: 'Goal',
+    relapse: 'Relapse',
   },
   screens: {
     home: {
@@ -78,6 +79,9 @@ const enUS: Translation = {
   modals: {
     add: {
       label: 'Add addiction',
+    },
+    addiction: {
+      label: 'Addiction',
     },
   },
   bottomSheets: {

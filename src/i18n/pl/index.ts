@@ -16,6 +16,7 @@ const pl: Translation = {
     back: 'Wstecz',
     freeFor: 'Wolny przez %{time}',
     goal: 'Cel',
+    relapse: 'Wpadka',
   },
   screens: {
     home: {
@@ -78,6 +79,9 @@ const pl: Translation = {
   modals: {
     add: {
       label: 'Dodaj uzależnienie',
+    },
+    addiction: {
+      label: 'Uzależnienie',
     },
   },
   bottomSheets: {

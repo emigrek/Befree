@@ -41,7 +41,7 @@ const CreationWizardStack = () => {
 
     const addiction: UnidentifiedAddiction = {
       name,
-      startDate,
+      relapses: [new Date(startDate)],
       image,
       tags: [],
     };

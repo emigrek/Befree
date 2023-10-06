@@ -1,5 +1,6 @@
 import { FC, useCallback, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
+import { Divider } from 'react-native-paper';
 import { useTimer } from 'react-use-precision-timer';
 
 import { Empty } from './Empty';
@@ -34,6 +35,7 @@ const Addictions: FC = () => {
     <FlatList
       extraData={date}
       data={addictions}
+      ItemSeparatorComponent={() => <Divider />}
       style={style.flatlist}
       renderItem={({ item }) => <Addiction {...item} />}
       keyExtractor={item => item.id}

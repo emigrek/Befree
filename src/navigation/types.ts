@@ -15,6 +15,9 @@ export type BottomTabsStackParamList = {
 export type ModalsStackParamList = {
   BottomTabs: NavigatorScreenParams<BottomTabsStackParamList>;
   Add: undefined;
+  Addiction: {
+    id: string;
+  };
 };
 
 export type CreationStackParamList = {
@@ -33,3 +36,8 @@ export type CreationStackNavigationProp =
 // SCREEN PROPS
 
 export type AddScreenProps = StackScreenProps<ModalsStackParamList, 'Add'>;
+
+export type AddictionScreenProps = StackScreenProps<
+  ModalsStackParamList,
+  'Addiction'
+>;

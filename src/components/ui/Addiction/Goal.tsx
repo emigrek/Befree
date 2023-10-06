@@ -7,15 +7,15 @@ import { style } from './style';
 
 import i18n from '@/i18n';
 
-const Goal = ({ startDate, goal }: { startDate: Date; goal: Goal }) => {
+const Goal = ({ date, goal }: { date: Date; goal: Goal }) => {
   const progress = useMemo(() => {
     const { goalAt } = goal;
 
-    const diff = differenceInMilliseconds(new Date(), startDate);
-    const total = differenceInMilliseconds(goalAt, startDate);
+    const diff = differenceInMilliseconds(new Date(), date);
+    const total = differenceInMilliseconds(goalAt, date);
 
     return diff / total;
-  }, [startDate, goal]);
+  }, [date, goal]);
 
   return (
     <Surface elevation={0} style={style.progressDetails}>

@@ -14,6 +14,7 @@ export interface Translation {
     back: string;
     freeFor: string;
     goal: string;
+    relapse: string;
   };
   screens: {
     home: {
@@ -63,6 +64,9 @@ export interface Translation {
   };
   modals: {
     add: {
+      label: string;
+    };
+    addiction: {
       label: string;
     };
   };

@@ -1,54 +1,84 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { View } from 'react-native';
-import { Surface, Text, useTheme } from 'react-native-paper';
+import { GestureResponderEvent, View } from 'react-native';
+import { Menu, Text, TouchableRipple, useTheme } from 'react-native-paper';
 
 import { Image } from './Image';
 import { Progress } from './Progress';
 import { style } from './style';
+import { useLongPressMenu } from './useLongPressMenu';
 
 import { Bold } from '@/components/ui/Text';
+import i18n from '@/i18n';
+import { ModalStackNavigationProp } from '@/navigation/types';
+import { useAddiction } from '@/services/firestore';
 
-const Addiction: FC<Addiction> = ({ name, image, startDate }) => {
+// interface AddictionProps extends Omit<TouchableRippleProps, 'children'> {
+//   addiction: Addiction;
+// }
+
+const Addiction: FC<Addiction> = addiction => {
+  const { image, name, id } = addiction;
   const { colors } = useTheme();
 
-  const freefor = () => {
-    const now = new Date();
-    const diff = now.getTime() - startDate.getTime();
+  const { visible, showMenu, hideMenu, anchor } = useLongPressMenu();
+  const { freeFor, relapse, lastRelapse } = useAddiction(addiction);
 
-    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24) - years * 365);
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
+  const navigation = useNavigation<ModalStackNavigationProp>();
 
-    const y = years ? `${years}y ` : '';
-    const d = days ? `${days}d ` : '';
-    const h = hours ? `${hours}h ` : '';
-    const m = minutes ? `${minutes}m ` : '';
-    const s = `${seconds}s`;
+  const handleAddictionPress = () => {
+    navigation.navigate('Addiction', { id });
+  };
 
-    return `${y}${d}${h}${m}${s}`;
+  const handleLongPress = (event: GestureResponderEvent) => {
+    showMenu(event.nativeEvent.pageX, event.nativeEvent.pageY);
+  };
+
+  const handleRelapse = () => {
+    relapse();
+    hideMenu();
   };
 
   return (
-    <Surface
-      elevation={0}
-      style={[
-        style.surface,
-        { backgroundColor: colors.onPrimaryContainer + '18' },
-      ]}
-    >
-      <Image image={image} name={name} />
-      <View style={style.textContainer}>
-        <Text variant={'titleSmall'}>{name}</Text>
-        <View style={style.details}>
-          <Bold variant="titleLarge" style={{ color: colors.primary }}>
-            {freefor()}
-          </Bold>
-          <Progress startDate={startDate} />
-        </View>
-      </View>
-    </Surface>
+    <>
+      <TouchableRipple
+        rippleColor={colors.onSecondary}
+        onPress={handleAddictionPress}
+        onLongPress={handleLongPress}
+        style={[
+          style.surface,
+          visible && {
+            backgroundColor: colors.onPrimaryContainer + '20',
+          },
+        ]}
+      >
+        <>
+          <Image image={image} name={name} />
+          <View style={style.textContainer}>
+            <Text variant={'titleSmall'}>{name}</Text>
+            <View style={style.details}>
+              <Bold variant="titleLarge" style={{ color: colors.primary }}>
+                {freeFor()}
+              </Bold>
+              <Progress date={lastRelapse} />
+            </View>
+          </View>
+        </>
+      </TouchableRipple>
+      <Menu
+        visible={visible}
+        onDismiss={hideMenu}
+        contentStyle={{ backgroundColor: colors.background }}
+        anchorPosition="top"
+        anchor={anchor}
+      >
+        <Menu.Item
+          titleStyle={{ color: colors.error }}
+          onPress={handleRelapse}
+          title={i18n.t(['labels', 'relapse'])}
+        />
+      </Menu>
+    </>
   );
 };
 
