@@ -1,28 +1,25 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import { GestureResponderEvent, View } from 'react-native';
 import { Menu, Text, TouchableRipple, useTheme } from 'react-native-paper';
 
+import { FreeFor } from './FreeFor';
 import { Image } from './Image';
 import { Progress } from './Progress';
 import { style } from './style';
 import { useLongPressMenu } from './useLongPressMenu';
 
-import { Bold } from '@/components/ui/Text';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
-import { useAddiction } from '@/services/firestore';
-
-// interface AddictionProps extends Omit<TouchableRippleProps, 'children'> {
-//   addiction: Addiction;
-// }
+import { relapse, remove } from '@/services/firestore';
+import { useAuthStore } from '@/store';
 
 const Addiction: FC<Addiction> = addiction => {
   const { image, name, id } = addiction;
   const { colors } = useTheme();
 
   const { visible, showMenu, hideMenu, anchor } = useLongPressMenu();
-  const { freeFor, relapse, lastRelapse } = useAddiction(addiction);
+  const user = useAuthStore(state => state.user);
 
   const navigation = useNavigation<ModalStackNavigationProp>();
 
@@ -30,14 +27,32 @@ const Addiction: FC<Addiction> = addiction => {
     navigation.navigate('Addiction', { id });
   };
 
-  const handleLongPress = (event: GestureResponderEvent) => {
-    showMenu(event.nativeEvent.pageX, event.nativeEvent.pageY);
-  };
+  const handleLongPress = useCallback(
+    (event: GestureResponderEvent) => {
+      showMenu(event.nativeEvent.pageX, event.nativeEvent.pageY);
+    },
+    [showMenu],
+  );
 
-  const handleRelapse = () => {
-    relapse();
+  const handleRelapse = useCallback(() => {
+    if (!user) return;
+
+    relapse({
+      user,
+      id,
+    });
     hideMenu();
-  };
+  }, [user, id, hideMenu]);
+
+  const handleRemove = useCallback(() => {
+    if (!user) return;
+
+    remove({
+      user,
+      id,
+    });
+    hideMenu();
+  }, [user, id, hideMenu]);
 
   return (
     <>
@@ -57,10 +72,12 @@ const Addiction: FC<Addiction> = addiction => {
           <View style={style.textContainer}>
             <Text variant={'titleSmall'}>{name}</Text>
             <View style={style.details}>
-              <Bold variant="titleLarge" style={{ color: colors.primary }}>
-                {freeFor()}
-              </Bold>
-              <Progress date={lastRelapse} />
+              <FreeFor
+                style={{ color: colors.primary }}
+                variant={'titleLarge'}
+                addiction={addiction}
+              />
+              <Progress addiction={addiction} />
             </View>
           </View>
         </>
@@ -73,9 +90,15 @@ const Addiction: FC<Addiction> = addiction => {
         anchor={anchor}
       >
         <Menu.Item
-          titleStyle={{ color: colors.error }}
+          leadingIcon={'restart'}
           onPress={handleRelapse}
           title={i18n.t(['labels', 'relapse'])}
+        />
+        <Menu.Item
+          leadingIcon={'delete'}
+          titleStyle={{ color: colors.error }}
+          onPress={handleRemove}
+          title={i18n.t(['labels', 'remove'])}
         />
       </Menu>
     </>

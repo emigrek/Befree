@@ -29,7 +29,7 @@ const Image: FC<ImageProps> = ({ image, name, size = 66, roundness = 8 }) => {
     return (
       <View style={style.imageContainer}>
         <Avatar.Text
-          style={{ backgroundColor: colors.secondary }}
+          style={{ backgroundColor: colors.secondary, borderRadius: roundness }}
           size={size}
           label={imageText}
           labelStyle={{ color: colors.onSecondary }}

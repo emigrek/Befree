@@ -1,7 +1,6 @@
-import { FC, useCallback, useState } from 'react';
+import { FC } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { Divider } from 'react-native-paper';
-import { useTimer } from 'react-use-precision-timer';
 
 import { Empty } from './Empty';
 
@@ -14,14 +13,6 @@ import { useAuthStore } from '@/store';
 const Addictions: FC = () => {
   const user = useAuthStore(state => state.user);
   const { addictions, loading } = useAddictions(user);
-  const [date, setDate] = useState(new Date());
-
-  useTimer(
-    { delay: 1000, startImmediately: true, fireOnStart: true },
-    useCallback(() => {
-      setDate(new Date());
-    }, []),
-  );
 
   if (loading) {
     return <Loading />;
@@ -33,7 +24,6 @@ const Addictions: FC = () => {
 
   return (
     <FlatList
-      extraData={date}
       data={addictions}
       ItemSeparatorComponent={() => <Divider />}
       style={style.flatlist}

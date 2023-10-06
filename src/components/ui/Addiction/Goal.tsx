@@ -6,16 +6,19 @@ import { ProgressBar, Surface, Text } from 'react-native-paper';
 import { style } from './style';
 
 import i18n from '@/i18n';
+import { useFreeFor, useLastRelapse } from '@/services/firestore';
 
-const Goal = ({ date, goal }: { date: Date; goal: Goal }) => {
+const Goal = ({ addiction, goal }: { addiction: Addiction; goal: Goal }) => {
+  const { freeForTime } = useFreeFor({
+    addiction,
+  });
+  const lastRelapse = useLastRelapse(addiction);
+
   const progress = useMemo(() => {
-    const { goalAt } = goal;
+    const total = differenceInMilliseconds(goal.goalAt, lastRelapse);
 
-    const diff = differenceInMilliseconds(new Date(), date);
-    const total = differenceInMilliseconds(goalAt, date);
-
-    return diff / total;
-  }, [date, goal]);
+    return freeForTime / total;
+  }, [freeForTime, goal.goalAt, lastRelapse]);
 
   return (
     <Surface elevation={0} style={style.progressDetails}>
@@ -27,7 +30,7 @@ const Goal = ({ date, goal }: { date: Date; goal: Goal }) => {
       <View style={style.progress}>
         <ProgressBar progress={progress} style={style.progress} />
       </View>
-      <Text variant="labelSmall">{(progress * 100).toFixed()}%</Text>
+      <Text variant="labelSmall">{(progress * 100).toFixed(2)}%</Text>
       {progress >= 1 && <Text variant="labelSmall">🎉</Text>}
     </Surface>
   );

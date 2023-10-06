@@ -17,6 +17,7 @@ const enUS: Translation = {
     freeFor: 'Free for %{time}',
     goal: 'Goal',
     relapse: 'Relapse',
+    remove: 'Abandon',
   },
   screens: {
     home: {

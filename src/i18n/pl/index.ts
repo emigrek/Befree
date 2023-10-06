@@ -17,6 +17,7 @@ const pl: Translation = {
     freeFor: 'Wolny przez %{time}',
     goal: 'Cel',
     relapse: 'Wpadka',
+    remove: 'Porzuć',
   },
   screens: {
     home: {

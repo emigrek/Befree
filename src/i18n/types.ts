@@ -15,6 +15,7 @@ export interface Translation {
     freeFor: string;
     goal: string;
     relapse: string;
+    remove: string;
   };
   screens: {
     home: {

@@ -9,7 +9,9 @@ import { User, UserCredential } from 'firebase/auth';
 import {
   Timestamp,
   collection,
+  deleteDoc,
   doc,
+  getDoc,
   getFirestore,
   onSnapshot,
   orderBy,
@@ -20,6 +22,7 @@ import {
 } from 'firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useElapsedTime } from 'use-elapsed-time';
 
 import { useImageUpload } from './storage';
 
@@ -173,55 +176,121 @@ export enum GoalType {
   Year = 'year',
 }
 
-export const useAddiction = (addiction: Addiction) => {
-  const user = useAuthStore(state => state.user);
+export interface GetAddictionProps {
+  user: User;
+  id: string;
+}
 
-  const lastRelapse = useMemo(() => {
+export const getAddiction = async ({ user, id }: GetAddictionProps) => {
+  const docRef = doc(firestore, 'users', user.uid, 'addictions', id);
+
+  return getDoc(docRef).then(doc => {
+    if (!doc.exists()) return null;
+
+    const { relapses, name, image, tags } = doc.data();
+
+    return {
+      id: doc.id,
+      relapses: relapses.map((relapse: Timestamp) => relapse.toDate()),
+      name,
+      image,
+      tags,
+    };
+  });
+};
+
+export interface EditProps {
+  user: User;
+  id: string;
+  newAddiction: UnidentifiedAddiction;
+}
+
+export const edit = ({ user, id, newAddiction }: EditProps) => {
+  const addictionRef = doc(firestore, 'users', user.uid, 'addictions', id);
+
+  return updateDoc(addictionRef, newAddiction);
+};
+
+export interface RemoveProps {
+  user: User;
+  id: string;
+}
+
+export const remove = ({ user, id }: RemoveProps) => {
+  const addictionRef = doc(firestore, 'users', user.uid, 'addictions', id);
+
+  return deleteDoc(addictionRef);
+};
+
+export interface RelapseProps {
+  user: User;
+  id: string;
+}
+
+export const relapse = async ({ user, id }: RelapseProps) => {
+  const addiction = await getAddiction({ user, id });
+
+  if (!addiction) return;
+
+  const { relapses } = addiction;
+
+  const newRelapses = [...relapses, new Date()];
+
+  await edit({
+    user,
+    id,
+    newAddiction: { ...addiction, relapses: newRelapses },
+  });
+};
+
+export const useLastRelapse = (addiction: Addiction) => {
+  return useMemo(() => {
     const { relapses } = addiction;
     const lastRelapse = relapses[relapses.length - 1];
 
     return lastRelapse;
   }, [addiction]);
+};
 
-  const edit = (a: UnidentifiedAddiction) => {
+export interface UseFreeForProps {
+  addiction: Addiction;
+  timer?: boolean;
+}
+
+export const useFreeFor = ({ addiction, timer = true }: UseFreeForProps) => {
+  const lastRelapse = useLastRelapse(addiction);
+  const [freeForTime, setFreeForTime] = useState<number>(
+    differenceInMilliseconds(new Date(), lastRelapse),
+  );
+
+  useElapsedTime({
+    isPlaying: timer,
+    updateInterval: 1,
+    onUpdate: useCallback(() => {
+      const timeDiff = differenceInMilliseconds(new Date(), lastRelapse);
+      setFreeForTime(timeDiff);
+    }, [lastRelapse]),
+  });
+
+  return { freeForTime };
+};
+
+export const useAddiction = (id: string) => {
+  const user = useAuthStore(state => state.user);
+  const [addiction, setAddiction] = useState<Addiction | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
     if (!user) return;
 
-    const addictionRef = doc(
-      firestore,
-      'users',
-      user.uid,
-      'addictions',
-      addiction.id,
-    );
+    setLoading(true);
+    getAddiction({ user, id }).then(addiction => {
+      if (!addiction) return;
 
-    return updateDoc(addictionRef, a);
-  };
+      setAddiction(addiction);
+      setLoading(false);
+    });
+  }, [user, id]);
 
-  const relapse = () => {
-    const { relapses } = addiction;
-    const newRelapses = [...relapses, new Date()];
-
-    return edit({ ...addiction, relapses: newRelapses });
-  };
-
-  const freeFor = useCallback(() => {
-    const now = new Date();
-    const diff = now.getTime() - lastRelapse.getTime();
-
-    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24) - years * 365);
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    const y = years ? `${years}y ` : '';
-    const d = days ? `${days}d ` : '';
-    const h = hours ? `${hours}h ` : '';
-    const m = minutes ? `${minutes}m ` : '';
-    const s = `${seconds}s`;
-
-    return `${y}${d}${h}${m}${s}`;
-  }, [lastRelapse]);
-
-  return { edit, lastRelapse, freeFor, relapse };
+  return { addiction, loading };
 };
