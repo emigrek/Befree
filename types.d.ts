@@ -4,6 +4,7 @@ interface Addiction {
   relapses: Date[];
   image: string | null;
   tags: string[];
+  createdAt: Date;
 }
 
 interface Goal {
@@ -11,4 +12,4 @@ interface Goal {
   goalType: `${GoalType}`;
 }
 
-type UnidentifiedAddiction = Omit<Addiction, 'id'>;
+type UnidentifiedAddiction = Omit<Addiction, 'id' | 'createdAt'>;

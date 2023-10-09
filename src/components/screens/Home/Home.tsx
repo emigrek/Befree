@@ -1,36 +1,32 @@
 import { FC } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button } from 'react-native-paper';
 
-import { Bold } from '../ui/Text';
+import { FastCreate } from './widgets';
 
 import { Screen } from '@/components/ui/Screen';
+import { Bold } from '@/components/ui/Text';
 import i18n from '@/i18n';
-import { useAuthStore, useGlobalStore } from '@/store';
+import { useAuthStore } from '@/store';
 
 const Home: FC = () => {
   const user = useAuthStore(state => state.user);
-  const setOnboarded = useGlobalStore(state => state.setOnboarded);
 
   return (
     <Screen style={style.screen}>
-      <Bold variant="headlineSmall">
+      <Bold variant="headlineMedium" style={style.text}>
         {i18n.t(['screens', 'home', 'gretting'], { name: user?.displayName })}
       </Bold>
-      <Button
-        onPress={() => {
-          setOnboarded(false);
-        }}
-      >
-        Onboarding
-      </Button>
+      <FastCreate />
     </Screen>
   );
 };
 
 const style = StyleSheet.create({
   screen: {
-    paddingHorizontal: 15,
+    gap: 40,
+  },
+  text: {
+    paddingHorizontal: 20,
   },
 });
 

@@ -1,38 +1,27 @@
-import { differenceInMilliseconds } from 'date-fns';
-import React, { useMemo } from 'react';
+import React, { FC } from 'react';
 import { View } from 'react-native';
-import { ProgressBar, Surface, Text } from 'react-native-paper';
 
+import { GoalProgress } from './GoalProgress';
 import { style } from './style';
 
+import { Bold } from '@/components/ui/Text';
 import i18n from '@/i18n';
-import { useFreeFor, useLastRelapse } from '@/services/firestore';
 
-const Goal = ({ addiction, goal }: { addiction: Addiction; goal: Goal }) => {
-  const { freeForTime } = useFreeFor({
-    addiction,
-  });
-  const lastRelapse = useLastRelapse(addiction);
+interface GoalProps {
+  addiction: Addiction;
+  refresh?: boolean;
+}
 
-  const progress = useMemo(() => {
-    const total = differenceInMilliseconds(goal.goalAt, lastRelapse);
-
-    return freeForTime / total;
-  }, [freeForTime, goal.goalAt, lastRelapse]);
-
+const Goal: FC<GoalProps> = ({ addiction, refresh }) => {
   return (
-    <Surface elevation={0} style={style.progressDetails}>
-      <Text variant="labelSmall">
-        {i18n
-          .t(['screens', 'addictions', 'goalTypes', goal.goalType])
-          .toUpperCase()}
-      </Text>
-      <View style={style.progress}>
-        <ProgressBar progress={progress} style={style.progress} />
+    <View style={style.progressContainer}>
+      <Bold variant="labelSmall">
+        {i18n.t(['labels', 'goal']).toUpperCase()}
+      </Bold>
+      <View style={style.progressGoal}>
+        <GoalProgress refresh={refresh} addiction={addiction} />
       </View>
-      <Text variant="labelSmall">{(progress * 100).toFixed(2)}%</Text>
-      {progress >= 1 && <Text variant="labelSmall">🎉</Text>}
-    </Surface>
+    </View>
   );
 };
 

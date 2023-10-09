@@ -79,12 +79,15 @@ const Navigation: FC<NavigationProps> = ({
 
   return (
     <View style={style.floating} {...props}>
-      <Button onPress={back}>{i18n.t(['labels', 'back'])}</Button>
+      <Button onPress={back} contentStyle={style.navigationButtonContent}>
+        {i18n.t(['labels', 'back'])}
+      </Button>
       <Button
         mode="contained"
         onPress={next}
         disabled={Boolean(errors.length) || !name}
         loading={loading}
+        contentStyle={style.navigationButtonContent}
       >
         {isLastScreenInStack
           ? i18n.t(['labels', 'add'])

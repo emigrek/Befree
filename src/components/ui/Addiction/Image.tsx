@@ -13,7 +13,7 @@ interface ImageProps {
   roundness?: number;
 }
 
-const Image: FC<ImageProps> = ({ image, name, size = 66, roundness = 8 }) => {
+const Image: FC<ImageProps> = ({ image, name, size = 69, roundness = 8 }) => {
   const { colors } = useTheme();
 
   const imageText = useMemo(() => {

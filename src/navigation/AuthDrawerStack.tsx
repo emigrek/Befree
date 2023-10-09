@@ -16,7 +16,7 @@ const AuthDrawerStack = () => {
       initialRouteName="Modals"
       screenOptions={{
         headerShown: false,
-        swipeEdgeWidth: width / 1.5,
+        swipeEdgeWidth: width / 4,
         swipeMinDistance: 50,
       }}
       drawerContent={props => <AuthDrawer {...props} />}

@@ -3,56 +3,71 @@ import React, { FC, useCallback } from 'react';
 import { GestureResponderEvent, View } from 'react-native';
 import { Menu, Text, TouchableRipple, useTheme } from 'react-native-paper';
 
-import { FreeFor } from './FreeFor';
+import { AbsenceIndicator } from './AbsenceIndicator';
+import { Goal } from './Goal';
 import { Image } from './Image';
-import { Progress } from './Progress';
 import { style } from './style';
 import { useLongPressMenu } from './useLongPressMenu';
 
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
-import { relapse, remove } from '@/services/firestore';
-import { useAuthStore } from '@/store';
+import { relapseAddiction, removeAddiction } from '@/services/firestore';
+import { useAuthStore, useGlobalStore } from '@/store';
 
 const Addiction: FC<Addiction> = addiction => {
   const { image, name, id } = addiction;
   const { colors } = useTheme();
 
   const { visible, showMenu, hideMenu, anchor } = useLongPressMenu();
+  const { storeAddRelapse, storeRemoveRelapse, storeAdd, storeRemove } =
+    useGlobalStore(state => ({
+      storeAddRelapse: state.addRelapse,
+      storeRemoveRelapse: state.removeRelapse,
+      storeAdd: state.add,
+      storeRemove: state.remove,
+    }));
   const user = useAuthStore(state => state.user);
 
   const navigation = useNavigation<ModalStackNavigationProp>();
 
-  const handleAddictionPress = () => {
+  const handleAddictionPress = useCallback(() => {
     navigation.navigate('Addiction', { id });
-  };
+  }, [navigation, id]);
 
   const handleLongPress = useCallback(
     (event: GestureResponderEvent) => {
+      console.log(addiction);
       showMenu(event.nativeEvent.pageX, event.nativeEvent.pageY);
     },
-    [showMenu],
+    [showMenu, addiction],
   );
 
   const handleRelapse = useCallback(() => {
     if (!user) return;
+    const date = new Date();
 
-    relapse({
-      user,
-      id,
-    });
     hideMenu();
-  }, [user, id, hideMenu]);
+    storeAddRelapse(addiction.id, date);
+    relapseAddiction({
+      user,
+      addiction,
+    }).catch(() => {
+      storeRemoveRelapse(addiction.id, date);
+    });
+  }, [user, addiction, hideMenu, storeAddRelapse, storeRemoveRelapse]);
 
   const handleRemove = useCallback(() => {
     if (!user) return;
 
-    remove({
+    hideMenu();
+    storeRemove(id);
+    removeAddiction({
       user,
       id,
+    }).catch(() => {
+      storeAdd(addiction);
     });
-    hideMenu();
-  }, [user, id, hideMenu]);
+  }, [user, id, hideMenu, storeRemove, storeAdd, addiction]);
 
   return (
     <>
@@ -72,12 +87,12 @@ const Addiction: FC<Addiction> = addiction => {
           <View style={style.textContainer}>
             <Text variant={'titleSmall'}>{name}</Text>
             <View style={style.details}>
-              <FreeFor
+              <AbsenceIndicator
+                addiction={addiction}
                 style={{ color: colors.primary }}
                 variant={'titleLarge'}
-                addiction={addiction}
               />
-              <Progress addiction={addiction} />
+              <Goal addiction={addiction} />
             </View>
           </View>
         </>

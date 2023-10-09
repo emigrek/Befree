@@ -40,6 +40,7 @@
     "expo-web-browser": "~12.3.2",
     "firebase": "^10.3.1",
     "i18n-js": "4.2.0",
+    "immer": "^10.0.3",
     "nanoid": "^5.0.1",
     "prettier": "^3.0.3",
     "react": "18.2.0",
@@ -52,9 +53,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-vector-icons": "^10.0.0",
-    "react-use-precision-timer": "^3.3.1",
+    "use-count-up": "^3.0.1",
     "use-elapsed-time": "^3.0.4",
-    "zod": "^3.22.2",
     "zustand": "^4.4.1"
   },
   "devDependencies": {

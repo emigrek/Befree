@@ -7,7 +7,8 @@ export const style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     gap: 20,
   },
   image: {
@@ -31,7 +32,7 @@ export const style = StyleSheet.create({
   progressGoal: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   progressDetails: {
@@ -43,6 +44,12 @@ export const style = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
   },
+  goalProgressContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+  },
   dividerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -52,8 +59,8 @@ export const style = StyleSheet.create({
     flex: 1,
   },
   progress: {
-    width: 120,
-    height: 8,
+    width: 135,
+    height: 7,
     borderRadius: 4,
   },
   name: {

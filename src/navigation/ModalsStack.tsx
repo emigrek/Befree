@@ -20,16 +20,22 @@ const ModalsStack = () => {
       screenOptions={({ route }) => {
         return {
           header: props => <ModalsHeader {...props} />,
-          headerShown: route.name !== 'BottomTabs',
           title: i18n.t(['modals', route.name.toLowerCase(), 'label']),
         };
       }}
     >
-      <Navigator.Screen name="BottomTabs" component={BottomTabsStack} />
+      <Navigator.Screen
+        name="BottomTabs"
+        options={{
+          headerShown: false,
+        }}
+        component={BottomTabsStack}
+      />
       <Navigator.Screen
         name="Add"
         component={CreationWizardStack}
         options={{
+          headerShown: true,
           presentation: 'modal',
           gestureEnabled: true,
           gestureResponseDistance: height / 1.5,
@@ -39,6 +45,8 @@ const ModalsStack = () => {
         name="Addiction"
         component={Addiction}
         options={{
+          headerShown: true,
+          title: undefined,
           presentation: 'modal',
           gestureEnabled: true,
           gestureResponseDistance: height / 1.5,

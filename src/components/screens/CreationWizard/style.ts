@@ -25,7 +25,7 @@ const style = StyleSheet.create({
   },
   floating: {
     position: 'absolute',
-    top: Dimensions.get('window').height - 110,
+    top: Dimensions.get('window').height - 130,
     right: 0,
     left: 0,
     paddingHorizontal: 20,
@@ -55,6 +55,9 @@ const style = StyleSheet.create({
   },
   progress: {
     height: 25,
+  },
+  navigationButtonContent: {
+    padding: 6,
   },
 });
 

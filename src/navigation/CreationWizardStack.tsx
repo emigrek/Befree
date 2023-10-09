@@ -1,8 +1,7 @@
-import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useCallback } from 'react';
 
-import { CreationStackParamList, ModalStackNavigationProp } from './types';
+import { CreationStackParamList } from './types';
 
 import {
   ImageUploading,
@@ -10,27 +9,24 @@ import {
   StartDate,
 } from '@/components/screens/CreationWizard';
 import Navigation from '@/components/screens/CreationWizard/Navigation';
-import { useAddictionCreator } from '@/services/firestore';
+import { useAddictionCreator } from '@/hooks/addiction/useAddictionCreator';
 import { useAuthStore, useCreationWizardStore } from '@/store';
 
 const Navigator = createStackNavigator<CreationStackParamList>();
 
 const CreationWizardStack = () => {
-  const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
   const user = useAuthStore(state => state.user);
-
-  const { name, startDate, image } = useCreationWizardStore(state => ({
-    name: state.name,
-    startDate: state.startDate,
-    image: state.image,
-  }));
-  const { reset, setStartDate, setLoading } = useCreationWizardStore(state => ({
-    reset: state.reset,
-    setStartDate: state.setStartDate,
-    setLoading: state.setLoading,
-  }));
+  const { name, startDate, image, reset, setStartDate, setLoading } =
+    useCreationWizardStore(state => ({
+      name: state.name,
+      startDate: state.startDate,
+      image: state.image,
+      reset: state.reset,
+      setStartDate: state.setStartDate,
+      setLoading: state.setLoading,
+    }));
   const { create, imageUploadProgress, imageUploadStatus } =
-    useAddictionCreator(user);
+    useAddictionCreator();
 
   const onWizardStart = useCallback(() => {
     setStartDate(new Date());
@@ -47,11 +43,9 @@ const CreationWizardStack = () => {
     };
 
     setLoading(true);
-    await create(addiction).then(() => {
+    create(addiction).then(() => {
+      setLoading(false);
       reset();
-      modalStackNavigation.navigate('BottomTabs', {
-        screen: 'Addictions',
-      });
     });
   };
 

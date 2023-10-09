@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { Divider } from 'react-native-paper';
 
@@ -6,13 +6,17 @@ import { Empty } from './Empty';
 
 import { Loading } from '@/components/screens/Loading';
 import { Addiction } from '@/components/ui/Addiction';
-import { style } from '@/components/ui/Addiction/style';
-import { useAddictions } from '@/services/firestore';
+import { useAddictions } from '@/hooks/addiction/useAddictions';
 import { useAuthStore } from '@/store';
+
+const MemoAddiction = memo(Addiction);
 
 const Addictions: FC = () => {
   const user = useAuthStore(state => state.user);
-  const { addictions, loading } = useAddictions(user);
+
+  const { addictions, loading } = useAddictions({
+    user: user!,
+  });
 
   if (loading) {
     return <Loading />;
@@ -26,8 +30,7 @@ const Addictions: FC = () => {
     <FlatList
       data={addictions}
       ItemSeparatorComponent={() => <Divider />}
-      style={style.flatlist}
-      renderItem={({ item }) => <Addiction {...item} />}
+      renderItem={({ item }) => <MemoAddiction {...item} />}
       keyExtractor={item => item.id}
     />
   );

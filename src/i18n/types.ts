@@ -80,4 +80,11 @@ export interface Translation {
       device: string;
     };
   };
+  widgets: {
+    fastCreate: {
+      title: string;
+      description: string;
+      presetNames: string[];
+    };
+  };
 }

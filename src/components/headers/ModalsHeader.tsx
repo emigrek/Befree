@@ -12,8 +12,12 @@ type ModalsStackNavigationProp = StackNavigationProp<ModalsStackParamList>;
 
 const ModalsHeader: FC<StackHeaderProps> = ({ options, route }) => {
   const { colors } = useTheme();
-  const title = getHeaderTitle(options, route.name);
+  const title =
+    getHeaderTitle(options, route.name) === 'Addiction'
+      ? ''
+      : getHeaderTitle(options, route.name);
   const { goBack, canGoBack } = useNavigation<ModalsStackNavigationProp>();
+  const isAddictionScreen = route.name === 'Addiction';
 
   return (
     <Appbar.Header
@@ -27,7 +31,10 @@ const ModalsHeader: FC<StackHeaderProps> = ({ options, route }) => {
       {canGoBack() ? <Appbar.BackAction onPress={goBack} /> : null}
       <View style={style.container}>
         <View style={style.center}>
-          <Text variant={'titleMedium'} style={{ textAlign: 'center' }}>
+          <Text
+            variant={isAddictionScreen ? 'titleLarge' : 'titleMedium'}
+            style={{ textAlign: 'center' }}
+          >
             {title}
           </Text>
         </View>
