@@ -14,6 +14,8 @@ import { ModalStackNavigationProp } from '@/navigation/types';
 import { relapseAddiction, removeAddiction } from '@/services/firestore';
 import { useAuthStore, useGlobalStore } from '@/store';
 
+const ITEM_HEIGHT = 100;
+
 const Addiction: FC<Addiction> = addiction => {
   const { image, name, id } = addiction;
   const { colors } = useTheme();
@@ -36,10 +38,9 @@ const Addiction: FC<Addiction> = addiction => {
 
   const handleLongPress = useCallback(
     (event: GestureResponderEvent) => {
-      console.log(addiction);
       showMenu(event.nativeEvent.pageX, event.nativeEvent.pageY);
     },
-    [showMenu, addiction],
+    [showMenu],
   );
 
   const handleRelapse = useCallback(() => {
@@ -76,13 +77,13 @@ const Addiction: FC<Addiction> = addiction => {
         onPress={handleAddictionPress}
         onLongPress={handleLongPress}
         style={[
-          style.surface,
+          { height: ITEM_HEIGHT },
           visible && {
             backgroundColor: colors.onSecondary,
           },
         ]}
       >
-        <>
+        <View style={[style.surface]}>
           <Image image={image} name={name} />
           <View style={style.textContainer}>
             <Text variant={'titleSmall'}>{name}</Text>
@@ -95,7 +96,7 @@ const Addiction: FC<Addiction> = addiction => {
               <Goal addiction={addiction} />
             </View>
           </View>
-        </>
+        </View>
       </TouchableRipple>
       <Menu
         visible={visible}
@@ -120,4 +121,4 @@ const Addiction: FC<Addiction> = addiction => {
   );
 };
 
-export { Addiction };
+export { Addiction, ITEM_HEIGHT };

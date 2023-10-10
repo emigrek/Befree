@@ -2,9 +2,13 @@ import { formatDistanceToNow, subMilliseconds } from 'date-fns';
 
 interface FormatAbsenceTimeProps {
   absenceTime: number;
+  toNow?: boolean;
 }
 
-export const formatAbsenceTime = ({ absenceTime }: FormatAbsenceTimeProps) => {
+export const formatAbsenceTime = ({
+  absenceTime,
+  toNow = false,
+}: FormatAbsenceTimeProps) => {
   const years = Math.floor(absenceTime / (1000 * 60 * 60 * 24 * 365));
   const days = Math.floor(absenceTime / (1000 * 60 * 60 * 24) - years * 365);
   const hours = Math.floor((absenceTime / (1000 * 60 * 60)) % 24);
@@ -17,7 +21,7 @@ export const formatAbsenceTime = ({ absenceTime }: FormatAbsenceTimeProps) => {
   const m = minutes ? `${minutes}m ` : '';
   const s = `${seconds}s`;
 
-  if (absenceTime < 3 * 1000) {
+  if (toNow) {
     return formatDistanceToNow(subMilliseconds(new Date(), absenceTime));
   }
 

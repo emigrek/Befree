@@ -1,11 +1,5 @@
 import { User } from 'firebase/auth';
-import {
-  Timestamp,
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-} from 'firebase/firestore';
+import { Timestamp, collection, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 import { firestore } from '@/services/firestore';
@@ -26,10 +20,7 @@ export const useAddictions = ({ user }: UseAddictionsProps) => {
   useEffect(() => {
     setLoading(true);
 
-    const q = query(
-      collection(firestore, 'users', user.uid, 'addictions'),
-      orderBy(sorting.field, sorting.direction),
-    );
+    const q = collection(firestore, 'users', user.uid, 'addictions');
 
     return onSnapshot(q, snapshot => {
       const newAddictions = snapshot.docs.map(doc => ({
@@ -40,7 +31,9 @@ export const useAddictions = ({ user }: UseAddictionsProps) => {
         name: doc.get('name'),
         image: doc.get('image'),
         tags: doc.get('tags'),
-        createdAt: doc.get('createdAt') ? doc.get('createdAt').toDate() : null,
+        createdAt: doc.get('createdAt')
+          ? doc.get('createdAt').toDate()
+          : new Date(),
       }));
 
       setAddictions(newAddictions);

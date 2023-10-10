@@ -5,25 +5,16 @@ export const style = StyleSheet.create({
     marginVertical: 4,
     borderRadius: 10,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingVertical: 10,
     paddingHorizontal: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: 20,
   },
-  image: {
-    width: '100%',
-    aspectRatio: 1,
-    resizeMode: 'center',
-    borderRadius: 10,
-  },
-  imageContainer: {},
   textContainer: {
     flex: 1,
-    gap: 4,
   },
   details: {
-    flex: 1,
     gap: 4,
   },
   progressContainer: {

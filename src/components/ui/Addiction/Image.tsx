@@ -1,8 +1,6 @@
 import React, { FC, useMemo } from 'react';
-import { Image as RNImage, View } from 'react-native';
+import { Image as RNImage } from 'react-native';
 import { Avatar } from 'react-native-paper';
-
-import { style } from './style';
 
 import { useTheme } from '@/theme';
 
@@ -27,28 +25,24 @@ const Image: FC<ImageProps> = ({ image, name, size = 69, roundness = 8 }) => {
 
   if (!image) {
     return (
-      <View style={style.imageContainer}>
-        <Avatar.Text
-          style={{ backgroundColor: colors.secondary, borderRadius: roundness }}
-          size={size}
-          label={imageText}
-          labelStyle={{ color: colors.onSecondary }}
-        />
-      </View>
+      <Avatar.Text
+        style={{ backgroundColor: colors.secondary, borderRadius: roundness }}
+        size={size}
+        label={imageText}
+        labelStyle={{ color: colors.onSecondary }}
+      />
     );
   }
 
   return (
-    <View style={style.imageContainer}>
-      <RNImage
-        style={{ borderRadius: roundness }}
-        source={{
-          uri: image,
-        }}
-        width={size}
-        height={size}
-      />
-    </View>
+    <RNImage
+      style={{ borderRadius: roundness }}
+      source={{
+        uri: image,
+      }}
+      width={size}
+      height={size}
+    />
   );
 };
 

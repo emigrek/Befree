@@ -2,12 +2,13 @@ import { produce } from 'immer';
 import { StateCreator } from 'zustand';
 
 export interface AddictionSorting {
-  function: (a: Addiction, b: Addiction) => number;
   direction: 'asc' | 'desc';
   field: keyof Addiction;
 }
 
 export interface AddictionsSlice {
+  sorting: AddictionSorting;
+  setSorting: (sorting: AddictionSorting) => void;
   addictions: Addiction[];
   setAddictions: (addictions: Addiction[]) => void;
   add: (addiction: Addiction) => void;
@@ -15,23 +16,32 @@ export interface AddictionsSlice {
   remove: (id: string) => void;
   addRelapse: (id: string, date: Date) => void;
   removeRelapse: (id: string, date: Date) => void;
-  sorting: AddictionSorting;
-  setSorting: (sorting: AddictionSorting) => void;
 }
 
 export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
   set,
   get,
 ) => ({
+  sorting: {
+    direction: 'desc',
+    field: 'name',
+  },
+  setSorting: (sorting: AddictionSorting) => set({ sorting }),
   addictions: [],
-  setAddictions: (addictions: Addiction[]) => set({ addictions }),
+  setAddictions: (addictions: Addiction[]) =>
+    set(
+      produce(state => {
+        state.addictions = addictions.sort(getSortingFunction(state.sorting));
+        return state;
+      }),
+    ),
   add: (addiction: Addiction) =>
     set(
       produce(state => {
-        state.addictions = [...state.addictions, addiction].sort(
-          state.sorting.function,
+        state.addictions.push(addiction);
+        state.addictions = state.addictions.sort(
+          getSortingFunction(state.sorting),
         );
-
         return state;
       }),
     ),
@@ -46,7 +56,9 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
 
         Object.assign(a, addiction);
 
-        state.addictions = state.addictions.sort(state.sorting.function);
+        state.addictions = state.addictions.sort(
+          getSortingFunction(state.sorting),
+        );
 
         return state;
       }),
@@ -74,7 +86,9 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
 
         addiction.relapses.push(date);
 
-        state.addictions = state.addictions.sort(state.sorting.function);
+        state.addictions = state.addictions.sort(
+          getSortingFunction(state.sorting),
+        );
 
         return state;
       }),
@@ -93,18 +107,33 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
           (relapse: Date) => relapse.getTime() !== date.getTime(),
         );
 
-        state.addictions = state.addictions.sort(state.sorting.function);
+        state.addictions = state.addictions.sort(
+          getSortingFunction(state.sorting),
+        );
 
         return state;
       }),
     );
   },
-  sorting: {
-    function: (a: Addiction, b: Addiction) => {
-      return b.createdAt.getTime() - a.createdAt.getTime();
-    },
-    direction: 'desc',
-    field: 'createdAt',
-  },
-  setSorting: (sorting: AddictionSorting) => set({ sorting }),
 });
+
+const getSortingFunction = (sorting: AddictionSorting) => {
+  const { direction, field } = sorting;
+
+  console.log(field, direction);
+
+  if (field === 'createdAt') {
+    return (a: Addiction, b: Addiction) => {
+      if (direction === 'asc') {
+        return a.createdAt.getTime() - b.createdAt.getTime();
+      }
+
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    };
+  } else {
+    return (a: Addiction, b: Addiction) => {
+      console.log(typeof a[field]);
+      return 1;
+    };
+  }
+};
