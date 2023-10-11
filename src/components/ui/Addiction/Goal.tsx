@@ -8,18 +8,18 @@ import { Bold } from '@/components/ui/Text';
 import i18n from '@/i18n';
 
 interface GoalProps {
-  addiction: Addiction;
-  refresh?: boolean;
+  lastRelapse: Date;
+  absenceTime: number;
 }
 
-const Goal: FC<GoalProps> = ({ addiction, refresh }) => {
+const Goal: FC<GoalProps> = ({ lastRelapse, absenceTime }) => {
   return (
     <View style={style.progressContainer}>
       <Bold variant="labelSmall">
         {i18n.t(['labels', 'goal']).toUpperCase()}
       </Bold>
       <View style={style.progressGoal}>
-        <GoalProgress refresh={refresh} addiction={addiction} />
+        <GoalProgress lastRelapse={lastRelapse} absenceTime={absenceTime} />
       </View>
     </View>
   );

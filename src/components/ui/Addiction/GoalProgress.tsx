@@ -5,29 +5,22 @@ import { ProgressBar, ProgressBarProps, Text } from 'react-native-paper';
 
 import { style } from './style';
 
-import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
-import { useLastRelapse } from '@/hooks/addiction/useLastRelapse';
 import i18n from '@/i18n';
 import { useTheme } from '@/theme';
 import { getGoal } from '@/utils';
 
 interface GoalProgressProps extends ProgressBarProps {
-  addiction: Addiction;
-  refresh?: boolean;
+  lastRelapse: Date;
+  absenceTime: number;
 }
 
 const GoalProgress: FC<GoalProgressProps> = ({
-  addiction,
-  refresh = true,
+  lastRelapse,
+  absenceTime,
   style: progressStyle,
   ...props
 }) => {
   const { colors } = useTheme();
-  const { absenceTime } = useAbsenceTime({
-    addiction,
-    refresh,
-  });
-  const lastRelapse = useLastRelapse({ addiction });
   const goal = getGoal(lastRelapse);
 
   const progress = useMemo(() => {

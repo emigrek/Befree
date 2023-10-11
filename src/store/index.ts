@@ -8,15 +8,19 @@ import {
   CreationWizardSlice,
   createCreationWizardSlice,
 } from './creationWizard';
+import { SelectionSlice, createSelectionSlice } from './selection';
 import { SessionSlice, createSessionSlice } from './session';
 import { ThemeSlice, createThemeSlice } from './theme';
 
-export const useGlobalStore = create<ThemeSlice & AppSlice & AddictionsSlice>()(
+export const useGlobalStore = create<
+  ThemeSlice & AppSlice & AddictionsSlice & SelectionSlice
+>()(
   persist(
     (...a) => ({
       ...createThemeSlice(...a),
       ...createAppSlice(...a),
       ...createAddictionsSlice(...a),
+      ...createSelectionSlice(...a),
     }),
     {
       name: 'global-storage',

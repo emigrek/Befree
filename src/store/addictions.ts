@@ -31,7 +31,7 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
   setAddictions: (addictions: Addiction[]) =>
     set(
       produce(state => {
-        state.addictions = addictions.sort(getSortingFunction(state.sorting));
+        state.addictions = addictions;
         return state;
       }),
     ),
@@ -39,9 +39,6 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
     set(
       produce(state => {
         state.addictions.push(addiction);
-        state.addictions = state.addictions.sort(
-          getSortingFunction(state.sorting),
-        );
         return state;
       }),
     ),
@@ -55,11 +52,6 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
         if (!a) return;
 
         Object.assign(a, addiction);
-
-        state.addictions = state.addictions.sort(
-          getSortingFunction(state.sorting),
-        );
-
         return state;
       }),
     );
@@ -86,10 +78,6 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
 
         addiction.relapses.push(date);
 
-        state.addictions = state.addictions.sort(
-          getSortingFunction(state.sorting),
-        );
-
         return state;
       }),
     );
@@ -107,33 +95,37 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
           (relapse: Date) => relapse.getTime() !== date.getTime(),
         );
 
-        state.addictions = state.addictions.sort(
-          getSortingFunction(state.sorting),
-        );
-
         return state;
       }),
     );
   },
 });
 
-const getSortingFunction = (sorting: AddictionSorting) => {
-  const { direction, field } = sorting;
+export const getSortingFunction = (sorting: AddictionSorting) => {
+  return (a: Addiction, b: Addiction) => {
+    const { field, direction } = sorting;
 
-  console.log(field, direction);
+    const aField = a[field];
+    const bField = b[field];
 
-  if (field === 'createdAt') {
-    return (a: Addiction, b: Addiction) => {
-      if (direction === 'asc') {
-        return a.createdAt.getTime() - b.createdAt.getTime();
-      }
+    if (aField == null || bField == null) {
+      return 0;
+    }
 
-      return b.createdAt.getTime() - a.createdAt.getTime();
-    };
-  } else {
-    return (a: Addiction, b: Addiction) => {
-      console.log(typeof a[field]);
-      return 1;
-    };
-  }
+    if (field === 'createdAt') {
+      const aDate = new Date(aField as Date);
+      const bDate = new Date(bField as Date);
+
+      return direction === 'asc'
+        ? aDate.getTime() - bDate.getTime()
+        : bDate.getTime() - aDate.getTime();
+    } else {
+      const aString = aField as string;
+      const bString = bField as string;
+
+      return direction === 'asc'
+        ? aString.localeCompare(bString)
+        : bString.localeCompare(aString);
+    }
+  };
 };

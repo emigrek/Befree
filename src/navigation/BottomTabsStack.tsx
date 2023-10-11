@@ -66,8 +66,9 @@ const BottomTabsStack = () => {
       </Navigator.Navigator>
       <FAB
         icon="plus"
-        customSize={50}
-        color={colors.inverseOnSurface}
+        customSize={60}
+        color={colors.onPrimaryContainer}
+        style={{ backgroundColor: colors.primaryContainer }}
         mode={'flat'}
         onPress={() => navigate('Add')}
       />

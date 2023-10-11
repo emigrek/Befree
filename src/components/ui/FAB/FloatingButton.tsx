@@ -26,7 +26,7 @@ const FAB: FC<FABProps> = ({ style, ...props }) => {
 const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
-    right: 20,
+    right: 25,
     bottom: 75,
   },
 });

@@ -1,123 +1,72 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { FC, useCallback } from 'react';
-import { GestureResponderEvent, View } from 'react-native';
-import { Menu, Text, TouchableRipple, useTheme } from 'react-native-paper';
+import { View } from 'react-native';
+import { Text, TouchableRipple, useTheme } from 'react-native-paper';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 import { AbsenceIndicator } from './AbsenceIndicator';
 import { Goal } from './Goal';
 import { Image } from './Image';
 import { style } from './style';
-import { useLongPressMenu } from './useLongPressMenu';
 
-import i18n from '@/i18n';
+import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
+import { useLastRelapse } from '@/hooks/addiction/useLastRelapse';
+import { useSelected } from '@/hooks/selection/useSelected';
 import { ModalStackNavigationProp } from '@/navigation/types';
-import { relapseAddiction, removeAddiction } from '@/services/firestore';
-import { useAuthStore, useGlobalStore } from '@/store';
 
-const ITEM_HEIGHT = 100;
+const ITEM_HEIGHT = 98;
 
 const Addiction: FC<Addiction> = addiction => {
   const { image, name, id } = addiction;
   const { colors } = useTheme();
-
-  const { visible, showMenu, hideMenu, anchor } = useLongPressMenu();
-  const { storeAddRelapse, storeRemoveRelapse, storeAdd, storeRemove } =
-    useGlobalStore(state => ({
-      storeAddRelapse: state.addRelapse,
-      storeRemoveRelapse: state.removeRelapse,
-      storeAdd: state.add,
-      storeRemove: state.remove,
-    }));
-  const user = useAuthStore(state => state.user);
+  const { absenceTime } = useAbsenceTime({ addiction });
+  const lastRelapse = useLastRelapse({ addiction });
+  const { isSelected, toggleSelected } = useSelected({ id });
 
   const navigation = useNavigation<ModalStackNavigationProp>();
 
   const handleAddictionPress = useCallback(() => {
-    navigation.navigate('Addiction', { id });
+    navigation.navigate('Addiction', {
+      id,
+    });
   }, [navigation, id]);
 
-  const handleLongPress = useCallback(
-    (event: GestureResponderEvent) => {
-      showMenu(event.nativeEvent.pageX, event.nativeEvent.pageY);
-    },
-    [showMenu],
-  );
+  const handleLongPress = useCallback(() => {
+    toggleSelected();
+  }, [toggleSelected]);
 
-  const handleRelapse = useCallback(() => {
-    if (!user) return;
-    const date = new Date();
-
-    hideMenu();
-    storeAddRelapse(addiction.id, date);
-    relapseAddiction({
-      user,
-      addiction,
-    }).catch(() => {
-      storeRemoveRelapse(addiction.id, date);
-    });
-  }, [user, addiction, hideMenu, storeAddRelapse, storeRemoveRelapse]);
-
-  const handleRemove = useCallback(() => {
-    if (!user) return;
-
-    hideMenu();
-    storeRemove(id);
-    removeAddiction({
-      user,
-      id,
-    }).catch(() => {
-      storeAdd(addiction);
-    });
-  }, [user, id, hideMenu, storeRemove, storeAdd, addiction]);
+  const addictionStyle = useAnimatedStyle(() => {
+    return {
+      backgroundColor: isSelected ? colors.secondaryContainer : 'transparent',
+    };
+  }, [isSelected]);
 
   return (
-    <>
-      <TouchableRipple
-        rippleColor={colors.onSecondary}
-        onPress={handleAddictionPress}
-        onLongPress={handleLongPress}
-        style={[
-          { height: ITEM_HEIGHT },
-          visible && {
-            backgroundColor: colors.onSecondary,
-          },
-        ]}
-      >
-        <View style={[style.surface]}>
-          <Image image={image} name={name} />
-          <View style={style.textContainer}>
-            <Text variant={'titleSmall'}>{name}</Text>
-            <View style={style.details}>
-              <AbsenceIndicator
-                addiction={addiction}
-                style={{ color: colors.primary }}
-                variant={'titleLarge'}
-              />
-              <Goal addiction={addiction} />
-            </View>
+    <TouchableRipple
+      rippleColor={colors.secondaryContainer}
+      onPress={handleAddictionPress}
+      onLongPress={handleLongPress}
+      style={[
+        {
+          height: ITEM_HEIGHT,
+        },
+      ]}
+    >
+      <Animated.View style={[style.surface, addictionStyle]}>
+        <Image image={image} name={name} />
+        <View style={style.textContainer}>
+          <Text variant={'titleSmall'}>{name}</Text>
+          <View style={style.details}>
+            <AbsenceIndicator
+              absenceTime={absenceTime}
+              style={{ color: colors.primary }}
+              variant={'titleLarge'}
+            />
+            <Goal absenceTime={absenceTime} lastRelapse={lastRelapse} />
           </View>
         </View>
-      </TouchableRipple>
-      <Menu
-        visible={visible}
-        onDismiss={hideMenu}
-        contentStyle={{ backgroundColor: colors.background }}
-        anchorPosition="top"
-        anchor={anchor}
-      >
-        <Menu.Item
-          leadingIcon={'restart'}
-          onPress={handleRelapse}
-          title={i18n.t(['labels', 'relapse'])}
-        />
-        <Menu.Item
-          leadingIcon={'delete'}
-          titleStyle={{ color: colors.error }}
-          onPress={handleRemove}
-          title={i18n.t(['labels', 'remove'])}
-        />
-      </Menu>
-    </>
+      </Animated.View>
+    </TouchableRipple>
   );
 };
 

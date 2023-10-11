@@ -6,7 +6,7 @@ import { CreationWizardStack } from './CreationWizardStack';
 import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
-import { Addiction } from '@/components/screens/Addiction';
+import { AddictionScreen } from '@/components/screens/Addiction';
 import i18n from '@/i18n';
 
 const Navigator = createStackNavigator<ModalsStackParamList>();
@@ -43,7 +43,7 @@ const ModalsStack = () => {
       />
       <Navigator.Screen
         name="Addiction"
-        component={Addiction}
+        component={AddictionScreen}
         options={{
           headerShown: true,
           title: undefined,

@@ -1,26 +1,22 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { TextProps } from 'react-native-paper';
 
 import { Bold } from '@/components/ui/Text';
-import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { formatAbsenceTime } from '@/utils/formatAbsenceTime';
 
 interface AbsenceIndicatorProps extends Omit<TextProps<string>, 'children'> {
-  addiction: Addiction;
-  refresh?: boolean;
+  absenceTime: number;
 }
 
 const AbsenceIndicator: FC<AbsenceIndicatorProps> = ({
-  addiction,
-  refresh = true,
+  absenceTime,
   ...props
 }) => {
-  const { absenceTime } = useAbsenceTime({
-    addiction,
-    refresh,
-  });
+  const formatted = useMemo(() => {
+    return formatAbsenceTime({ absenceTime });
+  }, [absenceTime]);
 
-  return <Bold {...props}>{formatAbsenceTime({ absenceTime })}</Bold>;
+  return <Bold {...props}>{formatted}</Bold>;
 };
 
 export { AbsenceIndicator };
