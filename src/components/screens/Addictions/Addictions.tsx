@@ -35,6 +35,7 @@ const Addictions: FC = () => {
   return (
     <>
       <FlatList
+        style={{ paddingHorizontal: 5 }}
         data={sortedAddictions}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,

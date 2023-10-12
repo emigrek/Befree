@@ -17,7 +17,7 @@ import {
   AddictionScreenProps,
   ModalStackNavigationProp,
 } from '@/navigation/types';
-import { relapseAddiction, removeAddiction } from '@/services/firestore';
+import { relapseAddiction, removeAddiction } from '@/services/queries';
 import { useAuthStore, useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
@@ -41,7 +41,6 @@ const Addiction: React.FC<AddictionProps> = ({ addiction }) => {
     }));
 
   useLayoutEffect(() => {
-    if (!addiction) return;
     navigation.setOptions({
       title: addiction.name,
     });
@@ -77,7 +76,7 @@ const Addiction: React.FC<AddictionProps> = ({ addiction }) => {
   return (
     <View style={style.container}>
       <View style={style.imageNameContainer}>
-        <Image image={addiction.image} name={addiction.name} size={200} />
+        <Image image={addiction.image} name={addiction.name} size={250} />
         <View style={style.progress}>
           <Text variant="titleMedium">{i18n.t(['labels', 'freeFor'])}</Text>
           <AbsenceIndicator

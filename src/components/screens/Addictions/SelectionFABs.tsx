@@ -1,14 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { FAB } from '@/components/ui/FAB';
 import { useAddictions } from '@/hooks/addiction/useAddictions';
-import { removeAddiction } from '@/services/firestore';
+import { removeAddiction } from '@/services/queries';
 import { useAuthStore, useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
 const SelectionFABs = () => {
   const { colors } = useTheme();
   const user = useAuthStore(state => state.user);
+  const [loading, setLoading] = useState(false);
   const { selected, setSelected } = useGlobalStore(state => ({
     selected: state.selected,
     setSelected: state.setSelected,
@@ -19,6 +20,7 @@ const SelectionFABs = () => {
 
   const handleSelectedDelete = useCallback(() => {
     if (!user) return;
+    setLoading(true);
 
     const deletionPromise = selected.map(id => {
       const addiction = sortedAddictions.find(addiction => addiction.id === id);
@@ -28,6 +30,7 @@ const SelectionFABs = () => {
 
     Promise.all(deletionPromise).then(() => {
       setSelected([]);
+      setLoading(false);
     });
   }, [selected, user, sortedAddictions, setSelected]);
 
@@ -52,6 +55,7 @@ const SelectionFABs = () => {
         mode={'flat'}
       />
       <FAB
+        loading={loading}
         icon="trash-can"
         customSize={50}
         style={{

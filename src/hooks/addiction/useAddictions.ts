@@ -1,8 +1,8 @@
 import { User } from 'firebase/auth';
-import { Timestamp, collection, onSnapshot } from 'firebase/firestore';
+import { Timestamp, onSnapshot } from 'firebase/firestore';
 import { useEffect, useMemo, useState } from 'react';
 
-import { firestore } from '@/services/firestore';
+import { addictionsRef } from '@/services/refs/addictions';
 import { useGlobalStore } from '@/store';
 import { getSortingFunction } from '@/store/addictions';
 
@@ -11,6 +11,7 @@ export interface UseAddictionsProps {
 }
 
 export const useAddictions = ({ user }: UseAddictionsProps) => {
+  const { uid } = user;
   const { addictions, setAddictions, sorting } = useGlobalStore(state => ({
     addictions: state.addictions,
     setAddictions: state.setAddictions,
@@ -25,9 +26,7 @@ export const useAddictions = ({ user }: UseAddictionsProps) => {
   useEffect(() => {
     setLoading(true);
 
-    const q = collection(firestore, 'users', user.uid, 'addictions');
-
-    return onSnapshot(q, snapshot => {
+    return onSnapshot(addictionsRef(uid), snapshot => {
       const newAddictions = snapshot.docs.map(doc => ({
         id: doc.id,
         relapses: doc
@@ -44,7 +43,7 @@ export const useAddictions = ({ user }: UseAddictionsProps) => {
       setAddictions(newAddictions);
       setLoading(false);
     });
-  }, [setAddictions, sorting.direction, sorting.field, user.uid]);
+  }, [setAddictions, sorting.direction, sorting.field, uid]);
 
   return { addictions, sortedAddictions, loading };
 };

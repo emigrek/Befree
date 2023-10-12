@@ -3,7 +3,7 @@ import { customAlphabet } from 'nanoid/non-secure';
 import { useCallback } from 'react';
 
 import { ModalStackNavigationProp } from '@/navigation/types';
-import { createAddiction } from '@/services/firestore';
+import { createAddiction } from '@/services/queries';
 import { useImageUpload } from '@/services/storage';
 import { useAuthStore, useGlobalStore } from '@/store';
 

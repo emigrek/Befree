@@ -9,7 +9,7 @@ import { Bold } from '@/components/ui/Text';
 import { useErrorState } from '@/hooks/useErrorState';
 import { useGoogleAuth } from '@/hooks/useGoogleAuth';
 import i18n from '@/i18n';
-import { createUser } from '@/services/firestore';
+import { createUser } from '@/services/queries';
 
 const Authentication: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -19,7 +19,7 @@ const Authentication: FC = () => {
     successCallback: useCallback(
       (credential: UserCredential) => {
         setLoading(false);
-        createUser(credential);
+        createUser({ credential });
         clear();
       },
       [clear],

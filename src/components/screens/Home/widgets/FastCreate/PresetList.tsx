@@ -30,7 +30,7 @@ const PresetList = () => {
 export const style = StyleSheet.create({
   flatlist: {
     paddingHorizontal: 6,
-    paddingVertical: 5,
+    paddingVertical: 6,
   },
 });
 

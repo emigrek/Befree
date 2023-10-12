@@ -46,13 +46,16 @@ const Addiction: FC<Addiction> = addiction => {
       rippleColor={colors.secondaryContainer}
       onPress={handleAddictionPress}
       onLongPress={handleLongPress}
-      style={[
-        {
-          height: ITEM_HEIGHT,
-        },
-      ]}
     >
-      <Animated.View style={[style.surface, addictionStyle]}>
+      <Animated.View
+        style={[
+          style.surface,
+          addictionStyle,
+          {
+            height: ITEM_HEIGHT,
+          },
+        ]}
+      >
         <Image image={image} name={name} />
         <View style={style.textContainer}>
           <Text variant={'titleSmall'}>{name}</Text>
