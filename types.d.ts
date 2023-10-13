@@ -10,6 +10,7 @@ interface Addiction {
   id: string;
   name: string;
   relapses: Date[];
+  lastRelapse: Date;
   image: string | null;
   tags: string[];
   createdAt: Date;

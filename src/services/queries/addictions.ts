@@ -51,10 +51,12 @@ export const relapseAddiction = ({
   addiction,
 }: RelapseAddictionProps) => {
   const { id, relapses } = addiction;
+  const date = new Date();
 
-  const newRelapses = [...relapses, new Date()];
+  const newRelapses = [...relapses, date];
 
   return updateDoc(addictionRef(user.uid, id), {
     relapses: newRelapses,
+    lastRelapse: date,
   });
 };

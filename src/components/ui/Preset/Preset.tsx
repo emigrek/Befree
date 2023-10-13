@@ -23,6 +23,7 @@ const Preset: FC<PresetProps> = ({ name }) => {
     const addiction = {
       name,
       relapses: [new Date()],
+      lastRelapse: new Date(),
       image: null,
       tags: [],
     };

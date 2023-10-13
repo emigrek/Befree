@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/Addiction';
 import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
-import { useLastRelapse } from '@/hooks/addiction/useLastRelapse';
 import i18n from '@/i18n';
 import {
   AddictionScreenProps,
@@ -26,11 +25,11 @@ interface AddictionProps {
 }
 
 const Addiction: React.FC<AddictionProps> = ({ addiction }) => {
-  const { id } = addiction;
+  const { id, lastRelapse } = addiction;
   const user = useAuthStore(state => state.user);
   const { colors } = useTheme();
   const navigation = useNavigation<ModalStackNavigationProp>();
-  const lastRelapse = useLastRelapse({ addiction });
+  // const lastRelapse = useLastRelapse({ addiction });
   const { absenceTime } = useAbsenceTime({ addiction });
   const { storeAddRelapse, storeRemoveRelapse, storeAdd, storeRemove } =
     useGlobalStore(state => ({

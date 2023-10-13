@@ -10,17 +10,16 @@ import { Image } from './Image';
 import { style } from './style';
 
 import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
-import { useLastRelapse } from '@/hooks/addiction/useLastRelapse';
 import { useSelected } from '@/hooks/selection/useSelected';
 import { ModalStackNavigationProp } from '@/navigation/types';
 
 const ITEM_HEIGHT = 98;
 
 const Addiction: FC<Addiction> = addiction => {
-  const { image, name, id } = addiction;
+  const { image, name, lastRelapse, id } = addiction;
   const { colors } = useTheme();
   const { absenceTime } = useAbsenceTime({ addiction });
-  const lastRelapse = useLastRelapse({ addiction });
+  // const lastRelapse = useLastRelapse({ addiction });
   const { isSelected, toggleSelected } = useSelected({ id });
 
   const navigation = useNavigation<ModalStackNavigationProp>();

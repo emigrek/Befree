@@ -23,7 +23,7 @@ export const useAddictionCreator = () => {
       if (!user) return;
 
       const { uid } = user;
-      const { name, relapses, image, tags } = addiction;
+      const { name, relapses, lastRelapse, image, tags } = addiction;
       const addictionId = nanoid();
 
       const imageUrl = image
@@ -34,10 +34,12 @@ export const useAddictionCreator = () => {
         id: addictionId,
         name,
         relapses,
+        lastRelapse,
         image: imageUrl,
         tags,
         createdAt: new Date(),
       };
+
       storeAdd(newAddiction);
       modalStackNavigation.navigate('BottomTabs', {
         screen: 'Addictions',

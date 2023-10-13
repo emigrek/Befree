@@ -32,6 +32,7 @@ export const useAddictions = ({ user }: UseAddictionsProps) => {
         relapses: doc
           .get('relapses')
           .map((relapse: Timestamp) => relapse.toDate()),
+        lastRelapse: doc.get('lastRelapse').toDate(),
         name: doc.get('name'),
         image: doc.get('image'),
         tags: doc.get('tags'),

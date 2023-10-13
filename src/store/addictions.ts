@@ -77,6 +77,7 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
         if (!addiction) return;
 
         addiction.relapses.push(date);
+        addiction.lastRelapse = date;
 
         return state;
       }),
@@ -91,9 +92,12 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
 
         if (!addiction) return;
 
-        addiction.relapses = addiction.relapses.filter(
+        const relapses = addiction.relapses.filter(
           (relapse: Date) => relapse.getTime() !== date.getTime(),
         );
+
+        addiction.relapses = relapses;
+        addiction.lastRelapse = addiction.relapses[0];
 
         return state;
       }),
@@ -112,7 +116,7 @@ export const getSortingFunction = (sorting: AddictionSorting) => {
       return 0;
     }
 
-    if (field === 'createdAt') {
+    if (field === 'createdAt' || field === 'lastRelapse') {
       const aDate = new Date(aField as Date);
       const bDate = new Date(bField as Date);
 
