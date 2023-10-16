@@ -21,7 +21,7 @@ const GoalProgress: FC<GoalProgressProps> = ({
   ...props
 }) => {
   const { colors } = useTheme();
-  const goal = getGoal(lastRelapse);
+  const goal = getGoal(new Date(lastRelapse));
 
   const progress = useMemo(() => {
     const total = differenceInMilliseconds(goal.goalAt, new Date(lastRelapse));

@@ -116,20 +116,31 @@ export const getSortingFunction = (sorting: AddictionSorting) => {
       return 0;
     }
 
-    if (field === 'createdAt' || field === 'lastRelapse') {
+    const comparingDates = aField instanceof Date && bField instanceof Date;
+    const comparingStrings =
+      typeof aField === 'string' && typeof bField === 'string';
+    const comparingNumbers =
+      typeof aField === 'number' && typeof bField === 'number';
+
+    if (comparingDates) {
       const aDate = new Date(aField as Date);
       const bDate = new Date(bField as Date);
 
       return direction === 'asc'
         ? aDate.getTime() - bDate.getTime()
         : bDate.getTime() - aDate.getTime();
-    } else {
+    } else if (comparingStrings) {
       const aString = aField as string;
       const bString = bField as string;
 
       return direction === 'asc'
         ? aString.localeCompare(bString)
         : bString.localeCompare(aString);
+    } else if (comparingNumbers) {
+      const aNumber = aField as number;
+      const bNumber = bField as number;
+
+      return direction === 'asc' ? aNumber - bNumber : bNumber - aNumber;
     }
   };
 };

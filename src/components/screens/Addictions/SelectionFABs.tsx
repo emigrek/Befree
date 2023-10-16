@@ -1,14 +1,24 @@
-import React, { useCallback, useState } from 'react';
+import { User } from 'firebase/auth';
+import React, { FC, useCallback, useState } from 'react';
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { FAB } from '@/components/ui/FAB';
-import { useAddictions } from '@/hooks/addiction/useAddictions';
 import { removeAddiction } from '@/services/queries';
-import { useAuthStore, useGlobalStore } from '@/store';
+import { useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
-const SelectionFABs = () => {
+const AnimatedFAB = Animated.createAnimatedComponent(FAB);
+
+interface SelectionFABsProps {
+  user: User;
+  addictions: Addiction[];
+}
+
+const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
   const { colors } = useTheme();
-  const user = useAuthStore(state => state.user);
   const [loading, setLoading] = useState(false);
   const { selected, setSelected } = useGlobalStore(state => ({
     selected: state.selected,
@@ -16,14 +26,20 @@ const SelectionFABs = () => {
     storeRemove: state.remove,
     storeAdd: state.add,
   }));
-  const { sortedAddictions } = useAddictions({ user: user! });
+
+  const fabStyle = useAnimatedStyle(() => {
+    return {
+      right: withTiming(selected.length > 0 ? 30 : -50),
+      backgroundColor: colors.secondaryContainer,
+    };
+  }, [selected]);
 
   const handleSelectedDelete = useCallback(() => {
     if (!user) return;
     setLoading(true);
 
     const deletionPromise = selected.map(id => {
-      const addiction = sortedAddictions.find(addiction => addiction.id === id);
+      const addiction = addictions.find(addiction => addiction.id === id);
       if (!addiction) return Promise.resolve();
       return removeAddiction({ user, id });
     });
@@ -32,37 +48,37 @@ const SelectionFABs = () => {
       setSelected([]);
       setLoading(false);
     });
-  }, [selected, user, sortedAddictions, setSelected]);
+  }, [addictions, user, selected, setSelected]);
 
   const handleSelectionCancel = useCallback(() => {
     setSelected([]);
   }, [setSelected]);
 
-  if (selected.length <= 0) return null;
-
   return (
     <>
-      <FAB
+      <AnimatedFAB
         icon="close"
         customSize={50}
-        style={{
-          bottom: 160,
-          right: 30,
-          backgroundColor: colors.secondaryContainer,
-        }}
+        style={[
+          {
+            bottom: 160,
+          },
+          fabStyle,
+        ]}
         onPress={handleSelectionCancel}
         color={colors.onSecondaryContainer}
         mode={'flat'}
       />
-      <FAB
+      <AnimatedFAB
         loading={loading}
         icon="trash-can"
         customSize={50}
-        style={{
-          bottom: 100,
-          right: 30,
-          backgroundColor: colors.secondaryContainer,
-        }}
+        style={[
+          {
+            bottom: 100,
+          },
+          fabStyle,
+        ]}
         onPress={handleSelectedDelete}
         color={colors.onSecondaryContainer}
         mode={'flat'}

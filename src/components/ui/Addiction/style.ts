@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
 
+export const ADDICTION_ITEM_HEIGHT = 100;
+
 export const style = StyleSheet.create({
   surface: {
-    marginVertical: 4,
-    borderRadius: 10,
+    height: ADDICTION_ITEM_HEIGHT,
     flexDirection: 'row',
-    paddingVertical: 10,
     paddingHorizontal: 15,
     alignItems: 'center',
     justifyContent: 'center',
@@ -51,7 +51,7 @@ export const style = StyleSheet.create({
   },
   progress: {
     width: 135,
-    height: 7,
+    height: 6,
     borderRadius: 4,
   },
   name: {

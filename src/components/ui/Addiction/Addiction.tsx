@@ -1,25 +1,31 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { FC, useCallback } from 'react';
 import { View } from 'react-native';
-import { Text, TouchableRipple, useTheme } from 'react-native-paper';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import { Text, useTheme } from 'react-native-paper';
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { AbsenceIndicator } from './AbsenceIndicator';
 import { Goal } from './Goal';
 import { Image } from './Image';
 import { style } from './style';
 
+import { TouchableRipple } from '@/components/ui/TouchableRipple';
 import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { useSelected } from '@/hooks/selection/useSelected';
 import { ModalStackNavigationProp } from '@/navigation/types';
 
-const ITEM_HEIGHT = 98;
+const AnimatedTouchableRipple =
+  Animated.createAnimatedComponent(TouchableRipple);
+
+const ITEM_HEIGHT = 100;
 
 const Addiction: FC<Addiction> = addiction => {
   const { image, name, lastRelapse, id } = addiction;
   const { colors } = useTheme();
   const { absenceTime } = useAbsenceTime({ addiction });
-  // const lastRelapse = useLastRelapse({ addiction });
   const { isSelected, toggleSelected } = useSelected({ id });
 
   const navigation = useNavigation<ModalStackNavigationProp>();
@@ -36,25 +42,20 @@ const Addiction: FC<Addiction> = addiction => {
 
   const addictionStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: isSelected ? colors.secondaryContainer : 'transparent',
+      backgroundColor: withTiming(
+        isSelected ? colors.secondaryContainer : 'transparent',
+      ),
     };
   }, [isSelected]);
 
   return (
-    <TouchableRipple
+    <AnimatedTouchableRipple
       rippleColor={colors.secondaryContainer}
       onPress={handleAddictionPress}
       onLongPress={handleLongPress}
+      style={[style.surface, addictionStyle]}
     >
-      <Animated.View
-        style={[
-          style.surface,
-          addictionStyle,
-          {
-            height: ITEM_HEIGHT,
-          },
-        ]}
-      >
+      <>
         <Image image={image} name={name} />
         <View style={style.textContainer}>
           <Text variant={'titleSmall'}>{name}</Text>
@@ -67,8 +68,8 @@ const Addiction: FC<Addiction> = addiction => {
             <Goal absenceTime={absenceTime} lastRelapse={lastRelapse} />
           </View>
         </View>
-      </Animated.View>
-    </TouchableRipple>
+      </>
+    </AnimatedTouchableRipple>
   );
 };
 

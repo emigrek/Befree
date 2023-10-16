@@ -7,7 +7,7 @@ import { SelectionFABs } from './SelectionFABs';
 
 import { Loading } from '@/components/screens/Loading';
 import { Addiction } from '@/components/ui/Addiction';
-import { ITEM_HEIGHT } from '@/components/ui/Addiction/Addiction';
+import { ADDICTION_ITEM_HEIGHT } from '@/components/ui/Addiction/style';
 import { useAddictions } from '@/hooks/addiction/useAddictions';
 import { useAuthStore } from '@/store';
 
@@ -35,18 +35,17 @@ const Addictions: FC = () => {
   return (
     <>
       <FlatList
-        style={{ paddingHorizontal: 5 }}
         data={sortedAddictions}
         getItemLayout={(data, index) => ({
-          length: ITEM_HEIGHT,
-          offset: ITEM_HEIGHT * index,
+          length: ADDICTION_ITEM_HEIGHT,
+          offset: ADDICTION_ITEM_HEIGHT * index,
           index,
         })}
         ItemSeparatorComponent={renderDivider}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
-      <SelectionFABs />
+      {user && <SelectionFABs user={user} addictions={sortedAddictions} />}
     </>
   );
 };
