@@ -93,6 +93,19 @@ const pl: Translation = {
       dim: 'Przyciemnienie',
       device: 'Użyj ustawień urządzenia',
     },
+    sorting: {
+      fieldTitle: 'Sortuj według',
+      directionTitle: 'Kierunek',
+      directions: {
+        asc: 'Rosnąco',
+        desc: 'Malejąco',
+      },
+      fields: {
+        createdAt: 'Data utworzenia',
+        lastRelapse: 'Ostatnia wpadka',
+        name: 'Nazwa',
+      },
+    },
   },
   widgets: {
     fastCreate: {

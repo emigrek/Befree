@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Divider, RadioButton, Text } from 'react-native-paper';
 
-import { radioStyle } from './radiosStyle';
+import { radiosStyle } from './radiosStyle';
 
 import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
@@ -22,8 +22,8 @@ const ThemeRadios = () => {
   };
 
   return (
-    <View style={radioStyle.container}>
-      <Text style={radioStyle.title} variant="titleLarge">
+    <View style={radiosStyle.container}>
+      <Text style={radiosStyle.title} variant="titleLarge">
         {i18n.t(['bottomSheets', 'theme', 'themeTitle'])}
       </Text>
       <Divider />

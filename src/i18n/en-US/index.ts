@@ -93,6 +93,19 @@ const enUS: Translation = {
       dim: 'Dim',
       device: 'Use device settings',
     },
+    sorting: {
+      fieldTitle: 'Sort by',
+      directionTitle: 'Direction',
+      directions: {
+        asc: 'Ascending',
+        desc: 'Descending',
+      },
+      fields: {
+        createdAt: 'Creation date',
+        lastRelapse: 'Last relapse',
+        name: 'Name',
+      },
+    },
   },
   widgets: {
     fastCreate: {

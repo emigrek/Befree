@@ -79,6 +79,19 @@ export interface Translation {
       dim: string;
       device: string;
     };
+    sorting: {
+      fieldTitle: string;
+      directionTitle: string;
+      directions: {
+        asc: string;
+        desc: string;
+      };
+      fields: {
+        name: string;
+        lastRelapse: string;
+        createdAt: string;
+      };
+    };
   };
   widgets: {
     fastCreate: {

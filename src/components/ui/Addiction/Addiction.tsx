@@ -20,8 +20,6 @@ import { ModalStackNavigationProp } from '@/navigation/types';
 const AnimatedTouchableRipple =
   Animated.createAnimatedComponent(TouchableRipple);
 
-const ITEM_HEIGHT = 100;
-
 const Addiction: FC<Addiction> = addiction => {
   const { image, name, lastRelapse, id } = addiction;
   const { colors } = useTheme();
@@ -53,6 +51,7 @@ const Addiction: FC<Addiction> = addiction => {
       rippleColor={colors.secondaryContainer}
       onPress={handleAddictionPress}
       onLongPress={handleLongPress}
+      delayLongPress={100}
       style={[style.surface, addictionStyle]}
     >
       <>
@@ -73,4 +72,4 @@ const Addiction: FC<Addiction> = addiction => {
   );
 };
 
-export { Addiction, ITEM_HEIGHT };
+export { Addiction };
