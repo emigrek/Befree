@@ -1,12 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { useWindowDimensions } from 'react-native';
 
+import { AddictionStack } from './AddictionStack';
 import { BottomTabsStack } from './BottomTabsStack';
 import { CreationWizardStack } from './CreationWizardStack';
 import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
-import { AddictionScreen } from '@/components/screens/Addiction';
 import i18n from '@/i18n';
 
 const Navigator = createStackNavigator<ModalsStackParamList>();
@@ -43,9 +43,9 @@ const ModalsStack = () => {
       />
       <Navigator.Screen
         name="Addiction"
-        component={AddictionScreen}
+        component={AddictionStack}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: undefined,
           presentation: 'modal',
           gestureEnabled: true,

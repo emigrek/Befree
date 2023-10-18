@@ -13,23 +13,22 @@ import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import {
-  AddictionScreenProps,
   ModalStackNavigationProp,
+  ProgressScreenProps,
 } from '@/navigation/types';
 import { relapseAddiction, removeAddiction } from '@/services/queries';
 import { useAuthStore, useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
-interface AddictionProps {
+interface ProgressProps {
   addiction: Addiction;
 }
 
-const Addiction: React.FC<AddictionProps> = ({ addiction }) => {
+const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   const { id, lastRelapse } = addiction;
   const user = useAuthStore(state => state.user);
   const { colors } = useTheme();
   const navigation = useNavigation<ModalStackNavigationProp>();
-  // const lastRelapse = useLastRelapse({ addiction });
   const { absenceTime } = useAbsenceTime({ addiction });
   const { storeAddRelapse, storeRemoveRelapse, storeAdd, storeRemove } =
     useGlobalStore(state => ({
@@ -109,7 +108,7 @@ const Addiction: React.FC<AddictionProps> = ({ addiction }) => {
   );
 };
 
-const AddictionScreen: React.FC<AddictionScreenProps> = ({ route }) => {
+const ProgressScreen: React.FC<ProgressScreenProps> = ({ route }) => {
   const { id } = route.params;
   const addiction = useAddiction({ id });
 
@@ -117,7 +116,7 @@ const AddictionScreen: React.FC<AddictionScreenProps> = ({ route }) => {
     return <Loading />;
   }
 
-  return <Addiction addiction={addiction} />;
+  return <Progress addiction={addiction} />;
 };
 
 const style = StyleSheet.create({
@@ -149,4 +148,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { AddictionScreen };
+export { ProgressScreen };

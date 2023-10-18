@@ -1,1 +1,1 @@
-export { AddictionScreen } from './Addiction';
+export { ProgressScreen } from './Progress';

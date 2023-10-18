@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
-import { RootStack } from '@/navigation';
+import { RootStack } from '@/navigation/RootStack';
 import { useGlobalStore } from '@/store';
 import { AppSlice } from '@/store/app';
 import { ThemeSlice } from '@/store/theme';

@@ -30,7 +30,8 @@ const Addiction: FC<Addiction> = addiction => {
 
   const handleAddictionPress = useCallback(() => {
     navigation.navigate('Addiction', {
-      id,
+      screen: 'Progress',
+      params: { id },
     });
   }, [navigation, id]);
 

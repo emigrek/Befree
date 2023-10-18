@@ -98,4 +98,4 @@ const TabBarIcon = ({
   );
 };
 
-export { BottomTabsStack };
+export { BottomTabsStack, TabBarIcon };

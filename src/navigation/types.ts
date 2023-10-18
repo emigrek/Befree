@@ -12,12 +12,16 @@ export type BottomTabsStackParamList = {
   Addictions: undefined;
 };
 
+export type AddictionStackParamList = {
+  Progress: {
+    id: string;
+  };
+};
+
 export type ModalsStackParamList = {
   BottomTabs: NavigatorScreenParams<BottomTabsStackParamList>;
   Add: undefined;
-  Addiction: {
-    id: string;
-  };
+  Addiction: NavigatorScreenParams<AddictionStackParamList>;
 };
 
 export type CreationStackParamList = {
@@ -37,7 +41,7 @@ export type CreationStackNavigationProp =
 
 export type AddScreenProps = StackScreenProps<ModalsStackParamList, 'Add'>;
 
-export type AddictionScreenProps = StackScreenProps<
-  ModalsStackParamList,
-  'Addiction'
+export type ProgressScreenProps = StackScreenProps<
+  AddictionStackParamList,
+  'Progress'
 >;
