@@ -5,6 +5,7 @@ import { AddictionStackParamList } from './types';
 
 import { AddictionHeader } from '@/components/headers';
 import { ProgressScreen } from '@/components/screens/Addiction';
+import i18n from '@/i18n';
 import { useTheme } from '@/theme';
 
 const Navigator = createBottomTabNavigator<AddictionStackParamList>();
@@ -29,7 +30,12 @@ const AddictionStack = () => {
   return (
     <Navigator.Navigator
       screenOptions={({ route }) => ({
-        tabBarShowLabel: false,
+        tabBarLabel: i18n.t([
+          'modals',
+          'addiction',
+          route.name.toLowerCase(),
+          'label',
+        ]),
         header: props => <AddictionHeader {...props} />,
         tabBarStyle: {
           borderTopWidth: 1,

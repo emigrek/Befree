@@ -68,7 +68,9 @@ export interface Translation {
       label: string;
     };
     addiction: {
-      label: string;
+      progress: {
+        label: string;
+      };
     };
   };
   bottomSheets: {

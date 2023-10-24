@@ -82,7 +82,9 @@ const pl: Translation = {
       label: 'Dodaj uzależnienie',
     },
     addiction: {
-      label: 'Uzależnienie',
+      progress: {
+        label: 'Postęp',
+      },
     },
   },
   bottomSheets: {

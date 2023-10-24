@@ -82,7 +82,9 @@ const enUS: Translation = {
       label: 'Add addiction',
     },
     addiction: {
-      label: 'Addiction',
+      progress: {
+        label: 'Progress',
+      },
     },
   },
   bottomSheets: {
