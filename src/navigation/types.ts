@@ -1,4 +1,4 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
+import { NavigatorScreenParams, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 
 // PARAM LIST TYPES
@@ -36,6 +36,18 @@ export type ModalStackNavigationProp =
 
 export type CreationStackNavigationProp =
   StackNavigationProp<CreationStackParamList>;
+
+export type AddictionStackNavigationProp = StackNavigationProp<
+  ModalsStackParamList,
+  'Addiction'
+>;
+
+// ROUTE PROP TYPES
+
+export type AddictionStackRouteProp = RouteProp<
+  AddictionStackParamList,
+  'Progress'
+>;
 
 // SCREEN PROPS
 

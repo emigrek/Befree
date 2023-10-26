@@ -1,18 +1,13 @@
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
 import { getHeaderTitle } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Appbar, Text } from 'react-native-paper';
 
-import { ModalsStackParamList } from '@/navigation/types';
+import { EditAction } from '@/components/ui/EditAction';
+import { AddictionStackNavigationProp } from '@/navigation/types';
 import { useTheme } from '@/theme';
-
-type AddictionStackNavigationProp = StackNavigationProp<
-  ModalsStackParamList,
-  'Addiction'
->;
 
 const AddictionHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
   const { colors } = useTheme();
@@ -35,8 +30,21 @@ const AddictionHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
             {title}
           </Text>
         </View>
+        <Actions route={route} />
       </View>
     </Appbar.Header>
+  );
+};
+
+interface ActionsProps {
+  route: BottomTabHeaderProps['route'];
+}
+
+const Actions: FC<ActionsProps> = ({ route }) => {
+  return (
+    <>
+      <EditAction />
+    </>
   );
 };
 
