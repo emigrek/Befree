@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { app } from './firebase';
 export const storage = getStorage(app);
 
-type ImageUploadStatus = UploadTaskSnapshot | StorageError | 'complete' | null;
+type ImageUploadStatus = UploadTaskSnapshot | StorageError | null;
 
 export const useImageUpload = () => {
   const [imageUploadProgress, setImageUploadProgress] = useState(0);
@@ -28,7 +28,7 @@ export const useImageUpload = () => {
   };
 
   const onComplete = () => {
-    setImageUploadStatus('complete');
+    setImageUploadStatus(null);
   };
 
   const upload = async (path: string, uri: string) => {

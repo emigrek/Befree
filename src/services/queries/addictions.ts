@@ -34,7 +34,7 @@ export const removeAddiction = ({ user, id }: RemoveAddictionProps) => {
 export interface EditAddictionProps {
   user: User;
   id: string;
-  addiction: UnidentifiedAddiction;
+  addiction: Partial<UnidentifiedAddiction>;
 }
 
 export const editAddiction = ({ user, id, addiction }: EditAddictionProps) => {

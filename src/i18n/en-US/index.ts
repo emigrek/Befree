@@ -18,6 +18,8 @@ const enUS: Translation = {
     goal: 'Goal',
     relapse: 'Relapse',
     remove: 'Abandon',
+    save: 'Save',
+    name: 'Name',
   },
   screens: {
     home: {
@@ -107,6 +109,10 @@ const enUS: Translation = {
         lastRelapse: 'Last relapse',
         name: 'Name',
       },
+    },
+    edit: {
+      changeImage: 'Change image',
+      removeImage: 'Remove image',
     },
   },
   widgets: {

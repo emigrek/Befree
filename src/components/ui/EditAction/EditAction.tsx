@@ -4,7 +4,7 @@ import BottomSheet, {
 } from '@gorhom/bottom-sheet';
 import { useRoute } from '@react-navigation/native';
 import { useCallback, useRef } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Appbar, Portal, useTheme } from 'react-native-paper';
 
 import { BottomSheetContent } from './BottomSheetContent';
@@ -44,11 +44,13 @@ const EditAction = () => {
           index={-1}
           enablePanDownToClose
           backdropComponent={renderBackdrop}
-          snapPoints={['33%', '56%']}
+          snapPoints={['80%']}
           backgroundStyle={{ backgroundColor: colors.background }}
           handleIndicatorStyle={{ backgroundColor: colors.inverseSurface }}
         >
-          <BottomSheetContent route={route} />
+          <View style={style.container}>
+            <BottomSheetContent route={route} />
+          </View>
         </BottomSheet>
       </Portal>
     </>
@@ -58,8 +60,8 @@ const EditAction = () => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 20,
-    gap: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   action: {
     margin: 0,

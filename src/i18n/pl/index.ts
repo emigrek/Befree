@@ -18,6 +18,8 @@ const pl: Translation = {
     goal: 'Cel',
     relapse: 'Wpadka',
     remove: 'Porzuć',
+    save: 'Zapisz',
+    name: 'Nazwa',
   },
   screens: {
     home: {
@@ -107,6 +109,10 @@ const pl: Translation = {
         lastRelapse: 'Ostatnia wpadka',
         name: 'Nazwa',
       },
+    },
+    edit: {
+      changeImage: 'Zmień obraz',
+      removeImage: 'Usuń obraz',
     },
   },
   widgets: {

@@ -16,6 +16,8 @@ export interface Translation {
     goal: string;
     relapse: string;
     remove: string;
+    save: string;
+    name: string;
   };
   screens: {
     home: {
@@ -93,6 +95,10 @@ export interface Translation {
         lastRelapse: string;
         createdAt: string;
       };
+    };
+    edit: {
+      changeImage: string;
+      removeImage: string;
     };
   };
   widgets: {
