@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 
 import { CreationStackParamList } from './types';
 
+import { Loading } from '@/components/screens';
 import {
   ImageUploading,
   NameAndImage,
@@ -25,14 +26,14 @@ const CreationWizardStack = () => {
       setStartDate: state.setStartDate,
       setLoading: state.setLoading,
     }));
-  const { create, imageUploadProgress, imageUploadStatus } =
+  const { create, imageUploadProgress, imageUploadStatus, creating } =
     useAddictionCreator();
 
-  const onWizardStart = useCallback(() => {
+  const onWizardStart = useCallback(async () => {
     setStartDate(new Date());
   }, [setStartDate]);
 
-  const onWizardComplete = async () => {
+  const onWizardComplete = useCallback(async () => {
     if (!user) return;
 
     const addiction: UnidentifiedAddiction = {
@@ -44,14 +45,18 @@ const CreationWizardStack = () => {
     };
 
     setLoading(true);
-    create(addiction).then(() => {
+    return create(addiction).then(() => {
       setLoading(false);
       reset();
     });
-  };
+  }, [create, image, name, reset, startDate, user, setLoading]);
 
   if (imageUploadStatus) {
     return <ImageUploading progress={imageUploadProgress} />;
+  }
+
+  if (creating) {
+    return <Loading />;
   }
 
   return (

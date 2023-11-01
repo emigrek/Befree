@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { customAlphabet } from 'nanoid/non-secure';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import { ModalStackNavigationProp } from '@/navigation/types';
 import { createAddiction } from '@/services/queries';
@@ -16,11 +16,13 @@ export const useAddictionCreator = () => {
     storeAdd: state.add,
     storeRemove: state.remove,
   }));
+  const [creating, setCreating] = useState(false);
   const user = useAuthStore(state => state.user);
 
   const create = useCallback(
     async (addiction: UnidentifiedAddiction) => {
       if (!user) return;
+      setCreating(true);
 
       const { uid } = user;
       const { name, relapses, lastRelapse, image, tags } = addiction;
@@ -44,18 +46,24 @@ export const useAddictionCreator = () => {
       modalStackNavigation.navigate('BottomTabs', {
         screen: 'Addictions',
       });
+
       return createAddiction({
         addiction: newAddiction,
         user,
-      }).catch(() => {
-        storeRemove(newAddiction.id);
-      });
+      })
+        .catch(() => {
+          storeRemove(newAddiction.id);
+        })
+        .finally(() => {
+          setCreating(false);
+        });
     },
     [modalStackNavigation, storeAdd, storeRemove, upload, user],
   );
 
   return {
     create,
+    creating,
     imageUploadProgress,
     imageUploadStatus,
   };

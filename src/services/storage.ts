@@ -1,6 +1,7 @@
 import {
   StorageError,
   UploadTaskSnapshot,
+  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
@@ -52,4 +53,13 @@ export const useImageUpload = () => {
     imageUploadProgress,
     imageUploadStatus,
   };
+};
+
+export interface DeleteImageProps {
+  path: string;
+}
+
+export const deleteImage = async ({ path }: DeleteImageProps) => {
+  const imageRef = ref(storage, path);
+  return deleteObject(imageRef);
 };

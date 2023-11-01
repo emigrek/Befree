@@ -6,6 +6,8 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
+import { deleteImage } from '../storage';
+
 import { addictionRef } from '@/services/refs';
 
 export interface CreateAddictionProps {
@@ -27,7 +29,14 @@ export interface RemoveAddictionProps {
   id: string;
 }
 
-export const removeAddiction = ({ user, id }: RemoveAddictionProps) => {
+export const removeAddiction = async ({ user, id }: RemoveAddictionProps) => {
+  try {
+    await deleteImage({
+      path: `users/${user.uid}/addictions/${id}`,
+    });
+  } catch (error) {
+    console.log("Couldn't delete image. ", error);
+  }
   return deleteDoc(addictionRef(user.uid, id));
 };
 
