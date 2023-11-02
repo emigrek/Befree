@@ -27,9 +27,16 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
     storeAdd: state.add,
   }));
 
-  const fabStyle = useAnimatedStyle(() => {
+  const closeStyle = useAnimatedStyle(() => {
     return {
-      right: withTiming(selected.length > 0 ? 30 : -50),
+      bottom: withTiming(selected.length > 0 ? 100 : 30),
+      backgroundColor: colors.secondaryContainer,
+    };
+  }, [selected]);
+
+  const deleteStyle = useAnimatedStyle(() => {
+    return {
+      bottom: withTiming(selected.length > 0 ? 160 : 30),
       backgroundColor: colors.secondaryContainer,
     };
   }, [selected]);
@@ -59,12 +66,7 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
       <AnimatedFAB
         icon="close"
         customSize={50}
-        style={[
-          {
-            bottom: 160,
-          },
-          fabStyle,
-        ]}
+        style={closeStyle}
         onPress={handleSelectionCancel}
         color={colors.onSecondaryContainer}
         mode={'flat'}
@@ -73,12 +75,7 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
         loading={loading}
         icon="trash-can"
         customSize={50}
-        style={[
-          {
-            bottom: 100,
-          },
-          fabStyle,
-        ]}
+        style={deleteStyle}
         onPress={handleSelectedDelete}
         color={colors.onSecondaryContainer}
         mode={'flat'}
