@@ -29,14 +29,16 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
 
   const closeStyle = useAnimatedStyle(() => {
     return {
-      bottom: withTiming(selected.length > 0 ? 100 : 30),
+      right: 30,
+      bottom: withTiming(selected.length > 0 ? 160 : 30),
       backgroundColor: colors.secondaryContainer,
     };
   }, [selected]);
 
   const deleteStyle = useAnimatedStyle(() => {
     return {
-      bottom: withTiming(selected.length > 0 ? 160 : 30),
+      right: 30,
+      bottom: withTiming(selected.length > 0 ? 100 : 30),
       backgroundColor: colors.secondaryContainer,
     };
   }, [selected]);

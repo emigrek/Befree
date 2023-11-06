@@ -23,6 +23,7 @@ const EditView: FC<EditViewProps> = ({ addiction }) => {
 
   const [name, setName] = useState<string>(addiction.name);
   const [image, setImage] = useState<string | null>(addiction.image);
+  const [saving, setSaving] = useState<boolean>(false);
 
   const handleImageChange = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -43,12 +44,15 @@ const EditView: FC<EditViewProps> = ({ addiction }) => {
 
   const handleSave = useCallback(async () => {
     if (!user) return;
+    setSaving(true);
 
     const imageChanged = image !== addiction.image;
     const nameChanged = name !== addiction.name;
 
     if (!imageChanged && !nameChanged) {
-      return close();
+      setSaving(false);
+      close();
+      return;
     }
 
     const newImage =
@@ -71,12 +75,13 @@ const EditView: FC<EditViewProps> = ({ addiction }) => {
       user,
       id: addiction.id,
       addiction: newAddiction,
-    }).then(() => {
+    }).finally(() => {
+      setSaving(false);
       close();
     });
   }, [user, addiction, name, image, upload, close]);
 
-  if (imageUploadStatus) {
+  if (imageUploadStatus || saving) {
     return <ImageUploading progress={imageUploadProgress} />;
   }
 
