@@ -11,6 +11,7 @@ import {
 } from '@/components/screens/CreationWizard';
 import Navigation from '@/components/screens/CreationWizard/Navigation';
 import { useAddictionCreator } from '@/hooks/addiction/useAddictionCreator';
+import i18n from '@/i18n';
 import { useAuthStore, useCreationWizardStore } from '@/store';
 
 const Navigator = createStackNavigator<CreationStackParamList>();
@@ -52,7 +53,12 @@ const CreationWizardStack = () => {
   }, [create, image, name, reset, startDate, user, setLoading]);
 
   if (imageUploadStatus) {
-    return <ImageUploading progress={imageUploadProgress} />;
+    return (
+      <ImageUploading
+        label={i18n.t(['screens', 'creationWizard', 'uploading', 'title'])}
+        progress={imageUploadProgress}
+      />
+    );
   }
 
   if (creating) {

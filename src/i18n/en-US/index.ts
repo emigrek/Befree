@@ -88,6 +88,10 @@ const enUS: Translation = {
         label: 'Progress',
       },
     },
+    edit: {
+      label: 'Edit',
+      editing: 'Editing...',
+    },
   },
   bottomSheets: {
     theme: {

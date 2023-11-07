@@ -7,6 +7,7 @@ import { CreationWizardStack } from './CreationWizardStack';
 import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
+import { EditScreen } from '@/components/screens/Addiction';
 import i18n from '@/i18n';
 
 const Navigator = createStackNavigator<ModalsStackParamList>();
@@ -47,6 +48,16 @@ const ModalsStack = () => {
         options={{
           headerShown: false,
           title: undefined,
+          presentation: 'modal',
+          gestureEnabled: true,
+          gestureResponseDistance: height / 1.5,
+        }}
+      />
+      <Navigator.Screen
+        name="Edit"
+        component={EditScreen}
+        options={{
+          headerShown: true,
           presentation: 'modal',
           gestureEnabled: true,
           gestureResponseDistance: height / 1.5,

@@ -74,6 +74,10 @@ export interface Translation {
         label: string;
       };
     };
+    edit: {
+      label: string;
+      editing: string;
+    };
   };
   bottomSheets: {
     theme: {
