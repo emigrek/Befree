@@ -91,17 +91,11 @@ const pl: Translation = {
     edit: {
       label: 'Edytuj',
       editing: 'Edytowanie...',
-    },
-  },
-  bottomSheets: {
-    theme: {
-      modeTitle: 'Tryb ciemny',
-      themeTitle: 'Ciemny motyw',
-      lightsOut: 'Zgaszone światło',
-      dim: 'Przyciemnienie',
-      device: 'Użyj ustawień urządzenia',
+      changeImage: 'Zmień obraz',
+      removeImage: 'Usuń obraz',
     },
     sorting: {
+      label: 'Sortowanie',
       fieldTitle: 'Sortuj według',
       directionTitle: 'Kierunek',
       directions: {
@@ -114,9 +108,14 @@ const pl: Translation = {
         name: 'Nazwa',
       },
     },
-    edit: {
-      changeImage: 'Zmień obraz',
-      removeImage: 'Usuń obraz',
+  },
+  bottomSheets: {
+    theme: {
+      modeTitle: 'Tryb ciemny',
+      themeTitle: 'Ciemny motyw',
+      lightsOut: 'Zgaszone światło',
+      dim: 'Przyciemnienie',
+      device: 'Użyj ustawień urządzenia',
     },
   },
   widgets: {

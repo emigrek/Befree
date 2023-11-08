@@ -109,11 +109,11 @@ const Edit: FC<EditProps> = ({ addiction }) => {
         <Image name={addiction.name} image={image} size={250} />
         <View style={style.buttonContainer}>
           <Button onPress={handleImageChange}>
-            {i18n.t(['bottomSheets', 'edit', 'changeImage'])}
+            {i18n.t(['modals', 'edit', 'changeImage'])}
           </Button>
           {image && (
             <Button onPress={() => setImage(null)}>
-              {i18n.t(['bottomSheets', 'edit', 'removeImage'])}
+              {i18n.t(['modals', 'edit', 'removeImage'])}
             </Button>
           )}
         </View>

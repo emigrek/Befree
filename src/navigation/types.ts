@@ -25,6 +25,7 @@ export type ModalsStackParamList = {
   Edit: {
     id: string;
   };
+  Sorting: undefined;
 };
 
 export type CreationStackParamList = {

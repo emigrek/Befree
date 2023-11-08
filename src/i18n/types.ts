@@ -77,17 +77,11 @@ export interface Translation {
     edit: {
       label: string;
       editing: string;
-    };
-  };
-  bottomSheets: {
-    theme: {
-      modeTitle: string;
-      themeTitle: string;
-      lightsOut: string;
-      dim: string;
-      device: string;
+      changeImage: string;
+      removeImage: string;
     };
     sorting: {
+      label: string;
       fieldTitle: string;
       directionTitle: string;
       directions: {
@@ -100,9 +94,14 @@ export interface Translation {
         createdAt: string;
       };
     };
-    edit: {
-      changeImage: string;
-      removeImage: string;
+  };
+  bottomSheets: {
+    theme: {
+      modeTitle: string;
+      themeTitle: string;
+      lightsOut: string;
+      dim: string;
+      device: string;
     };
   };
   widgets: {

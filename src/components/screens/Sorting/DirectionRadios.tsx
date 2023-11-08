@@ -8,50 +8,44 @@ import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
-const FieldRadios = () => {
+const DirectionRadios = () => {
   const { colors } = useTheme();
   const { sorting, setSorting } = useGlobalStore(state => ({
     sorting: state.sorting,
     setSorting: state.setSorting,
   }));
 
-  const handleFieldChange = (value: string) => {
-    const field = value as 'name' | 'lastRelapse' | 'createdAt';
+  const handleDirectionChange = (value: string) => {
+    const direction = value as 'asc' | 'desc';
 
-    setSorting({ ...sorting, field });
+    setSorting({ ...sorting, direction });
   };
 
   return (
     <View style={radiosStyle.container}>
       <Text style={radiosStyle.title} variant="titleLarge">
-        {i18n.t(['bottomSheets', 'sorting', 'fieldTitle'])}
+        {i18n.t(['modals', 'sorting', 'directionTitle'])}
       </Text>
       <Divider />
       <RadioButton.Group
-        value={sorting.field}
-        onValueChange={handleFieldChange}
+        value={sorting.direction}
+        onValueChange={handleDirectionChange}
       >
         <RadioButton.Item
           labelVariant="bodyLarge"
           labelStyle={{ color: colors.outline }}
-          label={i18n.t(['bottomSheets', 'sorting', 'fields', 'name'])}
-          value={'name'}
+          label={i18n.t(['modals', 'sorting', 'directions', 'asc'])}
+          value={'asc'}
         />
         <RadioButton.Item
           labelVariant="bodyLarge"
           labelStyle={{ color: colors.outline }}
-          label={i18n.t(['bottomSheets', 'sorting', 'fields', 'lastRelapse'])}
-          value={'lastRelapse'}
-        />
-        <RadioButton.Item
-          labelVariant="bodyLarge"
-          labelStyle={{ color: colors.outline }}
-          label={i18n.t(['bottomSheets', 'sorting', 'fields', 'createdAt'])}
-          value={'createdAt'}
+          label={i18n.t(['modals', 'sorting', 'directions', 'desc'])}
+          value={'desc'}
         />
       </RadioButton.Group>
     </View>
   );
 };
 
-export { FieldRadios };
+export { DirectionRadios };

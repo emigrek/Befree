@@ -91,17 +91,11 @@ const enUS: Translation = {
     edit: {
       label: 'Edit',
       editing: 'Editing...',
-    },
-  },
-  bottomSheets: {
-    theme: {
-      modeTitle: 'Dark mode',
-      themeTitle: 'Dark theme',
-      lightsOut: 'Lights out',
-      dim: 'Dim',
-      device: 'Use device settings',
+      changeImage: 'Change image',
+      removeImage: 'Remove image',
     },
     sorting: {
+      label: 'Sorting',
       fieldTitle: 'Sort by',
       directionTitle: 'Direction',
       directions: {
@@ -114,9 +108,14 @@ const enUS: Translation = {
         name: 'Name',
       },
     },
-    edit: {
-      changeImage: 'Change image',
-      removeImage: 'Remove image',
+  },
+  bottomSheets: {
+    theme: {
+      modeTitle: 'Dark mode',
+      themeTitle: 'Dark theme',
+      lightsOut: 'Lights out',
+      dim: 'Dim',
+      device: 'Use device settings',
     },
   },
   widgets: {
