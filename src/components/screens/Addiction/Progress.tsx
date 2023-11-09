@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { sub } from 'date-fns';
 import React, { useCallback, useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
@@ -9,6 +10,7 @@ import {
   GoalProgress,
   Image,
 } from '@/components/ui/Addiction';
+import { Timeline } from '@/components/ui/Timeline';
 import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
@@ -104,6 +106,7 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
           {i18n.t(['labels', 'remove'])}
         </Button>
       </View>
+      <Timeline range={[sub(new Date(), { years: 1 }), new Date()]} />
     </View>
   );
 };
