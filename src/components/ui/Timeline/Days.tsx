@@ -3,13 +3,13 @@ import { forwardRef } from 'react';
 import { StyleSheet, View, ViewProps } from 'react-native';
 import { Text } from 'react-native-paper';
 
-interface DaysProps extends ViewProps {
-  size?: number;
-  margin?: number;
-}
+import { useTimelineContext } from './context';
+
+type DaysProps = ViewProps;
 
 const Days = forwardRef<View, DaysProps>(
-  ({ size = 10, margin = 1, style: daysStyle, ...props }, ref) => {
+  ({ style: daysStyle, ...props }, ref) => {
+    const { cellSize, cellMargin, dayStyle } = useTimelineContext();
     const daysOfWeek = eachDayOfInterval({
       start: new Date(2021, 0, 3),
       end: new Date(2021, 0, 9),
@@ -18,16 +18,17 @@ const Days = forwardRef<View, DaysProps>(
     const shortWeekDays = daysOfWeek.map(day => format(day, 'EEE'));
 
     return (
-      <View ref={ref} style={[daysStyle, style.days]} {...props}>
+      <View ref={ref} style={[style.days, daysStyle]} {...props}>
         {shortWeekDays.map((day, index) => {
           return (
             <Text
               key={index}
               style={[
                 style.day,
+                dayStyle,
                 {
-                  height: size,
-                  margin,
+                  height: cellSize,
+                  margin: cellMargin,
                 },
               ]}
             >
