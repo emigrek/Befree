@@ -8,7 +8,6 @@ import {
   useContext,
   useState,
 } from 'react';
-import { ViewProps } from 'react-native';
 
 interface TimelineProps {
   range: [Date, Date];
@@ -17,12 +16,6 @@ interface TimelineProps {
   setCellSize?: Dispatch<SetStateAction<number>>;
   cellMargin: number;
   setCellMargin?: Dispatch<SetStateAction<number>>;
-  cellStyle?: ViewProps['style'];
-  setCellStyle?: Dispatch<SetStateAction<ViewProps['style']>>;
-  dayStyle?: ViewProps['style'];
-  setDayStyle?: Dispatch<SetStateAction<ViewProps['style']>>;
-  monthStyle?: ViewProps['style'];
-  setMonthStyle?: Dispatch<SetStateAction<ViewProps['style']>>;
 }
 
 export const TimelineContext = createContext<TimelineProps>({
@@ -36,18 +29,6 @@ export const TimelineContext = createContext<TimelineProps>({
   },
   cellMargin: 1,
   setCellMargin: () => {
-    //do nothing
-  },
-  cellStyle: {},
-  setCellStyle: () => {
-    //do nothing
-  },
-  dayStyle: {},
-  setDayStyle: () => {
-    //do nothing
-  },
-  monthStyle: {},
-  setMonthStyle: () => {
     //do nothing
   },
 });
@@ -66,15 +47,6 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   );
   const [cellSize, setCellSize] = useState<number>(props.cellSize || 10);
   const [cellMargin, setCellMargin] = useState<number>(props.cellMargin || 1);
-  const [cellStyle, setCellStyle] = useState<ViewProps['style']>(
-    props.cellStyle || {},
-  );
-  const [dayStyle, setDayStyle] = useState<ViewProps['style']>(
-    props.dayStyle || {},
-  );
-  const [monthStyle, setMonthStyle] = useState<ViewProps['style']>(
-    props.monthStyle || {},
-  );
 
   return (
     <TimelineContext.Provider
@@ -85,12 +57,6 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         setCellSize,
         cellMargin,
         setCellMargin,
-        cellStyle,
-        setCellStyle,
-        dayStyle,
-        setDayStyle,
-        monthStyle,
-        setMonthStyle,
       }}
     >
       {children}

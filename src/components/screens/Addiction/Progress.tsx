@@ -106,9 +106,13 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
           {i18n.t(['labels', 'remove'])}
         </Button>
       </View>
-      <Timeline range={[sub(new Date(), { years: 1 }), new Date()]}>
+      <Timeline
+        range={[sub(new Date(), { years: 1 }), new Date()]}
+        cellSize={14}
+      >
+        <Timeline.Days />
         <Timeline.Body>
-          <Timeline.Days />
+          <Timeline.Months />
           <Timeline.Cells />
         </Timeline.Body>
       </Timeline>

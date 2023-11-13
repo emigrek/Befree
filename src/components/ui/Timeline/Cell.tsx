@@ -3,23 +3,32 @@ import { StyleSheet, View, ViewProps } from 'react-native';
 
 import { useTimelineContext } from './context';
 
-type CellProps = ViewProps;
+interface CellProps extends ViewProps {
+  index: number;
+}
 
-const Cell = forwardRef<View, CellProps>((props, ref) => {
-  const { cellSize, cellStyle, cellMargin } = useTimelineContext();
+const Cell = forwardRef<View, CellProps>(
+  ({ index, style: cellStyle, ...props }, ref) => {
+    const { cellSize, cellMargin } = useTimelineContext();
 
-  return (
-    <View
-      ref={ref}
-      style={[
-        cellStyle,
-        style.cell,
-        { width: cellSize, height: cellSize, margin: cellMargin },
-      ]}
-      {...props}
-    />
-  );
-});
+    // const day = useMemo(() => {
+    //   const [start] = range;
+    //   return addDays(start, index);
+    // }, [index, range]);
+
+    return (
+      <View
+        ref={ref}
+        style={[
+          cellStyle,
+          style.cell,
+          { width: cellSize, height: cellSize, margin: cellMargin },
+        ]}
+        {...props}
+      />
+    );
+  },
+);
 
 const style = StyleSheet.create({
   cell: {

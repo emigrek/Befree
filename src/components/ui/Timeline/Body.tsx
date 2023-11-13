@@ -1,26 +1,27 @@
 import { FC } from 'react';
-import { StyleSheet, View, ViewProps } from 'react-native';
+import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native';
 
 import { useTimelineContext } from './context';
 
-type BodyProps = ViewProps;
+type BodyProps = ScrollViewProps;
 
 const Body: FC<BodyProps> = ({ children, style: bodyStyle, ...props }) => {
   const { cellSize, cellMargin } = useTimelineContext();
 
   return (
-    <View
-      style={[
-        style.body,
-        bodyStyle,
-        {
-          height: cellSize * 8 + cellMargin * 6,
-        },
-      ]}
-      {...props}
-    >
-      {children}
-    </View>
+    <ScrollView horizontal {...props}>
+      <View
+        style={[
+          style.body,
+          bodyStyle,
+          {
+            height: 8 * (cellSize + cellMargin),
+          },
+        ]}
+      >
+        {children}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -29,7 +30,6 @@ export { Body };
 const style = StyleSheet.create({
   body: {
     display: 'flex',
-    flexDirection: 'row',
-    gap: 2,
+    flexDirection: 'column',
   },
 });

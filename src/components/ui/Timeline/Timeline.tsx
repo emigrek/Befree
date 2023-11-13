@@ -1,27 +1,23 @@
-import { View, ViewProps } from 'react-native';
+import { StyleSheet, View, ViewProps } from 'react-native';
 
 import { Body } from './Body';
 import { Cells } from './Cells';
 import { Days } from './Days';
+import { Months } from './Months';
 import { TimelineContextProvider } from './context';
 
 interface TimelineProps extends ViewProps {
   range: [Date, Date];
   cellSize?: number;
   cellMargin?: number;
-  cellStyle?: ViewProps['style'];
-  dayStyle?: ViewProps['style'];
-  monthStyle?: ViewProps['style'];
 }
 
 function Timeline({
   range,
   cellSize = 10,
   cellMargin = 1,
-  cellStyle,
-  dayStyle,
-  monthStyle,
   children,
+  style: timelineStyle,
   ...props
 }: TimelineProps) {
   return (
@@ -30,71 +26,25 @@ function Timeline({
         range,
         cellSize,
         cellMargin,
-        cellStyle,
-        dayStyle,
-        monthStyle,
       }}
     >
-      <View {...props}>{children}</View>
+      <View style={[timelineStyle, style.timeline]} {...props}>
+        {children}
+      </View>
     </TimelineContextProvider>
   );
 }
 
+const style = StyleSheet.create({
+  timeline: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+});
+
 Timeline.Body = Body;
 Timeline.Days = Days;
+Timeline.Months = Months;
 Timeline.Cells = Cells;
-
-// const Timeline = forwardRef<View, TimelineProps>(
-//   (
-//     { cellSize = 10, cellMargin = 1, style: timelineStyle, children, ...props },
-//     ref,
-//   ) => {
-//     return (
-//       <TimelineContextProvider
-//         props={{
-//           cellSize,
-//           cellMargin,
-//           ...props,
-//         }}
-//       >
-//         <View ref={ref} style={[timelineStyle, style.timeline]} {...props}>
-//           {children}
-//         </View>
-//       </TimelineContextProvider>
-//     );
-//   },
-// );
-
-// const Timeline = forwardRef<View, ViewProps>(
-//   ({ style: timelineStyle, ...props }, ref) => {
-//     const { range, monthsStyle, cellSize, cellMargin, cellsStyle } =
-//       useTimelineContext();
-//     const [start, end] = range;
-//     const days = differenceInDays(end, start);
-
-//     return (
-//       <View ref={ref} style={[timelineStyle, style.timeline]} {...props}>
-//         <View style={[monthsStyle, style.months]}></View>
-//         <View
-//           style={[
-//             style.body,
-//             {
-//               height: cellSize * 8 + cellMargin * 6,
-//             },
-//           ]}
-//         >
-//           <Days style={style.days} />
-//           <ScrollView horizontal>
-//             <View style={[cellsStyle, style.cells]}>
-//               {[...Array(days)].map((_, index) => {
-//                 return <Cell key={index} />;
-//               })}
-//             </View>
-//           </ScrollView>
-//         </View>
-//       </View>
-//     );
-//   },
-// );
 
 export { Timeline };

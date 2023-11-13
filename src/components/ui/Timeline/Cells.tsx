@@ -1,25 +1,32 @@
 import { differenceInDays } from 'date-fns';
-import { FC } from 'react';
-import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native';
+import { FC, useMemo } from 'react';
+import { StyleSheet, View, ViewProps } from 'react-native';
 
 import { Cell } from './Cell';
 import { useTimelineContext } from './context';
 
-type CellsProps = ScrollViewProps;
+interface CellsProps extends ViewProps {
+  cellStyle?: ViewProps['style'];
+}
 
-const Cells: FC<CellsProps> = ({ children, style: cellsStyle, ...props }) => {
+const Cells: FC<CellsProps> = ({
+  children,
+  cellStyle,
+  style: cellsStyle,
+  ...props
+}) => {
   const { range } = useTimelineContext();
 
-  const days = differenceInDays(range[1], range[0]);
+  const days = useMemo(() => {
+    return differenceInDays(range[1], range[0]);
+  }, [range]);
 
   return (
-    <ScrollView horizontal {...props}>
-      <View style={[cellsStyle, style.cells]}>
-        {[...Array(days)].map((_, index) => {
-          return <Cell key={index} />;
-        })}
-      </View>
-    </ScrollView>
+    <View style={[cellsStyle, style.cells]} {...props}>
+      {[...Array(days)].map((_, index) => {
+        return <Cell key={index} index={index} style={cellStyle} />;
+      })}
+    </View>
   );
 };
 

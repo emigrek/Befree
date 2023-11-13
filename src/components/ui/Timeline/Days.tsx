@@ -1,24 +1,39 @@
 import { eachDayOfInterval, format } from 'date-fns';
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { StyleSheet, View, ViewProps } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { useTimelineContext } from './context';
 
-type DaysProps = ViewProps;
+interface DaysProps extends ViewProps {
+  dayStyle?: ViewProps['style'];
+}
 
 const Days = forwardRef<View, DaysProps>(
-  ({ style: daysStyle, ...props }, ref) => {
-    const { cellSize, cellMargin, dayStyle } = useTimelineContext();
-    const daysOfWeek = eachDayOfInterval({
-      start: new Date(2021, 0, 3),
-      end: new Date(2021, 0, 9),
-    });
+  ({ dayStyle, style: daysStyle, ...props }, ref) => {
+    const { cellSize, cellMargin } = useTimelineContext();
 
-    const shortWeekDays = daysOfWeek.map(day => format(day, 'EEE'));
+    const daysOfWeek = useMemo(() => {
+      return eachDayOfInterval({
+        start: new Date(2021, 0, 3),
+        end: new Date(2021, 0, 9),
+      });
+    }, []);
+
+    const shortWeekDays = useMemo(() => {
+      return daysOfWeek.map(day => format(day, 'EEE'));
+    }, [daysOfWeek]);
 
     return (
-      <View ref={ref} style={[style.days, daysStyle]} {...props}>
+      <View
+        ref={ref}
+        style={[
+          style.days,
+          daysStyle,
+          { marginTop: cellSize + 2 * cellMargin },
+        ]}
+        {...props}
+      >
         {shortWeekDays.map((day, index) => {
           return (
             <Text
