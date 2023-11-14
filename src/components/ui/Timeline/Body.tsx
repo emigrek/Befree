@@ -1,35 +1,23 @@
 import { FC } from 'react';
-import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native';
-
-import { useTimelineContext } from './context';
+import { ScrollView, ScrollViewProps, StyleSheet } from 'react-native';
 
 type BodyProps = ScrollViewProps;
 
-const Body: FC<BodyProps> = ({ children, style: bodyStyle, ...props }) => {
-  const { cellSize, cellMargin } = useTimelineContext();
-
+const Body: FC<BodyProps> = props => {
   return (
-    <ScrollView horizontal {...props}>
-      <View
-        style={[
-          style.body,
-          bodyStyle,
-          {
-            height: 8 * (cellSize + cellMargin),
-          },
-        ]}
-      >
-        {children}
-      </View>
-    </ScrollView>
+    <ScrollView
+      contentContainerStyle={style.containerStyle}
+      showsHorizontalScrollIndicator={false}
+      horizontal
+      {...props}
+    />
   );
 };
 
 export { Body };
 
 const style = StyleSheet.create({
-  body: {
-    display: 'flex',
+  containerStyle: {
     flexDirection: 'column',
   },
 });

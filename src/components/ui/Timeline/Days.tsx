@@ -30,7 +30,9 @@ const Days = forwardRef<View, DaysProps>(
         style={[
           style.days,
           daysStyle,
-          { marginTop: cellSize + 2 * cellMargin },
+          {
+            marginTop: cellSize + 2 * cellMargin,
+          },
         ]}
         {...props}
       >

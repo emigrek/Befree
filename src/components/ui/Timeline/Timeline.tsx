@@ -42,8 +42,8 @@ const style = StyleSheet.create({
   },
 });
 
-Timeline.Body = Body;
 Timeline.Days = Days;
+Timeline.Body = Body;
 Timeline.Months = Months;
 Timeline.Cells = Cells;
 

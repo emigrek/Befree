@@ -1,41 +1,45 @@
+import { HorizontalFlatList } from '@idiosync/horizontal-flatlist';
 import { differenceInDays } from 'date-fns';
 import { FC, useMemo } from 'react';
-import { StyleSheet, View, ViewProps } from 'react-native';
+import { ViewProps } from 'react-native';
 
-import { Cell } from './Cell';
+import { Cell as CellItem } from './Cell';
 import { useTimelineContext } from './context';
+import { Cell } from './types';
 
-interface CellsProps extends ViewProps {
+interface CellsProps {
   cellStyle?: ViewProps['style'];
 }
 
-const Cells: FC<CellsProps> = ({
-  children,
-  cellStyle,
-  style: cellsStyle,
-  ...props
-}) => {
+const Cells: FC<CellsProps> = ({ cellStyle }) => {
   const { range } = useTimelineContext();
 
   const days = useMemo(() => {
     return differenceInDays(range[1], range[0]);
   }, [range]);
 
+  const data = useMemo(() => {
+    return [...Array(days)].map((_, index) => ({
+      index,
+    }));
+  }, [days]);
+
+  const keyExtractor = (item: Cell, row: number, col: number) => {
+    return item.index.toString();
+  };
+
   return (
-    <View style={[cellsStyle, style.cells]} {...props}>
-      {[...Array(days)].map((_, index) => {
-        return <Cell key={index} index={index} style={cellStyle} />;
-      })}
-    </View>
+    <HorizontalFlatList
+      scrollEnabled={false}
+      showsHorizontalScrollIndicator={false}
+      numRows={7}
+      data={data}
+      renderItem={({ item }) => (
+        <CellItem style={cellStyle} index={item.index} />
+      )}
+      keyExtractor={keyExtractor}
+    />
   );
 };
-
-const style = StyleSheet.create({
-  cells: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-  },
-});
 
 export { Cells };

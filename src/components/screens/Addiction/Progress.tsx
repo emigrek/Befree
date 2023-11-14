@@ -108,7 +108,7 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
       </View>
       <Timeline
         range={[sub(new Date(), { years: 1 }), new Date()]}
-        cellSize={14}
+        cellSize={16}
       >
         <Timeline.Days />
         <Timeline.Body>
