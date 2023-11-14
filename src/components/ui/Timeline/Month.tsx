@@ -1,4 +1,4 @@
-import { add, format } from 'date-fns';
+import { format } from 'date-fns';
 import { FC, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, TextProps } from 'react-native-paper';
@@ -6,22 +6,20 @@ import { Text, TextProps } from 'react-native-paper';
 import { useTimelineContext } from './context';
 
 interface MonthProps extends Omit<TextProps<string>, 'children'> {
-  index: number;
+  month: Date;
 }
 
-const Month: FC<MonthProps> = ({ index, style: monthStyle, ...props }) => {
-  const { range, cellSize, cellMargin } = useTimelineContext();
-
-  const start = useMemo(() => {
-    return range[0];
-  }, [range]);
-
-  const month = useMemo(() => {
-    return add(start, { weeks: index });
-  }, [index, start]);
+const Month: FC<MonthProps> = ({ month, style: monthStyle, ...props }) => {
+  const { cellSize, cellMargin } = useTimelineContext();
 
   const monthName = useMemo(() => {
-    return format(month, 'MMM');
+    const isFirstWeekOfMonth = month.getDate() <= 7;
+
+    if (isFirstWeekOfMonth) {
+      return format(month, 'MMM');
+    }
+
+    return '';
   }, [month]);
 
   return (

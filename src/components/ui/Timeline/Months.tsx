@@ -1,4 +1,4 @@
-import { differenceInDays } from 'date-fns';
+import { eachWeekOfInterval } from 'date-fns';
 import { FC, useMemo } from 'react';
 import { FlatList, ViewProps } from 'react-native';
 
@@ -14,16 +14,31 @@ const Months: FC<MonthsProps> = ({ monthStyle }) => {
 
   const months = useMemo(() => {
     const [start, end] = range;
-    const days = differenceInDays(end, start);
-    return [...Array(Math.floor(days / 7))];
+
+    return eachWeekOfInterval({
+      start,
+      end,
+    });
   }, [range]);
+
+  const renderItem = useMemo(
+    () =>
+      ({ item }: { item: Date; index: number }) => {
+        return <Month month={item} style={monthStyle} />;
+      },
+    [monthStyle],
+  );
+
+  const keyExtractor = (item: Date, index: number) => {
+    return index.toString();
+  };
 
   return (
     <FlatList
       scrollEnabled={false}
       data={months}
-      renderItem={({ index }) => <Month style={monthStyle} index={index} />}
-      keyExtractor={(_, index) => index.toString()}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
       horizontal
     />
   );

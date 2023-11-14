@@ -4,17 +4,12 @@ import { StyleSheet, View, ViewProps } from 'react-native';
 import { useTimelineContext } from './context';
 
 interface CellProps extends ViewProps {
-  index: number;
+  day: Date;
 }
 
 const Cell = forwardRef<View, CellProps>(
-  ({ index, style: cellStyle, ...props }, ref) => {
+  ({ day, style: cellStyle, ...props }, ref) => {
     const { cellSize, cellMargin } = useTimelineContext();
-
-    // const day = useMemo(() => {
-    //   const [start] = range;
-    //   return addDays(start, index);
-    // }, [index, range]);
 
     return (
       <View

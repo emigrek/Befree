@@ -1,5 +1,5 @@
 import { HorizontalFlatList } from '@idiosync/horizontal-flatlist';
-import { differenceInDays } from 'date-fns';
+import { eachDayOfInterval } from 'date-fns';
 import { FC, useMemo } from 'react';
 import { ViewProps } from 'react-native';
 
@@ -13,19 +13,30 @@ interface CellsProps {
 
 const Cells: FC<CellsProps> = ({ cellStyle }) => {
   const { range } = useTimelineContext();
-
-  const days = useMemo(() => {
-    return differenceInDays(range[1], range[0]);
-  }, [range]);
+  const [start, end] = range;
 
   const data = useMemo(() => {
-    return [...Array(days)].map((_, index) => ({
-      index,
-    }));
-  }, [days]);
+    return eachDayOfInterval({
+      start,
+      end,
+    }).map((day, index) => {
+      return {
+        index,
+        day,
+      };
+    });
+  }, [start, end]);
+
+  const renderItem = useMemo(
+    () =>
+      ({ item, row, col }: { item: Cell; row: number; col: number }) => {
+        return <CellItem day={item.day} style={cellStyle} />;
+      },
+    [cellStyle],
+  );
 
   const keyExtractor = (item: Cell, row: number, col: number) => {
-    return item.index.toString();
+    return item.day.toString();
   };
 
   return (
@@ -34,9 +45,7 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
       showsHorizontalScrollIndicator={false}
       numRows={7}
       data={data}
-      renderItem={({ item }) => (
-        <CellItem style={cellStyle} index={item.index} />
-      )}
+      renderItem={renderItem}
       keyExtractor={keyExtractor}
     />
   );
