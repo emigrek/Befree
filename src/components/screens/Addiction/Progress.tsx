@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import { sub } from 'date-fns';
-import React, { useCallback, useLayoutEffect } from 'react';
+import { add, previousSunday } from 'date-fns';
+import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
@@ -39,6 +39,15 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
       storeAdd: state.add,
       storeRemove: state.remove,
     }));
+
+  const timelineRange: [Date, Date] = useMemo(() => {
+    const start = previousSunday(addiction.relapses[0]);
+    const end = add(addiction.lastRelapse, {
+      months: 6,
+    });
+
+    return [start, end];
+  }, [addiction]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -106,10 +115,7 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
           {i18n.t(['labels', 'remove'])}
         </Button>
       </View>
-      <Timeline
-        range={[sub(new Date(), { years: 1 }), new Date()]}
-        cellSize={16}
-      >
+      <Timeline data={addiction.relapses} range={timelineRange} cellSize={18}>
         <Timeline.Days />
         <Timeline.Body>
           <Timeline.Months />
@@ -135,7 +141,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 30,
-    gap: 40,
+    gap: 30,
   },
   imageNameContainer: {
     marginTop: 15,

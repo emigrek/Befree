@@ -8,12 +8,14 @@ import { TimelineContextProvider } from './context';
 
 interface TimelineProps extends ViewProps {
   range: [Date, Date];
+  data: Date[];
   cellSize?: number;
   cellMargin?: number;
 }
 
 function Timeline({
   range,
+  data,
   cellSize = 10,
   cellMargin = 1,
   children,
@@ -24,6 +26,7 @@ function Timeline({
     <TimelineContextProvider
       props={{
         range,
+        data,
         cellSize,
         cellMargin,
       }}
