@@ -1,5 +1,5 @@
 import { HorizontalFlatList } from '@idiosync/horizontal-flatlist';
-import { eachDayOfInterval } from 'date-fns';
+import { eachDayOfInterval, format } from 'date-fns';
 import { FC, useMemo } from 'react';
 import { ViewProps } from 'react-native';
 
@@ -7,32 +7,57 @@ import { Cell as CellItem } from './Cell';
 import { useTimelineContext } from './context';
 import { Cell } from './types';
 
+import { useTheme } from '@/theme';
+
 interface CellsProps {
   cellStyle?: ViewProps['style'];
 }
 
 const Cells: FC<CellsProps> = ({ cellStyle }) => {
-  const { range } = useTimelineContext();
+  const { colors } = useTheme();
+  const { range, colorMap, cellSize, cellMargin } = useTimelineContext();
   const [start, end] = range;
 
   const data = useMemo(() => {
-    return eachDayOfInterval({
+    const days = eachDayOfInterval({
       start,
       end,
-    }).map((day, index) => {
+    });
+
+    const cells = days.map(day => {
+      const key = format(day, 'yyyy-MM-dd');
       return {
-        index,
         day,
+        backgroundColor: colorMap
+          ? colorMap[key] || 'transparent'
+          : 'transparent',
       };
     });
-  }, [start, end]);
+
+    return cells;
+  }, [start, end, colorMap]);
 
   const renderItem = useMemo(
     () =>
       ({ item, row, col }: { item: Cell; row: number; col: number }) => {
-        return <CellItem day={item.day} style={cellStyle} />;
+        return (
+          <CellItem
+            style={[
+              cellStyle,
+              {
+                width: cellSize,
+                height: cellSize,
+                margin: cellMargin,
+                borderWidth: 1,
+                borderColor: colors.border,
+                borderRadius: 3,
+                backgroundColor: item.backgroundColor,
+              },
+            ]}
+          />
+        );
       },
-    [cellStyle],
+    [cellStyle, colors, cellMargin, cellSize],
   );
 
   const keyExtractor = (item: Cell, row: number, col: number) => {

@@ -10,12 +10,14 @@ import {
   useState,
 } from 'react';
 
+import { useTheme } from '@/theme';
+
 interface TimelineProps {
   range: [Date, Date];
   setRange?: Dispatch<SetStateAction<[Date, Date]>>;
   data: Date[];
   setData?: Dispatch<SetStateAction<Date[]>>;
-  dataMaxCount?: number;
+  colorMap?: { [key: string]: string };
   cellSize: number;
   setCellSize?: Dispatch<SetStateAction<number>>;
   cellMargin: number;
@@ -31,7 +33,7 @@ export const TimelineContext = createContext<TimelineProps>({
   setData: () => {
     //do nothing
   },
-  dataMaxCount: 0,
+  colorMap: {},
   cellSize: 10,
   setCellSize: () => {
     //do nothing
@@ -51,6 +53,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   props,
   children,
 }) => {
+  const { colors } = useTheme();
   const [range, setRange] = useState<[Date, Date]>(
     props.range || [sub(new Date(), { years: 1 }), new Date()],
   );
@@ -58,7 +61,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   const [cellSize, setCellSize] = useState<number>(props.cellSize || 10);
   const [cellMargin, setCellMargin] = useState<number>(props.cellMargin || 1);
 
-  const dataMaxCount = useMemo(() => {
+  const colorMap = useMemo(() => {
     const frequencyMap = data.reduce<{ [key: string]: number }>((map, date) => {
       const key = format(date, 'yyyy-MM-dd');
       map[key] = (map[key] || 0) + 1;
@@ -67,8 +70,17 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
 
     const maxCount = Math.max(...Object.values(frequencyMap));
 
-    return maxCount;
-  }, [data]);
+    const colorMap = Object.keys(frequencyMap).reduce<{
+      [key: string]: string;
+    }>((map, key) => {
+      const alpha = frequencyMap[key] / maxCount;
+      const alphaHex = Math.round(alpha * 255).toString(16);
+      map[key] = `${colors.primary}${alphaHex.padStart(2, '0')}`;
+      return map;
+    }, {});
+
+    return colorMap;
+  }, [data, colors]);
 
   return (
     <TimelineContext.Provider
@@ -77,7 +89,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         setRange,
         data,
         setData,
-        dataMaxCount,
+        colorMap,
         cellSize,
         setCellSize,
         cellMargin,
