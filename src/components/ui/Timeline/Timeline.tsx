@@ -1,17 +1,11 @@
-import { StyleSheet, View, ViewProps } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { Body } from './Body';
 import { Cells } from './Cells';
 import { Days } from './Days';
-import { Months } from './Months';
+import { Weeks } from './Weeks';
 import { TimelineContextProvider } from './context';
-
-interface TimelineProps extends ViewProps {
-  range: [Date, Date];
-  data: Date[];
-  cellSize?: number;
-  cellMargin?: number;
-}
+import { TimelineComponentProps } from './types';
 
 function Timeline({
   range,
@@ -21,7 +15,7 @@ function Timeline({
   children,
   style: timelineStyle,
   ...props
-}: TimelineProps) {
+}: TimelineComponentProps) {
   return (
     <TimelineContextProvider
       props={{
@@ -47,7 +41,7 @@ const style = StyleSheet.create({
 
 Timeline.Days = Days;
 Timeline.Body = Body;
-Timeline.Months = Months;
+Timeline.Weeks = Weeks;
 Timeline.Cells = Cells;
 
 export { Timeline };

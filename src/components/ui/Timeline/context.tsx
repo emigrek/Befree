@@ -1,4 +1,4 @@
-import { format, sub } from 'date-fns';
+import { eachDayOfInterval, format, previousSunday, sub } from 'date-fns';
 import {
   Dispatch,
   FC,
@@ -10,30 +10,35 @@ import {
   useState,
 } from 'react';
 
+import { TimelineProps } from './types';
+
 import { useTheme } from '@/theme';
 
-interface TimelineProps {
+interface TimelineContextProps {
   range: [Date, Date];
-  setRange?: Dispatch<SetStateAction<[Date, Date]>>;
+  setRange: Dispatch<SetStateAction<[Date, Date]>>;
   data: Date[];
-  setData?: Dispatch<SetStateAction<Date[]>>;
-  colorMap?: { [key: string]: string };
+  setData: Dispatch<SetStateAction<Date[]>>;
+  cellsData: {
+    day: Date;
+    backgroundColor: string;
+  }[];
   cellSize: number;
-  setCellSize?: Dispatch<SetStateAction<number>>;
+  setCellSize: Dispatch<SetStateAction<number>>;
   cellMargin: number;
-  setCellMargin?: Dispatch<SetStateAction<number>>;
+  setCellMargin: Dispatch<SetStateAction<number>>;
 }
 
-export const TimelineContext = createContext<TimelineProps>({
-  range: [sub(new Date(), { years: 1 }), new Date()],
+export const TimelineContext = createContext<TimelineContextProps>({
+  range: [previousSunday(sub(new Date(), { years: 1 })), new Date()],
   setRange: () => {
     //do nothing
   },
   data: [],
   setData: () => {
-    //do nothing
+    // do nothing
   },
-  colorMap: {},
+  cellsData: [],
   cellSize: 10,
   setCellSize: () => {
     //do nothing
@@ -54,33 +59,44 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   children,
 }) => {
   const { colors } = useTheme();
-  const [range, setRange] = useState<[Date, Date]>(
-    props.range || [sub(new Date(), { years: 1 }), new Date()],
-  );
-  const [data, setData] = useState<Date[]>(props.data || []);
+  const [range, setRange] = useState<[Date, Date]>([
+    previousSunday(props.range[0]),
+    props.range[1],
+  ]);
+  const [data, setData] = useState<Date[]>(props.data);
   const [cellSize, setCellSize] = useState<number>(props.cellSize || 10);
   const [cellMargin, setCellMargin] = useState<number>(props.cellMargin || 1);
 
-  const colorMap = useMemo(() => {
-    const frequencyMap = data.reduce<{ [key: string]: number }>((map, date) => {
-      const key = format(date, 'yyyy-MM-dd');
-      map[key] = (map[key] || 0) + 1;
-      return map;
-    }, {});
+  const cellsData = useMemo(() => {
+    const frequencyMap = props.data.reduce<{ [key: string]: number }>(
+      (map, date) => {
+        const key = format(date, 'yyyy-MM-dd');
+        map[key] = (map[key] || 0) + 1;
+        return map;
+      },
+      {},
+    );
 
     const maxCount = Math.max(...Object.values(frequencyMap));
 
-    const colorMap = Object.keys(frequencyMap).reduce<{
-      [key: string]: string;
-    }>((map, key) => {
+    const days = eachDayOfInterval({
+      start: range[0],
+      end: range[1],
+    });
+
+    const cells = days.map(day => {
+      const key = format(day, 'yyyy-MM-dd');
       const alpha = frequencyMap[key] / maxCount;
       const alphaHex = Math.round(alpha * 255).toString(16);
-      map[key] = `${colors.primary}${alphaHex.padStart(2, '0')}`;
-      return map;
-    }, {});
 
-    return colorMap;
-  }, [data, colors]);
+      return {
+        day,
+        backgroundColor: `${colors.primary}${alphaHex.padStart(2, '0')}`,
+      };
+    });
+
+    return cells;
+  }, [props.data, colors.primary, range]);
 
   return (
     <TimelineContext.Provider
@@ -89,7 +105,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         setRange,
         data,
         setData,
-        colorMap,
+        cellsData,
         cellSize,
         setCellSize,
         cellMargin,

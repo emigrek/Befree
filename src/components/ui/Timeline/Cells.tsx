@@ -1,9 +1,7 @@
 import { HorizontalFlatList } from '@idiosync/horizontal-flatlist';
-import { eachDayOfInterval, format } from 'date-fns';
 import { FC, useMemo } from 'react';
-import { ViewProps } from 'react-native';
+import { View, ViewProps } from 'react-native';
 
-import { Cell as CellItem } from './Cell';
 import { useTimelineContext } from './context';
 import { Cell } from './types';
 
@@ -15,33 +13,13 @@ interface CellsProps {
 
 const Cells: FC<CellsProps> = ({ cellStyle }) => {
   const { colors } = useTheme();
-  const { range, colorMap, cellSize, cellMargin } = useTimelineContext();
-  const [start, end] = range;
-
-  const data = useMemo(() => {
-    const days = eachDayOfInterval({
-      start,
-      end,
-    });
-
-    const cells = days.map(day => {
-      const key = format(day, 'yyyy-MM-dd');
-      return {
-        day,
-        backgroundColor: colorMap
-          ? colorMap[key] || 'transparent'
-          : 'transparent',
-      };
-    });
-
-    return cells;
-  }, [start, end, colorMap]);
+  const { cellsData, cellSize, cellMargin } = useTimelineContext();
 
   const renderItem = useMemo(
     () =>
       ({ item, row, col }: { item: Cell; row: number; col: number }) => {
         return (
-          <CellItem
+          <View
             style={[
               cellStyle,
               {
@@ -69,7 +47,7 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
       scrollEnabled={false}
       showsHorizontalScrollIndicator={false}
       numRows={7}
-      data={data}
+      data={cellsData}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
     />

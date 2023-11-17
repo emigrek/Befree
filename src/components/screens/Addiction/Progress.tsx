@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { add, previousSunday } from 'date-fns';
+import { add } from 'date-fns';
 import React, { useCallback, useLayoutEffect, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
@@ -41,7 +41,7 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
     }));
 
   const timelineRange: [Date, Date] = useMemo(() => {
-    const start = previousSunday(addiction.relapses[0]);
+    const start = addiction.relapses[0];
     const end = add(addiction.lastRelapse, {
       months: 6,
     });
@@ -118,7 +118,7 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
       <Timeline data={addiction.relapses} range={timelineRange} cellSize={18}>
         <Timeline.Days />
         <Timeline.Body>
-          <Timeline.Months />
+          <Timeline.Weeks />
           <Timeline.Cells />
         </Timeline.Body>
       </Timeline>
