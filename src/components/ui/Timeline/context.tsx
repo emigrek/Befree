@@ -1,4 +1,11 @@
-import { eachDayOfInterval, format, previousSunday, sub } from 'date-fns';
+import {
+  eachDayOfInterval,
+  format,
+  isAfter,
+  isBefore,
+  previousSunday,
+  sub,
+} from 'date-fns';
 import {
   Dispatch,
   FC,
@@ -27,6 +34,10 @@ interface TimelineContextProps {
   setCellSize: Dispatch<SetStateAction<number>>;
   cellMargin: number;
   setCellMargin: Dispatch<SetStateAction<number>>;
+  invert?: boolean;
+  setInvert?: Dispatch<SetStateAction<boolean>>;
+  distinctPast?: boolean;
+  setDistinctPast?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const TimelineContext = createContext<TimelineContextProps>({
@@ -45,6 +56,14 @@ export const TimelineContext = createContext<TimelineContextProps>({
   },
   cellMargin: 1,
   setCellMargin: () => {
+    //do nothing
+  },
+  invert: false,
+  setInvert: () => {
+    //do nothing
+  },
+  distinctPast: false,
+  setDistinctPast: () => {
     //do nothing
   },
 });
@@ -66,6 +85,10 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   const [data, setData] = useState<Date[]>(props.data);
   const [cellSize, setCellSize] = useState<number>(props.cellSize || 10);
   const [cellMargin, setCellMargin] = useState<number>(props.cellMargin || 1);
+  const [invert, setInvert] = useState<boolean>(props.invert || false);
+  const [distinctPast, setDistinctPast] = useState<boolean>(
+    props.invert ? true : props.distinctPast || false,
+  );
 
   const cellsData = useMemo(() => {
     const frequencyMap = props.data.reduce<{ [key: string]: number }>(
@@ -86,8 +109,30 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
 
     const cells = days.map(day => {
       const key = format(day, 'yyyy-MM-dd');
-      const alpha = frequencyMap[key] / maxCount;
+      const frequency = frequencyMap[key] || 0;
+      const alpha = invert
+        ? (maxCount - frequency) / maxCount
+        : frequency / maxCount;
       const alphaHex = Math.round(alpha * 255).toString(16);
+
+      if (
+        !invert &&
+        distinctPast &&
+        isBefore(day, new Date()) &&
+        frequency === 0
+      ) {
+        return {
+          day,
+          backgroundColor: `${colors.outline}10`,
+        };
+      }
+
+      if (invert && distinctPast && isAfter(day, new Date())) {
+        return {
+          day,
+          backgroundColor: `transparent`,
+        };
+      }
 
       return {
         day,
@@ -96,7 +141,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
     });
 
     return cells;
-  }, [props.data, colors.primary, range]);
+  }, [props.data, colors.primary, range, invert, distinctPast, colors.outline]);
 
   return (
     <TimelineContext.Provider
@@ -110,6 +155,10 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         setCellSize,
         cellMargin,
         setCellMargin,
+        invert,
+        setInvert,
+        distinctPast,
+        setDistinctPast,
       }}
     >
       {children}

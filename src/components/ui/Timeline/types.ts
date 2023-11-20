@@ -5,6 +5,8 @@ export interface TimelineProps {
   data: Date[];
   cellSize?: number;
   cellMargin?: number;
+  invert?: boolean;
+  distinctPast?: boolean;
 }
 
 export type TimelineComponentProps = TimelineProps & ViewProps;
