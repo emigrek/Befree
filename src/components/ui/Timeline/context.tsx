@@ -1,4 +1,5 @@
 import {
+  add,
   eachDayOfInterval,
   format,
   isAfter,
@@ -16,12 +17,15 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { MD3Theme } from 'react-native-paper';
 
 import { TimelineProps } from './types';
 
 import { useTheme } from '@/theme';
 
 interface TimelineContextProps {
+  theme?: MD3Theme;
+  setTheme?: Dispatch<SetStateAction<MD3Theme>>;
   range: [Date, Date];
   setRange: Dispatch<SetStateAction<[Date, Date]>>;
   data: Date[];
@@ -41,7 +45,11 @@ interface TimelineContextProps {
 }
 
 export const TimelineContext = createContext<TimelineContextProps>({
-  range: [previousSunday(sub(new Date(), { years: 1 })), new Date()],
+  theme: undefined,
+  setTheme: () => {
+    //do nothing
+  },
+  range: [sub(new Date(), { months: 6 }), add(new Date(), { months: 6 })],
   setRange: () => {
     //do nothing
   },
@@ -77,7 +85,8 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   props,
   children,
 }) => {
-  const { colors } = useTheme();
+  const defaultTheme = useTheme();
+  const [theme, setTheme] = useState<MD3Theme>(defaultTheme);
   const [range, setRange] = useState<[Date, Date]>([
     previousSunday(props.range[0]),
     props.range[1],
@@ -123,7 +132,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
       ) {
         return {
           day,
-          backgroundColor: `${colors.outline}10`,
+          backgroundColor: `${theme.colors.outline}20`,
         };
       }
 
@@ -136,16 +145,25 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
 
       return {
         day,
-        backgroundColor: `${colors.primary}${alphaHex.padStart(2, '0')}`,
+        backgroundColor: `${theme.colors.primary}${alphaHex.padStart(2, '0')}`,
       };
     });
 
     return cells;
-  }, [props.data, colors.primary, range, invert, distinctPast, colors.outline]);
+  }, [
+    props.data,
+    theme.colors.primary,
+    range,
+    invert,
+    distinctPast,
+    theme.colors.outline,
+  ]);
 
   return (
     <TimelineContext.Provider
       value={{
+        theme,
+        setTheme,
         range,
         setRange,
         data,

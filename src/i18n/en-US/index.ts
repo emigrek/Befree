@@ -86,6 +86,10 @@ const enUS: Translation = {
     addiction: {
       progress: {
         label: 'Progress',
+        timeline: {
+          distinctPast: 'Distinguish past dates',
+          invert: 'Invert colors',
+        },
       },
     },
     edit: {

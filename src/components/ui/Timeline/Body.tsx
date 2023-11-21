@@ -7,7 +7,6 @@ const Body: FC<BodyProps> = props => {
   return (
     <ScrollView
       contentContainerStyle={style.containerStyle}
-      showsHorizontalScrollIndicator={false}
       horizontal
       {...props}
     />

@@ -86,6 +86,10 @@ const pl: Translation = {
     addiction: {
       progress: {
         label: 'Postęp',
+        timeline: {
+          distinctPast: 'Wyróżnij przeszłość',
+          invert: 'Odwróć kolory',
+        },
       },
     },
     edit: {

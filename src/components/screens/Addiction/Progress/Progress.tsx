@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import { add } from 'date-fns';
-import React, { useCallback, useLayoutEffect, useMemo } from 'react';
+import React, { useCallback, useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
+
+import { Timeline } from './Timeline';
 
 import { Loading } from '@/components/screens/Loading';
 import {
@@ -10,7 +11,6 @@ import {
   GoalProgress,
   Image,
 } from '@/components/ui/Addiction';
-import { Timeline } from '@/components/ui/Timeline';
 import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
@@ -39,15 +39,6 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
       storeAdd: state.add,
       storeRemove: state.remove,
     }));
-
-  const timelineRange: [Date, Date] = useMemo(() => {
-    const start = addiction.relapses[0];
-    const end = add(addiction.lastRelapse, {
-      months: 6,
-    });
-
-    return [start, end];
-  }, [addiction]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -115,13 +106,7 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
           {i18n.t(['labels', 'remove'])}
         </Button>
       </View>
-      <Timeline data={addiction.relapses} range={timelineRange} cellSize={18}>
-        <Timeline.Days />
-        <Timeline.Body>
-          <Timeline.Weeks />
-          <Timeline.Cells />
-        </Timeline.Body>
-      </Timeline>
+      <Timeline addiction={addiction} />
     </View>
   );
 };

@@ -71,6 +71,10 @@ export interface Translation {
     };
     addiction: {
       progress: {
+        timeline: {
+          distinctPast: string;
+          invert: string;
+        };
         label: string;
       };
     };

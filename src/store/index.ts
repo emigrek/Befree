@@ -11,9 +11,10 @@ import {
 import { SelectionSlice, createSelectionSlice } from './selection';
 import { SessionSlice, createSessionSlice } from './session';
 import { ThemeSlice, createThemeSlice } from './theme';
+import { TimelineSlice, createTimelineSlice } from './timeline';
 
 export const useGlobalStore = create<
-  ThemeSlice & AppSlice & AddictionsSlice & SelectionSlice
+  ThemeSlice & AppSlice & AddictionsSlice & SelectionSlice & TimelineSlice
 >()(
   persist(
     (...a) => ({
@@ -21,6 +22,7 @@ export const useGlobalStore = create<
       ...createAppSlice(...a),
       ...createAddictionsSlice(...a),
       ...createSelectionSlice(...a),
+      ...createTimelineSlice(...a),
     }),
     {
       name: 'global-storage',
