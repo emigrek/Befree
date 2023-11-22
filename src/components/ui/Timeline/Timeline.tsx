@@ -13,6 +13,7 @@ function Timeline({
   data,
   cellSize = 10,
   cellMargin = 1,
+  fontSize = 8,
   invert = false,
   distinctPast = false,
   children,
@@ -27,6 +28,7 @@ function Timeline({
         data,
         cellSize,
         cellMargin,
+        fontSize,
         invert,
         distinctPast,
       }}

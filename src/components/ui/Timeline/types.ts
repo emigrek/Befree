@@ -10,6 +10,7 @@ import { MD3Theme } from 'react-native-paper';
  * @param {Date[]} props.data - The data to be displayed in the timeline.
  * @param {number} [props.cellSize=10] - The size of each cell in the timeline.
  * @param {number} [props.cellMargin=1] - The margin around each cell in the timeline.
+ * @param {number} [props.fontSize=10] - The size of the font in the timeline.
  * @param {boolean} [props.invert=false] - Whether to invert the colors of the timeline.
  * @param {boolean} [props.distinctPast=false] - Whether to distinguish past dates from future dates.
  * @returns {ReactElement} The rendered timeline.
@@ -20,6 +21,7 @@ export interface TimelineProps {
   data: Date[];
   cellSize?: number;
   cellMargin?: number;
+  fontSize?: number;
   invert?: boolean;
   distinctPast?: boolean;
 }

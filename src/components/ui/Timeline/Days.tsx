@@ -5,12 +5,15 @@ import { Text } from 'react-native-paper';
 
 import { useTimelineContext } from './context';
 
+import { useTheme } from '@/theme';
+
 interface DaysProps {
   dayStyle?: ViewProps['style'];
 }
 
 const Days: FC<DaysProps> = ({ dayStyle }) => {
-  const { cellSize, cellMargin } = useTimelineContext();
+  const { colors } = useTheme();
+  const { cellSize, cellMargin, fontSize } = useTimelineContext();
 
   const daysOfWeek = useMemo(() => {
     return eachDayOfInterval({
@@ -34,6 +37,8 @@ const Days: FC<DaysProps> = ({ dayStyle }) => {
               {
                 height: cellSize,
                 margin: cellMargin,
+                color: colors.onSurface,
+                fontSize,
               },
             ]}
           >
@@ -41,7 +46,7 @@ const Days: FC<DaysProps> = ({ dayStyle }) => {
           </Text>
         );
       },
-    [dayStyle, cellMargin, cellSize],
+    [dayStyle, cellMargin, cellSize, fontSize, colors.onSurface],
   );
 
   const keyExtractor = (item: string, index: number) => {
@@ -59,6 +64,7 @@ const Days: FC<DaysProps> = ({ dayStyle }) => {
       data={shortWeekDays}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
+      showsVerticalScrollIndicator={false}
     />
   );
 };
@@ -66,7 +72,6 @@ const Days: FC<DaysProps> = ({ dayStyle }) => {
 const style = StyleSheet.create({
   days: {},
   day: {
-    fontSize: 8,
     borderWidth: 1,
     borderColor: 'transparent',
     borderRadius: 2,

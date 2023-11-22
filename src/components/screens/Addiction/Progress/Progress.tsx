@@ -76,7 +76,7 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   return (
     <View style={style.container}>
       <View style={style.imageNameContainer}>
-        <Image image={addiction.image} name={addiction.name} size={250} />
+        <Image image={addiction.image} name={addiction.name} size={200} />
         <View style={style.progress}>
           <Text variant="titleMedium">{i18n.t(['labels', 'freeFor'])}</Text>
           <AbsenceIndicator

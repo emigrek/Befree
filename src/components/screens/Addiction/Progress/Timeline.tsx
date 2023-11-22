@@ -41,6 +41,8 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
     };
   }, [settingsVisible]);
 
+  const reducer = (state: boolean) => (state ? 'checked' : 'unchecked');
+
   return (
     <Pressable
       onLongPress={() => setSettingsVisible(!settingsVisible)}
@@ -56,7 +58,7 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
               'timeline',
               'invert',
             ])}
-            status={invert ? 'checked' : 'unchecked'}
+            status={reducer(invert)}
             onPress={() => setInvert(!invert)}
           />
           <Checkbox.Item
@@ -67,7 +69,7 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
               'timeline',
               'distinctPast',
             ])}
-            status={distinctPast ? 'checked' : 'unchecked'}
+            status={reducer(distinctPast)}
             onPress={() => setDistinctPast(!distinctPast)}
           />
           <Button onPress={() => setSettingsVisible(false)}>
@@ -79,7 +81,8 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
         key={Number(invert) + Number(distinctPast)}
         data={addiction.relapses}
         range={timelineRange}
-        cellSize={18}
+        cellSize={25}
+        fontSize={12}
         invert={invert}
         distinctPast={distinctPast}
       >

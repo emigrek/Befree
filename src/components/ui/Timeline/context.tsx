@@ -38,6 +38,8 @@ interface TimelineContextProps {
   setCellSize: Dispatch<SetStateAction<number>>;
   cellMargin: number;
   setCellMargin: Dispatch<SetStateAction<number>>;
+  fontSize: number;
+  setFontSize: Dispatch<SetStateAction<number>>;
   invert?: boolean;
   setInvert?: Dispatch<SetStateAction<boolean>>;
   distinctPast?: boolean;
@@ -64,6 +66,10 @@ export const TimelineContext = createContext<TimelineContextProps>({
   },
   cellMargin: 1,
   setCellMargin: () => {
+    //do nothing
+  },
+  fontSize: 8,
+  setFontSize: () => {
     //do nothing
   },
   invert: false,
@@ -94,6 +100,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   const [data, setData] = useState<Date[]>(props.data);
   const [cellSize, setCellSize] = useState<number>(props.cellSize || 10);
   const [cellMargin, setCellMargin] = useState<number>(props.cellMargin || 1);
+  const [fontSize, setFontSize] = useState<number>(props.fontSize || 8);
   const [invert, setInvert] = useState<boolean>(props.invert || false);
   const [distinctPast, setDistinctPast] = useState<boolean>(
     props.invert ? true : props.distinctPast || false,
@@ -132,7 +139,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
       ) {
         return {
           day,
-          backgroundColor: `${theme.colors.outline}20`,
+          backgroundColor: `${theme.colors.outline}10`,
         };
       }
 
@@ -173,6 +180,8 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         setCellSize,
         cellMargin,
         setCellMargin,
+        fontSize,
+        setFontSize,
         invert,
         setInvert,
         distinctPast,

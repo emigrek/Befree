@@ -5,12 +5,15 @@ import { Text } from 'react-native-paper';
 
 import { useTimelineContext } from './context';
 
+import { useTheme } from '@/theme';
+
 interface WeeksProps {
   weekStyle?: ViewProps['style'];
 }
 
 const Weeks: FC<WeeksProps> = ({ weekStyle }) => {
-  const { cellSize, cellMargin, cellsData } = useTimelineContext();
+  const { colors } = useTheme();
+  const { cellSize, cellMargin, cellsData, fontSize } = useTimelineContext();
 
   const weeks = useMemo(() => {
     return cellsData
@@ -32,6 +35,8 @@ const Weeks: FC<WeeksProps> = ({ weekStyle }) => {
                 width: cellSize,
                 height: cellSize,
                 margin: cellMargin,
+                color: colors.onSurfaceVariant,
+                fontSize,
               },
             ]}
           >
@@ -39,7 +44,7 @@ const Weeks: FC<WeeksProps> = ({ weekStyle }) => {
           </Text>
         );
       },
-    [weekStyle, cellSize, cellMargin],
+    [weekStyle, cellSize, cellMargin, fontSize, colors.onSurfaceVariant],
   );
 
   const keyExtractor = (item: Date, index: number) => {
@@ -52,6 +57,7 @@ const Weeks: FC<WeeksProps> = ({ weekStyle }) => {
       data={weeks}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
+      showsHorizontalScrollIndicator={false}
       horizontal
     />
   );
@@ -60,7 +66,6 @@ const Weeks: FC<WeeksProps> = ({ weekStyle }) => {
 const style = StyleSheet.create({
   week: {
     textAlign: 'center',
-    fontSize: 8,
     borderWidth: 1,
     borderColor: 'transparent',
     borderRadius: 2,
