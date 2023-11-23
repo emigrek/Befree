@@ -77,6 +77,12 @@ export interface Translation {
         };
         label: string;
       };
+      achievements: {
+        label: string;
+      };
+      notifications: {
+        label: string;
+      };
     };
     edit: {
       label: string;

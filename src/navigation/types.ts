@@ -13,15 +13,15 @@ export type BottomTabsStackParamList = {
 };
 
 export type AddictionStackParamList = {
-  Progress: {
-    id: string;
-  };
+  Progress: { id: string };
+  Achievements: { id: string };
+  Notifications: { id: string };
 };
 
 export type ModalsStackParamList = {
   BottomTabs: NavigatorScreenParams<BottomTabsStackParamList>;
   Add: undefined;
-  Addiction: NavigatorScreenParams<AddictionStackParamList>;
+  Addiction: { id: string };
   Edit: {
     id: string;
   };
@@ -49,17 +49,32 @@ export type AddictionStackNavigationProp = StackNavigationProp<
 // ROUTE PROP TYPES
 
 export type AddictionStackRouteProp = RouteProp<
-  AddictionStackParamList,
-  'Progress'
+  ModalsStackParamList,
+  'Addiction'
 >;
 
 // SCREEN PROPS
 
 export type AddScreenProps = StackScreenProps<ModalsStackParamList, 'Add'>;
 
+export type AddictionScreenProps = StackScreenProps<
+  ModalsStackParamList,
+  'Addiction'
+>;
+
 export type ProgressScreenProps = StackScreenProps<
   AddictionStackParamList,
   'Progress'
+>;
+
+export type AchievementsScreenProps = StackScreenProps<
+  AddictionStackParamList,
+  'Achievements'
+>;
+
+export type NotificationsScreenProps = StackScreenProps<
+  AddictionStackParamList,
+  'Notifications'
 >;
 
 export type EditScreenProps = StackScreenProps<ModalsStackParamList, 'Edit'>;

@@ -91,6 +91,12 @@ const pl: Translation = {
           invert: 'Odwróć kolory',
         },
       },
+      achievements: {
+        label: 'Osiągnięcia',
+      },
+      notifications: {
+        label: 'Powiadomienia',
+      },
     },
     edit: {
       label: 'Edytuj',

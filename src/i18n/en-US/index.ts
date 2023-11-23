@@ -91,6 +91,12 @@ const enUS: Translation = {
           invert: 'Invert colors',
         },
       },
+      achievements: {
+        label: 'Achievements',
+      },
+      notifications: {
+        label: 'Notifications',
+      },
     },
     edit: {
       label: 'Edit',

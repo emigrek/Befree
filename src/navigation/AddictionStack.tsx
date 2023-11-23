@@ -1,10 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { FC } from 'react';
 
 import { TabBarIcon } from './BottomTabsStack';
-import { AddictionStackParamList } from './types';
+import { AddictionScreenProps, AddictionStackParamList } from './types';
 
 import { AddictionHeader } from '@/components/headers';
 import { ProgressScreen } from '@/components/screens/Addiction';
+import { AchievementsScreen } from '@/components/screens/Addiction/Achievements';
+import { NotificationsScreen } from '@/components/screens/Addiction/Notifications';
 import i18n from '@/i18n';
 import { useTheme } from '@/theme';
 
@@ -22,10 +25,20 @@ const addictionIconMap: AddictionTabsIconMap = {
     name: 'timer-outline',
     focusedName: 'timer',
   },
+  Achievements: {
+    name: 'trophy-outline',
+    focusedName: 'trophy',
+  },
+  Notifications: {
+    name: 'notifications-outline',
+    focusedName: 'notifications',
+  },
 };
 
-const AddictionStack = () => {
+const AddictionStack: FC<AddictionScreenProps> = props => {
   const { colors } = useTheme();
+  const params = props.route.params;
+  console.log(params);
 
   return (
     <Navigator.Navigator
@@ -57,7 +70,21 @@ const AddictionStack = () => {
       })}
       initialRouteName={'Progress'}
     >
-      <Navigator.Screen name="Progress" component={ProgressScreen} />
+      <Navigator.Screen
+        name="Progress"
+        component={ProgressScreen}
+        initialParams={params}
+      />
+      <Navigator.Screen
+        name="Achievements"
+        component={AchievementsScreen}
+        initialParams={params}
+      />
+      <Navigator.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        initialParams={params}
+      />
     </Navigator.Navigator>
   );
 };

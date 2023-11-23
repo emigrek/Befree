@@ -23,7 +23,7 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
   );
   const [settingsVisible, setSettingsVisible] = useState(false);
   const timelineRange: [Date, Date] = useMemo(() => {
-    const start = addiction.relapses[0];
+    const start = addiction.createdAt;
     const end = add(addiction.lastRelapse, {
       months: 6,
     });
@@ -81,7 +81,7 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
         key={Number(invert) + Number(distinctPast)}
         data={addiction.relapses}
         range={timelineRange}
-        cellSize={25}
+        cellSize={24}
         fontSize={12}
         invert={invert}
         distinctPast={distinctPast}
