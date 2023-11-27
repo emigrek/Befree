@@ -5,9 +5,9 @@ import { ProgressBar, ProgressBarProps, Text } from 'react-native-paper';
 
 import { style } from './style';
 
+import { useGoal } from '@/hooks/goal/useGoal';
 import i18n from '@/i18n';
 import { useTheme } from '@/theme';
-import { getGoal } from '@/utils';
 
 interface GoalProgressProps extends ProgressBarProps {
   lastRelapse: Date;
@@ -21,7 +21,7 @@ const GoalProgress: FC<GoalProgressProps> = ({
   ...props
 }) => {
   const { colors } = useTheme();
-  const goal = getGoal(new Date(lastRelapse));
+  const goal = useGoal(new Date(lastRelapse));
 
   const progress = useMemo(() => {
     const total = differenceInMilliseconds(goal.goalAt, new Date(lastRelapse));

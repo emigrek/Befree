@@ -6,7 +6,9 @@ import {
   differenceInYears,
 } from 'date-fns';
 
-export const getGoal = (date: Date) => {
+import { GoalType } from './types';
+
+export const useGoal = (date: Date) => {
   const timeDiff = differenceInMilliseconds(new Date(), date);
   let goalType: GoalType;
 
@@ -44,11 +46,3 @@ export const getGoal = (date: Date) => {
 
   return { goalAt, goalType };
 };
-
-export enum GoalType {
-  Day = 'day',
-  Week = 'week',
-  Month = 'month',
-  HalfYear = 'half-year',
-  Year = 'year',
-}

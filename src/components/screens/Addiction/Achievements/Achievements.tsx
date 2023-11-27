@@ -1,10 +1,12 @@
+import { formatDistanceToNow } from 'date-fns';
 import { FC } from 'react';
-import { View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { FlatList, View } from 'react-native';
+import { ProgressBar, Text } from 'react-native-paper';
 
 import { Loading } from '@/components/screens/Loading';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
-import useLongestAbsence from '@/hooks/addiction/useLongestAbsence';
+import { Achivement } from '@/hooks/goal/types';
+import { useAchivements } from '@/hooks/goal/useAchivements';
 import { AchievementsScreenProps } from '@/navigation/types';
 
 interface AchievementsProps {
@@ -12,13 +14,21 @@ interface AchievementsProps {
 }
 
 const Achievements: FC<AchievementsProps> = ({ addiction }) => {
-  const { start, end } = useLongestAbsence({ addiction });
-  return (
-    <View>
-      <Text>{start.toString()}</Text>
-      <Text>{end ? end.toString() : new Date().toString()}</Text>
-    </View>
-  );
+  const achivements = useAchivements({ addiction });
+
+  const renderItem = ({ item }: { item: Achivement }) => {
+    return (
+      <View>
+        <Text>{item.goal.goalType}</Text>
+        <ProgressBar progress={item.progress} />
+        {item.progress !== 1 && (
+          <Text>za {formatDistanceToNow(item.goal.goalAt)}</Text>
+        )}
+      </View>
+    );
+  };
+
+  return <FlatList data={achivements} renderItem={renderItem} />;
 };
 
 const AchievementsScreen: FC<AchievementsScreenProps> = ({ route }) => {

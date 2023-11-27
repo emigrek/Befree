@@ -141,6 +141,8 @@ export const getSortingFunction = (sorting: AddictionSorting) => {
       const bNumber = bField as number;
 
       return direction === 'asc' ? aNumber - bNumber : bNumber - aNumber;
+    } else {
+      return 0;
     }
   };
 };
