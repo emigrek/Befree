@@ -2,7 +2,7 @@ import { differenceInMilliseconds } from 'date-fns';
 import { useMemo } from 'react';
 
 import { goals } from './goals';
-import { Achivement } from './types';
+import { Achievement } from './types';
 
 import useLongestAbsence from '@/hooks/addiction/useLongestAbsence';
 
@@ -10,25 +10,26 @@ interface UseAchievementsProps {
   addiction: Addiction;
 }
 
-export const useAchivements = ({
+export const useAchievements = ({
   addiction,
-}: UseAchievementsProps): Achivement[] => {
+}: UseAchievementsProps): Achievement[] => {
   const { start, end } = useLongestAbsence({ addiction });
-  const achivements = useMemo(() => {
+
+  return useMemo(() => {
     return goals.map(goal => {
       const longestAbsenceDiff = differenceInMilliseconds(end, start);
       const progress = Math.min(1, longestAbsenceDiff / goal.timeDiff);
       const goalAt = new Date(start.getTime() + goal.timeDiff);
+      const achievedAt = progress === 1 ? goalAt : undefined;
 
       return {
         goal: {
           goalAt,
           goalType: goal.goalType,
         },
+        achievedAt,
         progress,
       };
     });
   }, [start, end]);
-
-  return achivements;
 };

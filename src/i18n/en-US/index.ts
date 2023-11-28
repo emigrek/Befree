@@ -21,6 +21,14 @@ const enUS: Translation = {
     save: 'Save',
     name: 'Name',
   },
+  goals: {
+    day: 'Day',
+    'three-days': '3 days',
+    week: 'Week',
+    month: 'Month',
+    'half-year': 'Half-year',
+    year: 'Year',
+  },
   screens: {
     home: {
       gretting: 'Hello, %{name}! 👋',
@@ -30,13 +38,6 @@ const enUS: Translation = {
     },
     addictions: {
       label: 'Addictions',
-      goalTypes: {
-        day: 'Day',
-        week: 'Week',
-        month: 'Month',
-        'half-year': 'Half-year',
-        year: 'Year',
-      },
     },
     authentication: {
       title: 'Authentication',
@@ -93,6 +94,8 @@ const enUS: Translation = {
       },
       achievements: {
         label: 'Achievements',
+        achieved: 'Achieved %{achievedAt} ago',
+        notAchieved: 'By %{goalAt}',
       },
       notifications: {
         label: 'Notifications',

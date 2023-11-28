@@ -1,48 +1,17 @@
-import {
-  addDays,
-  addMonths,
-  addYears,
-  differenceInMilliseconds,
-  differenceInYears,
-} from 'date-fns';
+import { add, differenceInMilliseconds } from 'date-fns';
 
+import { goals } from './goals';
 import { GoalType } from './types';
 
 export const useGoal = (date: Date) => {
   const timeDiff = differenceInMilliseconds(new Date(), date);
-  let goalType: GoalType;
+  const goal = goals.find(goal => goal.timeDiff > timeDiff);
 
-  if (timeDiff < 86400000) {
-    goalType = GoalType.Day;
-  } else if (timeDiff < 604800000) {
-    goalType = GoalType.Week;
-  } else if (timeDiff < 2592000000) {
-    goalType = GoalType.Month;
-  } else if (timeDiff < 15552000000) {
-    goalType = GoalType.HalfYear;
-  } else {
-    goalType = GoalType.Year;
-  }
+  const goalAt = goal
+    ? add(date, { seconds: goal.timeDiff / 1000 })
+    : add(date, { years: 1 });
 
-  let goalAt = new Date(date);
-
-  switch (goalType) {
-    case GoalType.Day:
-      goalAt = addDays(goalAt, 1);
-      break;
-    case GoalType.Week:
-      goalAt = addDays(goalAt, 7);
-      break;
-    case GoalType.Month:
-      goalAt = addMonths(goalAt, 1);
-      break;
-    case GoalType.HalfYear:
-      goalAt = addMonths(goalAt, 6);
-      break;
-    case GoalType.Year:
-      goalAt = addYears(goalAt, differenceInYears(new Date(), date) + 1);
-      break;
-  }
+  const goalType = goal ? goal.goalType : GoalType.Year;
 
   return { goalAt, goalType };
 };

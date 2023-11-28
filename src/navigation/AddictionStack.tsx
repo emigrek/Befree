@@ -38,7 +38,6 @@ const addictionIconMap: AddictionTabsIconMap = {
 const AddictionStack: FC<AddictionScreenProps> = props => {
   const { colors } = useTheme();
   const params = props.route.params;
-  console.log(params);
 
   return (
     <Navigator.Navigator

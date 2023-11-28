@@ -30,21 +30,9 @@ const AddictionHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
             {title}
           </Text>
         </View>
-        <Actions route={route} />
+        <EditAction />
       </View>
     </Appbar.Header>
-  );
-};
-
-interface ActionsProps {
-  route: BottomTabHeaderProps['route'];
-}
-
-const Actions: FC<ActionsProps> = ({ route }) => {
-  return (
-    <>
-      <EditAction />
-    </>
   );
 };
 

@@ -32,9 +32,7 @@ const GoalProgress: FC<GoalProgressProps> = ({
   return (
     <View style={style.goalProgressContainer}>
       <Text variant="labelSmall" style={{ color: colors.outline }}>
-        {i18n
-          .t(['screens', 'addictions', 'goalTypes', goal.goalType])
-          .toUpperCase()}
+        {i18n.t(['goals', goal.goalType]).toUpperCase()}
       </Text>
       <ProgressBar
         style={[style.progress, progressStyle]}

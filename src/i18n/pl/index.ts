@@ -21,6 +21,14 @@ const pl: Translation = {
     save: 'Zapisz',
     name: 'Nazwa',
   },
+  goals: {
+    day: 'Dzień',
+    'three-days': '3 dni',
+    week: 'Tydzień',
+    month: 'Miesiąc',
+    'half-year': 'Pół roku',
+    year: 'Rok',
+  },
   screens: {
     home: {
       gretting: 'Cześć, %{name}! 👋',
@@ -30,13 +38,6 @@ const pl: Translation = {
     },
     addictions: {
       label: 'Uzależnienia',
-      goalTypes: {
-        day: 'Dzień',
-        week: 'Tydzień',
-        month: 'Miesiąc',
-        'half-year': 'Pół roku',
-        year: 'Rok',
-      },
     },
     authentication: {
       title: 'Logowanie',
@@ -93,6 +94,8 @@ const pl: Translation = {
       },
       achievements: {
         label: 'Osiągnięcia',
+        achieved: 'Osiągnięto %{achievedAt} temu',
+        notAchieved: 'Za %{goalAt}',
       },
       notifications: {
         label: 'Powiadomienia',

@@ -19,6 +19,14 @@ export interface Translation {
     save: string;
     name: string;
   };
+  goals: {
+    day: string;
+    'three-days': string;
+    week: string;
+    month: string;
+    'half-year': string;
+    year: string;
+  };
   screens: {
     home: {
       gretting: string;
@@ -28,13 +36,6 @@ export interface Translation {
     };
     addictions: {
       label: string;
-      goalTypes: {
-        day: string;
-        week: string;
-        month: string;
-        'half-year': string;
-        year: string;
-      };
     };
     authentication: {
       title: string;
@@ -79,6 +80,8 @@ export interface Translation {
       };
       achievements: {
         label: string;
+        achieved: string;
+        notAchieved: string;
       };
       notifications: {
         label: string;
