@@ -10,10 +10,7 @@ export { Title };
 
 const style = StyleSheet.create({
   title: {
-    flex: 1,
-    justifyContent: 'center',
     flexDirection: 'row',
-    gap: 10,
-    alignItems: 'center',
+    gap: 5,
   },
 });

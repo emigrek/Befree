@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { formatDistanceToNow } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 import { FC, useCallback, useLayoutEffect, useMemo } from 'react';
 import { FlatList } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
@@ -51,28 +51,38 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
             <Achievement.Icon
               name={i18n.t(['goals', goal.goalType]).toUpperCase()}
               color={achieved ? colors.primary : colors.outline}
-              size={64}
+              size={52}
             />
             <Achievement.Body>
-              <Achievement.Title>
+              <Achievement.Header>
+                <Achievement.Title>
+                  <Text
+                    variant="bodyLarge"
+                    style={{
+                      color: achieved ? colors.primary : colors.text,
+                    }}
+                  >
+                    {title}
+                  </Text>
+                  {achieved && (
+                    <MCI name={'check'} size={20} color={colors.primary} />
+                  )}
+                </Achievement.Title>
                 <Text
-                  variant="titleMedium"
+                  variant="labelMedium"
                   style={{
-                    color: achieved ? colors.primary : colors.outline,
+                    color: colors.outline,
                   }}
                 >
-                  {title}
+                  {format(goal.goalAt, 'HH:mm, dd/MM/yyyy')}
                 </Text>
-                {achieved && (
-                  <MCI name={'check'} size={20} color={colors.primary} />
-                )}
-              </Achievement.Title>
+              </Achievement.Header>
               {!achieved && <Achievement.ProgressBar progress={progress} />}
             </Achievement.Body>
           </Achievement>
         );
       },
-    [colors.outline, colors.primary],
+    [colors.outline, colors.primary, colors.text],
   );
 
   const renderDivider = useCallback(() => <Divider />, []);

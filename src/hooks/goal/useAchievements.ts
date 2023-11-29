@@ -30,26 +30,25 @@ export const useAchievements = ({
         longestAbsence.start,
       );
 
-      const currentAbsenceEnd = new Date();
       const currentAbsenceDiff = differenceInMilliseconds(
-        currentAbsenceEnd,
+        new Date(),
         currentAbsence.start,
       );
 
-      const isAchieved =
+      const achieved =
         longestAbsenceDiff >= goal.timeDiff ||
         currentAbsenceDiff >= goal.timeDiff;
 
-      const progress = isAchieved
+      const progress = achieved
         ? 1
         : Math.min(1, currentAbsenceDiff / goal.timeDiff);
 
       const goalAt = new Date(
-        (isAchieved ? longestAbsence.start : currentAbsence.start).getTime() +
+        (achieved ? longestAbsence.start : currentAbsence.start).getTime() +
           goal.timeDiff,
       );
 
-      const achievedAt = isAchieved ? goalAt : undefined;
+      const achievedAt = achieved ? goalAt : undefined;
 
       return {
         goal: {

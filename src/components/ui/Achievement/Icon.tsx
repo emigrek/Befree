@@ -30,5 +30,6 @@ export { Icon };
 const style = StyleSheet.create({
   icon: {
     alignItems: 'center',
+    width: 80,
   },
 });
