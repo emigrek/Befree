@@ -6,7 +6,7 @@ interface UseLongestAbsenceProps {
 
 interface LongestAbsence {
   start: Date;
-  end: Date;
+  end: Date | null;
 }
 
 const useLongestAbsence = ({
@@ -22,12 +22,12 @@ const useLongestAbsence = ({
     if (sortedRelapses.length < 2) {
       return {
         start: sortedRelapses[0],
-        end: new Date(),
+        end: null,
       };
     }
 
     let maxDifference = 0;
-    let result = {
+    let result: LongestAbsence = {
       start: sortedRelapses[0],
       end: sortedRelapses[1],
     };
@@ -45,17 +45,6 @@ const useLongestAbsence = ({
           end: current,
         };
       }
-    }
-
-    const today = new Date();
-    const lastRelapse = sortedRelapses[sortedRelapses.length - 1];
-    const differenceToToday = today.getTime() - lastRelapse.getTime();
-
-    if (differenceToToday > maxDifference) {
-      result = {
-        start: lastRelapse,
-        end: new Date(),
-      };
     }
 
     return result;

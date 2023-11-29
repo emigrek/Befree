@@ -6,11 +6,7 @@ import { Button, Text } from 'react-native-paper';
 import { Timeline } from './Timeline';
 
 import { Loading } from '@/components/screens/Loading';
-import {
-  AbsenceIndicator,
-  GoalProgress,
-  Image,
-} from '@/components/ui/Addiction';
+import { AbsenceIndicator, Image } from '@/components/ui/Addiction';
 import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
@@ -27,7 +23,7 @@ interface ProgressProps {
 }
 
 const Progress: React.FC<ProgressProps> = ({ addiction }) => {
-  const { id, lastRelapse } = addiction;
+  const { id } = addiction;
   const user = useAuthStore(state => state.user);
   const { colors } = useTheme();
   const navigation = useNavigation<ModalStackNavigationProp>();
@@ -83,7 +79,6 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
             absenceTime={absenceTime}
             style={{ fontSize: 40, color: colors.primary }}
           />
-          <GoalProgress absenceTime={absenceTime} lastRelapse={lastRelapse} />
         </View>
       </View>
       <View style={style.buttonContainer}>

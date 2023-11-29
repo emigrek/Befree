@@ -64,7 +64,7 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
                   {title}
                 </Text>
                 {achieved && (
-                  <MCI name={'check-circle'} size={20} color={colors.primary} />
+                  <MCI name={'check'} size={20} color={colors.primary} />
                 )}
               </Achievement.Title>
               {!achieved && <Achievement.ProgressBar progress={progress} />}
