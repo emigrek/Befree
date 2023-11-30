@@ -1,7 +1,7 @@
 import { differenceInMilliseconds } from 'date-fns';
 import { useMemo } from 'react';
 
-import { goals } from './goals';
+import { goalTimeDiffs } from './goalTimeDiffs';
 import { Achievement } from './types';
 
 import useLongestAbsence from '@/hooks/addiction/useLongestAbsence';
@@ -24,7 +24,7 @@ export const useAchievements = ({
   }, [lastRelapse]);
 
   return useMemo(() => {
-    return goals.map(goal => {
+    return goalTimeDiffs.map(goal => {
       const longestAbsenceDiff = differenceInMilliseconds(
         longestAbsence.end === null ? new Date() : longestAbsence.end,
         longestAbsence.start,

@@ -1,16 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
-import { format, formatDistanceToNow } from 'date-fns';
 import { FC, useCallback, useLayoutEffect, useMemo } from 'react';
 import { FlatList } from 'react-native';
-import { Divider, Text } from 'react-native-paper';
-import MCI from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Divider } from 'react-native-paper';
+
+import { Achievement } from './Achievement';
 
 import { Loading } from '@/components/screens/Loading';
-import { Achievement, ACHIEVEMENT_HEIGHT } from '@/components/ui/Achievement';
+import { ACHIEVEMENT_HEIGHT } from '@/components/ui/Achievement';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import { Achievement as AchievementType } from '@/hooks/goal/types';
 import { useAchievements } from '@/hooks/goal/useAchievements';
-import i18n from '@/i18n';
 import {
   AchievementsScreenProps,
   ModalStackNavigationProp,
@@ -35,51 +34,13 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
   const renderItem = useMemo(
     () =>
       ({ item }: { item: AchievementType }) => {
-        const { goal, progress, achievedAt } = item;
-        const achieved = progress >= 1;
-        const title =
-          achieved && achievedAt
-            ? i18n.t(['modals', 'addiction', 'achievements', 'achieved'], {
-                achievedAt: formatDistanceToNow(achievedAt),
-              })
-            : i18n.t(['modals', 'addiction', 'achievements', 'notAchieved'], {
-                goalAt: formatDistanceToNow(goal.goalAt),
-              });
-
         return (
-          <Achievement>
-            <Achievement.Icon
-              name={i18n.t(['goals', goal.goalType]).toUpperCase()}
-              color={achieved ? colors.primary : colors.outline}
-              size={52}
-            />
-            <Achievement.Body>
-              <Achievement.Header>
-                <Achievement.Title>
-                  <Text
-                    variant="bodyLarge"
-                    style={{
-                      color: achieved ? colors.primary : colors.text,
-                    }}
-                  >
-                    {title}
-                  </Text>
-                  {achieved && (
-                    <MCI name={'check'} size={20} color={colors.primary} />
-                  )}
-                </Achievement.Title>
-                <Text
-                  variant="labelMedium"
-                  style={{
-                    color: colors.outline,
-                  }}
-                >
-                  {format(goal.goalAt, 'HH:mm, dd/MM/yyyy')}
-                </Text>
-              </Achievement.Header>
-              {!achieved && <Achievement.ProgressBar progress={progress} />}
-            </Achievement.Body>
-          </Achievement>
+          <Achievement
+            achievement={item}
+            activeColor={colors.primary}
+            inactiveColor={colors.outline}
+            textColor={colors.text}
+          />
         );
       },
     [colors.outline, colors.primary, colors.text],

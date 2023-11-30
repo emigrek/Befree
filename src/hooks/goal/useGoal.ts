@@ -1,17 +1,15 @@
 import { add, differenceInMilliseconds } from 'date-fns';
 
-import { goals } from './goals';
-import { GoalType } from './types';
+import { goalTimeDiffs } from './goalTimeDiffs';
 
 export const useGoal = (date: Date) => {
   const timeDiff = differenceInMilliseconds(new Date(), date);
-  const goal = goals.find(goal => goal.timeDiff > timeDiff);
+  const goalTimeDiff =
+    goalTimeDiffs.find(goal => goal.timeDiff > timeDiff) ||
+    goalTimeDiffs[goalTimeDiffs.length - 1];
 
-  const goalAt = goal
-    ? add(date, { seconds: goal.timeDiff / 1000 })
-    : add(date, { years: 1 });
-
-  const goalType = goal ? goal.goalType : GoalType.Year;
-
-  return { goalAt, goalType };
+  return {
+    goalAt: add(date, { seconds: goalTimeDiff.timeDiff / 1000 }),
+    goalType: goalTimeDiff.goalType,
+  };
 };

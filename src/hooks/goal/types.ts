@@ -1,4 +1,4 @@
-export enum GoalType {
+export enum Goals {
   Day = 'day',
   ThreeDays = 'three-days',
   Week = 'week',
@@ -7,14 +7,14 @@ export enum GoalType {
   Year = 'year',
 }
 
-export interface GoalTypeTimeDiff {
-  goalType: GoalType;
+export interface GoalTimeDiff {
+  goalType: Goals;
   timeDiff: number;
 }
 
 export interface Goal {
   goalAt: Date;
-  goalType: GoalType;
+  goalType: Goals;
 }
 
 export interface Achievement {
