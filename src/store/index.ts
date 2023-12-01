@@ -2,6 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import {
+  AchievementModalSlice,
+  createAchievementModalSlice,
+} from './achievementModal';
 import { AddictionsSlice, createAddictionsSlice } from './addictions';
 import { AppSlice, createAppSlice } from './app';
 import {
@@ -30,6 +34,10 @@ export const useGlobalStore = create<
     },
   ),
 );
+
+export const useAchievementModal = create<AchievementModalSlice>()((...a) => ({
+  ...createAchievementModalSlice(...a),
+}));
 
 export const useAuthStore = create<SessionSlice>()((...a) => ({
   ...createSessionSlice(...a),

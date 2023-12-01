@@ -38,6 +38,8 @@ export const Achievement: FC<AchievementProps> = ({
         name={i18n.t(['goals', goal.goalType]).toUpperCase()}
         color={achieved ? activeColor : inactiveColor}
         size={52}
+        fontSize={14}
+        style={{ width: 80 }}
       />
       <AchievementPrimitive.Body>
         <AchievementPrimitive.Header>

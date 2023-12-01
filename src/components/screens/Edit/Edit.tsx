@@ -55,10 +55,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
     if (!imageChanged && !nameChanged) {
       setSaving(false);
       navigation.navigate('Addiction', {
-        screen: 'Progress',
-        params: {
-          id: addiction.id,
-        },
+        id: addiction.id,
       });
       return;
     }
@@ -86,10 +83,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
     }).finally(() => {
       setSaving(false);
       navigation.navigate('Addiction', {
-        screen: 'Progress',
-        params: {
-          id: addiction.id,
-        },
+        id: addiction.id,
       });
     });
   }, [user, addiction, name, image, upload, navigation]);
