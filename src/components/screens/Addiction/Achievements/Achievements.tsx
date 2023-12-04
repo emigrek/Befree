@@ -4,7 +4,6 @@ import { FlatList } from 'react-native';
 import { Divider, TouchableRipple } from 'react-native-paper';
 
 import { Achievement } from './Achievement';
-import { AchievementModal } from './AchievementModal';
 
 import { Loading } from '@/components/screens/Loading';
 import { ACHIEVEMENT_HEIGHT } from '@/components/ui/Achievement';
@@ -73,19 +72,16 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
   const renderDivider = useCallback(() => <Divider />, []);
 
   return (
-    <>
-      <FlatList
-        data={achivements}
-        renderItem={renderItem}
-        ItemSeparatorComponent={renderDivider}
-        getItemLayout={(data, index) => ({
-          length: ACHIEVEMENT_HEIGHT,
-          offset: ACHIEVEMENT_HEIGHT * index,
-          index,
-        })}
-      />
-      <AchievementModal />
-    </>
+    <FlatList
+      data={achivements}
+      renderItem={renderItem}
+      ItemSeparatorComponent={renderDivider}
+      getItemLayout={(data, index) => ({
+        length: ACHIEVEMENT_HEIGHT,
+        offset: ACHIEVEMENT_HEIGHT * index,
+        index,
+      })}
+    />
   );
 };
 
