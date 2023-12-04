@@ -7,6 +7,7 @@ import { CreationWizardStack } from './CreationWizardStack';
 import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
+import { AchievementScreen } from '@/components/screens/Achievement';
 import { EditScreen } from '@/components/screens/Edit';
 import { SortingScreen } from '@/components/screens/Sorting';
 import i18n from '@/i18n';
@@ -33,47 +34,26 @@ const ModalsStack = () => {
         }}
         component={BottomTabsStack}
       />
-      <Navigator.Screen
-        name="Add"
-        component={CreationWizardStack}
-        options={{
-          headerShown: true,
+      <Navigator.Group
+        screenOptions={{
           presentation: 'modal',
           gestureEnabled: true,
           gestureResponseDistance: height / 1.5,
         }}
-      />
-      <Navigator.Screen
-        name="Addiction"
-        component={AddictionStack}
-        options={{
-          headerShown: false,
-          title: undefined,
-          presentation: 'modal',
-          gestureEnabled: true,
-          gestureResponseDistance: height / 1.5,
-        }}
-      />
-      <Navigator.Screen
-        name="Edit"
-        component={EditScreen}
-        options={{
-          headerShown: true,
-          presentation: 'modal',
-          gestureEnabled: true,
-          gestureResponseDistance: height / 1.5,
-        }}
-      />
-      <Navigator.Screen
-        name="Sorting"
-        component={SortingScreen}
-        options={{
-          headerShown: true,
-          presentation: 'modal',
-          gestureEnabled: true,
-          gestureResponseDistance: height / 1.5,
-        }}
-      />
+      >
+        <Navigator.Screen name="Add" component={CreationWizardStack} />
+        <Navigator.Screen
+          name="Addiction"
+          component={AddictionStack}
+          options={{
+            headerShown: false,
+            title: undefined,
+          }}
+        />
+        <Navigator.Screen name="Achievement" component={AchievementScreen} />
+        <Navigator.Screen name="Edit" component={EditScreen} />
+        <Navigator.Screen name="Sorting" component={SortingScreen} />
+      </Navigator.Group>
     </Navigator.Navigator>
   );
 };

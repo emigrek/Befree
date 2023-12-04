@@ -121,6 +121,9 @@ const pl: Translation = {
         name: 'Nazwa',
       },
     },
+    achievement: {
+      label: 'Osiągnięcie',
+    },
   },
   bottomSheets: {
     theme: {

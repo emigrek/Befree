@@ -27,7 +27,8 @@
         "backgroundColor": "#000000"
       },
       "userInterfaceStyle": "automatic",
-      "package": "com.emigrek.befree"
+      "package": "com.emigrek.befree",
+      "permissions": ["HIGH_SAMPLING_RATE_SENSORS"]
     },
     "web": {
       "favicon": "./assets/favicon.png"

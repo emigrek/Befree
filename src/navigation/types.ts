@@ -1,6 +1,8 @@
 import { NavigatorScreenParams, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 
+import { Goals } from '@/hooks/goal/types';
+
 // PARAM LIST TYPES
 
 export type AuthDrawerStackParamList = {
@@ -22,6 +24,7 @@ export type ModalsStackParamList = {
   BottomTabs: NavigatorScreenParams<BottomTabsStackParamList>;
   Add: undefined;
   Addiction: { id: string };
+  Achievement: { addictionId: string; goalType: Goals };
   Edit: {
     id: string;
   };
@@ -53,6 +56,11 @@ export type AddictionStackRouteProp = RouteProp<
   'Addiction'
 >;
 
+export type AchievementStackRouteProp = RouteProp<
+  ModalsStackParamList,
+  'Achievement'
+>;
+
 // SCREEN PROPS
 
 export type AddScreenProps = StackScreenProps<ModalsStackParamList, 'Add'>;
@@ -70,6 +78,11 @@ export type ProgressScreenProps = StackScreenProps<
 export type AchievementsScreenProps = StackScreenProps<
   AddictionStackParamList,
   'Achievements'
+>;
+
+export type AchievementScreenProps = StackScreenProps<
+  ModalsStackParamList,
+  'Achievement'
 >;
 
 export type NotificationsScreenProps = StackScreenProps<

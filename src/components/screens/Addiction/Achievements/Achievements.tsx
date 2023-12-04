@@ -15,7 +15,6 @@ import {
   AchievementsScreenProps,
   ModalStackNavigationProp,
 } from '@/navigation/types';
-import { useAchievementModal } from '@/store';
 import { useTheme } from '@/theme';
 
 interface AchievementsProps {
@@ -26,16 +25,6 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
   const { colors } = useTheme();
   const achivements = useAchievements({ addiction });
   const navigation = useNavigation<ModalStackNavigationProp>();
-
-  const { setVisible, setAchievement, setAddiction } = useAchievementModal(
-    state => {
-      return {
-        setVisible: state.setVisible,
-        setAchievement: state.setAchievement,
-        setAddiction: state.setAddiction,
-      };
-    },
-  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -51,9 +40,10 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
 
           if (!achieved) return;
 
-          setAchievement(item);
-          setAddiction(addiction);
-          setVisible(true);
+          navigation.navigate('Achievement', {
+            goalType: item.goal.goalType,
+            addictionId: addiction.id,
+          });
         };
 
         return (
@@ -75,10 +65,8 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
       colors.primary,
       colors.text,
       colors.secondaryContainer,
-      addiction,
-      setAchievement,
-      setAddiction,
-      setVisible,
+      addiction.id,
+      navigation,
     ],
   );
 

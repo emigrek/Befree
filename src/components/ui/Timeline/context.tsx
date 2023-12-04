@@ -139,7 +139,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
       ) {
         return {
           day,
-          backgroundColor: `${theme.colors.outline}10`,
+          backgroundColor: `${theme.colors.outline}20`,
         };
       }
 

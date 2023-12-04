@@ -121,6 +121,9 @@ const enUS: Translation = {
         name: 'Name',
       },
     },
+    achievement: {
+      label: 'Achievement',
+    },
   },
   bottomSheets: {
     theme: {

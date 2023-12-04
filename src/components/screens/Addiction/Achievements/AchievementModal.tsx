@@ -3,7 +3,12 @@ import { FC } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import Modal, { ModalProps } from 'react-native-modal';
 import { Portal, Text } from 'react-native-paper';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  SensorType,
+  useAnimatedSensor,
+  useAnimatedStyle,
+  withSpring,
+} from 'react-native-reanimated';
 
 import { Achievement } from '@/components/ui/Achievement';
 import { Bold } from '@/components/ui/Text';
@@ -54,6 +59,27 @@ const AchievementModal: FC<AchievementModalProps> = props => {
 
 const ModalContent = () => {
   const { colors } = useTheme();
+  const gyroscope = useAnimatedSensor(SensorType.GYROSCOPE, {
+    interval: 60,
+  });
+
+  const modalStyle = useAnimatedStyle(() => {
+    const { x, y } = gyroscope.sensor.value;
+
+    return {
+      transform: [
+        {
+          perspective: 600,
+        },
+        {
+          rotateX: withSpring(`${-x * 7}deg`),
+        },
+        {
+          rotateY: withSpring(`${-y * 7}deg`),
+        },
+      ],
+    };
+  });
 
   const { achievement, addiction } = useAchievementModal(state => {
     return {
@@ -71,6 +97,7 @@ const ModalContent = () => {
         {
           backgroundColor: colors.background,
         },
+        modalStyle,
       ]}
     >
       <Text variant="titleSmall">{i18n.t(['labels', 'freeFor'])}</Text>

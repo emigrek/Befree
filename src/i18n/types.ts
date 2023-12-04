@@ -107,6 +107,9 @@ export interface Translation {
         createdAt: string;
       };
     };
+    achievement: {
+      label: string;
+    };
   };
   bottomSheets: {
     theme: {

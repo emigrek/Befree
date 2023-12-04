@@ -2,16 +2,19 @@ import { differenceInMilliseconds } from 'date-fns';
 import { useMemo } from 'react';
 
 import { goalTimeDiffs } from './goalTimeDiffs';
-import { Goals } from './types';
+import { Achievement, Goals } from './types';
 
 import useLongestAbsence from '@/hooks/addiction/useLongestAbsence';
 
-interface UseAchievement {
+interface UseAchievementProps {
   addiction: Addiction;
   goalType: Goals;
 }
 
-export const useAchievement = ({ addiction, goalType }: UseAchievement) => {
+export const useAchievement = ({
+  addiction,
+  goalType,
+}: UseAchievementProps): Achievement | null => {
   const { lastRelapse } = addiction;
 
   const longestAbsence = useLongestAbsence({ addiction });
@@ -23,9 +26,9 @@ export const useAchievement = ({ addiction, goalType }: UseAchievement) => {
   }, [lastRelapse]);
 
   return useMemo(() => {
-    const goalTimeDiff = goalTimeDiffs.find(goal => goal.goalType === goalType);
+    const goal = goalTimeDiffs.find(goal => goal.goalType === goalType);
 
-    if (!goalTimeDiff) {
+    if (!goal) {
       return null;
     }
 
@@ -40,16 +43,16 @@ export const useAchievement = ({ addiction, goalType }: UseAchievement) => {
     );
 
     const achieved =
-      longestAbsenceDiff >= goalTimeDiff.timeDiff ||
-      currentAbsenceDiff >= goalTimeDiff.timeDiff;
+      longestAbsenceDiff >= goal.timeDiff ||
+      currentAbsenceDiff >= goal.timeDiff;
 
     const progress = achieved
       ? 1
-      : Math.min(1, currentAbsenceDiff / goalTimeDiff.timeDiff);
+      : Math.min(1, currentAbsenceDiff / goal.timeDiff);
 
     const goalAt = new Date(
       (achieved ? longestAbsence.start : currentAbsence.start).getTime() +
-        goalTimeDiff.timeDiff,
+        goal.timeDiff,
     );
 
     const achievedAt = achieved ? goalAt : undefined;
@@ -57,10 +60,10 @@ export const useAchievement = ({ addiction, goalType }: UseAchievement) => {
     return {
       goal: {
         goalAt,
-        goalType: goalTimeDiff.goalType,
+        goalType: goal.goalType,
       },
       achievedAt,
       progress,
     };
-  }, [currentAbsence.start, goalType, longestAbsence]);
+  }, [currentAbsence.start, longestAbsence, goalType]);
 };
