@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
+import { TransitionPresets } from '@react-navigation/stack';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import { BottomTabsStackParamList, ModalStackNavigationProp } from './types';
@@ -58,6 +59,7 @@ const BottomTabsStack = () => {
               />
             );
           },
+          ...TransitionPresets.SlideFromRightIOS,
         })}
         initialRouteName={'Home'}
       >

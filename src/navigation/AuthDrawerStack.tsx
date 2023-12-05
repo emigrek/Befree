@@ -1,4 +1,5 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { TransitionPresets } from '@react-navigation/stack';
 import { useWindowDimensions } from 'react-native';
 
 import { ModalsStack } from './ModalsStack';
@@ -18,6 +19,7 @@ const AuthDrawerStack = () => {
         headerShown: false,
         swipeEdgeWidth: width / 8,
         swipeMinDistance: 50,
+        ...TransitionPresets.SlideFromRightIOS,
       }}
       drawerContent={props => <AuthDrawer {...props} />}
     >

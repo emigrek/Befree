@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from '@react-navigation/stack';
 import { useWindowDimensions } from 'react-native';
 
 import { AddictionStack } from './AddictionStack';
@@ -24,6 +27,7 @@ const ModalsStack = () => {
         return {
           header: props => <ModalsHeader {...props} />,
           title: i18n.t(['modals', route.name.toLowerCase(), 'label']),
+          ...TransitionPresets.SlideFromRightIOS,
         };
       }}
     >

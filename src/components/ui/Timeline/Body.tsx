@@ -1,15 +1,16 @@
 import { FC } from 'react';
-import { ScrollView, ScrollViewProps, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
-type BodyProps = ScrollViewProps;
+type BodyProps = {
+  children: React.ReactNode;
+};
 
-const Body: FC<BodyProps> = props => {
+const Body: FC<BodyProps> = ({ children }) => {
   return (
-    <ScrollView
-      contentContainerStyle={style.containerStyle}
-      horizontal
-      {...props}
-    />
+    <ScrollView contentContainerStyle={style.containerStyle} horizontal>
+      {children}
+    </ScrollView>
   );
 };
 

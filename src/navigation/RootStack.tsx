@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from '@react-navigation/stack';
 import { getIdToken } from 'firebase/auth';
 import { useCallback } from 'react';
 
@@ -30,6 +33,7 @@ const RootStack = () => {
       screenOptions={{
         headerShown: !onboarded,
         header: props => <RootHeader {...props} />,
+        ...TransitionPresets.SlideFromRightIOS,
       }}
     >
       {loading && <Stack.Screen name="Loading" component={Loading} />}

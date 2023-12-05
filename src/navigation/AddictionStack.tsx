@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { TransitionPresets } from '@react-navigation/stack';
 import { FC } from 'react';
 
 import { TabBarIcon } from './BottomTabsStack';
@@ -66,6 +67,7 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
             />
           );
         },
+        ...TransitionPresets.SlideFromRightIOS,
       })}
       initialRouteName={'Progress'}
     >

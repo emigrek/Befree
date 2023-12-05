@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from '@react-navigation/stack';
 import { useCallback } from 'react';
 
 import { CreationStackParamList } from './types';
@@ -76,6 +79,7 @@ const CreationWizardStack = () => {
             {...props}
           />
         ),
+        ...TransitionPresets.SlideFromRightIOS,
       }}
     >
       <Navigator.Screen name="NameAndImage" component={NameAndImage} />
