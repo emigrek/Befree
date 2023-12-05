@@ -45,6 +45,7 @@ const BottomTabsStack = () => {
             borderTopWidth: 1,
             borderTopColor: colors.border,
             backgroundColor: colors.background,
+            height: 70,
           },
           title: i18n.t(['screens', route.name.toLowerCase(), 'label']),
           tabBarIcon: props => {
@@ -55,7 +56,7 @@ const BottomTabsStack = () => {
                 {...props}
                 name={name}
                 focusedName={focusedName}
-                size={26}
+                size={30}
               />
             );
           },

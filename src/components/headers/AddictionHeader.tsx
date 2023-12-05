@@ -20,6 +20,8 @@ const AddictionHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
         style.header,
         {
           backgroundColor: colors.background,
+          borderBottomWidth: 1,
+          borderBottomColor: colors.border,
         },
       ]}
     >

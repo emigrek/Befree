@@ -54,6 +54,15 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
           borderTopWidth: 1,
           borderTopColor: colors.border,
           backgroundColor: colors.background,
+          height: 70,
+        },
+        tabBarItemStyle: {
+          marginTop: 'auto',
+          marginBottom: 'auto',
+          height: 50,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
         },
         tabBarIcon: props => {
           const { focusedName, name } = addictionIconMap[route.name];
@@ -63,7 +72,7 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
               {...props}
               name={name}
               focusedName={focusedName}
-              size={26}
+              size={30}
             />
           );
         },
