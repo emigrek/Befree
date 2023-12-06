@@ -24,17 +24,18 @@ export default function App() {
   const theme = useTheme();
   const statusBarTheme = useStatusBarTheme();
 
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync(`#5addad`);
+  }, [theme]);
+
   // Prevents white theme flash when Theme store is not hydrated
   const isHydrated = usePersistedStoreHydrationState<ThemeSlice & AppSlice>({
     persistStore: useGlobalStore.persist,
     onFinishHydration: async () => {
+      NavigationBar.setBackgroundColorAsync(theme.colors.background);
       await SplashScreen.hideAsync();
     },
   });
-
-  useEffect(() => {
-    NavigationBar.setBackgroundColorAsync(theme.colors.background);
-  }, [isHydrated, theme]);
 
   if (!isHydrated) return null;
 

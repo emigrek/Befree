@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { FC, useCallback, useLayoutEffect, useMemo } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import { Divider, TouchableRipple } from 'react-native-paper';
 
 import { Achievement } from './Achievement';

@@ -8,6 +8,7 @@ import { Loading } from '../Loading';
 
 import { ImageUploading } from '@/components/screens/CreationWizard';
 import { Image } from '@/components/ui/Addiction';
+import { Screen } from '@/components/ui/Screen';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
@@ -65,7 +66,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
         ? await upload(`users/${user.uid}/addictions/${addiction.id}`, image)
         : null;
 
-    if (!newImage) {
+    if (!newImage && imageChanged) {
       await deleteImage({
         path: `users/${user.uid}/addictions/${addiction.id}`,
       });
@@ -98,7 +99,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   }
 
   return (
-    <View style={style.container}>
+    <Screen style={style.screen}>
       <View style={style.innerContainer}>
         <Image name={addiction.name} image={image} size={250} />
         <View style={style.buttonContainer}>
@@ -113,6 +114,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
         </View>
         <TextInput
           label={i18n.t(['labels', 'name'])}
+          style={style.input}
           value={name}
           onChangeText={handleNameChange}
         />
@@ -124,7 +126,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
       >
         {i18n.t(['labels', 'save'])}
       </Button>
-    </View>
+    </Screen>
   );
 };
 
@@ -140,13 +142,20 @@ const EditScreen: React.FC<EditScreenProps> = ({ route }) => {
 };
 
 const style = StyleSheet.create({
-  container: {
-    gap: 60,
+  screen: {
     flex: 1,
-    justifyContent: 'space-evenly',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 50,
+    paddingHorizontal: 50,
+    marginBottom: 100,
+  },
+  input: {
+    width: '100%',
   },
   innerContainer: {
+    width: '90%',
+    alignItems: 'center',
     gap: 15,
   },
   buttonContainer: {

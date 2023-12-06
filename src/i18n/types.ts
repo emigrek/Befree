@@ -24,6 +24,7 @@ export interface Translation {
     'three-days': string;
     week: string;
     month: string;
+    quarter: string;
     'half-year': string;
     year: string;
   };

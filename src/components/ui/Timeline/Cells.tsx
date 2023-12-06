@@ -26,13 +26,24 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
                 width: cellSize,
                 height: cellSize,
                 margin: cellMargin,
+                position: 'relative',
                 borderWidth: 1,
                 borderColor: colors.border,
                 borderRadius: 3,
-                backgroundColor: item.backgroundColor,
+                overflow: 'hidden',
               },
             ]}
-          />
+          >
+            <View
+              style={{
+                width: '100%',
+                height: item.dayProgress
+                  ? `${item.dayProgress * 100}%`
+                  : '100%',
+                backgroundColor: item.backgroundColor,
+              }}
+            />
+          </View>
         );
       },
     [cellStyle, colors, cellMargin, cellSize],

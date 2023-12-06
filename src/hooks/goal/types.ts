@@ -3,6 +3,7 @@ export enum Goals {
   ThreeDays = 'three-days',
   Week = 'week',
   Month = 'month',
+  Quarter = 'quarter',
   HalfYear = 'half-year',
   Year = 'year',
 }

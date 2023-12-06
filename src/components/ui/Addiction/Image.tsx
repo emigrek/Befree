@@ -25,7 +25,12 @@ const Image: FC<ImageProps> = ({
     return name
       .split(' ')
       .map(
-        word => (word.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/) ? word : word[0]), // EMOJI LABEL SUPPORT
+        word =>
+          word.match(
+            /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g,
+          )
+            ? word
+            : word[0], // EMOJI LABEL SUPPORT
       )
       .join('');
   }, [name]);

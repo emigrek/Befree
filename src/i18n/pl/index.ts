@@ -26,6 +26,7 @@ const pl: Translation = {
     'three-days': '3 dni',
     week: 'Tydzień',
     month: 'Miesiąc',
+    quarter: 'Kwartał',
     'half-year': 'Pół roku',
     year: 'Rok',
   },

@@ -31,4 +31,5 @@ export type TimelineComponentProps = TimelineProps & ViewProps;
 export interface Cell {
   day: Date;
   backgroundColor: string;
+  dayProgress?: number;
 }

@@ -1,18 +1,20 @@
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
 import { getHeaderTitle } from '@react-navigation/elements';
-import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Appbar, Text } from 'react-native-paper';
 
 import { EditAction } from '@/components/ui/EditAction';
-import { AddictionStackNavigationProp } from '@/navigation/types';
 import { useTheme } from '@/theme';
 
-const AddictionHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
+const AddictionHeader: FC<BottomTabHeaderProps> = ({
+  options,
+  route,
+  navigation,
+}) => {
   const { colors } = useTheme();
   const title = getHeaderTitle(options, route.name);
-  const { goBack, canGoBack } = useNavigation<AddictionStackNavigationProp>();
+  const isInitial = route.name === 'Progress';
 
   return (
     <Appbar.Header
@@ -25,14 +27,14 @@ const AddictionHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
         },
       ]}
     >
-      {canGoBack() ? <Appbar.BackAction onPress={goBack} /> : null}
+      <Appbar.BackAction onPress={() => navigation.goBack()} />
       <View style={style.container}>
         <View style={style.center}>
           <Text variant={'titleLarge'} style={{ textAlign: 'center' }}>
             {title}
           </Text>
         </View>
-        <EditAction />
+        {isInitial && <EditAction />}
       </View>
     </Appbar.Header>
   );

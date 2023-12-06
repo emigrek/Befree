@@ -4,6 +4,7 @@ import {
   format,
   isAfter,
   isBefore,
+  isToday,
   previousSunday,
   sub,
 } from 'date-fns';
@@ -130,6 +131,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         ? (maxCount - frequency) / maxCount
         : frequency / maxCount;
       const alphaHex = Math.round(alpha * 255).toString(16);
+      const dayProgress = isToday(day) ? new Date().getHours() / 24 : 1;
 
       if (
         !invert &&
@@ -140,6 +142,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         return {
           day,
           backgroundColor: `${theme.colors.outline}20`,
+          dayProgress,
         };
       }
 
