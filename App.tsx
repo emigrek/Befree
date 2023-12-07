@@ -4,7 +4,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import * as WebBrowser from 'expo-web-browser';
-import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
@@ -16,6 +15,8 @@ import { usePersistedStoreHydrationState } from '@/store/usePersistedStoreHydrat
 import { useTheme } from '@/theme';
 import { useStatusBarTheme } from '@/theme/useStatusBarTheme';
 
+NavigationBar.setPositionAsync('absolute');
+NavigationBar.setBackgroundColorAsync('#ffffff00');
 SystemUI.setBackgroundColorAsync('transparent');
 WebBrowser.maybeCompleteAuthSession();
 WebBrowser.warmUpAsync('com.android.chrome');
@@ -24,15 +25,10 @@ export default function App() {
   const theme = useTheme();
   const statusBarTheme = useStatusBarTheme();
 
-  useEffect(() => {
-    NavigationBar.setBackgroundColorAsync(`#5addad`);
-  }, [theme]);
-
   // Prevents white theme flash when Theme store is not hydrated
   const isHydrated = usePersistedStoreHydrationState<ThemeSlice & AppSlice>({
     persistStore: useGlobalStore.persist,
     onFinishHydration: async () => {
-      NavigationBar.setBackgroundColorAsync(theme.colors.background);
       await SplashScreen.hideAsync();
     },
   });

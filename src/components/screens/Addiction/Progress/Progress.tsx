@@ -6,7 +6,7 @@ import { Button, Text } from 'react-native-paper';
 import { Timeline } from './Timeline';
 
 import { Loading } from '@/components/screens/Loading';
-import { AbsenceIndicator, Image } from '@/components/ui/Addiction';
+import { Addiction } from '@/components/ui/Addiction';
 import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
@@ -16,7 +16,6 @@ import {
 } from '@/navigation/types';
 import { relapseAddiction, removeAddiction } from '@/services/queries';
 import { useAuthStore, useGlobalStore } from '@/store';
-import { useTheme } from '@/theme';
 
 interface ProgressProps {
   addiction: Addiction;
@@ -25,7 +24,6 @@ interface ProgressProps {
 const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   const { id } = addiction;
   const user = useAuthStore(state => state.user);
-  const { colors } = useTheme();
   const navigation = useNavigation<ModalStackNavigationProp>();
   const { absenceTime } = useAbsenceTime({ addiction });
   const { storeAddRelapse, storeRemoveRelapse, storeAdd, storeRemove } =
@@ -72,13 +70,14 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   return (
     <View style={style.container}>
       <View style={style.imageNameContainer}>
-        <Image image={addiction.image} name={addiction.name} size={200} />
+        <Addiction.Image
+          image={addiction.image}
+          name={addiction.name}
+          size={200}
+        />
         <View style={style.progress}>
           <Text variant="titleMedium">{i18n.t(['labels', 'freeFor'])}</Text>
-          <AbsenceIndicator
-            absenceTime={absenceTime}
-            style={{ fontSize: 40, color: colors.primary }}
-          />
+          <Addiction.CountUp time={absenceTime} variant={'displaySmall'} />
         </View>
       </View>
       <View style={style.buttonContainer}>
@@ -121,7 +120,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 30,
-    gap: 30,
+    gap: 20,
   },
   imageNameContainer: {
     marginTop: 15,

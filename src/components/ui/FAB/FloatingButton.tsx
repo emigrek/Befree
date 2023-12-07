@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     right: 25,
-    bottom: 95,
+    bottom: 120,
   },
 });
 

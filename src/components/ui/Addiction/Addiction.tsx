@@ -1,75 +1,23 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { FC, useCallback } from 'react';
-import { View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated';
+import React from 'react';
+import { View, ViewProps } from 'react-native';
 
-import { AbsenceIndicator } from './AbsenceIndicator';
+import { Body } from './Body';
+import { CountUp } from './CountUp';
 import { Goal } from './Goal';
 import { Image } from './Image';
+import { Name } from './Name';
 import { style } from './style';
 
-import { TouchableRipple } from '@/components/ui/TouchableRipple';
-import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
-import { useSelected } from '@/hooks/selection/useSelected';
-import { ModalStackNavigationProp } from '@/navigation/types';
+type AddictionProps = ViewProps;
 
-const AnimatedTouchableRipple =
-  Animated.createAnimatedComponent(TouchableRipple);
+function Addiction({ style: addictionStyle, ...props }: AddictionProps) {
+  return <View style={[addictionStyle, style.container]} {...props} />;
+}
 
-const Addiction: FC<Addiction> = addiction => {
-  const { image, name, lastRelapse, id } = addiction;
-  const { colors } = useTheme();
-  const { absenceTime } = useAbsenceTime({ addiction });
-  const { isSelected, toggleSelected } = useSelected({ id });
-
-  const navigation = useNavigation<ModalStackNavigationProp>();
-
-  const handleAddictionPress = useCallback(() => {
-    navigation.navigate('Addiction', {
-      id,
-    });
-  }, [navigation, id]);
-
-  const handleLongPress = useCallback(() => {
-    toggleSelected();
-  }, [toggleSelected]);
-
-  const addictionStyle = useAnimatedStyle(() => {
-    return {
-      backgroundColor: withTiming(
-        isSelected ? colors.secondaryContainer : 'transparent',
-      ),
-    };
-  }, [isSelected]);
-
-  return (
-    <AnimatedTouchableRipple
-      rippleColor={colors.secondaryContainer}
-      onPress={handleAddictionPress}
-      onLongPress={handleLongPress}
-      delayLongPress={100}
-      style={[style.surface, addictionStyle]}
-    >
-      <>
-        <Image image={image} name={name} />
-        <View style={style.textContainer}>
-          <Text variant={'titleSmall'}>{name}</Text>
-          <View style={style.details}>
-            <AbsenceIndicator
-              absenceTime={absenceTime}
-              style={{ color: colors.primary }}
-              variant={'titleLarge'}
-            />
-            <Goal absenceTime={absenceTime} lastRelapse={lastRelapse} />
-          </View>
-        </View>
-      </>
-    </AnimatedTouchableRipple>
-  );
-};
+Addiction.Image = Image;
+Addiction.Body = Body;
+Addiction.Name = Name;
+Addiction.CountUp = CountUp;
+Addiction.Goal = Goal;
 
 export { Addiction };

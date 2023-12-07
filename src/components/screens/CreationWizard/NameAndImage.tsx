@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { HelperText, TextInput, TouchableRipple } from 'react-native-paper';
 
 import style from './style';
@@ -41,7 +41,10 @@ const NameAndImage = () => {
   };
 
   return (
-    <View style={style.screen}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={style.screen}
+    >
       <View style={style.container}>
         <View style={style.texts}>
           <Bold variant="headlineSmall" style={style.texts}>
@@ -84,7 +87,7 @@ const NameAndImage = () => {
           </HelperText>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

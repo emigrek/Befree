@@ -1,14 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import React, { FC, useCallback, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 
 import { Loading } from '../Loading';
 
 import { ImageUploading } from '@/components/screens/CreationWizard';
-import { Image } from '@/components/ui/Addiction';
-import { Screen } from '@/components/ui/Screen';
+import { Addiction } from '@/components/ui/Addiction';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
@@ -83,9 +82,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
       addiction: newAddiction,
     }).finally(() => {
       setSaving(false);
-      navigation.navigate('Addiction', {
-        id: addiction.id,
-      });
+      navigation.goBack();
     });
   }, [user, addiction, name, image, upload, navigation]);
 
@@ -99,9 +96,12 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   }
 
   return (
-    <Screen style={style.screen}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={style.screen}
+    >
       <View style={style.innerContainer}>
-        <Image name={addiction.name} image={image} size={250} />
+        <Addiction.Image name={addiction.name} image={image} size={250} />
         <View style={style.buttonContainer}>
           <Button onPress={handleImageChange}>
             {i18n.t(['modals', 'edit', 'changeImage'])}
@@ -126,7 +126,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
       >
         {i18n.t(['labels', 'save'])}
       </Button>
-    </Screen>
+    </KeyboardAvoidingView>
   );
 };
 

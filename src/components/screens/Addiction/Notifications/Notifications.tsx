@@ -1,15 +1,27 @@
-import { FC } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { FC, useLayoutEffect } from 'react';
 import { View } from 'react-native';
 
 import { Loading } from '@/components/screens/Loading';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
-import { NotificationsScreenProps } from '@/navigation/types';
+import {
+  ModalStackNavigationProp,
+  NotificationsScreenProps,
+} from '@/navigation/types';
 
 interface NotificationsProps {
   addiction: Addiction;
 }
 
 const Notifications: FC<NotificationsProps> = ({ addiction }) => {
+  const navigation = useNavigation<ModalStackNavigationProp>();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: addiction.name,
+    });
+  }, [addiction, navigation]);
+
   return <View />;
 };
 

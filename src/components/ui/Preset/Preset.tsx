@@ -47,6 +47,7 @@ const Preset: FC<PresetProps> = ({ name }) => {
       mode={'contained-tonal'}
       style={style.button}
       contentStyle={style.buttonContent}
+      compact
     >
       {name}
     </Button>
@@ -57,7 +58,9 @@ const style = StyleSheet.create({
   button: {
     marginRight: 6,
   },
-  buttonContent: {},
+  buttonContent: {
+    paddingHorizontal: 5,
+  },
 });
 
 export { Preset };

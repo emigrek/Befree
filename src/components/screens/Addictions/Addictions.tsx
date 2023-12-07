@@ -2,11 +2,11 @@ import { FC, useCallback } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { Divider } from 'react-native-paper';
 
+import { Addiction } from './Addiction';
 import { Empty } from './Empty';
 import { SelectionFABs } from './SelectionFABs';
 
 import { Loading } from '@/components/screens/Loading';
-import { Addiction } from '@/components/ui/Addiction';
 import { ADDICTION_ITEM_HEIGHT } from '@/components/ui/Addiction/style';
 import { useAddictions } from '@/hooks/addiction/useAddictions';
 import { useAuthStore } from '@/store';
@@ -18,7 +18,7 @@ const Addictions: FC = () => {
   });
 
   const renderItem = useCallback(
-    ({ item }: { item: Addiction }) => <Addiction {...item} />,
+    ({ item }: { item: Addiction }) => <Addiction addiction={item} />,
     [],
   );
 

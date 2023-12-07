@@ -81,7 +81,7 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
         key={Number(invert) + Number(distinctPast)}
         data={addiction.relapses}
         range={timelineRange}
-        cellSize={24}
+        cellSize={28}
         fontSize={12}
         invert={invert}
         distinctPast={distinctPast}
