@@ -131,9 +131,11 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         ? (maxCount - frequency) / maxCount
         : frequency / maxCount;
       const alphaHex = Math.round(alpha * 255).toString(16);
-      const dayProgress = isToday(day)
-        ? new Date().getSeconds() / (24 * 60 * 60)
-        : 1;
+      const totalSeconds =
+        new Date().getHours() * 60 * 60 +
+        new Date().getMinutes() * 60 +
+        new Date().getSeconds();
+      const dayProgress = isToday(day) ? totalSeconds / (24 * 60 * 60) : 1;
 
       if (
         !invert &&
