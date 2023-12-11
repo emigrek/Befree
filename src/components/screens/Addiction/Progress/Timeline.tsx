@@ -5,6 +5,7 @@ import { Button, Checkbox } from 'react-native-paper';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 import { Timeline as TimelinePrimitive } from '@/components/ui/Timeline';
+import { useSortedRelapses } from '@/hooks/addiction/useSortedRelapses';
 import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
 
@@ -21,15 +22,16 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
       setDistinctPast: state.setDistinctPast,
     }),
   );
+  const sortedRelapses = useSortedRelapses({ addiction });
   const [settingsVisible, setSettingsVisible] = useState(false);
   const timelineRange: [Date, Date] = useMemo(() => {
-    const start = addiction.createdAt;
-    const end = add(addiction.lastRelapse, {
-      months: 6,
+    const start = sortedRelapses[0];
+    const end = add(new Date(), {
+      months: 2,
     });
 
     return [start, end];
-  }, [addiction]);
+  }, [sortedRelapses]);
 
   const overlayStyle = useAnimatedStyle(() => {
     return {

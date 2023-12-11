@@ -1,8 +1,9 @@
+import auth from '@react-native-firebase/auth';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import { signOut } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { IconButton, Title, Tooltip } from 'react-native-paper';
@@ -10,12 +11,13 @@ import { IconButton, Title, Tooltip } from 'react-native-paper';
 import { ThemeChanger } from '@/components/ui/ThemeChanger';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import i18n from '@/i18n';
-import { auth } from '@/services/firebase';
+import { RootStackNavigationProp } from '@/navigation/types';
 import { useAuthStore } from '@/store';
 import { useTheme } from '@/theme';
 
 const AuthDrawer: FC<DrawerContentComponentProps> = props => {
   const user = useAuthStore(state => state.user);
+  const navigation = useNavigation<RootStackNavigationProp>();
   const { colors } = useTheme();
 
   const handleSignOut = () => {
@@ -25,7 +27,7 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
       [
         {
           text: i18n.t(['labels', 'confirm']),
-          onPress: () => signOut(auth),
+          onPress: () => auth().signOut(),
           style: 'destructive',
         },
         {
@@ -33,6 +35,10 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
         },
       ],
     );
+  };
+
+  const handleOnline = () => {
+    navigation.navigate('Authentication');
   };
 
   return (
@@ -45,11 +51,25 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
           <View style={style.user}>
             <View style={style.userDetails}>
               <UserAvatar size={40} user={user} />
-              <Tooltip title={i18n.t(['labels', 'signOut'])}>
-                <IconButton onPress={handleSignOut} size={20} icon={'logout'} />
-              </Tooltip>
+              {user ? (
+                <Tooltip title={i18n.t(['labels', 'signOut'])}>
+                  <IconButton
+                    onPress={handleSignOut}
+                    size={20}
+                    icon={'logout'}
+                  />
+                </Tooltip>
+              ) : (
+                <Tooltip title={i18n.t(['labels', 'signIn'])}>
+                  <IconButton onPress={handleOnline} size={20} icon={'login'} />
+                </Tooltip>
+              )}
             </View>
-            <Title style={style.title}>{user?.displayName}</Title>
+            {user && (
+              <Title style={style.title}>
+                {user.displayName ?? user.email}
+              </Title>
+            )}
           </View>
         </View>
       </DrawerContentScrollView>

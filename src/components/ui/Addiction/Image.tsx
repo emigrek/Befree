@@ -18,6 +18,7 @@ interface ImageProps extends ViewProps {
   size?: number;
   roundness?: number;
   onTap?: () => void;
+  full?: boolean;
 }
 
 const Image: FC<ImageProps> = ({
@@ -25,6 +26,7 @@ const Image: FC<ImageProps> = ({
   name,
   size = 69,
   roundness = 8,
+  full,
   textImageLetters = 2,
   onTap,
   style: propsStyle,
@@ -61,11 +63,18 @@ const Image: FC<ImageProps> = ({
           propsStyle,
           styles.container,
           {
-            width: size,
-            height: size,
             backgroundColor: colors.secondaryContainer,
             borderRadius: roundness,
           },
+          !full
+            ? {
+                width: size,
+                height: size,
+              }
+            : {
+                width: '100%',
+                aspectRatio: 1,
+              },
         ]}
         onTouchStart={onTap}
         {...props}
@@ -94,7 +103,7 @@ const Image: FC<ImageProps> = ({
         propsStyle,
         styles.container,
         {
-          width: size,
+          width: !full ? size : '100%',
           height: size,
           borderRadius: roundness,
           overflow: 'hidden',

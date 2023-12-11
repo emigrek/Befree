@@ -1,50 +1,46 @@
-import { UserCredential } from 'firebase/auth';
-import { FC, useCallback, useState } from 'react';
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { FC, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, HelperText, Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 
 import { Login } from '@/components/illustrations';
 import { Screen } from '@/components/ui/Screen';
 import { Bold } from '@/components/ui/Text';
-import { useErrorState } from '@/hooks/useErrorState';
-import { useGoogleAuth } from '@/hooks/useGoogleAuth';
+import { keys } from '@/config/keys';
 import i18n from '@/i18n';
-import { createUser } from '@/services/queries';
+
+GoogleSignin.configure({
+  scopes: ['email', 'profile'],
+  webClientId: keys.webClientId,
+});
 
 const Authentication: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { visible, message, setVisible, setMessage, clear } = useErrorState();
 
-  const { promptAsync } = useGoogleAuth({
-    successCallback: useCallback(
-      (credential: UserCredential) => {
-        setLoading(false);
-        createUser({ credential });
-        clear();
-      },
-      [clear],
-    ),
-    errorCallback: useCallback(() => {
-      setLoading(false);
-      setMessage(i18n.t(['screens', 'authentication', 'errorMessage']));
-      setVisible(true);
-    }, [setMessage, setVisible]),
-    dismissCallback: useCallback(() => {
-      setLoading(false);
-      setMessage(i18n.t(['screens', 'authentication', 'dismissMessage']));
-      setVisible(true);
-    }, [setMessage, setVisible]),
-    cancelCallback: useCallback(() => {
-      setLoading(false);
-      setMessage(i18n.t(['screens', 'authentication', 'cancelMessage']));
-      setVisible(true);
-    }, [setMessage, setVisible]),
-  });
-
-  const handleSignIn = () => {
-    clear();
+  const handleSignIn = async () => {
     setLoading(true);
-    promptAsync();
+
+    try {
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+      const data = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
+
+      auth()
+        .signInWithCredential(googleCredential)
+        .then(() => {
+          setLoading(false);
+        })
+        .catch(error => {
+          setLoading(false);
+          console.log(error);
+        });
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
 
   return (
@@ -71,9 +67,6 @@ const Authentication: FC = () => {
         >
           {i18n.t(['labels', 'signIn'])}
         </Button>
-        <HelperText style={style.helperText} type="error" visible={visible}>
-          {message}
-        </HelperText>
       </View>
     </Screen>
   );

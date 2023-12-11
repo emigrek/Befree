@@ -4,6 +4,7 @@ import {
   format,
   isAfter,
   isBefore,
+  isSunday,
   isToday,
   previousSunday,
   sub,
@@ -95,7 +96,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   const defaultTheme = useTheme();
   const [theme, setTheme] = useState<MD3Theme>(defaultTheme);
   const [range, setRange] = useState<[Date, Date]>([
-    previousSunday(props.range[0]),
+    props.range[0],
     props.range[1],
   ]);
   const [data, setData] = useState<Date[]>(props.data);
@@ -119,8 +120,9 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
 
     const maxCount = Math.max(...Object.values(frequencyMap));
 
+    const sunday = isSunday(range[0]) ? range[0] : previousSunday(range[0]);
     const days = eachDayOfInterval({
-      start: range[0],
+      start: sunday,
       end: range[1],
     });
 
@@ -141,6 +143,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         !invert &&
         distinctPast &&
         isBefore(day, new Date()) &&
+        isAfter(day, range[0]) &&
         frequency === 0
       ) {
         return {

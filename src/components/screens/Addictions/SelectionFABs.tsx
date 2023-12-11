@@ -1,4 +1,4 @@
-import { User } from 'firebase/auth';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import React, { FC, useCallback, useState } from 'react';
 import Animated, {
   useAnimatedStyle,
@@ -13,7 +13,7 @@ import { useTheme } from '@/theme';
 const AnimatedFAB = Animated.createAnimatedComponent(FAB);
 
 interface SelectionFABsProps {
-  user: User;
+  user: FirebaseAuthTypes.User;
   addictions: Addiction[];
 }
 

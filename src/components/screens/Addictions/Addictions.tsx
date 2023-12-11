@@ -1,4 +1,5 @@
-import { FC, useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { FC, useCallback, useLayoutEffect } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { Divider } from 'react-native-paper';
 
@@ -8,14 +9,23 @@ import { SelectionFABs } from './SelectionFABs';
 
 import { Loading } from '@/components/screens/Loading';
 import { ADDICTION_ITEM_HEIGHT } from '@/components/ui/Addiction/style';
+import { SortingAction } from '@/components/ui/SortingAction';
 import { useAddictions } from '@/hooks/addiction/useAddictions';
+import { BottomTabsStackNavigationProp } from '@/navigation/types';
 import { useAuthStore } from '@/store';
 
 const Addictions: FC = () => {
+  const navigation = useNavigation<BottomTabsStackNavigationProp>();
   const user = useAuthStore(state => state.user);
   const { sortedAddictions, loading } = useAddictions({
     user: user!,
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <SortingAction />,
+    });
+  }, [navigation]);
 
   const renderItem = useCallback(
     ({ item }: { item: Addiction }) => <Addiction addiction={item} />,

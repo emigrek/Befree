@@ -1,14 +1,13 @@
-import { UserCredential } from 'firebase/auth';
-import { serverTimestamp, setDoc } from 'firebase/firestore';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
-import { userRef } from '@/services/refs';
+import { userRef } from '@/services/refs/user';
 
 export interface CreateUserProps {
-  credential: UserCredential;
+  user: FirebaseAuthTypes.User;
 }
 
-export const createUser = ({ credential }: CreateUserProps) => {
-  const { user } = credential;
+export const createUser = ({ user }: CreateUserProps) => {
   const { uid, displayName, email, photoURL } = user;
 
   const fUser = {
@@ -16,8 +15,8 @@ export const createUser = ({ credential }: CreateUserProps) => {
     name: displayName,
     email,
     photoURL,
-    createdAt: serverTimestamp(),
+    createdAt: firestore.FieldValue.serverTimestamp(),
   };
 
-  return setDoc(userRef(uid), fUser);
+  return userRef(uid).set(fUser);
 };

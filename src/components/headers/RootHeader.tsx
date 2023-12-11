@@ -21,6 +21,11 @@ const RootHeader: FC<StackHeaderProps> = ({ options, route }) => {
       <View style={style.container}>
         <Logo />
       </View>
+      {options.headerRight &&
+        options.headerRight({
+          pressColor: options.headerPressColor,
+          tintColor: options.headerTintColor,
+        })}
     </Appbar.Header>
   );
 };

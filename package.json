@@ -6,12 +6,20 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
+    "dev": "APP_VARIANT=development npx expo start --dev-client",
     "lint": "eslint . --ext .tsx,.ts"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "4",
     "@idiosync/horizontal-flatlist": "^1.0.18",
     "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-native-firebase/app": "^18.7.2",
+    "@react-native-firebase/auth": "^18.7.2",
+    "@react-native-firebase/crashlytics": "^18.7.2",
+    "@react-native-firebase/firestore": "^18.7.2",
+    "@react-native-firebase/perf": "^18.7.2",
+    "@react-native-firebase/storage": "^18.7.2",
+    "@react-native-google-signin/google-signin": "^10.1.1",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/native": "^6.1.7",
@@ -26,6 +34,7 @@
     "expo": "~49.0.8",
     "expo-application": "~5.3.0",
     "expo-auth-session": "~5.0.2",
+    "expo-build-properties": "~0.8.3",
     "expo-crypto": "~12.4.1",
     "expo-dev-client": "~2.4.8",
     "expo-file-system": "~15.4.3",
@@ -37,7 +46,6 @@
     "expo-status-bar": "~1.6.0",
     "expo-system-ui": "^2.4.0",
     "expo-web-browser": "~12.3.2",
-    "firebase": "^10.3.1",
     "graphemer": "^1.4.0",
     "i18n-js": "4.2.0",
     "immer": "^10.0.3",
@@ -56,7 +64,8 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-vector-icons": "^10.0.0",
     "use-elapsed-time": "^3.0.4",
-    "zustand": "^4.4.1"
+    "zustand": "^4.4.1",
+    "expo-network": "~5.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

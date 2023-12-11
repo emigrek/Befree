@@ -31,6 +31,11 @@ const ModalsHeader: FC<StackHeaderProps> = ({
             {title}
           </Text>
         </View>
+        {options.headerRight &&
+          options.headerRight({
+            pressColor: options.headerPressColor,
+            tintColor: options.headerTintColor,
+          })}
       </View>
     </Appbar.Header>
   );

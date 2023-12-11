@@ -15,12 +15,11 @@ import {
 import Navigation from '@/components/screens/CreationWizard/Navigation';
 import { useAddictionCreator } from '@/hooks/addiction/useAddictionCreator';
 import i18n from '@/i18n';
-import { useAuthStore, useCreationWizardStore } from '@/store';
+import { useCreationWizardStore } from '@/store';
 
 const Navigator = createStackNavigator<CreationStackParamList>();
 
 const CreationWizardStack = () => {
-  const user = useAuthStore(state => state.user);
   const { name, startDate, image, reset, setStartDate, setLoading } =
     useCreationWizardStore(state => ({
       name: state.name,
@@ -30,16 +29,13 @@ const CreationWizardStack = () => {
       setStartDate: state.setStartDate,
       setLoading: state.setLoading,
     }));
-  const { create, imageUploadProgress, imageUploadStatus, creating } =
-    useAddictionCreator();
+  const { create, task, uploadProgress, creating } = useAddictionCreator();
 
   const onWizardStart = useCallback(async () => {
     setStartDate(new Date());
   }, [setStartDate]);
 
   const onWizardComplete = useCallback(async () => {
-    if (!user) return;
-
     const addiction: UnidentifiedAddiction = {
       name,
       relapses: [new Date(startDate)],
@@ -49,17 +45,15 @@ const CreationWizardStack = () => {
     };
 
     setLoading(true);
-    return create(addiction).then(() => {
-      setLoading(false);
-      reset();
-    });
-  }, [create, image, name, reset, startDate, user, setLoading]);
+    await create(addiction);
+    reset();
+  }, [create, image, name, reset, startDate, setLoading]);
 
-  if (imageUploadStatus) {
+  if (task) {
     return (
       <ImageUploading
         label={i18n.t(['screens', 'creationWizard', 'uploading', 'title'])}
-        progress={imageUploadProgress}
+        progress={uploadProgress}
       />
     );
   }

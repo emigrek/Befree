@@ -8,7 +8,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Appbar, Text } from 'react-native-paper';
 
 import { Logo } from '@/components/ui/Logo';
-import { SortingAction } from '@/components/ui/SortingAction';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { AuthDrawerStackParamList } from '@/navigation/types';
 import { useAuthStore } from '@/store';
@@ -41,7 +40,11 @@ const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
         <View style={style.center}>
           <Title options={options} route={route} />
         </View>
-        <Actions route={route} />
+        {options.headerRight &&
+          options.headerRight({
+            pressColor: options.headerPressColor,
+            tintColor: options.headerTintColor,
+          })}
       </View>
     </Appbar.Header>
   );
@@ -65,22 +68,6 @@ const Title: FC<TitleProps> = ({ options, route }) => {
   }
 
   return <Logo />;
-};
-
-interface ActionsProps {
-  route: BottomTabHeaderProps['route'];
-}
-
-const Actions: FC<ActionsProps> = ({ route }) => {
-  const isAddictions = route.name === 'Addictions';
-
-  if (isAddictions) {
-    return (
-      <>
-        <SortingAction />
-      </>
-    );
-  }
 };
 
 const style = StyleSheet.create({

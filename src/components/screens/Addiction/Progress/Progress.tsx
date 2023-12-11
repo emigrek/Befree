@@ -7,6 +7,7 @@ import { Timeline } from './Timeline';
 
 import { Loading } from '@/components/screens/Loading';
 import { Addiction } from '@/components/ui/Addiction';
+import { EditAction } from '@/components/ui/EditAction';
 import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
@@ -37,14 +38,17 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: addiction.name,
+      headerRight: () => <EditAction />,
     });
   }, [addiction, navigation]);
 
   const handleRelapse = useCallback(() => {
-    if (!user) return;
     const date = new Date();
 
     storeAddRelapse(addiction.id, date);
+
+    if (!user) return;
+
     relapseAddiction({
       user,
       addiction,
@@ -54,11 +58,12 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   }, [user, addiction, storeAddRelapse, storeRemoveRelapse]);
 
   const handleRemove = useCallback(() => {
-    if (!user) return;
-
     navigation.navigate('BottomTabs', { screen: 'Addictions' });
 
     storeRemove(id);
+
+    if (!user) return;
+
     removeAddiction({
       user,
       id,

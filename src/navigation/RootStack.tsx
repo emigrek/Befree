@@ -2,17 +2,17 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from '@react-navigation/stack';
-import { getIdToken } from 'firebase/auth';
 import { useCallback } from 'react';
 
 import { AuthDrawerStack } from './AuthDrawerStack';
+import { RootStackParamList } from './types';
 
 import { RootHeader } from '@/components/headers';
 import { Authentication, Loading, Onboarding } from '@/components/screens';
 import { useAuthStateListener } from '@/hooks/useAuthStateListener';
 import { useAuthStore, useGlobalStore } from '@/store';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStack = () => {
   const onboarded = useGlobalStore(state => state.onboarded);
@@ -21,7 +21,6 @@ const RootStack = () => {
   const { loading } = useAuthStateListener({
     onUserChange: useCallback(
       u => {
-        if (u) getIdToken(u);
         setUser(u);
       },
       [setUser],
@@ -40,9 +39,7 @@ const RootStack = () => {
       {!user && (
         <Stack.Screen name="Authentication" component={Authentication} />
       )}
-      {!onboarded && user && (
-        <Stack.Screen name="Onboarding" component={Onboarding} />
-      )}
+      {!onboarded && <Stack.Screen name="Onboarding" component={Onboarding} />}
       {!loading && onboarded && user && (
         <Stack.Screen name="Home" component={AuthDrawerStack} />
       )}

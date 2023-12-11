@@ -1,10 +1,8 @@
-import { User, onAuthStateChanged } from 'firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useEffect, useState } from 'react';
 
-import { auth } from '@/services/firebase';
-
 interface AuthStateListenerProps {
-  onUserChange: (user: User | null) => void;
+  onUserChange: (user: FirebaseAuthTypes.User | null) => void;
 }
 
 export const useAuthStateListener = ({
@@ -13,10 +11,12 @@ export const useAuthStateListener = ({
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, user => {
+    const sub = auth().onAuthStateChanged(user => {
       onUserChange(user);
       setLoading(false);
     });
+
+    return sub;
   }, [onUserChange]);
 
   return {

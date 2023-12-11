@@ -13,9 +13,11 @@ const Home: FC = () => {
 
   return (
     <Screen style={style.screen}>
-      <Bold variant="headlineMedium" style={style.text}>
-        {i18n.t(['screens', 'home', 'gretting'], { name: user?.displayName })}
-      </Bold>
+      {user && (
+        <Bold variant="headlineMedium" style={style.text}>
+          {i18n.t(['screens', 'home', 'gretting'], { name: user?.displayName })}
+        </Bold>
+      )}
       <FastCreate />
     </Screen>
   );

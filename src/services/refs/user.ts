@@ -1,7 +1,5 @@
-import { DocumentReference, doc } from 'firebase/firestore';
-
-import { firestore } from '@/services/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 export const userRef = (userId: string) => {
-  return doc(firestore, 'users', userId) as DocumentReference<User>;
+  return firestore().doc(`users/${userId}`);
 };

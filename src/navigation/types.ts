@@ -5,6 +5,13 @@ import { Goals } from '@/hooks/goal/types';
 
 // PARAM LIST TYPES
 
+export type RootStackParamList = {
+  Loading?: undefined;
+  Authentication?: undefined;
+  Onboarding?: undefined;
+  Home?: undefined;
+};
+
 export type AuthDrawerStackParamList = {
   Modals: undefined;
 };
@@ -17,7 +24,6 @@ export type BottomTabsStackParamList = {
 export type AddictionStackParamList = {
   Progress: { id: string };
   Achievements: { id: string };
-  Notifications: { id: string };
 };
 
 export type ModalsStackParamList = {
@@ -41,6 +47,9 @@ export type CreationStackParamList = {
 export type ModalStackNavigationProp =
   StackNavigationProp<ModalsStackParamList>;
 
+export type BottomTabsStackNavigationProp =
+  StackNavigationProp<BottomTabsStackParamList>;
+
 export type CreationStackNavigationProp =
   StackNavigationProp<CreationStackParamList>;
 
@@ -48,6 +57,8 @@ export type AddictionStackNavigationProp = StackNavigationProp<
   ModalsStackParamList,
   'Addiction'
 >;
+
+export type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 // ROUTE PROP TYPES
 
@@ -83,11 +94,6 @@ export type AchievementsScreenProps = StackScreenProps<
 export type AchievementScreenProps = StackScreenProps<
   ModalsStackParamList,
   'Achievement'
->;
-
-export type NotificationsScreenProps = StackScreenProps<
-  AddictionStackParamList,
-  'Notifications'
 >;
 
 export type EditScreenProps = StackScreenProps<ModalsStackParamList, 'Edit'>;

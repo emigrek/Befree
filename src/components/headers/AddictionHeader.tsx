@@ -4,7 +4,6 @@ import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Appbar, Text } from 'react-native-paper';
 
-import { EditAction } from '@/components/ui/EditAction';
 import { useTheme } from '@/theme';
 
 const AddictionHeader: FC<BottomTabHeaderProps> = ({
@@ -14,7 +13,6 @@ const AddictionHeader: FC<BottomTabHeaderProps> = ({
 }) => {
   const { colors } = useTheme();
   const title = getHeaderTitle(options, route.name);
-  const isInitial = route.name === 'Progress';
 
   return (
     <Appbar.Header
@@ -34,7 +32,11 @@ const AddictionHeader: FC<BottomTabHeaderProps> = ({
             {title}
           </Text>
         </View>
-        {isInitial && <EditAction />}
+        {options.headerRight &&
+          options.headerRight({
+            pressColor: options.headerPressColor,
+            tintColor: options.headerTintColor,
+          })}
       </View>
     </Appbar.Header>
   );

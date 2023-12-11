@@ -1,27 +1,9 @@
-import {
-  CollectionReference,
-  DocumentReference,
-  collection,
-  doc,
-} from 'firebase/firestore';
-
-import { firestore } from '@/services/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 export const addictionsRef = (userId: string) => {
-  return collection(
-    firestore,
-    'users',
-    userId,
-    'addictions',
-  ) as CollectionReference<Addiction>;
+  return firestore().collection(`users/${userId}/addictions`);
 };
 
 export const addictionRef = (userId: string, addictionId: string) => {
-  return doc(
-    firestore,
-    'users',
-    userId,
-    'addictions',
-    addictionId,
-  ) as DocumentReference<Addiction>;
+  return firestore().doc(`users/${userId}/addictions/${addictionId}`);
 };

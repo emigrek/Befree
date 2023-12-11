@@ -1,57 +1,50 @@
-import { User } from 'firebase/auth';
-import {
-  deleteDoc,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-} from 'firebase/firestore';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
-import { deleteImage } from '../storage';
+import { addictionImageRef } from '../refs/image';
 
-import { addictionRef } from '@/services/refs';
+import { addictionRef } from '@/services/refs/addictions';
 
 export interface CreateAddictionProps {
-  user: User;
+  user: FirebaseAuthTypes.User;
   addiction: Addiction;
 }
 
 export const createAddiction = ({ user, addiction }: CreateAddictionProps) => {
   const fAddiction = {
     ...addiction,
-    createdAt: serverTimestamp(),
+    createdAt: firestore.FieldValue.serverTimestamp(),
   };
 
-  return setDoc(addictionRef(user.uid, fAddiction.id), fAddiction);
+  return addictionRef(user.uid, addiction.id).set(fAddiction);
 };
 
 export interface RemoveAddictionProps {
-  user: User;
+  user: FirebaseAuthTypes.User;
   id: string;
 }
 
 export const removeAddiction = async ({ user, id }: RemoveAddictionProps) => {
   try {
-    await deleteImage({
-      path: `users/${user.uid}/addictions/${id}`,
-    });
+    addictionImageRef(user.uid, id).delete();
   } catch (error) {
-    console.log("Couldn't delete image. ", error);
+    console.log('Cant delete image: ', error);
   }
-  return deleteDoc(addictionRef(user.uid, id));
+  return addictionRef(user.uid, id).delete();
 };
 
 export interface EditAddictionProps {
-  user: User;
+  user: FirebaseAuthTypes.User;
   id: string;
   addiction: Partial<UnidentifiedAddiction>;
 }
 
 export const editAddiction = ({ user, id, addiction }: EditAddictionProps) => {
-  return updateDoc(addictionRef(user.uid, id), addiction);
+  return addictionRef(user.uid, id).update(addiction);
 };
 
 export interface RelapseAddictionProps {
-  user: User;
+  user: FirebaseAuthTypes.User;
   addiction: Addiction;
 }
 
@@ -64,7 +57,7 @@ export const relapseAddiction = ({
 
   const newRelapses = [...relapses, date];
 
-  return updateDoc(addictionRef(user.uid, id), {
+  return addictionRef(user.uid, id).update({
     relapses: newRelapses,
     lastRelapse: date,
   });

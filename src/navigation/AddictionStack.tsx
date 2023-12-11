@@ -8,7 +8,6 @@ import { AddictionScreenProps, AddictionStackParamList } from './types';
 import { AddictionHeader } from '@/components/headers';
 import { ProgressScreen } from '@/components/screens/Addiction';
 import { AchievementsScreen } from '@/components/screens/Addiction/Achievements';
-import { NotificationsScreen } from '@/components/screens/Addiction/Notifications';
 import i18n from '@/i18n';
 import { useTheme } from '@/theme';
 
@@ -29,10 +28,6 @@ const addictionIconMap: AddictionTabsIconMap = {
   Achievements: {
     name: 'trophy-outline',
     focusedName: 'trophy',
-  },
-  Notifications: {
-    name: 'notifications-outline',
-    focusedName: 'notifications',
   },
 };
 
@@ -88,11 +83,6 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
       <Navigator.Screen
         name="Achievements"
         component={AchievementsScreen}
-        initialParams={params}
-      />
-      <Navigator.Screen
-        name="Notifications"
-        component={NotificationsScreen}
         initialParams={params}
       />
     </Navigator.Navigator>

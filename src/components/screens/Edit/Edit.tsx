@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import React, { FC, useCallback, useState } from 'react';
+import * as Network from 'expo-network';
+import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Appbar, Button, TextInput } from 'react-native-paper';
 
 import { Loading } from '../Loading';
 
@@ -12,16 +13,19 @@ import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
 import { editAddiction } from '@/services/queries';
-import { deleteImage, useImageUpload } from '@/services/storage';
+import { addictionImageRef } from '@/services/refs/image';
+import { useImageUpload } from '@/services/storage';
 import { useAuthStore } from '@/store';
+import { useTheme } from '@/theme';
 
 interface EditProps {
   addiction: Addiction;
 }
 
 const Edit: FC<EditProps> = ({ addiction }) => {
+  const { colors } = useTheme();
   const user = useAuthStore(state => state.user);
-  const { upload, imageUploadProgress, imageUploadStatus } = useImageUpload();
+  const { upload, task, uploadProgress } = useImageUpload();
   const navigation = useNavigation<ModalStackNavigationProp>();
 
   const [name, setName] = useState<string>(addiction.name);
@@ -42,33 +46,41 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   };
 
   const handleNameChange = (text: string) => {
-    setName(text);
+    const t = text.trim();
+
+    setName(t);
   };
 
   const handleSave = useCallback(async () => {
     if (!user) return;
-    setSaving(true);
 
     const imageChanged = image !== addiction.image;
     const nameChanged = name !== addiction.name;
+    const { isInternetReachable } = await Network.getNetworkStateAsync();
 
-    if (!imageChanged && !nameChanged) {
-      setSaving(false);
+    if (
+      (!imageChanged && !nameChanged) ||
+      (imageChanged && !nameChanged && !isInternetReachable)
+    ) {
       navigation.navigate('Addiction', {
         id: addiction.id,
       });
       return;
     }
 
+    setSaving(true);
+
     const newImage =
       imageChanged && image
         ? await upload(`users/${user.uid}/addictions/${addiction.id}`, image)
         : null;
 
-    if (!newImage && imageChanged) {
-      await deleteImage({
-        path: `users/${user.uid}/addictions/${addiction.id}`,
-      });
+    if (!newImage && imageChanged && isInternetReachable) {
+      try {
+        await addictionImageRef(user.uid, addiction.id).delete();
+      } catch (error) {
+        console.log('Cant delete image: ', error);
+      }
     }
 
     const newAddiction = {
@@ -80,19 +92,39 @@ const Edit: FC<EditProps> = ({ addiction }) => {
       user,
       id: addiction.id,
       addiction: newAddiction,
-    }).finally(() => {
-      setSaving(false);
-      navigation.goBack();
+    });
+
+    setSaving(false);
+    navigation.navigate('Addiction', {
+      id: addiction.id,
     });
   }, [user, addiction, name, image, upload, navigation]);
 
-  if (imageUploadStatus || saving) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: addiction.name,
+      headerRight: () => (
+        <Appbar.Action
+          color={colors.primary}
+          icon="check"
+          onPress={handleSave}
+          disabled={saving || !name}
+        />
+      ),
+    });
+  }, [addiction, navigation, colors.primary, handleSave, saving, name]);
+
+  if (task) {
     return (
       <ImageUploading
         label={i18n.t(['modals', 'edit', 'editing'])}
-        progress={imageUploadProgress}
+        progress={uploadProgress}
       />
     );
+  }
+
+  if (saving) {
+    return <Loading />;
   }
 
   return (
@@ -101,7 +133,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
       style={style.screen}
     >
       <View style={style.innerContainer}>
-        <Addiction.Image name={addiction.name} image={image} size={250} />
+        <Addiction.Image name={addiction.name} image={image} size={200} full />
         <View style={style.buttonContainer}>
           <Button onPress={handleImageChange}>
             {i18n.t(['modals', 'edit', 'changeImage'])}
@@ -119,13 +151,6 @@ const Edit: FC<EditProps> = ({ addiction }) => {
           onChangeText={handleNameChange}
         />
       </View>
-      <Button
-        mode={'contained'}
-        contentStyle={{ height: 48, width: '100%' }}
-        onPress={handleSave}
-      >
-        {i18n.t(['labels', 'save'])}
-      </Button>
     </KeyboardAvoidingView>
   );
 };
@@ -148,17 +173,18 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     gap: 50,
     paddingHorizontal: 50,
-    marginBottom: 100,
   },
   input: {
     width: '100%',
   },
   innerContainer: {
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
     gap: 15,
+    marginBottom: 150,
   },
   buttonContainer: {
+    flexDirection: 'row',
     gap: 5,
   },
 });

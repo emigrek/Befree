@@ -11,7 +11,7 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
 export const useAddictionCreator = () => {
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
-  const { upload, imageUploadProgress, imageUploadStatus } = useImageUpload();
+  const { upload, task, uploadProgress } = useImageUpload();
   const { storeAdd, storeRemove } = useGlobalStore(state => ({
     storeAdd: state.add,
     storeRemove: state.remove,
@@ -22,11 +22,13 @@ export const useAddictionCreator = () => {
   const create = useCallback(
     async (addiction: UnidentifiedAddiction) => {
       if (!user) return;
-      setCreating(true);
 
-      const { uid } = user;
       const { name, relapses, lastRelapse, image, tags } = addiction;
+      const { uid } = user;
+
       const addictionId = nanoid();
+
+      setCreating(true);
 
       const imageUrl = image
         ? await upload(`users/${uid}/addictions/${addictionId}`, image)
@@ -43,20 +45,19 @@ export const useAddictionCreator = () => {
       };
 
       storeAdd(newAddiction);
+
       modalStackNavigation.navigate('BottomTabs', {
         screen: 'Addictions',
       });
 
-      return createAddiction({
+      createAddiction({
         addiction: newAddiction,
         user,
-      })
-        .catch(() => {
-          storeRemove(newAddiction.id);
-        })
-        .finally(() => {
-          setCreating(false);
-        });
+      }).catch(() => {
+        storeRemove(newAddiction.id);
+      });
+
+      setCreating(false);
     },
     [modalStackNavigation, storeAdd, storeRemove, upload, user],
   );
@@ -64,7 +65,7 @@ export const useAddictionCreator = () => {
   return {
     create,
     creating,
-    imageUploadProgress,
-    imageUploadStatus,
+    uploadProgress,
+    task,
   };
 };

@@ -1,65 +1,39 @@
-import {
-  StorageError,
-  UploadTaskSnapshot,
-  deleteObject,
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
+import storage, { FirebaseStorageTypes } from '@react-native-firebase/storage';
+import * as Network from 'expo-network';
 import { useState } from 'react';
 
-import { app } from './firebase';
-export const storage = getStorage(app);
-
-type ImageUploadStatus = UploadTaskSnapshot | StorageError | null;
-
 export const useImageUpload = () => {
-  const [imageUploadProgress, setImageUploadProgress] = useState(0);
-  const [imageUploadStatus, setImageUploadStatus] =
-    useState<ImageUploadStatus>(null);
-
-  const onChange = (snapshot: UploadTaskSnapshot) => {
-    setImageUploadProgress(snapshot.bytesTransferred / snapshot.totalBytes);
-    setImageUploadStatus(snapshot);
-  };
-
-  const onError = (error: StorageError) => {
-    setImageUploadStatus(error);
-  };
-
-  const onComplete = () => {
-    setImageUploadStatus(null);
-  };
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [task, setTask] = useState<FirebaseStorageTypes.Task | null>(null);
 
   const upload = async (path: string, uri: string) => {
-    const pathResponse = await fetch(uri);
-    const pathBlob = await pathResponse.blob();
-    const imageRef = ref(storage, path);
+    const { isInternetReachable } = await Network.getNetworkStateAsync();
 
-    const task = uploadBytesResumable(imageRef, pathBlob, {
-      contentType: 'image/jpeg',
+    if (!isInternetReachable) {
+      return null;
+    }
+
+    const reference = storage().ref(path);
+    const task = reference.putFile(uri);
+
+    setTask(task);
+
+    task.on('state_changed', snapshot => {
+      const progress = snapshot.bytesTransferred / snapshot.totalBytes;
+      setUploadProgress(progress);
     });
 
-    task.on('state_changed', onChange, onError, onComplete);
+    return task.then(async task => {
+      setUploadProgress(0);
+      setTask(null);
 
-    const downloadUrl = await getDownloadURL((await task).ref);
-
-    return downloadUrl;
+      return await reference.getDownloadURL();
+    });
   };
 
   return {
     upload,
-    imageUploadProgress,
-    imageUploadStatus,
+    uploadProgress,
+    task,
   };
-};
-
-export interface DeleteImageProps {
-  path: string;
-}
-
-export const deleteImage = async ({ path }: DeleteImageProps) => {
-  const imageRef = ref(storage, path);
-  return deleteObject(imageRef);
 };
