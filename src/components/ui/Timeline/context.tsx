@@ -42,6 +42,8 @@ interface TimelineContextProps {
   setCellMargin: Dispatch<SetStateAction<number>>;
   fontSize: number;
   setFontSize: Dispatch<SetStateAction<number>>;
+  color?: string;
+  setColor?: Dispatch<SetStateAction<string>>;
   invert?: boolean;
   setInvert?: Dispatch<SetStateAction<boolean>>;
   distinctPast?: boolean;
@@ -72,6 +74,10 @@ export const TimelineContext = createContext<TimelineContextProps>({
   },
   fontSize: 8,
   setFontSize: () => {
+    //do nothing
+  },
+  color: undefined,
+  setColor: () => {
     //do nothing
   },
   invert: false,
@@ -139,41 +145,54 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         new Date().getSeconds();
       const dayProgress = isToday(day) ? totalSeconds / (24 * 60 * 60) : 1;
 
-      if (
-        !invert &&
-        distinctPast &&
-        isBefore(day, new Date()) &&
-        isAfter(day, range[0]) &&
-        frequency === 0
-      ) {
+      if ((!invert || !distinctPast) && frequency > 0) {
         return {
           day,
-          backgroundColor: `${theme.colors.outline}20`,
+          backgroundColor: `${
+            props.color || defaultTheme.colors.primary
+          }${alphaHex.padStart(2, '0')}`,
           dayProgress,
         };
       }
 
-      if (invert && distinctPast && isAfter(day, new Date())) {
+      if (
+        invert &&
+        distinctPast &&
+        frequency === 0 &&
+        isAfter(day, range[0]) &&
+        isBefore(day, new Date())
+      ) {
         return {
           day,
-          backgroundColor: `transparent`,
+          backgroundColor: `${
+            props.color || defaultTheme.colors.primary
+          }${alphaHex.padStart(2, '0')}`,
+          dayProgress,
         };
       }
 
-      return {
-        day,
-        backgroundColor: `${theme.colors.primary}${alphaHex.padStart(2, '0')}`,
-        dayProgress,
-      };
+      if (distinctPast && isBefore(day, new Date())) {
+        return {
+          day,
+          backgroundColor: `${theme.colors.outline}25`,
+          dayProgress,
+        };
+      } else {
+        return {
+          day,
+          backgroundColor: 'transparent',
+        };
+      }
     });
 
     return cells;
   }, [
     props.data,
-    theme.colors.primary,
+    props.color,
     range,
     invert,
     distinctPast,
+    defaultTheme.colors.primary,
     theme.colors.outline,
   ]);
 

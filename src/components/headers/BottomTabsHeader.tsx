@@ -7,6 +7,8 @@ import { StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Appbar, Text } from 'react-native-paper';
 
+import { OfflineBanner } from '../ui/OfflineBanner';
+
 import { Logo } from '@/components/ui/Logo';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { AuthDrawerStackParamList } from '@/navigation/types';
@@ -22,31 +24,34 @@ const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
   const { openDrawer } = useNavigation<AuthDrawerStackNavigationProp>();
 
   return (
-    <Appbar.Header
-      mode={'center-aligned'}
-      style={[
-        style.header,
-        {
-          backgroundColor: colors.background,
-          borderBottomWidth: 1,
-          borderBottomColor: colors.border,
-        },
-      ]}
-    >
-      <View style={style.container}>
-        <TouchableOpacity onPress={openDrawer}>
-          <UserAvatar user={user} />
-        </TouchableOpacity>
-        <View style={style.center}>
-          <Title options={options} route={route} />
+    <>
+      <Appbar.Header
+        mode={'center-aligned'}
+        style={[
+          style.header,
+          {
+            backgroundColor: colors.background,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.border,
+          },
+        ]}
+      >
+        <View style={style.container}>
+          <TouchableOpacity onPress={openDrawer}>
+            <UserAvatar user={user} />
+          </TouchableOpacity>
+          <View style={style.center}>
+            <Title options={options} route={route} />
+          </View>
+          {options.headerRight &&
+            options.headerRight({
+              pressColor: options.headerPressColor,
+              tintColor: options.headerTintColor,
+            })}
         </View>
-        {options.headerRight &&
-          options.headerRight({
-            pressColor: options.headerPressColor,
-            tintColor: options.headerTintColor,
-          })}
-      </View>
-    </Appbar.Header>
+      </Appbar.Header>
+      <OfflineBanner />
+    </>
   );
 };
 

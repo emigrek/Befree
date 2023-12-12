@@ -74,8 +74,10 @@ const Achievement: FC<AchievementProps> = ({ addiction, goalType }) => {
         <AchievementItem.Icon
           name={i18n.t(['goals', achievement.goal.goalType]).toUpperCase()}
           color={colors.primary}
+          backgroundColor={colors.primaryContainer}
           size={100}
-          fontSize={20}
+          fontSize={15}
+          style={{ elevation: 20 }}
         />
         <Bold variant="headlineLarge">{addiction.name}</Bold>
         <Text variant="bodySmall" style={{ color: colors.outline }}>
@@ -113,7 +115,7 @@ const style = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 10,
+    gap: 12,
     zIndex: 1,
   },
 });

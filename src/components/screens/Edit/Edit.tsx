@@ -10,6 +10,7 @@ import { Loading } from '../Loading';
 import { ImageUploading } from '@/components/screens/CreationWizard';
 import { Addiction } from '@/components/ui/Addiction';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
+import { useNetState } from '@/hooks/useNetState';
 import i18n from '@/i18n';
 import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
 import { editAddiction } from '@/services/queries';
@@ -27,6 +28,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   const user = useAuthStore(state => state.user);
   const { upload, task, uploadProgress } = useImageUpload();
   const navigation = useNavigation<ModalStackNavigationProp>();
+  const net = useNetState();
 
   const [name, setName] = useState<string>(addiction.name);
   const [image, setImage] = useState<string | null>(addiction.image);
@@ -135,11 +137,11 @@ const Edit: FC<EditProps> = ({ addiction }) => {
       <View style={style.innerContainer}>
         <Addiction.Image name={addiction.name} image={image} size={200} full />
         <View style={style.buttonContainer}>
-          <Button onPress={handleImageChange}>
+          <Button onPress={handleImageChange} disabled={!net?.isConnected}>
             {i18n.t(['modals', 'edit', 'changeImage'])}
           </Button>
           {image && (
-            <Button onPress={() => setImage(null)}>
+            <Button onPress={() => setImage(null)} disabled={!net?.isConnected}>
               {i18n.t(['modals', 'edit', 'removeImage'])}
             </Button>
           )}

@@ -22,6 +22,10 @@ const enUS: Translation = {
     name: 'Name',
   },
   goals: {
+    'ten-minutes': '10 minutes',
+    'thirty-minutes': '30 minutes',
+    'one-hour': '1 hour',
+    'half-day': 'Half-day',
     day: 'Day',
     'three-days': '3 days',
     week: 'Week',
@@ -29,6 +33,13 @@ const enUS: Translation = {
     quarter: 'Quarter',
     'half-year': 'Half-year',
     year: 'Year',
+  },
+  banners: {
+    offline: {
+      title: 'No internet connection',
+      description: 'Some features may be unavailable',
+      acknowledge: 'Got it',
+    },
   },
   screens: {
     home: {
@@ -46,6 +57,7 @@ const enUS: Translation = {
       errorMessage: 'There was an error, try again',
       cancelMessage: `You've cancelled signing in`,
       dismissMessage: `You've dismissed sign in window`,
+      helperText: `Internet connection is required to continue`,
     },
     onboarding: {
       getStarted: 'Get started',
@@ -71,6 +83,7 @@ const enUS: Translation = {
         description: 'What addiction do you want to break free from?',
         placeholder: 'e.g. Alcohol',
         nameError: 'Name is required',
+        connectionError: 'Unavailable without internet connection',
       },
       startDate: {
         title: 'Start date',

@@ -11,6 +11,7 @@ function Timeline({
   theme,
   range,
   data,
+  color,
   cellSize = 10,
   cellMargin = 1,
   fontSize = 8,
@@ -29,6 +30,7 @@ function Timeline({
         cellSize,
         cellMargin,
         fontSize,
+        color,
         invert,
         distinctPast,
       }}

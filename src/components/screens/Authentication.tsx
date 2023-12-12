@@ -2,12 +2,13 @@ import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { FC, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, HelperText, Text } from 'react-native-paper';
 
 import { Login } from '@/components/illustrations';
 import { Screen } from '@/components/ui/Screen';
 import { Bold } from '@/components/ui/Text';
 import { keys } from '@/config/keys';
+import { useNetState } from '@/hooks/useNetState';
 import i18n from '@/i18n';
 
 GoogleSignin.configure({
@@ -17,6 +18,7 @@ GoogleSignin.configure({
 
 const Authentication: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const net = useNetState();
 
   const handleSignIn = async () => {
     setLoading(true);
@@ -57,10 +59,17 @@ const Authentication: FC = () => {
         </View>
       </View>
       <View>
+        <HelperText
+          visible={!net?.isConnected}
+          type={'info'}
+          style={style.helperText}
+        >
+          {i18n.t(['screens', 'authentication', 'helperText'])}
+        </HelperText>
         <Button
           icon={'google'}
           loading={loading}
-          disabled={loading}
+          disabled={loading || !net?.isConnected}
           contentStyle={style.button}
           mode={'contained'}
           onPress={handleSignIn}
@@ -75,7 +84,7 @@ const Authentication: FC = () => {
 const style = StyleSheet.create({
   screen: {
     paddingHorizontal: 40,
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
   },
   heading: {
     gap: 50,
@@ -101,6 +110,7 @@ const style = StyleSheet.create({
   },
   helperText: {
     textAlign: 'center',
+    marginBottom: 20,
   },
 });
 

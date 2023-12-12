@@ -12,6 +12,7 @@ interface AchievementProps {
   activeColor: string;
   inactiveColor: string;
   textColor: string;
+  iconBackgroundColor?: string;
 }
 
 export const Achievement: FC<AchievementProps> = ({
@@ -19,6 +20,7 @@ export const Achievement: FC<AchievementProps> = ({
   activeColor,
   inactiveColor,
   textColor,
+  iconBackgroundColor = 'transparent',
 }) => {
   const { goal, achievedAt, progress } = achievement;
 
@@ -37,9 +39,10 @@ export const Achievement: FC<AchievementProps> = ({
       <AchievementPrimitive.Icon
         name={i18n.t(['goals', goal.goalType]).toUpperCase()}
         color={achieved ? activeColor : inactiveColor}
-        size={52}
-        fontSize={14}
-        style={{ width: 80 }}
+        size={80}
+        fontSize={13}
+        backgroundColor={iconBackgroundColor}
+        style={{ elevation: achieved ? 20 : 0 }}
       />
       <AchievementPrimitive.Body>
         <AchievementPrimitive.Header>

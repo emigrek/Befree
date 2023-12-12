@@ -20,6 +20,10 @@ export interface Translation {
     name: string;
   };
   goals: {
+    'ten-minutes': string;
+    'thirty-minutes': string;
+    'one-hour': string;
+    'half-day': string;
     day: string;
     'three-days': string;
     week: string;
@@ -44,6 +48,7 @@ export interface Translation {
       errorMessage: string;
       dismissMessage: string;
       cancelMessage: string;
+      helperText: string;
     };
     onboarding: {
       skip: string;
@@ -57,6 +62,7 @@ export interface Translation {
         description: string;
         placeholder: string;
         nameError: string;
+        connectionError: string;
       };
       startDate: {
         title: string;
@@ -65,6 +71,13 @@ export interface Translation {
       uploading: {
         title: string;
       };
+    };
+  };
+  banners: {
+    offline: {
+      title: string;
+      description: string;
+      acknowledge: string;
     };
   };
   modals: {

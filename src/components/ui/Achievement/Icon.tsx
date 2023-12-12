@@ -9,6 +9,8 @@ interface IconProps extends ViewProps {
   color: string;
   size: number;
   fontSize: number;
+  roundness?: number;
+  backgroundColor?: string;
 }
 
 const Icon: FC<IconProps> = ({
@@ -16,12 +18,29 @@ const Icon: FC<IconProps> = ({
   color,
   size,
   fontSize,
+  roundness = 8,
+  backgroundColor = 'transparent',
   style: containerStyle,
   ...props
 }) => {
   return (
-    <View style={[style.icon, containerStyle]} {...props}>
-      <MCI name={'trophy'} size={size} color={color} />
+    <View
+      style={[
+        style.icon,
+        containerStyle,
+        {
+          backgroundColor: backgroundColor ? backgroundColor : 'transparent',
+        },
+        {
+          width: size,
+          height: size,
+          borderRadius: roundness,
+          justifyContent: 'center',
+        },
+      ]}
+      {...props}
+    >
+      <MCI name={'trophy'} size={size * 0.55} color={color} />
       <Bold
         style={{
           color,

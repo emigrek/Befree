@@ -11,7 +11,6 @@ export { Body };
 const style = StyleSheet.create({
   body: {
     flex: 1,
-    height: '100%',
-    justifyContent: 'space-between',
+    gap: 15,
   },
 });

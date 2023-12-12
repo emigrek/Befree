@@ -3,6 +3,7 @@ import React, { useCallback, useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
+import { GoalProgress } from './GoalProgress';
 import { Timeline } from './Timeline';
 
 import { Loading } from '@/components/screens/Loading';
@@ -17,6 +18,7 @@ import {
 } from '@/navigation/types';
 import { relapseAddiction, removeAddiction } from '@/services/queries';
 import { useAuthStore, useGlobalStore } from '@/store';
+import { useTheme } from '@/theme';
 
 interface ProgressProps {
   addiction: Addiction;
@@ -24,6 +26,7 @@ interface ProgressProps {
 
 const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   const { id } = addiction;
+  const { colors } = useTheme();
   const user = useAuthStore(state => state.user);
   const navigation = useNavigation<ModalStackNavigationProp>();
   const { absenceTime } = useAbsenceTime({ addiction });
@@ -88,8 +91,16 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
       <View style={style.buttonContainer}>
         <Button
           style={style.button}
-          contentStyle={style.buttonContent}
-          mode="contained"
+          contentStyle={[
+            style.buttonContent,
+            {
+              backgroundColor: colors.errorContainer,
+            },
+          ]}
+          labelStyle={{
+            color: colors.error,
+          }}
+          mode="contained-tonal"
           icon="restart"
           onPress={handleRelapse}
         >
@@ -98,13 +109,17 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
         <Button
           style={style.button}
           contentStyle={style.buttonContent}
-          mode="contained-tonal"
+          mode="text"
           icon="trash-can"
+          labelStyle={{
+            color: colors.error,
+          }}
           onPress={handleRemove}
         >
           {i18n.t(['labels', 'remove'])}
         </Button>
       </View>
+      <GoalProgress addiction={addiction} />
       <Timeline addiction={addiction} />
     </View>
   );
@@ -125,7 +140,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 30,
-    gap: 20,
+    gap: 18,
   },
   imageNameContainer: {
     marginTop: 15,

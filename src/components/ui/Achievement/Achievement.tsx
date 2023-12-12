@@ -26,11 +26,9 @@ const style = StyleSheet.create({
   achievement: {
     height: ACHIEVEMENT_HEIGHT,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignContent: 'center',
+    paddingHorizontal: 15,
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+    justifyContent: 'center',
     gap: 20,
   },
 });

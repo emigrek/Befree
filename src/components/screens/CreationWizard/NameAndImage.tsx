@@ -1,11 +1,17 @@
 import * as ImagePicker from 'expo-image-picker';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
-import { HelperText, TextInput, TouchableRipple } from 'react-native-paper';
+import {
+  HelperText,
+  Text,
+  TextInput,
+  TouchableRipple,
+} from 'react-native-paper';
 
 import style from './style';
 
 import { Bold, Subtitle } from '@/components/ui/Text';
+import { useNetState } from '@/hooks/useNetState';
 import i18n from '@/i18n';
 import { useCreationWizardStore } from '@/store';
 import { useTheme } from '@/theme';
@@ -21,8 +27,11 @@ const NameAndImage = () => {
       errors: state.errors,
       setErrors: state.setErrors,
     }));
+  const net = useNetState();
 
-  const handleImageSelect = async () => {
+  const handleImageSelect = useCallback(async () => {
+    if (!net?.isConnected) return;
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -33,7 +42,7 @@ const NameAndImage = () => {
     if (result.canceled) return;
 
     setImage(result.assets[0].uri);
-  };
+  }, [net, setImage]);
 
   const handleTextChange = (text: string) => {
     setErrors(!text ? [...errors, 'name'] : errors.filter(e => e !== 'name'));
@@ -68,6 +77,16 @@ const NameAndImage = () => {
             onPress={handleImageSelect}
           >
             <>
+              {!net?.isConnected && (
+                <Text variant="bodyLarge">
+                  {i18n.t([
+                    'screens',
+                    'creationWizard',
+                    'nameAndImage',
+                    'connectionError',
+                  ])}
+                </Text>
+              )}
               {image && <Image source={{ uri: image }} style={style.image} />}
             </>
           </TouchableRipple>

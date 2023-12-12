@@ -8,7 +8,7 @@ export interface TimelineSlice {
 }
 
 export const createTimelineSlice: StateCreator<TimelineSlice> = set => ({
-  invert: false,
+  invert: true,
   setInvert: (invert: boolean) => set({ invert }),
   distinctPast: true,
   setDistinctPast: (distinctPast: boolean) => set({ distinctPast }),

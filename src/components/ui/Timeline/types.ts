@@ -19,6 +19,7 @@ export interface TimelineProps {
   theme?: MD3Theme;
   range: [Date, Date];
   data: Date[];
+  color?: string;
   cellSize?: number;
   cellMargin?: number;
   fontSize?: number;

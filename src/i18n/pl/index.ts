@@ -22,6 +22,10 @@ const pl: Translation = {
     name: 'Nazwa',
   },
   goals: {
+    'ten-minutes': '10 minut',
+    'thirty-minutes': '30 minut',
+    'one-hour': '1 godzina',
+    'half-day': 'Pół dnia',
     day: 'Dzień',
     'three-days': '3 dni',
     week: 'Tydzień',
@@ -29,6 +33,13 @@ const pl: Translation = {
     quarter: 'Kwartał',
     'half-year': 'Pół roku',
     year: 'Rok',
+  },
+  banners: {
+    offline: {
+      title: 'Tryb bez internetu',
+      description: 'Niektóre funkcje mogą być niedostępne',
+      acknowledge: 'Rozumiem',
+    },
   },
   screens: {
     home: {
@@ -46,6 +57,7 @@ const pl: Translation = {
       errorMessage: 'Wystąpił błąd, spróbuj ponownie',
       cancelMessage: `Logowanie zostało przerwane`,
       dismissMessage: `Okno logowania zostało porzucone`,
+      helperText: `Aby kontunuować, wymagane jest połączenie z internetem`,
     },
     onboarding: {
       getStarted: 'Zacznij',
@@ -71,6 +83,7 @@ const pl: Translation = {
         description: 'Z jakim uzależnieniem chcesz skonczyć?',
         placeholder: 'np. Alkohol',
         nameError: 'Nazwa jest wymagana',
+        connectionError: 'Niedostępne bez internetu',
       },
       startDate: {
         title: 'Data rozpoczęcia',

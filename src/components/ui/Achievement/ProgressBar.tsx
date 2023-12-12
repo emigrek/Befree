@@ -22,7 +22,7 @@ export { ProgressBar };
 
 const style = StyleSheet.create({
   progressBar: {
-    height: 6,
-    borderRadius: 10,
+    height: 10,
+    borderRadius: 8,
   },
 });

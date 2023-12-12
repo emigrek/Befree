@@ -8,12 +8,14 @@ import { Timeline as TimelinePrimitive } from '@/components/ui/Timeline';
 import { useSortedRelapses } from '@/hooks/addiction/useSortedRelapses';
 import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
+import { useTheme } from '@/theme';
 
 interface TimelineProps {
   addiction: Addiction;
 }
 
 const Timeline: FC<TimelineProps> = ({ addiction }) => {
+  const { colors } = useTheme();
   const { invert, setInvert, distinctPast, setDistinctPast } = useGlobalStore(
     state => ({
       invert: state.invert,
@@ -83,7 +85,8 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
         key={Number(invert) + Number(distinctPast)}
         data={addiction.relapses}
         range={timelineRange}
-        cellSize={28}
+        color={colors.primary}
+        cellSize={20}
         fontSize={12}
         invert={invert}
         distinctPast={distinctPast}
