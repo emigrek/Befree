@@ -13,7 +13,7 @@ import style from './style';
 import { Bold, Subtitle } from '@/components/ui/Text';
 import { useNetState } from '@/hooks/useNetState';
 import i18n from '@/i18n';
-import { useCreationWizardStore } from '@/store';
+import { useCreationWizardStore, useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
 const NameAndImage = () => {
@@ -27,10 +27,13 @@ const NameAndImage = () => {
       errors: state.errors,
       setErrors: state.setErrors,
     }));
+  const setOfflineAcknowledged = useGlobalStore(
+    state => state.setOfflineAcknowledged,
+  );
   const net = useNetState();
 
   const handleImageSelect = useCallback(async () => {
-    if (!net?.isConnected) return;
+    if (!net?.isConnected) return setOfflineAcknowledged(false);
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -42,7 +45,7 @@ const NameAndImage = () => {
     if (result.canceled) return;
 
     setImage(result.assets[0].uri);
-  }, [net, setImage]);
+  }, [net, setImage, setOfflineAcknowledged]);
 
   const handleTextChange = (text: string) => {
     setErrors(!text ? [...errors, 'name'] : errors.filter(e => e !== 'name'));

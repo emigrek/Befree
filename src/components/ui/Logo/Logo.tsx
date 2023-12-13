@@ -1,22 +1,46 @@
+import { useAssets } from 'expo-asset';
 import React from 'react';
-import { Text } from 'react-native-paper';
+import { Image, View } from 'react-native';
+
+import { Bold } from '../Text';
 
 import { useTheme } from '@/theme';
 
 const Logo = () => {
   const { colors } = useTheme();
+  const [assets] = useAssets([require('../../../../assets/logo.png')]);
+
+  if (!assets) return null;
 
   return (
-    <Text
-      variant={'titleLarge'}
+    <View
       style={{
-        textAlign: 'center',
-        fontWeight: 'bold',
-        color: colors.primary,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        gap: 10,
       }}
     >
-      Befree
-    </Text>
+      <Bold variant="titleLarge" style={{ color: colors.primary }}>
+        Befree
+      </Bold>
+      <View
+        style={{
+          width: 22,
+          borderRadius: 3,
+          height: 30,
+          backgroundColor: colors.primary,
+          justifyContent: 'center',
+          alignItems: 'center',
+          elevation: 5,
+        }}
+      >
+        <Image
+          source={{ uri: assets[0].uri }}
+          style={{ width: 30, aspectRatio: 1 }}
+        />
+      </View>
+    </View>
   );
 };
 

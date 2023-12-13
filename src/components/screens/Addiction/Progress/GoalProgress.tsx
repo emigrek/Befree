@@ -52,7 +52,7 @@ const GoalProgress: FC<GoalProgressProps> = ({ addiction }) => {
         <AddictionPrimitive.Goal.Progress.Text
           style={{ color: colors.outline }}
         >
-          {progress.toFixed(2)}%
+          {(progress * 100).toFixed(0)}%
         </AddictionPrimitive.Goal.Progress.Text>
       </AddictionPrimitive.Goal.Progress>
     </AddictionPrimitive.Goal>

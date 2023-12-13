@@ -9,7 +9,9 @@ export const useGoal = (date: Date) => {
     goalTimeDiffs[goalTimeDiffs.length - 1];
 
   return {
-    goalAt: add(date, { seconds: goalTimeDiff.timeDiff / 1000 }),
+    goalAt: add(date, {
+      seconds: goalTimeDiff.timeDiff / 1000,
+    }),
     goalType: goalTimeDiff.goalType,
   };
 };

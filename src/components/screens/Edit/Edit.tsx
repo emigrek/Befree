@@ -16,7 +16,7 @@ import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
 import { editAddiction } from '@/services/queries';
 import { addictionImageRef } from '@/services/refs/image';
 import { useImageUpload } from '@/services/storage';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
 interface EditProps {
@@ -29,12 +29,17 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   const { upload, task, uploadProgress } = useImageUpload();
   const navigation = useNavigation<ModalStackNavigationProp>();
   const net = useNetState();
+  const setOfflineAcknowledged = useGlobalStore(
+    state => state.setOfflineAcknowledged,
+  );
 
   const [name, setName] = useState<string>(addiction.name);
   const [image, setImage] = useState<string | null>(addiction.image);
   const [saving, setSaving] = useState<boolean>(false);
 
   const handleImageChange = async () => {
+    if (!net?.isConnected) return setOfflineAcknowledged(false);
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -45,6 +50,12 @@ const Edit: FC<EditProps> = ({ addiction }) => {
     if (result.canceled) return;
 
     setImage(result.assets[0].uri);
+  };
+
+  const handleImageRemove = () => {
+    if (!net?.isConnected) return setOfflineAcknowledged(true);
+
+    setImage(null);
   };
 
   const handleNameChange = (text: string) => {
@@ -141,7 +152,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
             {i18n.t(['modals', 'edit', 'changeImage'])}
           </Button>
           {image && (
-            <Button onPress={() => setImage(null)} disabled={!net?.isConnected}>
+            <Button onPress={handleImageRemove} disabled={!net?.isConnected}>
               {i18n.t(['modals', 'edit', 'removeImage'])}
             </Button>
           )}

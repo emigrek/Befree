@@ -3,7 +3,6 @@ import * as NavigationBar from 'expo-navigation-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
-import * as WebBrowser from 'expo-web-browser';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
@@ -18,8 +17,6 @@ import { useStatusBarTheme } from '@/theme/useStatusBarTheme';
 NavigationBar.setPositionAsync('absolute');
 NavigationBar.setBackgroundColorAsync('#ffffff00');
 SystemUI.setBackgroundColorAsync('transparent');
-WebBrowser.maybeCompleteAuthSession();
-WebBrowser.warmUpAsync('com.android.chrome');
 
 export default function App() {
   const theme = useTheme();

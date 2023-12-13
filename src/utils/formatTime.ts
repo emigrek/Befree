@@ -6,12 +6,12 @@ interface FormatTimeProps {
 }
 
 export const formatTime = ({ time, toNow = false }: FormatTimeProps) => {
-  const years = Math.floor(time / (1000 * 60 * 60 * 24 * 365));
-  const weeks = Math.floor(time / (1000 * 60 * 60 * 24 * 7) - years * 52);
-  const days = Math.floor(time / (1000 * 60 * 60 * 24) - years * 365);
-  const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((time / (1000 * 60)) % 60);
-  const seconds = Math.floor((time / 1000) % 60);
+  const seconds = Math.floor(time / 1000) % 60;
+  const minutes = Math.floor(time / 1000 / 60) % 60;
+  const hours = Math.floor(time / 1000 / 60 / 60) % 24;
+  const days = Math.floor(time / 1000 / 60 / 60 / 24) % 7;
+  const weeks = Math.floor(time / 1000 / 60 / 60 / 24 / 7) % 52;
+  const years = Math.floor(time / 1000 / 60 / 60 / 24 / 7 / 52);
 
   const y = years ? `${years}y ` : '';
   const w = weeks ? `${weeks}w ` : '';
