@@ -23,8 +23,8 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
   get,
 ) => ({
   sorting: {
-    direction: 'desc',
-    field: 'name',
+    direction: 'asc',
+    field: 'lastRelapse',
   },
   setSorting: (sorting: AddictionSorting) => set({ sorting }),
   addictions: [],

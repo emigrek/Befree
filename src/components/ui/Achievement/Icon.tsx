@@ -7,7 +7,7 @@ import { Bold } from '@/components/ui/Text';
 interface IconProps extends ViewProps {
   name: string;
   color: string;
-  size: number;
+  size?: number;
   fontSize: number;
   roundness?: number;
   backgroundColor?: string;
@@ -16,7 +16,7 @@ interface IconProps extends ViewProps {
 const Icon: FC<IconProps> = ({
   name,
   color,
-  size,
+  size = 69,
   fontSize,
   roundness = 8,
   backgroundColor = 'transparent',

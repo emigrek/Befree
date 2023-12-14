@@ -1,4 +1,4 @@
-import { add } from 'date-fns';
+import { add, nextSaturday } from 'date-fns';
 import { FC, useMemo, useState } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Button, Checkbox } from 'react-native-paper';
@@ -28,9 +28,12 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
   const [settingsVisible, setSettingsVisible] = useState(false);
   const timelineRange: [Date, Date] = useMemo(() => {
     const start = sortedRelapses[0];
-    const end = add(new Date(), {
-      months: 2,
-    });
+
+    const end = nextSaturday(
+      add(new Date(), {
+        weeks: 14,
+      }),
+    );
 
     return [start, end];
   }, [sortedRelapses]);

@@ -43,6 +43,7 @@
     "expo-localization": "~14.3.0",
     "expo-navigation-bar": "~2.3.0",
     "expo-network": "~5.4.0",
+    "expo-notifications": "~0.20.1",
     "expo-secure-store": "~12.3.1",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
@@ -50,6 +51,8 @@
     "graphemer": "^1.4.0",
     "i18n-js": "4.2.0",
     "immer": "^10.0.3",
+    "lodash.chunk": "^4.2.0",
+    "lottie-react-native": "5.1.6",
     "nanoid": "^5.0.1",
     "prettier": "^3.0.3",
     "react": "18.2.0",
@@ -65,13 +68,12 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-vector-icons": "^10.0.0",
     "use-elapsed-time": "^3.0.4",
-    "zustand": "^4.4.1",
-    "expo-notifications": "~0.20.1",
-    "lottie-react-native": "5.1.6"
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/aes-js": "^3.1.4",
+    "@types/lodash.chunk": "^4.2.9",
     "@types/react": "~18.2.14",
     "@types/react-native-vector-icons": "^6.4.14",
     "typescript": "^5.1.3"

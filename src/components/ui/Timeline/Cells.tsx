@@ -1,10 +1,10 @@
-import { HorizontalFlatList } from '@idiosync/horizontal-flatlist';
-import { FC, useMemo } from 'react';
-import { View, ViewProps } from 'react-native';
+import { FC, useMemo, useRef } from 'react';
+import { FlatList, View, ViewProps } from 'react-native';
 
 import { useTimelineContext } from './context';
 import { Cell } from './types';
 
+import { HFlatList } from '@/components/ui/HFlatList';
 import { useTheme } from '@/theme';
 
 interface CellsProps {
@@ -12,6 +12,7 @@ interface CellsProps {
 }
 
 const Cells: FC<CellsProps> = ({ cellStyle }) => {
+  const cellsRef = useRef<FlatList>(null);
   const { colors } = useTheme();
   const { cellsData, cellSize, cellMargin } = useTimelineContext();
 
@@ -54,13 +55,18 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
   };
 
   return (
-    <HorizontalFlatList
+    <HFlatList
+      ref={cellsRef}
       scrollEnabled={false}
-      showsHorizontalScrollIndicator={false}
-      numRows={7}
       data={cellsData}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
+      numRows={7}
+      getItemLayout={(data, index) => ({
+        length: cellSize + cellMargin * 2,
+        offset: (cellSize + cellMargin * 2) * index,
+        index,
+      })}
     />
   );
 };

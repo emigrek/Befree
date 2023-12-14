@@ -25,11 +25,12 @@ export interface RemoveAddictionProps {
 }
 
 export const removeAddiction = async ({ user, id }: RemoveAddictionProps) => {
-  try {
-    addictionImageRef(user.uid, id).delete();
-  } catch (error) {
-    console.log('Cant delete image: ', error);
-  }
+  addictionImageRef(user.uid, id)
+    .delete()
+    .catch(e => {
+      console.log(`Image doesnt exist for addiction ${id}`, e);
+    });
+
   return addictionRef(user.uid, id).delete();
 };
 
