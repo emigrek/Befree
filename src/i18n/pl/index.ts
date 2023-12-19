@@ -47,6 +47,11 @@ const pl: Translation = {
     },
     notifications: {
       label: 'Powiadomienia',
+      notificationsPermissions: 'Uprawnienia do powiadomień',
+      achievementsNotifications: 'Powiadomienia o osiągnięciach',
+      turnNotificationsOff: 'Wyłącz powiadomienia',
+      turnNotificationsOn: 'Włącz powiadomienia',
+      notificationsCount: '%{count} powiadomień',
     },
     addictions: {
       label: 'Uzależnienia',
@@ -168,6 +173,12 @@ const pl: Translation = {
         'Narkotyki',
         'Seks',
       ],
+    },
+  },
+  notifications: {
+    achievement: {
+      title: 'Udało się!',
+      body: 'Jesteś wolny od %{name} przez %{goalType}.',
     },
   },
 };

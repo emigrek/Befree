@@ -4,6 +4,7 @@ import {
   format,
   isAfter,
   isBefore,
+  isSameDay,
   isSunday,
   isToday,
   previousSunday,
@@ -111,7 +112,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   const [fontSize, setFontSize] = useState<number>(props.fontSize || 8);
   const [invert, setInvert] = useState<boolean>(props.invert || false);
   const [distinctPast, setDistinctPast] = useState<boolean>(
-    props.invert ? true : props.distinctPast || false,
+    props.distinctPast || false,
   );
 
   const cellsData = useMemo(() => {
@@ -135,9 +136,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
     const cells = days.map(day => {
       const key = format(day, 'yyyy-MM-dd');
       const frequency = frequencyMap[key] || 0;
-      const alpha = invert
-        ? (maxCount - frequency) / maxCount
-        : frequency / maxCount;
+      const alpha = invert ? 1 - frequency / maxCount : frequency / maxCount;
       const alphaHex = Math.round(alpha * 255).toString(16);
       const totalSeconds =
         new Date().getHours() * 60 * 60 +
@@ -145,56 +144,58 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         new Date().getSeconds();
       const dayProgress = isToday(day) ? totalSeconds / (24 * 60 * 60) : 1;
 
-      if ((!invert || !distinctPast) && frequency > 0) {
+      if (!invert) {
+        const backgroundColor = `${
+          props.color || defaultTheme.colors.primary
+        }${alphaHex.padStart(2, '0')}`;
+
+        const distinctPastBackgroundColor =
+          alpha === 0 && distinctPast && !isToday(day)
+            ? defaultTheme.colors.border
+            : backgroundColor;
+
         return {
           day,
-          backgroundColor: `${
-            props.color || defaultTheme.colors.primary
-          }${alphaHex.padStart(2, '0')}`,
+          backgroundColor: distinctPastBackgroundColor,
           dayProgress,
         };
       }
 
       if (
         invert &&
-        distinctPast &&
-        frequency === 0 &&
-        isAfter(day, range[0]) &&
+        (isAfter(day, range[0]) || isSameDay(day, range[0])) &&
         isBefore(day, new Date())
       ) {
+        const generatedColor = `${
+          props.color || defaultTheme.colors.primary
+        }${alphaHex.padStart(2, '0')}`;
+
+        const backgroundColor = isToday(day)
+          ? alpha > 0
+            ? generatedColor
+            : props.color || defaultTheme.colors.primary
+          : generatedColor;
+
+        const distinctPastBackgroundColor =
+          alpha === 0 && distinctPast && !isToday(day)
+            ? defaultTheme.colors.border
+            : backgroundColor;
+
         return {
           day,
-          backgroundColor: `${
-            props.color || defaultTheme.colors.primary
-          }${alphaHex.padStart(2, '0')}`,
+          backgroundColor: distinctPastBackgroundColor,
           dayProgress,
         };
       }
 
-      if (distinctPast && isBefore(day, new Date())) {
-        return {
-          day,
-          backgroundColor: `${theme.colors.outline}25`,
-          dayProgress,
-        };
-      } else {
-        return {
-          day,
-          backgroundColor: 'transparent',
-        };
-      }
+      return {
+        day,
+        backgroundColor: 'transparent',
+      };
     });
 
     return cells;
-  }, [
-    props.data,
-    props.color,
-    range,
-    invert,
-    distinctPast,
-    defaultTheme.colors.primary,
-    theme.colors.outline,
-  ]);
+  }, [props.data, range, invert, distinctPast, props.color, defaultTheme]);
 
   return (
     <TimelineContext.Provider

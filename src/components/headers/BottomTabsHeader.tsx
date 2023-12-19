@@ -1,11 +1,10 @@
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { getHeaderTitle } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Appbar, Text } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
 
 import { OfflineBanner } from '../ui/OfflineBanner';
 
@@ -31,8 +30,6 @@ const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
           style.header,
           {
             backgroundColor: colors.background,
-            borderBottomWidth: 1,
-            borderBottomColor: colors.border,
           },
         ]}
       >
@@ -61,17 +58,6 @@ interface TitleProps {
 }
 
 const Title: FC<TitleProps> = ({ options, route }) => {
-  const title = getHeaderTitle(options, route.name);
-  const isHome = route.name === 'Home';
-
-  if (!isHome) {
-    return (
-      <Text variant={'titleMedium'} style={{ textAlign: 'center' }}>
-        {title}
-      </Text>
-    );
-  }
-
   return <Logo />;
 };
 

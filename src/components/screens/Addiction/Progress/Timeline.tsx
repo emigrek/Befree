@@ -89,7 +89,7 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
         data={addiction.relapses}
         range={timelineRange}
         color={colors.primary}
-        cellSize={20}
+        cellSize={22}
         fontSize={12}
         invert={invert}
         distinctPast={distinctPast}
@@ -110,6 +110,5 @@ const style = StyleSheet.create({
   container: {
     position: 'relative',
     borderRadius: 10,
-    overflow: 'hidden',
   },
 });

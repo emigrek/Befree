@@ -6,6 +6,7 @@ import * as SystemUI from 'expo-system-ui';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
+import { useAndroidChannels } from '@/hooks/notifications/useAndroidChannels';
 import { RootStack } from '@/navigation/RootStack';
 import { useGlobalStore } from '@/store';
 import { AppSlice } from '@/store/app';
@@ -21,6 +22,8 @@ SystemUI.setBackgroundColorAsync('transparent');
 export default function App() {
   const theme = useTheme();
   const statusBarTheme = useStatusBarTheme();
+
+  useAndroidChannels();
 
   // Prevents white theme flash when Theme store is not hydrated
   const isHydrated = usePersistedStoreHydrationState<ThemeSlice & AppSlice>({

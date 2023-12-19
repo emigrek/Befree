@@ -2,6 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import { customAlphabet } from 'nanoid/non-secure';
 import { useCallback, useState } from 'react';
 
+import { addAllNotifications } from '../goal/achievementsNotifications';
+
 import { ModalStackNavigationProp } from '@/navigation/types';
 import { createAddiction } from '@/services/queries';
 import { useImageUpload } from '@/services/storage';
@@ -12,9 +14,14 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 export const useAddictionCreator = () => {
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
   const { upload, task, uploadProgress } = useImageUpload();
-  const { storeAdd, storeRemove } = useGlobalStore(state => ({
+  const {
+    storeAdd,
+    storeRemove,
+    isBlacklisted: hasNotificationsBlacklisted,
+  } = useGlobalStore(state => ({
     storeAdd: state.add,
     storeRemove: state.remove,
+    isBlacklisted: state.isBlacklisted,
   }));
   const [creating, setCreating] = useState(false);
   const user = useAuthStore(state => state.user);
@@ -46,6 +53,10 @@ export const useAddictionCreator = () => {
 
       storeAdd(newAddiction);
 
+      if (!hasNotificationsBlacklisted(addictionId)) {
+        addAllNotifications({ addiction: newAddiction });
+      }
+
       modalStackNavigation.navigate('BottomTabs', {
         screen: 'Addictions',
       });
@@ -59,7 +70,14 @@ export const useAddictionCreator = () => {
 
       setCreating(false);
     },
-    [modalStackNavigation, storeAdd, storeRemove, upload, user],
+    [
+      modalStackNavigation,
+      storeAdd,
+      storeRemove,
+      upload,
+      user,
+      hasNotificationsBlacklisted,
+    ],
   );
 
   return {

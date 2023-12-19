@@ -19,6 +19,7 @@ export type AuthDrawerStackParamList = {
 export type BottomTabsStackParamList = {
   Home: undefined;
   Addictions: undefined;
+  Notifications: undefined;
 };
 
 export type AddictionStackParamList = {
@@ -94,6 +95,11 @@ export type AchievementsScreenProps = StackScreenProps<
 export type AchievementScreenProps = StackScreenProps<
   ModalsStackParamList,
   'Achievement'
+>;
+
+export type NotificationsScreenProps = StackScreenProps<
+  BottomTabsStackParamList,
+  'Notifications'
 >;
 
 export type EditScreenProps = StackScreenProps<ModalsStackParamList, 'Edit'>;

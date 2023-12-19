@@ -47,6 +47,11 @@ const enUS: Translation = {
     },
     notifications: {
       label: 'Notifications',
+      notificationsPermissions: 'Notifications permissions',
+      achievementsNotifications: 'Achievements notifications',
+      turnNotificationsOn: 'Turn notifications on',
+      turnNotificationsOff: 'Turn notifications off',
+      notificationsCount: '%{count} notifications',
     },
     addictions: {
       label: 'Addictions',
@@ -168,6 +173,12 @@ const enUS: Translation = {
         'Drugs',
         'Sex',
       ],
+    },
+  },
+  notifications: {
+    achievement: {
+      title: 'You got this!',
+      body: `You are free from %{name} for %{goalType} now!`,
     },
   },
 };

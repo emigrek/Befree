@@ -1,13 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
 import { TransitionPresets } from '@react-navigation/stack';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
-import { BottomTabsStackParamList, ModalStackNavigationProp } from './types';
+import { BottomTabsStackParamList } from './types';
 
 import { BottomTabsHeader } from '@/components/headers';
 import { Addictions, Home } from '@/components/screens';
-import { FAB } from '@/components/ui/FAB';
+import { Notifications } from '@/components/screens/Notifications';
 import i18n from '@/i18n';
 import { useTheme } from '@/theme';
 
@@ -29,53 +28,46 @@ const bottomTabsIconMap: BottomTabsIconMap = {
     name: 'list-outline',
     focusedName: 'list',
   },
+  Notifications: {
+    name: 'notifications-outline',
+    focusedName: 'notifications',
+  },
 };
 
 const BottomTabsStack = () => {
   const { colors } = useTheme();
-  const { navigate } = useNavigation<ModalStackNavigationProp>();
 
   return (
-    <>
-      <Navigator.Navigator
-        screenOptions={({ route }) => ({
-          tabBarShowLabel: false,
-          header: props => <BottomTabsHeader {...props} />,
-          tabBarStyle: {
-            borderTopWidth: 1,
-            borderTopColor: colors.border,
-            backgroundColor: colors.background,
-            height: 95,
-          },
-          title: i18n.t(['screens', route.name.toLowerCase(), 'label']),
-          tabBarIcon: props => {
-            const { focusedName, name } = bottomTabsIconMap[route.name];
+    <Navigator.Navigator
+      screenOptions={({ route }) => ({
+        tabBarShowLabel: false,
+        header: props => <BottomTabsHeader {...props} />,
+        tabBarStyle: {
+          borderTopColor: 'transparent',
+          backgroundColor: colors.background,
+          height: 95,
+        },
+        title: i18n.t(['screens', route.name.toLowerCase(), 'label']),
+        tabBarIcon: props => {
+          const { focusedName, name } = bottomTabsIconMap[route.name];
 
-            return (
-              <TabBarIcon
-                {...props}
-                name={name}
-                focusedName={focusedName}
-                size={30}
-              />
-            );
-          },
-          ...TransitionPresets.SlideFromRightIOS,
-        })}
-        initialRouteName={'Home'}
-      >
-        <Navigator.Screen name={'Home'} component={Home} />
-        <Navigator.Screen name={'Addictions'} component={Addictions} />
-      </Navigator.Navigator>
-      <FAB
-        icon="plus"
-        customSize={60}
-        color={colors.onPrimary}
-        style={{ backgroundColor: colors.primary }}
-        mode={'flat'}
-        onPress={() => navigate('Add')}
-      />
-    </>
+          return (
+            <TabBarIcon
+              {...props}
+              name={name}
+              focusedName={focusedName}
+              size={30}
+            />
+          );
+        },
+        ...TransitionPresets.SlideFromRightIOS,
+      })}
+      initialRouteName={'Home'}
+    >
+      <Navigator.Screen name={'Home'} component={Home} />
+      <Navigator.Screen name={'Addictions'} component={Addictions} />
+      <Navigator.Screen name={'Notifications'} component={Notifications} />
+    </Navigator.Navigator>
   );
 };
 

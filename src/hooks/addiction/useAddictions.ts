@@ -29,16 +29,20 @@ export const useAddictions = ({ user }: UseAddictionsProps) => {
     return addictionsRef(user.uid).onSnapshot(snapshot => {
       const newAddictions = snapshot.docs.map(doc => {
         const data = doc.data();
-        const relapses = data.relapses.map((relapse: any) => relapse.toDate());
+        const relapses = data.relapses.map(
+          (relapse: any) => new Date(relapse.toDate()),
+        );
 
         return {
           id: doc.id,
           relapses,
-          lastRelapse: data.lastRelapse.toDate(),
+          lastRelapse: new Date(data.lastRelapse.toDate()),
           name: data.name,
           image: data.image,
           tags: data.tags,
-          createdAt: data.createdAt ? data.createdAt.toDate() : new Date(),
+          createdAt: data.createdAt
+            ? new Date(data.createdAt.toDate())
+            : new Date(),
         };
       });
       setAddictions(newAddictions);

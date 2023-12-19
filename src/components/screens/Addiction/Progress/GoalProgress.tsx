@@ -29,19 +29,17 @@ const GoalProgress: FC<GoalProgressProps> = ({ addiction }) => {
     <AddictionPrimitive.Goal
       style={{
         paddingHorizontal: 20,
-        paddingVertical: 20,
-        borderTopColor: colors.border,
-        borderTopWidth: 1,
       }}
     >
       <AddictionPrimitive.Goal.Label
-        style={{ fontWeight: 'bold', color: colors.outline }}
+        variant={'bodyMedium'}
+        style={{ fontWeight: 'bold', color: colors.text }}
       >
-        {i18n.t(['labels', 'goal']).toUpperCase()}
+        {i18n.t(['labels', 'goal'])}
       </AddictionPrimitive.Goal.Label>
       <AddictionPrimitive.Goal.Progress>
         <AddictionPrimitive.Goal.Progress.Text
-          style={{ color: colors.outline }}
+          style={{ color: colors.onSurfaceVariant }}
         >
           {i18n.t(['goals', goal.goalType]).toUpperCase()}
         </AddictionPrimitive.Goal.Progress.Text>
@@ -50,7 +48,7 @@ const GoalProgress: FC<GoalProgressProps> = ({ addiction }) => {
           color={colors.primary}
         />
         <AddictionPrimitive.Goal.Progress.Text
-          style={{ color: colors.outline }}
+          style={{ color: colors.onSurfaceVariant }}
         >
           {(progress * 100).toFixed(0)}%
         </AddictionPrimitive.Goal.Progress.Text>

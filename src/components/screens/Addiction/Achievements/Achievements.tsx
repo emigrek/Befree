@@ -1,12 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import { FC, useCallback, useLayoutEffect, useMemo } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
-import { Divider, TouchableRipple } from 'react-native-paper';
+import { TouchableRipple } from 'react-native-paper';
 
 import { Achievement } from './Achievement';
 
 import { Loading } from '@/components/screens/Loading';
 import { ACHIEVEMENT_HEIGHT } from '@/components/ui/Achievement';
+import { Divider } from '@/components/ui/Divider';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import { Achievement as AchievementType } from '@/hooks/goal/types';
 import { useAchievements } from '@/hooks/goal/useAchievements';

@@ -3,13 +3,13 @@ import { StyleSheet, View } from 'react-native';
 
 import { PresetList } from './PresetList';
 
-import { WidgetHeader } from '@/components/ui/WidgetHeader';
+import { Header } from '@/components/ui/Header';
 import i18n from '@/i18n';
 
 const FastCreate = () => {
   return (
     <View style={style.container}>
-      <WidgetHeader
+      <Header
         title={i18n.t(['widgets', 'fastCreate', 'title'])}
         description={i18n.t(['widgets', 'fastCreate', 'description'])}
       />

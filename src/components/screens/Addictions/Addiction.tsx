@@ -74,7 +74,7 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
           <AddictionPrimitive.CountUp variant="titleLarge" time={absenceTime} />
           <AddictionPrimitive.Goal>
             <AddictionPrimitive.Goal.Label
-              style={{ fontWeight: 'bold', color: colors.outline }}
+              style={{ fontWeight: 'bold', color: colors.text }}
             >
               {i18n.t(['labels', 'goal']).toUpperCase()}
             </AddictionPrimitive.Goal.Label>

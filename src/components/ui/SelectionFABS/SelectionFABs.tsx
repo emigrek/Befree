@@ -6,6 +6,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { FAB } from '@/components/ui/FAB';
+import { removeAllNotifications } from '@/hooks/goal/achievementsNotifications';
 import { removeAddiction } from '@/services/queries';
 import { useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
@@ -20,11 +21,16 @@ interface SelectionFABsProps {
 const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
   const { colors } = useTheme();
   const [loading, setLoading] = useState(false);
-  const { selected, setSelected } = useGlobalStore(state => ({
+  const {
+    selected,
+    setSelected,
+    storeRemove,
+    removeBlacklist: removeAddictionFromNotificationsBlacklist,
+  } = useGlobalStore(state => ({
     selected: state.selected,
     setSelected: state.setSelected,
     storeRemove: state.remove,
-    storeAdd: state.add,
+    removeBlacklist: state.removeBlacklist,
   }));
 
   const closeStyle = useAnimatedStyle(() => {
@@ -43,21 +49,37 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
     };
   }, [selected]);
 
-  const handleSelectedDelete = useCallback(() => {
+  const handleSelectedDelete = useCallback(async () => {
     if (!user) return;
     setLoading(true);
 
-    const deletionPromise = selected.map(id => {
-      const addiction = addictions.find(addiction => addiction.id === id);
-      if (!addiction) return Promise.resolve();
-      return removeAddiction({ user, id });
+    selected.map(id => {
+      storeRemove(id);
+      removeAllNotifications({
+        addictionId: id,
+      });
+      removeAddictionFromNotificationsBlacklist(id);
     });
 
-    Promise.all(deletionPromise).then(() => {
-      setSelected([]);
-      setLoading(false);
+    const deletionPromise = selected.map(async id => {
+      const addiction = addictions.find(addiction => addiction.id === id);
+      if (!addiction) return Promise.resolve();
+      await removeAddiction({ user, id });
     });
-  }, [addictions, user, selected, setSelected]);
+
+    await Promise.all(deletionPromise).then(() => {
+      setLoading(false);
+      setSelected([]);
+    });
+  }, [
+    user,
+    selected,
+    addictions,
+    storeRemove,
+    setLoading,
+    setSelected,
+    removeAddictionFromNotificationsBlacklist,
+  ]);
 
   const handleSelectionCancel = useCallback(() => {
     setSelected([]);

@@ -38,6 +38,11 @@ export interface Translation {
     };
     notifications: {
       label: string;
+      notificationsPermissions: string;
+      achievementsNotifications: string;
+      turnNotificationsOn: string;
+      turnNotificationsOff: string;
+      notificationsCount: string;
     };
     addictions: {
       label: string;
@@ -139,6 +144,12 @@ export interface Translation {
       title: string;
       description: string;
       presetNames: string[];
+    };
+  };
+  notifications: {
+    achievement: {
+      title: string;
+      body: string;
     };
   };
 }

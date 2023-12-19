@@ -46,8 +46,7 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
         ]),
         header: props => <AddictionHeader {...props} />,
         tabBarStyle: {
-          borderTopWidth: 1,
-          borderTopColor: colors.border,
+          borderTopColor: 'transparent',
           backgroundColor: colors.background,
           height: 95,
         },

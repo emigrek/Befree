@@ -5,25 +5,27 @@ import { Text } from 'react-native-paper';
 import { Bold } from '@/components/ui/Text';
 import { useTheme } from '@/theme';
 
-interface WidgetHeaderProps {
+interface HeaderProps {
   title: string;
-  description: string;
+  description?: string;
 }
 
-const WidgetHeader: React.FC<WidgetHeaderProps> = ({ title, description }) => {
+const Header: React.FC<HeaderProps> = ({ title, description }) => {
   const { colors } = useTheme();
 
   return (
     <View style={styles.texts}>
       <Bold variant="titleLarge">{title}</Bold>
-      <Text variant="bodySmall" style={[{ color: colors.outline }]}>
-        {description}
-      </Text>
+      {description && (
+        <Text variant="bodySmall" style={[{ color: colors.outline }]}>
+          {description}
+        </Text>
+      )}
     </View>
   );
 };
 
-export { WidgetHeader };
+export { Header };
 
 const styles = StyleSheet.create({
   texts: {
