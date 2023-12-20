@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TransitionPresets } from '@react-navigation/stack';
+import React from 'react';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import { BottomTabsStackParamList } from './types';

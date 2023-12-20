@@ -1,4 +1,4 @@
-import notifee, { TimestampTrigger, TriggerType } from '@notifee/react-native';
+import notifee, { TriggerType } from '@notifee/react-native';
 
 import { Goals } from './types';
 import { getAchievement } from './useAchievement';
@@ -20,10 +20,6 @@ export const addNotification = async ({
   }
 
   const { goal } = achievement;
-  const trigger: TimestampTrigger = {
-    type: TriggerType.TIMESTAMP,
-    timestamp: goal.goalAt.getTime(),
-  };
 
   const channel = await notifee.getChannel('default');
 
@@ -38,6 +34,7 @@ export const addNotification = async ({
         channelId: channel?.id,
         pressAction: {
           id: `show-achievement`,
+          launchActivity: 'default',
         },
       },
       data: {
@@ -45,7 +42,10 @@ export const addNotification = async ({
         goalType: goal.goalType,
       },
     },
-    trigger,
+    {
+      type: TriggerType.TIMESTAMP,
+      timestamp: goal.goalAt.getTime(),
+    },
   );
 };
 

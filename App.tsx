@@ -6,8 +6,9 @@ import * as SystemUI from 'expo-system-ui';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
-import { useAndroidChannels } from '@/hooks/notifications/useAndroidChannels';
 import { RootStack } from '@/navigation/RootStack';
+import { navigationRef } from '@/navigation/navigationContainerRef';
+import '@/services/notifications';
 import { useGlobalStore } from '@/store';
 import { AppSlice } from '@/store/app';
 import { ThemeSlice } from '@/store/theme';
@@ -23,8 +24,6 @@ export default function App() {
   const theme = useTheme();
   const statusBarTheme = useStatusBarTheme();
 
-  useAndroidChannels();
-
   // Prevents white theme flash when Theme store is not hydrated
   const isHydrated = usePersistedStoreHydrationState<ThemeSlice & AppSlice>({
     persistStore: useGlobalStore.persist,
@@ -37,7 +36,7 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer theme={theme}>
+      <NavigationContainer ref={navigationRef} theme={theme}>
         <PaperProvider theme={theme}>
           <StatusBar style={statusBarTheme} />
           <RootStack />
