@@ -49,7 +49,7 @@ const NameAndImage = () => {
 
   const handleTextChange = (text: string) => {
     setErrors(!text ? [...errors, 'name'] : errors.filter(e => e !== 'name'));
-    setName(text);
+    setName(text.trim());
   };
 
   return (

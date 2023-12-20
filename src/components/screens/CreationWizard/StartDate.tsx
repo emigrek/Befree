@@ -1,4 +1,4 @@
-import { format, set } from 'date-fns';
+import { format, isAfter, set } from 'date-fns';
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
@@ -25,6 +25,11 @@ const StartDate = () => {
 
   const onTimeModalConfirm = useCallback(
     ({ hours, minutes }: { hours: number; minutes: number }) => {
+      const date = set(startDate, { hours, minutes });
+      if (isAfter(date, new Date())) {
+        return;
+      }
+
       setStartDate(set(startDate, { hours, minutes }));
       setTimeModalVisible(false);
       setDateModalVisible(true);
@@ -40,15 +45,21 @@ const StartDate = () => {
 
   const onDateModalConfirm = useCallback(
     ({ date }: { date: Date | undefined }) => {
-      if (date) {
-        setStartDate(
-          set(startDate, {
-            date: date.getDate(),
-            month: date.getMonth(),
-            year: date.getFullYear(),
-          }),
-        );
+      if (!date) {
+        return;
       }
+
+      if (isAfter(date, new Date())) {
+        return;
+      }
+
+      setStartDate(
+        set(startDate, {
+          date: date.getDate(),
+          month: date.getMonth(),
+          year: date.getFullYear(),
+        }),
+      );
       setDateModalVisible(false);
     },
     [setStartDate, startDate],

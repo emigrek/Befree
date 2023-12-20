@@ -59,9 +59,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   };
 
   const handleNameChange = (text: string) => {
-    const t = text.trim();
-
-    setName(t);
+    setName(text.trim());
   };
 
   const handleSave = useCallback(async () => {
