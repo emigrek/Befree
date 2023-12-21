@@ -4,9 +4,9 @@ import { showAchievement } from './pressHandlers/showAchievement';
 
 class Notifications {
   constructor() {
+    this.init();
     this.registerAndroidChannels();
     this.registerEventsListeners();
-    this.init();
   }
 
   public async init() {

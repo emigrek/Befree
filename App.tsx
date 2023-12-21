@@ -6,8 +6,8 @@ import * as SystemUI from 'expo-system-ui';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
+import { modalsNavigationContainerRef } from '@/navigation/NavigationContainerRef';
 import { RootStack } from '@/navigation/RootStack';
-import { navigationRef } from '@/navigation/navigationContainerRef';
 import '@/services/notifications';
 import { useGlobalStore } from '@/store';
 import { AppSlice } from '@/store/app';
@@ -36,7 +36,7 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer ref={navigationRef} theme={theme}>
+      <NavigationContainer ref={modalsNavigationContainerRef} theme={theme}>
         <PaperProvider theme={theme}>
           <StatusBar style={statusBarTheme} />
           <RootStack />

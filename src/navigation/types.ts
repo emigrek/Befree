@@ -9,11 +9,11 @@ export type RootStackParamList = {
   Loading?: undefined;
   Authentication?: undefined;
   Onboarding?: undefined;
-  Home?: undefined;
+  Home?: NavigatorScreenParams<AuthDrawerStackParamList>;
 };
 
 export type AuthDrawerStackParamList = {
-  Modals: undefined;
+  Modals: NavigatorScreenParams<ModalsStackParamList>;
 };
 
 export type BottomTabsStackParamList = {
