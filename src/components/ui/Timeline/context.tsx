@@ -16,15 +16,14 @@ import {
   ReactNode,
   SetStateAction,
   createContext,
+  useCallback,
   useContext,
   useMemo,
   useState,
 } from 'react';
-import { MD3Theme } from 'react-native-paper';
+import { MD3Theme, useTheme } from 'react-native-paper';
 
 import { TimelineProps } from './types';
-
-import { useTheme } from '@/theme';
 
 interface TimelineContextProps {
   theme?: MD3Theme;
@@ -45,10 +44,6 @@ interface TimelineContextProps {
   setFontSize: Dispatch<SetStateAction<number>>;
   color?: string;
   setColor?: Dispatch<SetStateAction<string>>;
-  invert?: boolean;
-  setInvert?: Dispatch<SetStateAction<boolean>>;
-  distinctPast?: boolean;
-  setDistinctPast?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const TimelineContext = createContext<TimelineContextProps>({
@@ -77,18 +72,6 @@ export const TimelineContext = createContext<TimelineContextProps>({
   setFontSize: () => {
     //do nothing
   },
-  color: undefined,
-  setColor: () => {
-    //do nothing
-  },
-  invert: false,
-  setInvert: () => {
-    //do nothing
-  },
-  distinctPast: false,
-  setDistinctPast: () => {
-    //do nothing
-  },
 });
 
 interface TimelineContextProviderProps {
@@ -110,23 +93,42 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   const [cellSize, setCellSize] = useState<number>(props.cellSize || 10);
   const [cellMargin, setCellMargin] = useState<number>(props.cellMargin || 1);
   const [fontSize, setFontSize] = useState<number>(props.fontSize || 8);
-  const [invert, setInvert] = useState<boolean>(props.invert || false);
-  const [distinctPast, setDistinctPast] = useState<boolean>(
-    props.distinctPast || false,
+
+  const frequencyMap = useMemo(() => {
+    return props.data.reduce<{ [key: string]: number }>((map, date) => {
+      const key = format(date, 'yyyy-MM-dd');
+      map[key] = (map[key] || 0) + 1;
+      return map;
+    }, {});
+  }, [props.data]);
+
+  const getCellBackgroundColor = useCallback(
+    (day: Date) => {
+      const key = format(day, 'yyyy-MM-dd');
+      const frequency = frequencyMap[key] || 0;
+
+      const withinRange =
+        isBefore(day, range[1]) &&
+        (isAfter(day, range[0]) || isSameDay(day, range[0]));
+      const future = isAfter(day, new Date());
+      const past = isBefore(day, new Date());
+
+      if (future || !withinRange) {
+        return 'transparent';
+      }
+
+      if (past && frequency !== 0) {
+        return defaultTheme.colors.surfaceDisabled;
+      }
+
+      return frequency === 0
+        ? defaultTheme.colors.primary
+        : defaultTheme.colors.surfaceDisabled;
+    },
+    [frequencyMap, range, defaultTheme],
   );
 
   const cellsData = useMemo(() => {
-    const frequencyMap = props.data.reduce<{ [key: string]: number }>(
-      (map, date) => {
-        const key = format(date, 'yyyy-MM-dd');
-        map[key] = (map[key] || 0) + 1;
-        return map;
-      },
-      {},
-    );
-
-    const maxCount = Math.max(...Object.values(frequencyMap));
-
     const sunday = isSunday(range[0]) ? range[0] : previousSunday(range[0]);
     const days = eachDayOfInterval({
       start: sunday,
@@ -134,68 +136,21 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
     });
 
     const cells = days.map(day => {
-      const key = format(day, 'yyyy-MM-dd');
-      const frequency = frequencyMap[key] || 0;
-      const alpha = invert ? 1 - frequency / maxCount : frequency / maxCount;
-      const alphaHex = Math.round(alpha * 255).toString(16);
       const totalSeconds =
         new Date().getHours() * 60 * 60 +
         new Date().getMinutes() * 60 +
         new Date().getSeconds();
       const dayProgress = isToday(day) ? totalSeconds / (24 * 60 * 60) : 1;
 
-      if (!invert) {
-        const backgroundColor = `${
-          props.color || defaultTheme.colors.primary
-        }${alphaHex.padStart(2, '0')}`;
-
-        const distinctPastBackgroundColor =
-          alpha === 0 && distinctPast && !isToday(day)
-            ? defaultTheme.colors.border
-            : backgroundColor;
-
-        return {
-          day,
-          backgroundColor: distinctPastBackgroundColor,
-          dayProgress,
-        };
-      }
-
-      if (
-        invert &&
-        (isAfter(day, range[0]) || isSameDay(day, range[0])) &&
-        isBefore(day, new Date())
-      ) {
-        const generatedColor = `${
-          props.color || defaultTheme.colors.primary
-        }${alphaHex.padStart(2, '0')}`;
-
-        const backgroundColor = isToday(day)
-          ? alpha > 0
-            ? generatedColor
-            : props.color || defaultTheme.colors.primary
-          : generatedColor;
-
-        const distinctPastBackgroundColor =
-          alpha === 0 && distinctPast && !isToday(day)
-            ? defaultTheme.colors.border
-            : backgroundColor;
-
-        return {
-          day,
-          backgroundColor: distinctPastBackgroundColor,
-          dayProgress,
-        };
-      }
-
       return {
         day,
-        backgroundColor: 'transparent',
+        backgroundColor: getCellBackgroundColor(day),
+        dayProgress,
       };
     });
 
     return cells;
-  }, [props.data, range, invert, distinctPast, props.color, defaultTheme]);
+  }, [range, getCellBackgroundColor]);
 
   return (
     <TimelineContext.Provider
@@ -213,10 +168,6 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         setCellMargin,
         fontSize,
         setFontSize,
-        invert,
-        setInvert,
-        distinctPast,
-        setDistinctPast,
       }}
     >
       {children}

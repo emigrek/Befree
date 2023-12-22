@@ -11,12 +11,9 @@ function Timeline({
   theme,
   range,
   data,
-  color,
   cellSize = 10,
   cellMargin = 1,
   fontSize = 8,
-  invert = false,
-  distinctPast = false,
   children,
   style: timelineStyle,
   ...props
@@ -30,9 +27,6 @@ function Timeline({
         cellSize,
         cellMargin,
         fontSize,
-        color,
-        invert,
-        distinctPast,
       }}
     >
       <View style={[timelineStyle, style.timeline]} {...props}>
