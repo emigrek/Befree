@@ -43,6 +43,7 @@ const enUS: Translation = {
   },
   screens: {
     home: {
+      label: 'Home',
       gretting: 'Hello, %{name}! 👋',
     },
     notifications: {

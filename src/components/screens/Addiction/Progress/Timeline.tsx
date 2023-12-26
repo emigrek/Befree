@@ -1,4 +1,4 @@
-import { add, nextSaturday } from 'date-fns';
+import { nextSaturday } from 'date-fns';
 import { FC, useMemo } from 'react';
 
 import { Timeline as TimelinePrimitive } from '@/components/ui/Timeline';
@@ -11,15 +11,7 @@ interface TimelineProps {
 const Timeline: FC<TimelineProps> = ({ addiction }) => {
   const sortedRelapses = useSortedRelapses({ addiction });
   const timelineRange: [Date, Date] = useMemo(() => {
-    const start = sortedRelapses[0];
-
-    const end = nextSaturday(
-      add(new Date(), {
-        weeks: 14,
-      }),
-    );
-
-    return [start, end];
+    return [sortedRelapses[0], nextSaturday(new Date())];
   }, [sortedRelapses]);
 
   return (
@@ -28,6 +20,7 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
       range={timelineRange}
       cellSize={22}
       fontSize={12}
+      mirrored
     >
       <TimelinePrimitive.Days />
       <TimelinePrimitive.Body>

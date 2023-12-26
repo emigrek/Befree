@@ -13,14 +13,16 @@ interface DaysProps {
 
 const Days: FC<DaysProps> = ({ dayStyle }) => {
   const { colors } = useTheme();
-  const { cellSize, cellMargin, fontSize } = useTimelineContext();
+  const { cellSize, cellMargin, fontSize, mirrored } = useTimelineContext();
 
   const daysOfWeek = useMemo(() => {
-    return eachDayOfInterval({
+    const days = eachDayOfInterval({
       start: new Date(2021, 0, 3),
       end: new Date(2021, 0, 9),
     });
-  }, []);
+
+    return mirrored ? days.reverse() : days;
+  }, [mirrored]);
 
   const shortWeekDays = useMemo(() => {
     return daysOfWeek.map(day => format(day, 'EEE'));

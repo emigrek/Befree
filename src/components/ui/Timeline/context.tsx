@@ -42,8 +42,8 @@ interface TimelineContextProps {
   setCellMargin: Dispatch<SetStateAction<number>>;
   fontSize: number;
   setFontSize: Dispatch<SetStateAction<number>>;
-  color?: string;
-  setColor?: Dispatch<SetStateAction<string>>;
+  mirrored?: boolean;
+  setMirrored?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const TimelineContext = createContext<TimelineContextProps>({
@@ -72,6 +72,10 @@ export const TimelineContext = createContext<TimelineContextProps>({
   setFontSize: () => {
     //do nothing
   },
+  mirrored: true,
+  setMirrored: () => {
+    //do nothing
+  },
 });
 
 interface TimelineContextProviderProps {
@@ -93,6 +97,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   const [cellSize, setCellSize] = useState<number>(props.cellSize || 10);
   const [cellMargin, setCellMargin] = useState<number>(props.cellMargin || 1);
   const [fontSize, setFontSize] = useState<number>(props.fontSize || 8);
+  const [mirrored, setMirrored] = useState<boolean>(props.mirrored || true);
 
   const frequencyMap = useMemo(() => {
     return props.data.reduce<{ [key: string]: number }>((map, date) => {
@@ -149,8 +154,8 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
       };
     });
 
-    return cells;
-  }, [range, getCellBackgroundColor]);
+    return mirrored ? cells.reverse() : cells;
+  }, [range, getCellBackgroundColor, mirrored]);
 
   return (
     <TimelineContext.Provider
@@ -168,6 +173,8 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         setCellMargin,
         fontSize,
         setFontSize,
+        mirrored,
+        setMirrored,
       }}
     >
       {children}

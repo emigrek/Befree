@@ -6,27 +6,17 @@ import { Appbar, Text } from 'react-native-paper';
 
 import { OfflineBanner } from '../ui/OfflineBanner';
 
-import { useTheme } from '@/theme';
-
 const ModalsHeader: FC<StackHeaderProps> = ({
   options,
   route,
   back,
   navigation,
 }) => {
-  const { colors } = useTheme();
   const title = getHeaderTitle(options, route.name);
 
   return (
     <>
-      <Appbar.Header
-        style={[
-          style.header,
-          {
-            backgroundColor: colors.background,
-          },
-        ]}
-      >
+      <Appbar.Header style={style.header}>
         {back ? (
           <Appbar.BackAction onPress={() => navigation.goBack()} />
         ) : null}

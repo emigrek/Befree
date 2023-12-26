@@ -34,6 +34,7 @@ export interface Translation {
   };
   screens: {
     home: {
+      label: string;
       gretting: string;
     };
     notifications: {

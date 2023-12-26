@@ -94,16 +94,8 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
       <Button
         style={style.button}
         rippleColor={colors.error}
-        contentStyle={[
-          style.buttonContent,
-          {
-            backgroundColor: colors.errorContainer,
-          },
-        ]}
-        labelStyle={{
-          color: colors.error,
-        }}
-        mode="contained-tonal"
+        contentStyle={[style.buttonContent]}
+        mode="contained"
         icon="restart"
         onPress={handleRelapse}
       >
@@ -131,10 +123,10 @@ export { AddictionActions };
 const style = StyleSheet.create({
   button: {
     flex: 1,
-    height: 60,
+    height: 55,
   },
   buttonContent: {
-    height: 60,
+    height: 55,
   },
   buttonContainer: {
     paddingVertical: 5,

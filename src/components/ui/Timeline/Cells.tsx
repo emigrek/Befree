@@ -1,5 +1,5 @@
-import { FC, useMemo, useRef } from 'react';
-import { FlatList, View, ViewProps } from 'react-native';
+import { FC, useMemo } from 'react';
+import { View, ViewProps } from 'react-native';
 
 import { useTimelineContext } from './context';
 import { Cell } from './types';
@@ -12,9 +12,8 @@ interface CellsProps {
 }
 
 const Cells: FC<CellsProps> = ({ cellStyle }) => {
-  const cellsRef = useRef<FlatList>(null);
   const { colors } = useTheme();
-  const { cellsData, cellSize, cellMargin } = useTimelineContext();
+  const { cellsData, cellSize, cellMargin, mirrored } = useTimelineContext();
 
   const renderItem = useMemo(
     () =>
@@ -33,6 +32,9 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
                 borderRadius: 3,
                 overflow: 'hidden',
               },
+              mirrored && {
+                justifyContent: 'flex-end',
+              },
             ]}
           >
             <View
@@ -47,7 +49,7 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
           </View>
         );
       },
-    [cellStyle, colors, cellMargin, cellSize],
+    [cellStyle, colors, cellMargin, cellSize, mirrored],
   );
 
   const keyExtractor = (item: Cell, row: number, col: number) => {
@@ -56,12 +58,12 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
 
   return (
     <HFlatList
-      ref={cellsRef}
       scrollEnabled={false}
       data={cellsData}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       numRows={7}
+      onEndReached={() => console.log('end')}
       getItemLayout={(data, index) => ({
         length: cellSize + cellMargin * 2,
         offset: (cellSize + cellMargin * 2) * index,

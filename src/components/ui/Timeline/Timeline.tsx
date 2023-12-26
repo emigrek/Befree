@@ -14,6 +14,7 @@ function Timeline({
   cellSize = 10,
   cellMargin = 1,
   fontSize = 8,
+  mirrored = false,
   children,
   style: timelineStyle,
   ...props

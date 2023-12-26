@@ -12,33 +12,23 @@ import { Logo } from '@/components/ui/Logo';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { AuthDrawerStackParamList } from '@/navigation/types';
 import { useAuthStore } from '@/store';
-import { useTheme } from '@/theme';
 
 type AuthDrawerStackNavigationProp =
   DrawerNavigationProp<AuthDrawerStackParamList>;
 
 const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
   const user = useAuthStore(state => state.user);
-  const { colors } = useTheme();
   const { openDrawer } = useNavigation<AuthDrawerStackNavigationProp>();
 
   return (
     <>
-      <Appbar.Header
-        mode={'center-aligned'}
-        style={[
-          style.header,
-          {
-            backgroundColor: colors.background,
-          },
-        ]}
-      >
+      <Appbar.Header mode={'center-aligned'} style={style.header}>
         <View style={style.container}>
           <TouchableOpacity onPress={openDrawer}>
             <UserAvatar user={user} />
           </TouchableOpacity>
           <View style={style.center}>
-            <Title options={options} route={route} />
+            <Logo />
           </View>
           {options.headerRight &&
             options.headerRight({
@@ -50,15 +40,6 @@ const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
       <OfflineBanner />
     </>
   );
-};
-
-interface TitleProps {
-  options: BottomTabHeaderProps['options'];
-  route: BottomTabHeaderProps['route'];
-}
-
-const Title: FC<TitleProps> = ({ options, route }) => {
-  return <Logo />;
 };
 
 const style = StyleSheet.create({

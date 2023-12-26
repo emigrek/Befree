@@ -9,7 +9,6 @@ import { AddictionHeader } from '@/components/headers';
 import { ProgressScreen } from '@/components/screens/Addiction';
 import { AchievementsScreen } from '@/components/screens/Addiction/Achievements';
 import i18n from '@/i18n';
-import { useTheme } from '@/theme';
 
 const Navigator = createBottomTabNavigator<AddictionStackParamList>();
 
@@ -22,8 +21,8 @@ type AddictionTabsIconMap = {
 
 const addictionIconMap: AddictionTabsIconMap = {
   Progress: {
-    name: 'timer-outline',
-    focusedName: 'timer',
+    name: 'time-outline',
+    focusedName: 'time',
   },
   Achievements: {
     name: 'trophy-outline',
@@ -32,7 +31,6 @@ const addictionIconMap: AddictionTabsIconMap = {
 };
 
 const AddictionStack: FC<AddictionScreenProps> = props => {
-  const { colors } = useTheme();
   const params = props.route.params;
 
   return (
@@ -46,9 +44,8 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
         ]),
         header: props => <AddictionHeader {...props} />,
         tabBarStyle: {
-          borderTopColor: 'transparent',
-          backgroundColor: colors.background,
-          height: 95,
+          height: 100,
+          elevation: 15,
         },
         tabBarItemStyle: {
           marginTop: 'auto',
@@ -56,7 +53,7 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
           height: 50,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 11,
         },
         tabBarIcon: props => {
           const { focusedName, name } = addictionIconMap[route.name];

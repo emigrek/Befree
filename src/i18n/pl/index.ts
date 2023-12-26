@@ -43,6 +43,7 @@ const pl: Translation = {
   },
   screens: {
     home: {
+      label: 'Główna',
       gretting: 'Cześć, %{name}! 👋',
     },
     notifications: {

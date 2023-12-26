@@ -4,20 +4,10 @@ import { StyleSheet, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
 import { Logo } from '@/components/ui/Logo';
-import { useTheme } from '@/theme';
 
-const RootHeader: FC<StackHeaderProps> = ({ options, route }) => {
-  const { colors } = useTheme();
+const RootHeader: FC<StackHeaderProps> = ({ options }) => {
   return (
-    <Appbar.Header
-      mode={'center-aligned'}
-      style={[
-        style.header,
-        {
-          backgroundColor: colors.background,
-        },
-      ]}
-    >
+    <Appbar.Header mode={'center-aligned'} style={style.header}>
       <View style={style.container}>
         <Logo />
       </View>

@@ -9,7 +9,6 @@ import { BottomTabsHeader } from '@/components/headers';
 import { Addictions, Home } from '@/components/screens';
 import { Notifications } from '@/components/screens/Notifications';
 import i18n from '@/i18n';
-import { useTheme } from '@/theme';
 
 const Navigator = createBottomTabNavigator<BottomTabsStackParamList>();
 
@@ -36,17 +35,21 @@ const bottomTabsIconMap: BottomTabsIconMap = {
 };
 
 const BottomTabsStack = () => {
-  const { colors } = useTheme();
-
   return (
     <Navigator.Navigator
       screenOptions={({ route }) => ({
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
         header: props => <BottomTabsHeader {...props} />,
         tabBarStyle: {
-          borderTopColor: 'transparent',
-          backgroundColor: colors.background,
-          height: 95,
+          height: 100,
+        },
+        tabBarItemStyle: {
+          marginTop: 'auto',
+          marginBottom: 'auto',
+          height: 50,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
         },
         title: i18n.t(['screens', route.name.toLowerCase(), 'label']),
         tabBarIcon: props => {

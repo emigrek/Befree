@@ -4,25 +4,15 @@ import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Appbar, Text } from 'react-native-paper';
 
-import { useTheme } from '@/theme';
-
 const AddictionHeader: FC<BottomTabHeaderProps> = ({
   options,
   route,
   navigation,
 }) => {
-  const { colors } = useTheme();
   const title = getHeaderTitle(options, route.name);
 
   return (
-    <Appbar.Header
-      style={[
-        style.header,
-        {
-          backgroundColor: colors.background,
-        },
-      ]}
-    >
+    <Appbar.Header style={style.header}>
       <Appbar.BackAction onPress={() => navigation.goBack()} />
       <View style={style.container}>
         <View style={style.center}>

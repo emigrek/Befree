@@ -68,7 +68,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 30,
-    gap: 18,
+    gap: 15,
   },
   imageNameContainer: {
     marginTop: 15,
