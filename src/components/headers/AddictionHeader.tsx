@@ -1,8 +1,10 @@
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
 import { getHeaderTitle } from '@react-navigation/elements';
 import React, { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { Appbar, Text } from 'react-native-paper';
+
+import { style } from './style';
 
 const AddictionHeader: FC<BottomTabHeaderProps> = ({
   options,
@@ -29,19 +31,5 @@ const AddictionHeader: FC<BottomTabHeaderProps> = ({
     </Appbar.Header>
   );
 };
-
-const style = StyleSheet.create({
-  header: {
-    paddingHorizontal: 20,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  center: {
-    flex: 1,
-  },
-});
 
 export { AddictionHeader };

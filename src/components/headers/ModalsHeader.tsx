@@ -1,10 +1,12 @@
 import { getHeaderTitle } from '@react-navigation/elements';
 import { StackHeaderProps } from '@react-navigation/stack';
 import React, { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { Appbar, Text } from 'react-native-paper';
 
-import { OfflineBanner } from '../ui/OfflineBanner';
+import { style } from './style';
+
+import { OfflineBanner } from '@/components/ui/OfflineBanner';
 
 const ModalsHeader: FC<StackHeaderProps> = ({
   options,
@@ -37,19 +39,5 @@ const ModalsHeader: FC<StackHeaderProps> = ({
     </>
   );
 };
-
-const style = StyleSheet.create({
-  header: {
-    paddingHorizontal: 20,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  center: {
-    flex: 1,
-  },
-});
 
 export { ModalsHeader };

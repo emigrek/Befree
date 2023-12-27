@@ -1,7 +1,6 @@
 import { format, formatDistanceToNow } from 'date-fns';
 import { FC } from 'react';
 import { Text } from 'react-native-paper';
-import MCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { Achievement as AchievementPrimitive } from '@/components/ui/Achievement';
 import { Achievement as AchievementType } from '@/hooks/goal/types';
@@ -41,20 +40,16 @@ export const Achievement: FC<AchievementProps> = ({
         color={achieved ? activeColor : inactiveColor}
         fontSize={12}
         backgroundColor={iconBackgroundColor}
-        style={{ elevation: achieved ? 20 : 0 }}
       />
       <AchievementPrimitive.Body>
         <AchievementPrimitive.Header>
           <AchievementPrimitive.Title>
             <Text
               variant="bodyLarge"
-              style={{
-                color: achieved ? activeColor : textColor,
-              }}
+              style={{ color: achieved ? activeColor : textColor }}
             >
               {title}
             </Text>
-            {achieved && <MCI name={'check'} size={20} color={activeColor} />}
           </AchievementPrimitive.Title>
           <Text
             variant="labelMedium"

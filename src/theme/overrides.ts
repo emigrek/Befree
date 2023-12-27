@@ -33,6 +33,7 @@ export const dark = {
 
 export const lightsOut = {
   background: '#000',
+  surface: '#000',
 };
 
 export const light = {

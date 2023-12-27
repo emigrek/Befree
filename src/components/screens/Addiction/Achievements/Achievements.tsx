@@ -57,7 +57,7 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
               inactiveColor={colors.outline}
               textColor={colors.text}
               iconBackgroundColor={
-                item.progress >= 1 ? colors.primaryContainer : 'transparent'
+                item.progress >= 1 ? colors.surfaceDisabled : undefined
               }
             />
           </TouchableRipple>
@@ -67,8 +67,8 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
       colors.outline,
       colors.primary,
       colors.text,
-      colors.primaryContainer,
       colors.secondaryContainer,
+      colors.surfaceDisabled,
       addiction.id,
       navigation,
     ],

@@ -63,7 +63,6 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       numRows={7}
-      onEndReached={() => console.log('end')}
       getItemLayout={(data, index) => ({
         length: cellSize + cellMargin * 2,
         offset: (cellSize + cellMargin * 2) * index,

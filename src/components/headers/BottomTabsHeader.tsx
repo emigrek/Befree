@@ -2,13 +2,14 @@ import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Appbar } from 'react-native-paper';
 
-import { OfflineBanner } from '../ui/OfflineBanner';
+import { style } from './style';
 
 import { Logo } from '@/components/ui/Logo';
+import { OfflineBanner } from '@/components/ui/OfflineBanner';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { AuthDrawerStackParamList } from '@/navigation/types';
 import { useAuthStore } from '@/store';
@@ -16,7 +17,7 @@ import { useAuthStore } from '@/store';
 type AuthDrawerStackNavigationProp =
   DrawerNavigationProp<AuthDrawerStackParamList>;
 
-const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
+const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options }) => {
   const user = useAuthStore(state => state.user);
   const { openDrawer } = useNavigation<AuthDrawerStackNavigationProp>();
 
@@ -41,22 +42,5 @@ const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options, route }) => {
     </>
   );
 };
-
-const style = StyleSheet.create({
-  header: {
-    paddingHorizontal: 20,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  center: {
-    flex: 1,
-  },
-  action: {
-    margin: 0,
-  },
-});
 
 export { BottomTabsHeader };

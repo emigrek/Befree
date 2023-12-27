@@ -32,12 +32,11 @@ const Logo = () => {
           backgroundColor: colors.primary,
           justifyContent: 'center',
           alignItems: 'center',
-          elevation: 5,
         }}
       >
         <Image
           source={{ uri: assets[0].uri }}
-          style={{ width: 30, aspectRatio: 1 }}
+          style={{ width: 30, aspectRatio: 1, tintColor: colors.background }}
         />
       </View>
     </View>
