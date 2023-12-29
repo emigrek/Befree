@@ -14,7 +14,11 @@ const CountUp: FC<CountUpProps> = ({ time, toNow, ...props }) => {
     return formatTime({ time, toNow });
   }, [time, toNow]);
 
-  return <Bold {...props}>{formatted}</Bold>;
+  return (
+    <Bold numberOfLines={1} adjustsFontSizeToFit {...props}>
+      {formatted}
+    </Bold>
+  );
 };
 
 export { CountUp };
