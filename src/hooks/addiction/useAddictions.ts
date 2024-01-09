@@ -1,15 +1,11 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useEffect, useMemo, useState } from 'react';
 
 import { addictionsRef } from '@/services/refs/addictions';
-import { useGlobalStore } from '@/store';
+import { useAuthStore, useGlobalStore } from '@/store';
 import { getSortingFunction } from '@/store/addictions';
 
-export interface UseAddictionsProps {
-  user: FirebaseAuthTypes.User;
-}
-
-export const useAddictions = ({ user }: UseAddictionsProps) => {
+export const useAddictions = () => {
+  const user = useAuthStore(state => state.user);
   const { addictions, setAddictions, sorting } = useGlobalStore(state => ({
     addictions: state.addictions,
     setAddictions: state.setAddictions,

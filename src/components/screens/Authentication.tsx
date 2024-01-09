@@ -8,7 +8,7 @@ import { Login } from '@/components/illustrations';
 import { Screen } from '@/components/ui/Screen';
 import { Bold } from '@/components/ui/Text';
 import { keys } from '@/config/keys';
-import { useNetState } from '@/hooks/useNetState';
+import { useNetState } from '@/hooks/useNetInfoStateSubscription';
 import i18n from '@/i18n';
 
 GoogleSignin.configure({

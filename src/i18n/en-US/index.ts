@@ -41,6 +41,14 @@ const enUS: Translation = {
       acknowledge: 'Got it',
     },
   },
+  validation: {
+    nameAndImage: {
+      name: {
+        max: 'Max 32 characters',
+        min: 'Min 2 characters',
+      },
+    },
+  },
   screens: {
     home: {
       label: 'Home',
@@ -88,7 +96,6 @@ const enUS: Translation = {
         title: 'Name and image',
         description: 'What addiction do you want to break free from?',
         placeholder: 'e.g. Alcohol',
-        nameError: 'Name is required',
         connectionError: 'Unavailable without internet connection',
       },
       startDate: {

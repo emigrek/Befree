@@ -1,8 +1,10 @@
 import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-export const useNetState = () => {
-  const [netState, setNetState] = useState<NetInfoState>();
+import { useNetInfoStore } from '@/store';
+
+export const useNetInfoStateSubscription = () => {
+  const { setNetState } = useNetInfoStore();
 
   useEffect(() => {
     const handleStateChange = (state: NetInfoState) => {
@@ -13,7 +15,5 @@ export const useNetState = () => {
 
     const unsub = NetInfo.addEventListener(handleStateChange);
     return unsub;
-  }, []);
-
-  return netState;
+  }, [setNetState]);
 };

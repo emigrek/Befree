@@ -4,9 +4,8 @@ import { Banner, Text } from 'react-native-paper';
 
 import { Bold } from '../Text';
 
-import { useNetState } from '@/hooks/useNetState';
 import i18n from '@/i18n';
-import { useGlobalStore } from '@/store';
+import { useGlobalStore, useNetInfoStore } from '@/store';
 import { useTheme } from '@/theme';
 
 interface OfflineBannerProps {
@@ -14,7 +13,7 @@ interface OfflineBannerProps {
 }
 
 const OfflineBanner: FC<OfflineBannerProps> = ({ absolute }) => {
-  const net = useNetState();
+  const netState = useNetInfoStore(state => state.netState);
   const { colors } = useTheme();
   const { offlineAcknowledged, setOfflineAcknowledged } = useGlobalStore(
     state => ({
@@ -25,7 +24,7 @@ const OfflineBanner: FC<OfflineBannerProps> = ({ absolute }) => {
 
   return (
     <Banner
-      visible={!net?.isConnected && !offlineAcknowledged}
+      visible={!netState?.isConnected && !offlineAcknowledged}
       contentStyle={{
         position: absolute ? 'absolute' : 'relative',
         backgroundColor: colors.card,

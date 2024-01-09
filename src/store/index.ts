@@ -8,6 +8,7 @@ import {
   CreationWizardSlice,
   createCreationWizardSlice,
 } from './creationWizard';
+import { NetInfoSlice, createNetInfoSlice } from './netInfo';
 import { NotificationsSlice, createNotificationsSlice } from './notifications';
 import { SelectionSlice, createSelectionSlice } from './selection';
 import { SessionSlice, createSessionSlice } from './session';
@@ -30,6 +31,10 @@ export const useGlobalStore = create<
     },
   ),
 );
+
+export const useNetInfoStore = create<NetInfoSlice>()((...a) => ({
+  ...createNetInfoSlice(...a),
+}));
 
 export const useAuthStore = create<SessionSlice>()((...a) => ({
   ...createSessionSlice(...a),

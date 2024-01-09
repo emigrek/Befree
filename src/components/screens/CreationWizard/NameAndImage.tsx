@@ -1,39 +1,45 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useCallback } from 'react';
+import { useForm } from 'react-hook-form';
 import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
-import {
-  HelperText,
-  Text,
-  TextInput,
-  TouchableRipple,
-} from 'react-native-paper';
+import { Text, TouchableRipple } from 'react-native-paper';
 
 import style from './style';
 
+import { ControlledTextInput } from '@/components/ui/ControlledTextInput';
 import { Bold, Subtitle } from '@/components/ui/Text';
-import { useNetState } from '@/hooks/useNetState';
 import i18n from '@/i18n';
-import { useCreationWizardStore, useGlobalStore } from '@/store';
+import {
+  useCreationWizardStore,
+  useGlobalStore,
+  useNetInfoStore,
+} from '@/store';
 import { useTheme } from '@/theme';
+import {
+  NameAndImageSchema,
+  NameAndImage as NameAndImageType,
+} from '@/validation/nameAndImage.schema';
 
 const NameAndImage = () => {
   const { colors } = useTheme();
-  const { name, setName, image, setImage, setErrors, errors } =
-    useCreationWizardStore(state => ({
-      name: state.name,
-      setName: state.setName,
-      image: state.image,
-      setImage: state.setImage,
-      errors: state.errors,
-      setErrors: state.setErrors,
-    }));
+  const { control } = useForm<NameAndImageType>({
+    mode: 'onTouched',
+    resolver: zodResolver(NameAndImageSchema),
+  });
+  const { image, setImage } = useCreationWizardStore(state => ({
+    name: state.name,
+    setName: state.setName,
+    image: state.image,
+    setImage: state.setImage,
+  }));
   const setOfflineAcknowledged = useGlobalStore(
     state => state.setOfflineAcknowledged,
   );
-  const net = useNetState();
+  const netState = useNetInfoStore(state => state.netState);
 
   const handleImageSelect = useCallback(async () => {
-    if (!net?.isConnected) return setOfflineAcknowledged(false);
+    if (!netState?.isConnected) return setOfflineAcknowledged(false);
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -45,12 +51,7 @@ const NameAndImage = () => {
     if (result.canceled) return;
 
     setImage(result.assets[0].uri);
-  }, [net, setImage, setOfflineAcknowledged]);
-
-  const handleTextChange = (text: string) => {
-    setErrors(!text ? [...errors, 'name'] : errors.filter(e => e !== 'name'));
-    setName(text.trim());
-  };
+  }, [netState, setImage, setOfflineAcknowledged]);
 
   return (
     <KeyboardAvoidingView
@@ -80,7 +81,7 @@ const NameAndImage = () => {
             onPress={handleImageSelect}
           >
             <>
-              {!net?.isConnected && (
+              {!netState?.isConnected && (
                 <Text variant="bodyLarge">
                   {i18n.t([
                     'screens',
@@ -93,10 +94,9 @@ const NameAndImage = () => {
               {image && <Image source={{ uri: image }} style={style.image} />}
             </>
           </TouchableRipple>
-          <TextInput
-            value={name}
-            onChangeText={handleTextChange}
-            style={style.input}
+          <ControlledTextInput
+            control={control}
+            name="name"
             placeholder={i18n.t([
               'screens',
               'creationWizard',
@@ -104,9 +104,6 @@ const NameAndImage = () => {
               'placeholder',
             ])}
           />
-          <HelperText type="error" visible={errors.includes('name')}>
-            {i18n.t(['screens', 'creationWizard', 'nameAndImage', 'nameError'])}
-          </HelperText>
         </View>
       </View>
     </KeyboardAvoidingView>

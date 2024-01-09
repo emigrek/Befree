@@ -15,9 +15,7 @@ import { useAuthStore } from '@/store';
 
 const Addictions: FC = () => {
   const user = useAuthStore(state => state.user);
-  const { sortedAddictions, loading } = useAddictions({
-    user: user!,
-  });
+  const { sortedAddictions, loading } = useAddictions();
 
   const renderItem = useCallback(
     ({ item }: { item: Addiction }) => <Addiction addiction={item} />,

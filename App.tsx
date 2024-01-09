@@ -6,6 +6,7 @@ import * as SystemUI from 'expo-system-ui';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
+import { useNetInfoStateSubscription } from '@/hooks/useNetInfoStateSubscription';
 import { modalsNavigationContainerRef } from '@/navigation/NavigationContainerRef';
 import { RootStack } from '@/navigation/RootStack';
 import '@/services/notifications';
@@ -31,6 +32,8 @@ export default function App() {
       await SplashScreen.hideAsync();
     },
   });
+
+  useNetInfoStateSubscription();
 
   if (!isHydrated) return null;
 

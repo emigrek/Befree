@@ -67,7 +67,6 @@ export interface Translation {
         title: string;
         description: string;
         placeholder: string;
-        nameError: string;
         connectionError: string;
       };
       startDate: {
@@ -84,6 +83,14 @@ export interface Translation {
       title: string;
       description: string;
       acknowledge: string;
+    };
+  };
+  validation: {
+    nameAndImage: {
+      name: {
+        min: string;
+        max: string;
+      };
     };
   };
   modals: {

@@ -28,9 +28,8 @@ const Navigation: FC<NavigationProps> = ({
   completeCallback,
   ...props
 }) => {
-  const { name, errors, loading } = useCreationWizardStore(state => ({
+  const { loading } = useCreationWizardStore(state => ({
     name: state.name,
-    errors: state.errors,
     loading: state.loading,
   }));
   const creationStackNavigation = useNavigation<CreationStackNavigationProp>();
@@ -85,7 +84,6 @@ const Navigation: FC<NavigationProps> = ({
       <Button
         mode="contained"
         onPress={next}
-        disabled={Boolean(errors.length) || !name}
         loading={loading}
         contentStyle={style.navigationButtonContent}
       >

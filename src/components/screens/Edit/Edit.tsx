@@ -10,13 +10,12 @@ import { Loading } from '../Loading';
 import { ImageUploading } from '@/components/screens/CreationWizard';
 import { Addiction } from '@/components/ui/Addiction';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
-import { useNetState } from '@/hooks/useNetState';
 import i18n from '@/i18n';
 import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
 import { editAddiction } from '@/services/queries';
 import { addictionImageRef } from '@/services/refs/image';
 import { useImageUpload } from '@/services/storage';
-import { useAuthStore, useGlobalStore } from '@/store';
+import { useAuthStore, useGlobalStore, useNetInfoStore } from '@/store';
 import { useTheme } from '@/theme';
 
 interface EditProps {
@@ -28,7 +27,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   const user = useAuthStore(state => state.user);
   const { upload, task, uploadProgress } = useImageUpload();
   const navigation = useNavigation<ModalStackNavigationProp>();
-  const net = useNetState();
+  const netState = useNetInfoStore(state => state.netState);
   const setOfflineAcknowledged = useGlobalStore(
     state => state.setOfflineAcknowledged,
   );
@@ -38,7 +37,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   const [saving, setSaving] = useState<boolean>(false);
 
   const handleImageChange = async () => {
-    if (!net?.isConnected) return setOfflineAcknowledged(false);
+    if (!netState?.isConnected) return setOfflineAcknowledged(false);
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -53,7 +52,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   };
 
   const handleImageRemove = () => {
-    if (!net?.isConnected) return setOfflineAcknowledged(true);
+    if (!netState?.isConnected) return setOfflineAcknowledged(true);
 
     setImage(null);
   };
@@ -146,11 +145,14 @@ const Edit: FC<EditProps> = ({ addiction }) => {
       <View style={style.innerContainer}>
         <Addiction.Image name={addiction.name} image={image} size={200} full />
         <View style={style.buttonContainer}>
-          <Button onPress={handleImageChange} disabled={!net?.isConnected}>
+          <Button onPress={handleImageChange} disabled={!netState?.isConnected}>
             {i18n.t(['modals', 'edit', 'changeImage'])}
           </Button>
           {image && (
-            <Button onPress={handleImageRemove} disabled={!net?.isConnected}>
+            <Button
+              onPress={handleImageRemove}
+              disabled={!netState?.isConnected}
+            >
               {i18n.t(['modals', 'edit', 'removeImage'])}
             </Button>
           )}

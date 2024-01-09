@@ -41,6 +41,14 @@ const pl: Translation = {
       acknowledge: 'Rozumiem',
     },
   },
+  validation: {
+    nameAndImage: {
+      name: {
+        max: 'Maksymalnie 32 znaki',
+        min: 'Minimalnie 2 znaki',
+      },
+    },
+  },
   screens: {
     home: {
       label: 'Główna',
@@ -88,7 +96,6 @@ const pl: Translation = {
         title: 'Nazwa i obraz',
         description: 'Z jakim uzależnieniem chcesz skonczyć?',
         placeholder: 'np. Alkohol',
-        nameError: 'Nazwa jest wymagana',
         connectionError: 'Niedostępne bez internetu',
       },
       startDate: {
