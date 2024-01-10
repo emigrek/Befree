@@ -5,7 +5,6 @@ import { HelperText, TextInput, TextInputProps } from 'react-native-paper';
 export function ControlledTextInput<T extends FieldValues>({
   control,
   name,
-  label,
   rules,
   ...textInputProps
 }: UseControllerProps<T> & TextInputProps) {
@@ -18,7 +17,7 @@ export function ControlledTextInput<T extends FieldValues>({
         field: { value, onChange, onBlur },
         fieldState: { error, invalid },
       }) => (
-        <View>
+        <View style={{ width: '100%' }}>
           <TextInput
             {...textInputProps}
             value={value}

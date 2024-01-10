@@ -45,7 +45,7 @@ const style = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 90,
+    marginBottom: 160,
   },
   progressContainer: {
     position: 'absolute',

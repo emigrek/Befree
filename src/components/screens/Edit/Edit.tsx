@@ -1,14 +1,17 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Network from 'expo-network';
 import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { Appbar, Button, TextInput } from 'react-native-paper';
+import { Appbar, Button } from 'react-native-paper';
 
 import { Loading } from '../Loading';
 
 import { ImageUploading } from '@/components/screens/CreationWizard';
 import { Addiction } from '@/components/ui/Addiction';
+import { ControlledTextInput } from '@/components/ui/ControlledTextInput';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
@@ -17,6 +20,7 @@ import { addictionImageRef } from '@/services/refs/image';
 import { useImageUpload } from '@/services/storage';
 import { useAuthStore, useGlobalStore, useNetInfoStore } from '@/store';
 import { useTheme } from '@/theme';
+import { NameSchema, Name as NameType } from '@/validation/name.schema';
 
 interface EditProps {
   addiction: Addiction;
@@ -32,7 +36,14 @@ const Edit: FC<EditProps> = ({ addiction }) => {
     state => state.setOfflineAcknowledged,
   );
 
-  const [name, setName] = useState<string>(addiction.name);
+  const { control, watch, formState } = useForm<NameType>({
+    defaultValues: {
+      name: addiction.name,
+    },
+    mode: 'all',
+    resolver: zodResolver(NameSchema),
+  });
+  const name = watch('name');
   const [image, setImage] = useState<string | null>(addiction.image);
   const [saving, setSaving] = useState<boolean>(false);
 
@@ -55,10 +66,6 @@ const Edit: FC<EditProps> = ({ addiction }) => {
     if (!netState?.isConnected) return setOfflineAcknowledged(true);
 
     setImage(null);
-  };
-
-  const handleNameChange = (text: string) => {
-    setName(text.trim());
   };
 
   const handleSave = useCallback(async () => {
@@ -118,11 +125,18 @@ const Edit: FC<EditProps> = ({ addiction }) => {
           color={colors.primary}
           icon="check"
           onPress={handleSave}
-          disabled={saving || !name}
+          disabled={saving || !formState.isValid}
         />
       ),
     });
-  }, [addiction, navigation, colors.primary, handleSave, saving, name]);
+  }, [
+    navigation,
+    addiction,
+    handleSave,
+    saving,
+    formState.isValid,
+    colors.primary,
+  ]);
 
   if (task) {
     return (
@@ -157,11 +171,12 @@ const Edit: FC<EditProps> = ({ addiction }) => {
             </Button>
           )}
         </View>
-        <TextInput
+        <ControlledTextInput
+          control={control}
+          name="name"
           label={i18n.t(['labels', 'name'])}
+          defaultValue={addiction.name}
           style={style.input}
-          value={name}
-          onChangeText={handleNameChange}
         />
       </View>
     </KeyboardAvoidingView>
@@ -194,7 +209,7 @@ const style = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     gap: 15,
-    marginBottom: 150,
+    marginBottom: 160,
   },
   buttonContainer: {
     flexDirection: 'row',

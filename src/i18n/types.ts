@@ -86,11 +86,9 @@ export interface Translation {
     };
   };
   validation: {
-    nameAndImage: {
-      name: {
-        min: string;
-        max: string;
-      };
+    name: {
+      min: string;
+      max: string;
     };
   };
   modals: {

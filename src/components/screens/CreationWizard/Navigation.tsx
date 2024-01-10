@@ -17,6 +17,7 @@ import {
   CreationStackParamList,
 } from '@/navigation/types';
 import { useCreationWizardStore } from '@/store';
+import { NameSchema } from '@/validation/name.schema';
 
 interface NavigationProps extends StackHeaderProps {
   startCallback?: () => void;
@@ -28,7 +29,7 @@ const Navigation: FC<NavigationProps> = ({
   completeCallback,
   ...props
 }) => {
-  const { loading } = useCreationWizardStore(state => ({
+  const { name, loading } = useCreationWizardStore(state => ({
     name: state.name,
     loading: state.loading,
   }));
@@ -72,6 +73,10 @@ const Navigation: FC<NavigationProps> = ({
     creationStackNavigation.dispatch(pushNext());
   }, [creationStackNavigation, pushNext]);
 
+  const isDisabled = useMemo(() => {
+    return !NameSchema.safeParse({ name }).success;
+  }, [name]);
+
   useEffect(() => {
     startCallback && startCallback();
   }, [startCallback]);
@@ -85,6 +90,7 @@ const Navigation: FC<NavigationProps> = ({
         mode="contained"
         onPress={next}
         loading={loading}
+        disabled={isDisabled}
         contentStyle={style.navigationButtonContent}
       >
         {isLastScreenInStack

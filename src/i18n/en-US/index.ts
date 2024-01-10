@@ -42,11 +42,9 @@ const enUS: Translation = {
     },
   },
   validation: {
-    nameAndImage: {
-      name: {
-        max: 'Max 32 characters',
-        min: 'Min 2 characters',
-      },
+    name: {
+      max: 'Max 16 characters',
+      min: 'Min 2 characters',
     },
   },
   screens: {

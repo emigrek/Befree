@@ -42,11 +42,9 @@ const pl: Translation = {
     },
   },
   validation: {
-    nameAndImage: {
-      name: {
-        max: 'Maksymalnie 32 znaki',
-        min: 'Minimalnie 2 znaki',
-      },
+    name: {
+      max: 'Maksymalnie 16 znaków',
+      min: 'Minimalnie 2 znaki',
     },
   },
   screens: {

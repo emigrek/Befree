@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Text, TouchableRipple } from 'react-native-paper';
@@ -16,19 +16,15 @@ import {
   useNetInfoStore,
 } from '@/store';
 import { useTheme } from '@/theme';
-import {
-  NameAndImageSchema,
-  NameAndImage as NameAndImageType,
-} from '@/validation/nameAndImage.schema';
+import { NameSchema, Name as NameType } from '@/validation/name.schema';
 
 const NameAndImage = () => {
   const { colors } = useTheme();
-  const { control } = useForm<NameAndImageType>({
-    mode: 'onTouched',
-    resolver: zodResolver(NameAndImageSchema),
+  const { control, watch } = useForm<NameType>({
+    mode: 'all',
+    resolver: zodResolver(NameSchema),
   });
-  const { image, setImage } = useCreationWizardStore(state => ({
-    name: state.name,
+  const { setName, image, setImage } = useCreationWizardStore(state => ({
     setName: state.setName,
     image: state.image,
     setImage: state.setImage,
@@ -37,6 +33,7 @@ const NameAndImage = () => {
     state => state.setOfflineAcknowledged,
   );
   const netState = useNetInfoStore(state => state.netState);
+  const name = watch('name');
 
   const handleImageSelect = useCallback(async () => {
     if (!netState?.isConnected) return setOfflineAcknowledged(false);
@@ -52,6 +49,10 @@ const NameAndImage = () => {
 
     setImage(result.assets[0].uri);
   }, [netState, setImage, setOfflineAcknowledged]);
+
+  useEffect(() => {
+    setName(name);
+  }, [name, setName]);
 
   return (
     <KeyboardAvoidingView
@@ -97,6 +98,7 @@ const NameAndImage = () => {
           <ControlledTextInput
             control={control}
             name="name"
+            label={i18n.t(['labels', 'name'])}
             placeholder={i18n.t([
               'screens',
               'creationWizard',
