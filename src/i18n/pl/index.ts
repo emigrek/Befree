@@ -43,8 +43,8 @@ const pl: Translation = {
   },
   validation: {
     name: {
-      max: 'Maksymalnie 16 znaków',
-      min: 'Minimalnie 2 znaki',
+      max: 'Maksymalnie %{max} znaków',
+      min: 'Minimalnie %{min} znaki',
     },
   },
   screens: {
