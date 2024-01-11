@@ -116,6 +116,10 @@ const Image: FC<ImageProps> = ({
         source={{
           uri: image,
         }}
+        style={{
+          width: `100%`,
+          height: `100%`,
+        }}
         width={size}
         height={size}
       />

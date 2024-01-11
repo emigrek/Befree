@@ -13,7 +13,7 @@ export interface CreationWizardSliceState {
 export interface CreationWizardSliceActions {
   setName: (name: string) => void;
   setStartDate: (startDate: Date) => void;
-  setImage: (image: string) => void;
+  setImage: (image: string | null) => void;
   reset: () => void;
   setLoading: (loading: boolean) => void;
 }

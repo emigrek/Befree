@@ -2,11 +2,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
-import { Text, TouchableRipple } from 'react-native-paper';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { Button } from 'react-native-paper';
 
 import style from './style';
 
+import { Addiction } from '@/components/ui/Addiction';
 import { ControlledTextInput } from '@/components/ui/ControlledTextInput';
 import { Bold, Subtitle } from '@/components/ui/Text';
 import i18n from '@/i18n';
@@ -15,11 +16,9 @@ import {
   useGlobalStore,
   useNetInfoStore,
 } from '@/store';
-import { useTheme } from '@/theme';
 import { NameSchema, Name as NameType } from '@/validation/name.schema';
 
 const NameAndImage = () => {
-  const { colors } = useTheme();
   const { control, watch } = useForm<NameType>({
     mode: 'all',
     resolver: zodResolver(NameSchema),
@@ -50,6 +49,10 @@ const NameAndImage = () => {
     setImage(result.assets[0].uri);
   }, [netState, setImage, setOfflineAcknowledged]);
 
+  const handleImageRemove = useCallback(() => {
+    setImage(null);
+  }, [setImage]);
+
   useEffect(() => {
     setName(name);
   }, [name, setName]);
@@ -74,27 +77,23 @@ const NameAndImage = () => {
           </Subtitle>
         </View>
         <View style={style.details}>
-          <TouchableRipple
-            style={[
-              style.imageContainer,
-              { backgroundColor: colors.surfaceVariant },
-            ]}
-            onPress={handleImageSelect}
-          >
-            <>
-              {!netState?.isConnected && (
-                <Text variant="bodyLarge">
-                  {i18n.t([
-                    'screens',
-                    'creationWizard',
-                    'nameAndImage',
-                    'connectionError',
-                  ])}
-                </Text>
-              )}
-              {image && <Image source={{ uri: image }} style={style.image} />}
-            </>
-          </TouchableRipple>
+          <Addiction.Image name={name || ''} image={image} size={250} full />
+          <View style={style.buttonContainer}>
+            <Button
+              onPress={handleImageSelect}
+              disabled={!netState?.isConnected}
+            >
+              {i18n.t(['modals', 'edit', 'changeImage'])}
+            </Button>
+            {image && (
+              <Button
+                onPress={handleImageRemove}
+                disabled={!netState?.isConnected}
+              >
+                {i18n.t(['modals', 'edit', 'removeImage'])}
+              </Button>
+            )}
+          </View>
           <ControlledTextInput
             control={control}
             name="name"

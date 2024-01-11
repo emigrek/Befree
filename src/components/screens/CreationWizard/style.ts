@@ -14,14 +14,10 @@ const style = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  imageContainer: {
-    width: '100%',
-    backgroundColor: 'red',
-    aspectRatio: 1,
-    alignItems: 'center',
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 5,
     justifyContent: 'center',
-    borderRadius: 4,
-    overflow: 'hidden',
   },
   floating: {
     position: 'absolute',
@@ -45,7 +41,7 @@ const style = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 160,
+    marginBottom: 190,
   },
   progressContainer: {
     position: 'absolute',
