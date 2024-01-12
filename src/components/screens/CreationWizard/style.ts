@@ -14,8 +14,7 @@ const style = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  buttonContainer: {
-    flexDirection: 'row',
+  imagePicker: {
     gap: 5,
     justifyContent: 'center',
   },

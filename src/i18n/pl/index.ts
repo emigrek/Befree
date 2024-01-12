@@ -20,6 +20,8 @@ const pl: Translation = {
     remove: 'Porzuć',
     save: 'Zapisz',
     name: 'Nazwa',
+    pickImage: 'Wybierz obraz',
+    removeImage: 'Usuń obraz',
   },
   goals: {
     'ten-minutes': '10 minut',
@@ -129,8 +131,6 @@ const pl: Translation = {
     edit: {
       label: 'Edytuj',
       editing: 'Edytowanie...',
-      changeImage: 'Zmień obraz',
-      removeImage: 'Usuń obraz',
     },
     sorting: {
       label: 'Sortowanie',

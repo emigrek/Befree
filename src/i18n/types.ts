@@ -18,6 +18,8 @@ export interface Translation {
     remove: string;
     save: string;
     name: string;
+    pickImage: string;
+    removeImage: string;
   };
   goals: {
     'ten-minutes': string;
@@ -115,8 +117,6 @@ export interface Translation {
     edit: {
       label: string;
       editing: string;
-      changeImage: string;
-      removeImage: string;
     };
     sorting: {
       label: string;

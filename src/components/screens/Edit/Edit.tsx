@@ -1,24 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
 import * as Network from 'expo-network';
 import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { Appbar, Button } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
 
 import { Loading } from '../Loading';
 
 import { ImageUploading } from '@/components/screens/CreationWizard';
 import { Addiction } from '@/components/ui/Addiction';
 import { ControlledTextInput } from '@/components/ui/ControlledTextInput';
+import { ImagePicker } from '@/components/ui/ImagePicker';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
 import { editAddiction } from '@/services/queries';
 import { addictionImageRef } from '@/services/refs/image';
 import { useImageUpload } from '@/services/storage';
-import { useAuthStore, useGlobalStore, useNetInfoStore } from '@/store';
+import { useAuthStore, useNetInfoStore } from '@/store';
 import { useTheme } from '@/theme';
 import { NameSchema, Name as NameType } from '@/validation/name.schema';
 
@@ -32,9 +32,6 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   const { upload, task, uploadProgress } = useImageUpload();
   const navigation = useNavigation<ModalStackNavigationProp>();
   const netState = useNetInfoStore(state => state.netState);
-  const setOfflineAcknowledged = useGlobalStore(
-    state => state.setOfflineAcknowledged,
-  );
 
   const { control, watch, formState } = useForm<NameType>({
     defaultValues: {
@@ -47,26 +44,12 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   const [image, setImage] = useState<string | null>(addiction.image);
   const [saving, setSaving] = useState<boolean>(false);
 
-  const handleImageChange = async () => {
-    if (!netState?.isConnected) return setOfflineAcknowledged(false);
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (result.canceled) return;
-
-    setImage(result.assets[0].uri);
-  };
-
-  const handleImageRemove = () => {
-    if (!netState?.isConnected) return setOfflineAcknowledged(true);
-
-    setImage(null);
-  };
+  const handleImageChange = useCallback(
+    (image: string | null) => {
+      setImage(image);
+    },
+    [setImage],
+  );
 
   const handleSave = useCallback(async () => {
     if (!user) return;
@@ -158,19 +141,18 @@ const Edit: FC<EditProps> = ({ addiction }) => {
     >
       <View style={style.innerContainer}>
         <Addiction.Image name={addiction.name} image={image} size={200} full />
-        <View style={style.buttonContainer}>
-          <Button onPress={handleImageChange} disabled={!netState?.isConnected}>
-            {i18n.t(['modals', 'edit', 'changeImage'])}
-          </Button>
-          {image && (
-            <Button
-              onPress={handleImageRemove}
-              disabled={!netState?.isConnected}
-            >
-              {i18n.t(['modals', 'edit', 'removeImage'])}
-            </Button>
-          )}
-        </View>
+        <ImagePicker
+          image={image}
+          onImageChange={handleImageChange}
+          style={style.imagePicker}
+        >
+          <ImagePicker.Pick disabled={!netState?.isConnected}>
+            {i18n.t(['labels', 'pickImage'])}
+          </ImagePicker.Pick>
+          <ImagePicker.Remove disabled={!netState?.isConnected}>
+            {i18n.t(['labels', 'removeImage'])}
+          </ImagePicker.Remove>
+        </ImagePicker>
         <ControlledTextInput
           control={control}
           name="name"
@@ -211,7 +193,7 @@ const style = StyleSheet.create({
     gap: 15,
     marginBottom: 160,
   },
-  buttonContainer: {
+  imagePicker: {
     flexDirection: 'row',
     gap: 5,
   },
