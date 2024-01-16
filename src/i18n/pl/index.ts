@@ -112,6 +112,10 @@ const pl: Translation = {
       label: 'Dodaj uzależnienie',
     },
     addiction: {
+      locked: {
+        title: 'Uzależnienie zablokowane',
+        description: 'Odblokuj używając lokalnej autoryzacji',
+      },
       progress: {
         label: 'Postęp',
         timeline: {

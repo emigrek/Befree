@@ -19,7 +19,9 @@ const style = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
     paddingVertical: 10,
+    gap: 10,
   },
 });

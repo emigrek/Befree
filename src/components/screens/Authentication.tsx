@@ -8,8 +8,8 @@ import { Login } from '@/components/illustrations';
 import { Screen } from '@/components/ui/Screen';
 import { Bold } from '@/components/ui/Text';
 import { keys } from '@/config/keys';
-import { useNetState } from '@/hooks/useNetInfoStateSubscription';
 import i18n from '@/i18n';
+import { useNetInfoStore } from '@/store';
 
 GoogleSignin.configure({
   scopes: ['email', 'profile'],
@@ -18,7 +18,7 @@ GoogleSignin.configure({
 
 const Authentication: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const net = useNetState();
+  const netState = useNetInfoStore(state => state.netState);
 
   const handleSignIn = async () => {
     setLoading(true);
@@ -60,7 +60,7 @@ const Authentication: FC = () => {
       </View>
       <View>
         <HelperText
-          visible={!net?.isConnected}
+          visible={!netState?.isConnected}
           type={'info'}
           style={style.helperText}
         >
@@ -69,7 +69,7 @@ const Authentication: FC = () => {
         <Button
           icon={'google'}
           loading={loading}
-          disabled={loading || !net?.isConnected}
+          disabled={loading || !netState?.isConnected}
           contentStyle={style.button}
           mode={'contained'}
           onPress={handleSignIn}

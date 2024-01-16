@@ -98,6 +98,10 @@ export interface Translation {
       label: string;
     };
     addiction: {
+      locked: {
+        title: string;
+        description: string;
+      };
       progress: {
         timeline: {
           distinctPast: string;

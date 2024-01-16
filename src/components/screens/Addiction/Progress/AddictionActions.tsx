@@ -93,8 +93,7 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
     <View style={style.buttonContainer}>
       <Button
         style={style.button}
-        rippleColor={colors.error}
-        contentStyle={[style.buttonContent]}
+        contentStyle={style.buttonContent}
         mode="contained"
         icon="restart"
         onPress={handleRelapse}
@@ -108,7 +107,7 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
         icon="trash-can"
         rippleColor={colors.error}
         labelStyle={{
-          color: colors.error,
+          color: colors.text,
         }}
         onPress={handleRemove}
       >

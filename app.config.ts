@@ -62,6 +62,13 @@ export default {
             'The app accesses your photos to allow you to set your personal image as your addiction image.',
         },
       ],
+      [
+        'expo-local-authentication',
+        {
+          faceIDPermission:
+            'Allow $(PRODUCT_NAME) to use Face ID to view private elements.',
+        },
+      ],
       '@react-native-firebase/app',
       '@react-native-firebase/perf',
       '@react-native-firebase/crashlytics',
