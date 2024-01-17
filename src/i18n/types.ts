@@ -49,6 +49,7 @@ export interface Translation {
     };
     addictions: {
       label: string;
+      commitment: string;
     };
     authentication: {
       title: string;

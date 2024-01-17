@@ -64,6 +64,7 @@ const enUS: Translation = {
     },
     addictions: {
       label: 'Addictions',
+      commitment: 'I decide to end with:',
     },
     authentication: {
       title: 'Authentication',

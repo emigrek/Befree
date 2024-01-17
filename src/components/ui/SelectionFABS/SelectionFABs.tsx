@@ -35,15 +35,15 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
 
   const closeStyle = useAnimatedStyle(() => {
     return {
-      right: 30,
-      bottom: withTiming(selected.length > 0 ? 160 : 30),
+      right: 31,
+      bottom: withTiming(selected.length > 0 ? 155 : 30),
       backgroundColor: colors.secondaryContainer,
     };
   }, [selected]);
 
   const deleteStyle = useAnimatedStyle(() => {
     return {
-      right: 30,
+      right: 31,
       bottom: withTiming(selected.length > 0 ? 100 : 30),
       backgroundColor: colors.secondaryContainer,
     };

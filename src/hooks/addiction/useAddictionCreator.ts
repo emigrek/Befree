@@ -48,6 +48,7 @@ export const useAddictionCreator = () => {
         lastRelapse,
         image: imageUrl,
         tags,
+        private: false,
         createdAt: new Date(),
       };
 

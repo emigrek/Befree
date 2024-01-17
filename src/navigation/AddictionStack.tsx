@@ -6,10 +6,8 @@ import { TabBarIcon } from './BottomTabsStack';
 import { AddictionScreenProps, AddictionStackParamList } from './types';
 
 import { AddictionHeader } from '@/components/headers';
-import { LocalAuthLayout } from '@/components/layouts/LocalAuthLayout';
 import { ProgressScreen } from '@/components/screens/Addiction';
 import { AchievementsScreen } from '@/components/screens/Addiction/Achievements';
-import { Locked } from '@/components/screens/Addiction/Locked/Locked';
 import i18n from '@/i18n';
 
 const Navigator = createBottomTabNavigator<AddictionStackParamList>();
@@ -87,22 +85,4 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
   );
 };
 
-const AddictionStackLocalAuthWrapper: FC<AddictionScreenProps> = props => {
-  const isProtected = true;
-
-  if (isProtected) {
-    return (
-      <LocalAuthLayout
-        lockedComponent={localAuthenticate => (
-          <Locked localAuthenticate={localAuthenticate} />
-        )}
-      >
-        <AddictionStack {...props} />
-      </LocalAuthLayout>
-    );
-  }
-
-  return <AddictionStack {...props} />;
-};
-
-export { AddictionStackLocalAuthWrapper as AddictionStack };
+export { AddictionStack };

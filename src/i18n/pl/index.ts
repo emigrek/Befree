@@ -64,6 +64,7 @@ const pl: Translation = {
     },
     addictions: {
       label: 'Uzależnienia',
+      commitment: 'Postanawiam skończyć z:',
     },
     authentication: {
       title: 'Logowanie',

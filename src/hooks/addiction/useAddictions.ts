@@ -36,6 +36,7 @@ export const useAddictions = () => {
           name: data.name,
           image: data.image,
           tags: data.tags,
+          private: data.private,
           createdAt: data.createdAt
             ? new Date(data.createdAt.toDate())
             : new Date(),

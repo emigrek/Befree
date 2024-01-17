@@ -41,6 +41,7 @@ const CreationWizardStack = () => {
       relapses: [new Date(startDate)],
       lastRelapse: new Date(startDate),
       image,
+      private: false,
       tags: [],
     };
 
