@@ -13,7 +13,7 @@ interface Addiction {
   lastRelapse: Date;
   image: string | null;
   tags: string[];
-  private: boolean;
+  hidden: boolean;
   createdAt: Date;
 }
 

@@ -22,6 +22,7 @@ const pl: Translation = {
     name: 'Nazwa',
     pickImage: 'Wybierz obraz',
     removeImage: 'Usuń obraz',
+    empty: 'Pusto',
   },
   goals: {
     'ten-minutes': '10 minut',
@@ -113,10 +114,6 @@ const pl: Translation = {
       label: 'Dodaj uzależnienie',
     },
     addiction: {
-      locked: {
-        title: 'Uzależnienie zablokowane',
-        description: 'Odblokuj używając lokalnej autoryzacji',
-      },
       progress: {
         label: 'Postęp',
         timeline: {
@@ -131,6 +128,12 @@ const pl: Translation = {
       },
       notifications: {
         label: 'Powiadomienia',
+      },
+    },
+    hiddenaddictions: {
+      label: 'Ukryte uzależnienia',
+      locked: {
+        title: 'Odblokuj używając lokalnej autoryzacji',
       },
     },
     edit: {

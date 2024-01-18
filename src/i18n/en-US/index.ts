@@ -22,6 +22,7 @@ const enUS: Translation = {
     name: 'Name',
     pickImage: 'Pick image',
     removeImage: 'Remove image',
+    empty: 'Empty',
   },
   goals: {
     'ten-minutes': '10 minutes',
@@ -113,10 +114,6 @@ const enUS: Translation = {
       label: 'Add addiction',
     },
     addiction: {
-      locked: {
-        title: 'Addiction locked',
-        description: 'Use local authorization to unlock',
-      },
       progress: {
         label: 'Progress',
         timeline: {
@@ -131,6 +128,12 @@ const enUS: Translation = {
       },
       notifications: {
         label: 'Notifications',
+      },
+    },
+    hiddenaddictions: {
+      label: 'Hidden addictions',
+      locked: {
+        title: 'Use local authorization to unlock',
       },
     },
     edit: {

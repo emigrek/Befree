@@ -4,15 +4,13 @@ import { Text } from 'react-native-paper';
 
 import { Launching } from '@/components/illustrations';
 import { Screen } from '@/components/ui/Screen';
-import { Bold } from '@/components/ui/Text';
+import i18n from '@/i18n';
 
 const Empty = () => {
   return (
     <Screen style={style.screen}>
       <Launching />
-      <Text variant="headlineSmall">
-        Start better life <Bold>today</Bold>!
-      </Text>
+      <Text variant="headlineSmall">{i18n.t(['labels', 'empty'])}</Text>
     </Screen>
   );
 };

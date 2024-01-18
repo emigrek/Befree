@@ -1,1 +1,1 @@
-export { Addictions } from './Addictions';
+export { Addictions, AddictionsScreen } from './Addictions';

@@ -12,6 +12,7 @@ import { ModalsStackParamList } from './types';
 import { ModalsHeader } from '@/components/headers';
 import { AchievementScreen } from '@/components/screens/Achievement';
 import { EditScreen } from '@/components/screens/Edit';
+import { HiddenAddictions } from '@/components/screens/HiddenAddictions';
 import { SortingScreen } from '@/components/screens/Sorting';
 import i18n from '@/i18n';
 
@@ -53,6 +54,10 @@ const ModalsStack = () => {
             headerShown: false,
             title: undefined,
           }}
+        />
+        <Navigator.Screen
+          name="HiddenAddictions"
+          component={HiddenAddictions}
         />
         <Navigator.Screen name="Achievement" component={AchievementScreen} />
         <Navigator.Screen name="Edit" component={EditScreen} />

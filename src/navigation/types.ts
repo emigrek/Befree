@@ -31,6 +31,7 @@ export type ModalsStackParamList = {
   BottomTabs: NavigatorScreenParams<BottomTabsStackParamList>;
   Add: undefined;
   Addiction: { id: string };
+  HiddenAddictions: undefined;
   Achievement: { addictionId: string; goalType: Goals };
   Edit: {
     id: string;
@@ -103,3 +104,8 @@ export type NotificationsScreenProps = StackScreenProps<
 >;
 
 export type EditScreenProps = StackScreenProps<ModalsStackParamList, 'Edit'>;
+
+export type AddictionsScreenProps = StackScreenProps<
+  BottomTabsStackParamList,
+  'Addictions'
+>;

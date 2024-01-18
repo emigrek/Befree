@@ -13,10 +13,9 @@ const Locked: FC<LockedProps> = ({ localAuthenticate }) => {
   return (
     <Screen style={styles.screen}>
       <View style={styles.texts}>
-        <Text variant={'titleLarge'}>
-          {i18n.t(['modals', 'addiction', 'locked', 'title'])}
+        <Text variant={'titleMedium'}>
+          {i18n.t(['modals', 'hiddenaddictions', 'locked', 'title'])}
         </Text>
-        <Text>{i18n.t(['modals', 'addiction', 'locked', 'description'])}</Text>
       </View>
       <IconButton
         size={100}

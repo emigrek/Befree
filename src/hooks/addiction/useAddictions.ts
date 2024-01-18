@@ -14,7 +14,15 @@ export const useAddictions = () => {
   const [loading, setLoading] = useState(false);
 
   const sortedAddictions = useMemo(() => {
-    return [...addictions].sort(getSortingFunction(sorting));
+    return [...addictions]
+      .filter(addiction => !addiction.hidden)
+      .sort(getSortingFunction(sorting));
+  }, [addictions, sorting]);
+
+  const sortedHiddenAddictions = useMemo(() => {
+    return [...addictions]
+      .filter(addiction => addiction.hidden)
+      .sort(getSortingFunction(sorting));
   }, [addictions, sorting]);
 
   useEffect(() => {
@@ -36,7 +44,7 @@ export const useAddictions = () => {
           name: data.name,
           image: data.image,
           tags: data.tags,
-          private: data.private,
+          hidden: data.hidden,
           createdAt: data.createdAt
             ? new Date(data.createdAt.toDate())
             : new Date(),
@@ -47,5 +55,5 @@ export const useAddictions = () => {
     });
   }, [setAddictions, sorting.direction, sorting.field, user]);
 
-  return { addictions, sortedAddictions, loading };
+  return { addictions, sortedAddictions, sortedHiddenAddictions, loading };
 };

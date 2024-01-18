@@ -38,6 +38,7 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
       right: 31,
       bottom: withTiming(selected.length > 0 ? 155 : 30),
       backgroundColor: colors.secondaryContainer,
+      opacity: withTiming(selected.length > 0 ? 1 : 0),
     };
   }, [selected]);
 
@@ -46,6 +47,7 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
       right: 31,
       bottom: withTiming(selected.length > 0 ? 100 : 30),
       backgroundColor: colors.secondaryContainer,
+      opacity: withTiming(selected.length > 0 ? 1 : 0),
     };
   }, [selected]);
 

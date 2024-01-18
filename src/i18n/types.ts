@@ -20,6 +20,7 @@ export interface Translation {
     name: string;
     pickImage: string;
     removeImage: string;
+    empty: string;
   };
   goals: {
     'ten-minutes': string;
@@ -99,10 +100,6 @@ export interface Translation {
       label: string;
     };
     addiction: {
-      locked: {
-        title: string;
-        description: string;
-      };
       progress: {
         timeline: {
           distinctPast: string;
@@ -117,6 +114,12 @@ export interface Translation {
       };
       notifications: {
         label: string;
+      };
+    };
+    hiddenaddictions: {
+      label: string;
+      locked: {
+        title: string;
       };
     };
     edit: {
