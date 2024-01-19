@@ -4,13 +4,20 @@ import { useTriggerNotifications } from '../notifications/useTriggerNotification
 
 import { useGlobalStore } from '@/store';
 
-export const useAchievementsNotifications = () => {
+interface UseAchievementsNotificationsProps {
+  hidden?: boolean;
+}
+
+export const useAchievementsNotifications = ({
+  hidden,
+}: UseAchievementsNotificationsProps) => {
   const { triggerNotifications } = useTriggerNotifications();
   const addictions = useGlobalStore(state => state.addictions);
 
-  return useMemo(
-    () =>
-      addictions.map(addiction => {
+  return useMemo(() => {
+    return addictions
+      .filter(addiction => (hidden ? addiction.hidden : !addiction.hidden))
+      .map(addiction => {
         const notifications = triggerNotifications.filter(
           ({ notification }) => {
             const data = notification.data;
@@ -22,7 +29,6 @@ export const useAchievementsNotifications = () => {
           addiction,
           notifications,
         };
-      }),
-    [addictions, triggerNotifications],
-  );
+      });
+  }, [addictions, triggerNotifications, hidden]);
 };

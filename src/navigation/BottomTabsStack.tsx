@@ -7,7 +7,7 @@ import { BottomTabsStackParamList } from './types';
 
 import { BottomTabsHeader } from '@/components/headers';
 import { Home } from '@/components/screens';
-import { AddictionsScreen } from '@/components/screens/Addictions';
+import { Addictions } from '@/components/screens/Addictions';
 import { Notifications } from '@/components/screens/Notifications';
 import i18n from '@/i18n';
 
@@ -72,7 +72,7 @@ const BottomTabsStack = () => {
       <Navigator.Screen name={'Home'} component={Home} />
       <Navigator.Screen
         name={'Addictions'}
-        component={AddictionsScreen}
+        component={Addictions}
         options={{ unmountOnBlur: true }}
       />
       <Navigator.Screen name={'Notifications'} component={Notifications} />

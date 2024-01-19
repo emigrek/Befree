@@ -81,6 +81,6 @@ const AddictionsFlatList: FC<AddictionsFlatListProps> = ({
   );
 };
 
-const AddictionsScreen = () => <Addictions />;
+const HiddenAddictions = () => <Addictions hidden />;
 
-export { Addictions, AddictionsScreen };
+export { Addictions, HiddenAddictions };

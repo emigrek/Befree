@@ -22,6 +22,11 @@ export type BottomTabsStackParamList = {
   Notifications: undefined;
 };
 
+export type HiddenAddictionsBottomTabsStackParamList = Omit<
+  BottomTabsStackParamList,
+  'Home'
+>;
+
 export type AddictionStackParamList = {
   Progress: { id: string };
   Achievements: { id: string };
@@ -31,7 +36,7 @@ export type ModalsStackParamList = {
   BottomTabs: NavigatorScreenParams<BottomTabsStackParamList>;
   Add: undefined;
   Addiction: { id: string };
-  HiddenAddictions: undefined;
+  HiddenAddictions: NavigatorScreenParams<HiddenAddictionsBottomTabsStackParamList>;
   Achievement: { addictionId: string; goalType: Goals };
   Edit: {
     id: string;
@@ -100,6 +105,11 @@ export type AchievementScreenProps = StackScreenProps<
 
 export type NotificationsScreenProps = StackScreenProps<
   BottomTabsStackParamList,
+  'Notifications'
+>;
+
+export type HiddenAddictionsNotificationsScreenProps = StackScreenProps<
+  HiddenAddictionsBottomTabsStackParamList,
   'Notifications'
 >;
 

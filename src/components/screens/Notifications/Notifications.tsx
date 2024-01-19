@@ -5,7 +5,10 @@ import { AchievementNotifications } from './AchievementNotifications';
 import { Permissions } from './Permissions';
 
 import { Screen } from '@/components/ui/Screen';
-import { NotificationsScreenProps } from '@/navigation/types';
+import {
+  HiddenAddictionsNotificationsScreenProps,
+  NotificationsScreenProps,
+} from '@/navigation/types';
 
 const Notifications: FC<NotificationsScreenProps> = ({ navigation }) => {
   useLayoutEffect(() => {
@@ -18,6 +21,22 @@ const Notifications: FC<NotificationsScreenProps> = ({ navigation }) => {
     <Screen style={style.screen}>
       <Permissions />
       <AchievementNotifications />
+    </Screen>
+  );
+};
+
+const HiddenAddictionsNotifications: FC<
+  HiddenAddictionsNotificationsScreenProps
+> = ({ navigation }) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => undefined,
+    });
+  }, [navigation]);
+
+  return (
+    <Screen style={style.screen}>
+      <AchievementNotifications hidden />
     </Screen>
   );
 };
@@ -37,4 +56,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { Notifications };
+export { HiddenAddictionsNotifications, Notifications };

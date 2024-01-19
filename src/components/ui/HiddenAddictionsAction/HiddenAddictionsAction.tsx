@@ -8,7 +8,9 @@ const HiddenAddictionsAction = () => {
   const navigation = useNavigation<ModalStackNavigationProp>();
 
   const handleActionPress = () => {
-    navigation.navigate('HiddenAddictions');
+    navigation.navigate('HiddenAddictions', {
+      screen: 'Addictions',
+    });
   };
 
   return (

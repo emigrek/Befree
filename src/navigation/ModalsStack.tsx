@@ -7,12 +7,12 @@ import { useWindowDimensions } from 'react-native';
 import { AddictionStack } from './AddictionStack';
 import { BottomTabsStack } from './BottomTabsStack';
 import { CreationWizardStack } from './CreationWizardStack';
+import { HiddenAddictionsBottomTabsStack } from './HiddenAddictionsBottomTabsStack';
 import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
 import { AchievementScreen } from '@/components/screens/Achievement';
 import { EditScreen } from '@/components/screens/Edit';
-import { HiddenAddictions } from '@/components/screens/HiddenAddictions';
 import { SortingScreen } from '@/components/screens/Sorting';
 import i18n from '@/i18n';
 
@@ -57,7 +57,7 @@ const ModalsStack = () => {
         />
         <Navigator.Screen
           name="HiddenAddictions"
-          component={HiddenAddictions}
+          component={HiddenAddictionsBottomTabsStack}
         />
         <Navigator.Screen name="Achievement" component={AchievementScreen} />
         <Navigator.Screen name="Edit" component={EditScreen} />

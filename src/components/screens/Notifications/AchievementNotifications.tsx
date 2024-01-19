@@ -9,8 +9,14 @@ import { Header } from '@/components/ui/Header';
 import { useAchievementsNotifications } from '@/hooks/goal/useAchievementsNotifications';
 import i18n from '@/i18n';
 
-const AchievementNotifications: FC = () => {
-  const notifications = useAchievementsNotifications();
+interface AchievementNotificationsProps {
+  hidden?: boolean;
+}
+
+const AchievementNotifications: FC<AchievementNotificationsProps> = ({
+  hidden,
+}) => {
+  const notifications = useAchievementsNotifications({ hidden });
 
   const renderItem = useCallback(
     ({
