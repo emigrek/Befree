@@ -26,13 +26,16 @@ const Weeks: FC<WeeksProps> = ({ weekStyle }) => {
   const renderItem = useMemo(
     () =>
       ({ item }: { item: Date; index: number }) => {
+        const displayMonth = item.getDate() <= 7;
+        const displayYear = item.getMonth() === 0 && displayMonth;
+
         return (
           <Text
             style={[
               style.week,
               weekStyle,
               {
-                width: cellSize,
+                width: displayYear ? cellSize * 3 : cellSize,
                 height: cellSize,
                 margin: cellMargin,
                 color: colors.onSurfaceVariant,
@@ -40,7 +43,9 @@ const Weeks: FC<WeeksProps> = ({ weekStyle }) => {
               },
             ]}
           >
-            {item.getDate() <= 7 ? format(item, 'MMM') : ''}
+            {displayMonth && format(item, 'MMM')}
+            {` `}
+            {displayYear && format(item, 'yyyy')}
           </Text>
         );
       },
