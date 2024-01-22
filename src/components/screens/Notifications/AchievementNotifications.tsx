@@ -1,10 +1,8 @@
-import { TriggerNotification } from '@notifee/react-native';
-import { FC, useCallback } from 'react';
-import { FlatList } from 'react-native-gesture-handler';
+import { FC } from 'react';
 
-import { AchievementNotification } from './AchievementNotification';
+import { AchievementNotificationsList } from './AchievementNotificationsList';
 
-import { Divider } from '@/components/ui/Divider';
+import { Empty } from '@/components/screens/Addictions/Empty';
 import { Header } from '@/components/ui/Header';
 import { useAchievementsNotifications } from '@/hooks/goal/useAchievementsNotifications';
 import i18n from '@/i18n';
@@ -18,20 +16,6 @@ const AchievementNotifications: FC<AchievementNotificationsProps> = ({
 }) => {
   const notifications = useAchievementsNotifications({ hidden });
 
-  const renderItem = useCallback(
-    ({
-      item,
-    }: {
-      item: {
-        addiction: Addiction;
-        notifications: TriggerNotification[];
-      };
-    }) => <AchievementNotification {...item} />,
-    [],
-  );
-
-  const renderDivider = useCallback(() => <Divider />, []);
-
   return (
     <>
       <Header
@@ -41,12 +25,11 @@ const AchievementNotifications: FC<AchievementNotificationsProps> = ({
           'achievementsNotifications',
         ])}
       />
-      <FlatList
-        data={notifications}
-        ItemSeparatorComponent={renderDivider}
-        renderItem={renderItem}
-        keyExtractor={item => item.addiction.id}
-      />
+      {notifications.length ? (
+        <AchievementNotificationsList notifications={notifications} />
+      ) : (
+        <Empty />
+      )}
     </>
   );
 };

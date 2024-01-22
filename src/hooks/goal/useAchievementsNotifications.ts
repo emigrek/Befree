@@ -1,3 +1,4 @@
+import { TriggerNotification } from '@notifee/react-native';
 import { useMemo } from 'react';
 
 import { useTriggerNotifications } from '../notifications/useTriggerNotifications';
@@ -6,6 +7,11 @@ import { useGlobalStore } from '@/store';
 
 interface UseAchievementsNotificationsProps {
   hidden?: boolean;
+}
+
+export interface AchievementNotifications {
+  addiction: Addiction;
+  notifications: TriggerNotification[];
 }
 
 export const useAchievementsNotifications = ({

@@ -10,7 +10,7 @@ const Empty = () => {
   return (
     <Screen style={style.screen}>
       <Launching />
-      <Text variant="headlineSmall">{i18n.t(['labels', 'empty'])}</Text>
+      <Text variant="bodyLarge">{i18n.t(['labels', 'empty'])}</Text>
     </Screen>
   );
 };

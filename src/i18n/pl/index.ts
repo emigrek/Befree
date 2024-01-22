@@ -22,7 +22,7 @@ const pl: Translation = {
     name: 'Nazwa',
     pickImage: 'Wybierz obraz',
     removeImage: 'Usuń obraz',
-    empty: 'Pusto',
+    empty: 'Pusto, zacznij lepsze życie!',
   },
   goals: {
     'ten-minutes': '10 minut',
