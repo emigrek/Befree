@@ -7,6 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
 import { useNetInfoStateSubscription } from '@/hooks/useNetInfoStateSubscription';
+import { usePersistingNavigationState } from '@/hooks/usePersistingNavigationState';
 import { modalsNavigationContainerRef } from '@/navigation/NavigationContainerRef';
 import { RootStack } from '@/navigation/RootStack';
 import '@/services/notifications';
@@ -24,22 +25,34 @@ SystemUI.setBackgroundColorAsync('transparent');
 export default function App() {
   const theme = useTheme();
   const statusBarTheme = useStatusBarTheme();
+  const {
+    initialNavigationState,
+    isRestored: isNavigationRestored,
+    onNavigationStateChange,
+  } = usePersistingNavigationState();
 
   // Prevents white theme flash when Theme store is not hydrated
   const isHydrated = usePersistedStoreHydrationState<ThemeSlice & AppSlice>({
     persistStore: useGlobalStore.persist,
     onFinishHydration: async () => {
-      await SplashScreen.hideAsync();
+      setTimeout(async () => {
+        await SplashScreen.hideAsync();
+      }, 500);
     },
   });
 
   useNetInfoStateSubscription();
 
-  if (!isHydrated) return null;
+  if (!isHydrated || !isNavigationRestored) return null;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer ref={modalsNavigationContainerRef} theme={theme}>
+      <NavigationContainer
+        ref={modalsNavigationContainerRef}
+        initialState={initialNavigationState}
+        onStateChange={onNavigationStateChange}
+        theme={theme}
+      >
         <PaperProvider theme={theme}>
           <StatusBar style={statusBarTheme} />
           <RootStack />

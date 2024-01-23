@@ -10,14 +10,19 @@ interface TimelineProps {
 
 const Timeline: FC<TimelineProps> = ({ addiction }) => {
   const sortedRelapses = useSortedRelapses({ addiction });
-  const timelineRange: [Date, Date] = useMemo(() => {
-    return [sortedRelapses[0], nextSaturday(new Date())];
+
+  const data = useMemo(() => {
+    return addiction.relapses.map(relapse => new Date(relapse));
+  }, [addiction.relapses]);
+
+  const range: [Date, Date] = useMemo(() => {
+    return [new Date(sortedRelapses[0]), nextSaturday(new Date())];
   }, [sortedRelapses]);
 
   return (
     <TimelinePrimitive
-      data={addiction.relapses}
-      range={timelineRange}
+      data={data}
+      range={range}
       cellSize={22}
       fontSize={12}
       mirrored

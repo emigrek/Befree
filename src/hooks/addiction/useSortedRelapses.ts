@@ -9,32 +9,22 @@ export const useSortedRelapses = ({
   addiction,
   direction = 'asc',
 }: UseSortedRelapsesProps) => {
-  const sortedRelapses = useMemo(() => {
-    const sorted = [...addiction.relapses].sort((a, b) => {
-      if (direction === 'asc') {
-        return new Date(a).getTime() - new Date(b).getTime();
-      }
-
-      return new Date(b).getTime() - new Date(a).getTime();
-    });
-
-    return sorted;
+  return useMemo(() => {
+    return getSortedRelapses({ addiction, direction });
   }, [addiction, direction]);
-
-  return sortedRelapses;
 };
 
 export const getSortedRelapses = ({
   addiction,
   direction = 'asc',
 }: UseSortedRelapsesProps) => {
-  const sortedRelapses = [...addiction.relapses].sort((a, b) => {
-    if (direction === 'asc') {
-      return new Date(a).getTime() - new Date(b).getTime();
-    }
+  return [...addiction.relapses]
+    .sort((a, b) => {
+      if (direction === 'asc') {
+        return new Date(a).getTime() - new Date(b).getTime();
+      }
 
-    return new Date(b).getTime() - new Date(a).getTime();
-  });
-
-  return sortedRelapses;
+      return new Date(b).getTime() - new Date(a).getTime();
+    })
+    .map(relapse => new Date(relapse));
 };

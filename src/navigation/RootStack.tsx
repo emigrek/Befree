@@ -40,7 +40,7 @@ const RootStack = () => {
         <Stack.Screen name="Authentication" component={Authentication} />
       )}
       {!onboarded && <Stack.Screen name="Onboarding" component={Onboarding} />}
-      {!loading && onboarded && user && (
+      {onboarded && user && (
         <Stack.Screen name="Home" component={AuthDrawerStack} />
       )}
     </Stack.Navigator>

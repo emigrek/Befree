@@ -23,7 +23,7 @@ interface AchievementsProps {
 
 const Achievements: FC<AchievementsProps> = ({ addiction }) => {
   const { colors } = useTheme();
-  const achivements = useAchievements({ addiction });
+  const achievements = useAchievements({ addiction });
   const navigation = useNavigation<ModalStackNavigationProp>();
 
   useLayoutEffect(() => {
@@ -78,7 +78,7 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
 
   return (
     <FlatList
-      data={achivements}
+      data={achievements}
       renderItem={renderItem}
       ItemSeparatorComponent={renderDivider}
       getItemLayout={(data, index) => ({

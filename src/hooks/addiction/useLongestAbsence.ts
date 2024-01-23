@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { getSortedRelapses, useSortedRelapses } from './useSortedRelapses';
+import { getSortedRelapses } from './useSortedRelapses';
 
 interface UseLongestAbsenceProps {
   addiction: Addiction;
@@ -14,41 +14,11 @@ interface LongestAbsence {
 const useLongestAbsence = ({
   addiction,
 }: UseLongestAbsenceProps): LongestAbsence => {
-  const sortedRelapses = useSortedRelapses({ addiction, direction: 'desc' });
+  const longestAbsence = useMemo(() => {
+    return getLongestAbsence({ addiction });
+  }, [addiction]);
 
-  const furthestDates = useMemo(() => {
-    if (sortedRelapses.length < 2) {
-      return {
-        start: sortedRelapses[0],
-        end: null,
-      };
-    }
-
-    let maxDifference = 0;
-    let result: LongestAbsence = {
-      start: sortedRelapses[0],
-      end: sortedRelapses[1],
-    };
-
-    for (let i = 0; i < sortedRelapses.length - 1; i++) {
-      const current = sortedRelapses[i];
-      const next = sortedRelapses[i + 1];
-
-      const difference = Math.abs(next.getTime() - current.getTime());
-
-      if (difference > maxDifference) {
-        maxDifference = difference;
-        result = {
-          start: next,
-          end: current,
-        };
-      }
-    }
-
-    return result;
-  }, [sortedRelapses]);
-
-  return furthestDates;
+  return longestAbsence;
 };
 
 const getLongestAbsence = ({
