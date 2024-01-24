@@ -115,6 +115,9 @@ export interface Translation {
       notifications: {
         label: string;
       };
+      settings: {
+        label: string;
+      };
     };
     hiddenaddictions: {
       label: string;

@@ -129,6 +129,9 @@ const enUS: Translation = {
       notifications: {
         label: 'Notifications',
       },
+      settings: {
+        label: 'Settings',
+      },
     },
     hiddenaddictions: {
       label: 'Hidden addictions',

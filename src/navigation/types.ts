@@ -30,6 +30,7 @@ export type HiddenAddictionsBottomTabsStackParamList = Omit<
 export type AddictionStackParamList = {
   Progress: { id: string };
   Achievements: { id: string };
+  Settings: { id: string };
 };
 
 export type ModalsStackParamList = {
@@ -118,4 +119,9 @@ export type EditScreenProps = StackScreenProps<ModalsStackParamList, 'Edit'>;
 export type AddictionsScreenProps = StackScreenProps<
   BottomTabsStackParamList,
   'Addictions'
+>;
+
+export type SettingsScreenProps = StackScreenProps<
+  AddictionStackParamList,
+  'Settings'
 >;

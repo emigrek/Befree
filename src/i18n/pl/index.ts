@@ -129,6 +129,9 @@ const pl: Translation = {
       notifications: {
         label: 'Powiadomienia',
       },
+      settings: {
+        label: 'Ustawienia',
+      },
     },
     hiddenaddictions: {
       label: 'Ukryte uzależnienia',

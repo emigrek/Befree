@@ -8,6 +8,7 @@ import { AddictionScreenProps, AddictionStackParamList } from './types';
 import { AddictionHeader } from '@/components/headers';
 import { ProgressScreen } from '@/components/screens/Addiction';
 import { AchievementsScreen } from '@/components/screens/Addiction/Achievements';
+import { SettingsScreen } from '@/components/screens/Addiction/Settings';
 import i18n from '@/i18n';
 
 const Navigator = createBottomTabNavigator<AddictionStackParamList>();
@@ -27,6 +28,10 @@ const addictionIconMap: AddictionTabsIconMap = {
   Achievements: {
     name: 'trophy-outline',
     focusedName: 'trophy',
+  },
+  Settings: {
+    name: 'cog-outline',
+    focusedName: 'cog',
   },
 };
 
@@ -79,6 +84,11 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
       <Navigator.Screen
         name="Achievements"
         component={AchievementsScreen}
+        initialParams={params}
+      />
+      <Navigator.Screen
+        name="Settings"
+        component={SettingsScreen}
         initialParams={params}
       />
     </Navigator.Navigator>
