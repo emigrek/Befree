@@ -2,9 +2,14 @@ import { useMemo } from 'react';
 import { List, Switch } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
+import i18n from '@/i18n';
 import { editAddiction } from '@/services/queries';
 import { useAuthStore } from '@/store';
 import { useTheme } from '@/theme';
+
+export enum Section {
+  PRIVACY = 'privacy',
+}
 
 type SideProps =
   | ((props: { color: string; style?: Style | undefined }) => React.ReactNode)
@@ -12,9 +17,10 @@ type SideProps =
 
 export interface AddictionSetting {
   id: number;
+  section: Section;
   name: string;
-  description: string;
-  onChange: () => Promise<void>;
+  description?: string;
+  onChange: () => void;
   left?: SideProps;
   right?: SideProps;
 }
@@ -31,24 +37,33 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
     return [
       {
         id: 0,
-        name: 'Hidden',
-        description: 'Hide this addiction from the main screen',
+        section: Section.PRIVACY,
+        name: i18n.t([
+          'modals',
+          'addiction',
+          'settings',
+          'list',
+          'hidden',
+          'name',
+        ]),
+        description: i18n.t([
+          'modals',
+          'addiction',
+          'settings',
+          'list',
+          'hidden',
+          'description',
+        ]),
         left: props => {
           return <List.Icon {...props} icon="eye-off-outline" />;
         },
-        right: props => {
-          return (
-            <Switch
-              {...props}
-              color={colors.primary}
-              value={addiction.hidden}
-            />
-          );
+        right: () => {
+          return <Switch color={colors.primary} value={addiction.hidden} />;
         },
-        onChange: async () => {
+        onChange: () => {
           if (!user) return;
 
-          await editAddiction({
+          editAddiction({
             user,
             id: addiction.id,
             addiction: {

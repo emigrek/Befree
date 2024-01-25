@@ -131,6 +131,16 @@ const enUS: Translation = {
       },
       settings: {
         label: 'Settings',
+        list: {
+          hidden: {
+            name: 'Hidden',
+            description:
+              'Hidden addictions are protected by local authorization',
+          },
+        },
+        sections: {
+          privacy: 'Privacy',
+        },
       },
     },
     hiddenaddictions: {

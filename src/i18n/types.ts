@@ -117,6 +117,15 @@ export interface Translation {
       };
       settings: {
         label: string;
+        list: {
+          hidden: {
+            name: string;
+            description: string;
+          };
+        };
+        sections: {
+          privacy: string;
+        };
       };
     };
     hiddenaddictions: {

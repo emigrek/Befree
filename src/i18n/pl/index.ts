@@ -131,6 +131,16 @@ const pl: Translation = {
       },
       settings: {
         label: 'Ustawienia',
+        list: {
+          hidden: {
+            name: 'Ukryj',
+            description:
+              'Ukryte uzależnienia są zabezpieczone autoryzacją lokalną',
+          },
+        },
+        sections: {
+          privacy: 'Prywatność',
+        },
       },
     },
     hiddenaddictions: {

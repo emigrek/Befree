@@ -1,8 +1,8 @@
 import { FC, useCallback } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
-import { List } from 'react-native-paper';
 
-import { AddictionSetting } from './useSettings';
+import { Section } from './Section';
+import { AddictionSetting, Section as SectionEnum } from './useSettings';
 
 import { Divider } from '@/components/ui/Divider';
 
@@ -11,27 +11,28 @@ interface SettingsListProps {
 }
 
 const SettingsList: FC<SettingsListProps> = ({ settings }) => {
+  const sections = Object.values(SectionEnum);
+  const sectionSettings = useCallback(
+    (section: SectionEnum) =>
+      settings.filter(setting => setting.section === section),
+    [settings],
+  );
+
   const renderItem = useCallback(
-    ({ item }: { item: AddictionSetting }) => (
-      <List.Item
-        title={item.name}
-        description={item.description}
-        left={item.left}
-        right={item.right}
-        onPress={item.onChange}
-      />
+    ({ item }: { item: SectionEnum }) => (
+      <Section section={item} settings={sectionSettings(item)} />
     ),
-    [],
+    [sectionSettings],
   );
 
   const renderDivider = useCallback(() => <Divider />, []);
 
   return (
     <FlatList
-      data={settings}
+      data={sections}
       renderItem={renderItem}
       ItemSeparatorComponent={renderDivider}
-      keyExtractor={item => item.id.toString()}
+      keyExtractor={item => item}
     />
   );
 };
