@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { customAlphabet } from 'nanoid/non-secure';
 import { FC, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
@@ -9,9 +10,11 @@ import {
 } from '@/hooks/goal/achievementsNotifications';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
-import { relapseAddiction, removeAddiction } from '@/services/queries';
+import { createRelapse, removeAddiction } from '@/services/queries';
 import { useAuthStore, useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
+
+const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
 interface AddictionActionsProps {
   addiction: Addiction;
@@ -23,51 +26,42 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
   const user = useAuthStore(state => state.user);
   const navigation = useNavigation<ModalStackNavigationProp>();
   const {
-    storeAddRelapse,
-    storeRemoveRelapse,
-    storeAdd,
-    storeRemove,
+    storeAddAddiction,
+    storeRemoveAddiction,
     isBlacklisted: hasNotificationsBlacklisted,
     removeBlacklist: removeAddictionFromNotificationsBlacklist,
   } = useGlobalStore(state => ({
+    storeAddAddiction: state.addAddiction,
+    storeRemoveAddiction: state.removeAddiction,
     storeAddRelapse: state.addRelapse,
-    storeRemoveRelapse: state.removeRelapse,
-    storeAdd: state.add,
-    storeRemove: state.remove,
     isBlacklisted: state.isBlacklisted,
     removeBlacklist: state.removeBlacklist,
   }));
 
   const handleRelapse = useCallback(() => {
-    const date = new Date();
-
-    storeAddRelapse(addiction.id, date);
+    if (!user) return;
 
     if (!hasNotificationsBlacklisted(addiction.id)) {
       removeAllNotifications({ addictionId: addiction.id });
       addAllNotifications({ addiction });
     }
 
-    if (!user) return;
+    const id = nanoid();
 
-    relapseAddiction({
+    createRelapse({
       user,
-      addiction,
-    }).catch(() => {
-      storeRemoveRelapse(addiction.id, date);
+      relapse: {
+        id,
+        addictionId: addiction.id,
+        createdAt: new Date(),
+      },
     });
-  }, [
-    user,
-    addiction,
-    storeAddRelapse,
-    storeRemoveRelapse,
-    hasNotificationsBlacklisted,
-  ]);
+  }, [user, addiction, hasNotificationsBlacklisted]);
 
   const handleRemove = useCallback(() => {
     navigation.navigate('BottomTabs', { screen: 'Addictions' });
 
-    storeRemove(id);
+    storeRemoveAddiction(id);
     removeAllNotifications({ addictionId: addiction.id });
     removeAddictionFromNotificationsBlacklist(addiction.id);
 
@@ -77,14 +71,14 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
       user,
       id,
     }).catch(() => {
-      storeAdd(addiction);
+      storeAddAddiction(addiction);
     });
   }, [
     user,
     addiction,
     id,
-    storeRemove,
-    storeAdd,
+    storeRemoveAddiction,
+    storeAddAddiction,
     navigation,
     removeAddictionFromNotificationsBlacklist,
   ]);

@@ -9,11 +9,15 @@ interface User {
 interface Addiction {
   id: string;
   name: string;
-  relapses: Date[];
-  lastRelapse: Date;
   image: string | null;
   tags: string[];
   hidden: boolean;
+  createdAt: Date;
+}
+
+interface Relapse {
+  id: string;
+  addictionId: string;
   createdAt: Date;
 }
 
@@ -23,3 +27,5 @@ interface Goal {
 }
 
 type UnidentifiedAddiction = Omit<Addiction, 'id' | 'createdAt'>;
+
+type UnidentifiedRelapse = Omit<Relapse, 'id' | 'createdAt'>;

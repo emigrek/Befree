@@ -15,12 +15,12 @@ export const useAddictionCreator = () => {
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
   const { upload, task, uploadProgress } = useImageUpload();
   const {
-    storeAdd,
-    storeRemove,
+    storeAddAddiction,
+    storeRemoveAddiction,
     isBlacklisted: hasNotificationsBlacklisted,
   } = useGlobalStore(state => ({
-    storeAdd: state.add,
-    storeRemove: state.remove,
+    storeAddAddiction: state.addAddiction,
+    storeRemoveAddiction: state.removeAddiction,
     isBlacklisted: state.isBlacklisted,
   }));
   const [creating, setCreating] = useState(false);
@@ -30,7 +30,7 @@ export const useAddictionCreator = () => {
     async (addiction: UnidentifiedAddiction) => {
       if (!user) return;
 
-      const { name, relapses, lastRelapse, image, tags } = addiction;
+      const { name, image, tags } = addiction;
       const { uid } = user;
 
       const addictionId = nanoid();
@@ -44,15 +44,13 @@ export const useAddictionCreator = () => {
       const newAddiction = {
         id: addictionId,
         name,
-        relapses,
-        lastRelapse,
         image: imageUrl,
         tags,
         hidden: false,
         createdAt: new Date(),
       };
 
-      storeAdd(newAddiction);
+      storeAddAddiction(newAddiction);
 
       if (!hasNotificationsBlacklisted(addictionId)) {
         addAllNotifications({ addiction: newAddiction });
@@ -66,15 +64,15 @@ export const useAddictionCreator = () => {
         addiction: newAddiction,
         user,
       }).catch(() => {
-        storeRemove(newAddiction.id);
+        storeRemoveAddiction(newAddiction.id);
       });
 
       setCreating(false);
     },
     [
       modalStackNavigation,
-      storeAdd,
-      storeRemove,
+      storeAddAddiction,
+      storeRemoveAddiction,
       upload,
       user,
       hasNotificationsBlacklisted,

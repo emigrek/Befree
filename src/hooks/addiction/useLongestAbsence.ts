@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { getSortedRelapses } from './useSortedRelapses';
+import { getSortedRelapses } from '../relapse/useSortedRelapses';
 
 interface UseLongestAbsenceProps {
   addiction: Addiction;

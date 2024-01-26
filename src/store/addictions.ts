@@ -11,11 +11,9 @@ export interface AddictionsSlice {
   setSorting: (sorting: AddictionSorting) => void;
   addictions: Addiction[];
   setAddictions: (addictions: Addiction[]) => void;
-  add: (addiction: Addiction) => void;
-  edit: (id: string, addiction: Partial<Addiction>) => void;
-  remove: (id: string) => void;
-  addRelapse: (id: string, date: Date) => void;
-  removeRelapse: (id: string, date: Date) => void;
+  addAddiction: (addiction: Addiction) => void;
+  editAddiction: (id: string, addiction: Partial<Addiction>) => void;
+  removeAddiction: (id: string) => void;
 }
 
 export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
@@ -24,7 +22,7 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
 ) => ({
   sorting: {
     direction: 'asc',
-    field: 'lastRelapse',
+    field: 'createdAt',
   },
   setSorting: (sorting: AddictionSorting) => set({ sorting }),
   addictions: [],
@@ -35,14 +33,14 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
         return state;
       }),
     ),
-  add: (addiction: Addiction) =>
+  addAddiction: (addiction: Addiction) =>
     set(
       produce(state => {
         state.addictions.push(addiction);
         return state;
       }),
     ),
-  edit: (id: string, addiction: Partial<Addiction>) => {
+  editAddiction: (id: string, addiction: Partial<Addiction>) => {
     set(
       produce(state => {
         const a = state.addictions.find(
@@ -56,48 +54,12 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
       }),
     );
   },
-  remove: (id: string) => {
+  removeAddiction: (id: string) => {
     set(
       produce(state => {
         state.addictions = state.addictions.filter(
           (addiction: Addiction) => addiction.id !== id,
         );
-
-        return state;
-      }),
-    );
-  },
-  addRelapse: (id: string, date: Date) => {
-    set(
-      produce(state => {
-        const addiction = state.addictions.find(
-          (addiction: Addiction) => addiction.id === id,
-        );
-
-        if (!addiction) return;
-
-        addiction.relapses.push(date);
-        addiction.lastRelapse = date;
-
-        return state;
-      }),
-    );
-  },
-  removeRelapse: (id: string, date: Date) => {
-    set(
-      produce(state => {
-        const addiction = state.addictions.find(
-          (addiction: Addiction) => addiction.id === id,
-        );
-
-        if (!addiction) return;
-
-        const relapses = addiction.relapses.filter(
-          (relapse: Date) => relapse.getTime() !== date.getTime(),
-        );
-
-        addiction.relapses = relapses;
-        addiction.lastRelapse = addiction.relapses[0];
 
         return state;
       }),

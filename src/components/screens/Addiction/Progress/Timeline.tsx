@@ -1,23 +1,22 @@
-import { nextSaturday } from 'date-fns';
 import { FC, useMemo } from 'react';
 
 import { Timeline as TimelinePrimitive } from '@/components/ui/Timeline';
-import { useSortedRelapses } from '@/hooks/addiction/useSortedRelapses';
 
 interface TimelineProps {
-  addiction: Addiction;
+  relapses: Relapse[];
 }
 
-const Timeline: FC<TimelineProps> = ({ addiction }) => {
-  const sortedRelapses = useSortedRelapses({ addiction });
-
+const Timeline: FC<TimelineProps> = ({ relapses }) => {
   const data = useMemo(() => {
-    return addiction.relapses.map(relapse => new Date(relapse));
-  }, [addiction.relapses]);
+    return relapses.map(relapse => relapse.createdAt);
+  }, [relapses]);
 
-  const range: [Date, Date] = useMemo(() => {
-    return [new Date(sortedRelapses[0]), nextSaturday(new Date())];
-  }, [sortedRelapses]);
+  const range = useMemo(() => {
+    const first = data[0];
+    const last = data[data.length - 1];
+
+    return [first, last] as [Date, Date];
+  }, [data]);
 
   return (
     <TimelinePrimitive
