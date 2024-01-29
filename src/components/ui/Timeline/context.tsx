@@ -134,9 +134,11 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   );
 
   const cellsData = useMemo(() => {
-    const sunday = isSunday(range[0]) ? range[0] : previousSunday(range[0]);
+    const startSunday = isSunday(range[0])
+      ? range[0]
+      : previousSunday(range[0]);
     const days = eachDayOfInterval({
-      start: sunday,
+      start: startSunday,
       end: range[1],
     });
 

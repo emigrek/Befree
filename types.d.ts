@@ -10,7 +10,7 @@ interface Addiction {
   id: string;
   name: string;
   image: string | null;
-  tags: string[];
+  relapses: Relapse[];
   hidden: boolean;
   createdAt: Date;
 }
@@ -18,6 +18,7 @@ interface Addiction {
 interface Relapse {
   id: string;
   addictionId: string;
+  relapseAt: Date;
   createdAt: Date;
 }
 

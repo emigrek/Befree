@@ -9,8 +9,7 @@ import { Commitment } from '@/components/ui/Commitment';
 import { HiddenAddictionsAction } from '@/components/ui/HiddenAddictionsAction';
 import { SelectionFABs } from '@/components/ui/SelectionFABS';
 import { SortingAction } from '@/components/ui/SortingAction';
-import { useAddictions } from '@/hooks/addiction/useAddictions';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useGlobalStore } from '@/store';
 
 interface AddictionsProps {
   hidden?: boolean;
@@ -18,8 +17,12 @@ interface AddictionsProps {
 
 const Addictions: FC<AddictionsProps> = ({ hidden }) => {
   const user = useAuthStore(state => state.user);
-  const { sortedAddictions, sortedHiddenAddictions, loading } = useAddictions();
-  const addictions = hidden ? sortedHiddenAddictions : sortedAddictions;
+  const { addictions, hiddenAddictions, loading } = useGlobalStore(state => ({
+    addictions: state.addictions,
+    hiddenAddictions: state.hiddenAddictions,
+    loading: state.addictionsLoading,
+  }));
+  const items = hidden ? hiddenAddictions : addictions;
 
   return (
     <View style={{ flex: 1 }}>
@@ -30,8 +33,8 @@ const Addictions: FC<AddictionsProps> = ({ hidden }) => {
         <SortingAction />
         {!hidden && <HiddenAddictionsAction />}
       </Header>
-      <AddictionsList addictions={addictions} loading={loading} />
-      {user && <SelectionFABs user={user} addictions={addictions} />}
+      <AddictionsList addictions={items} loading={loading} />
+      {user && <SelectionFABs user={user} addictions={items} />}
       {!hidden && <AddictionAddFAB />}
     </View>
   );

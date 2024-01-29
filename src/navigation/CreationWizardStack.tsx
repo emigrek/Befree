@@ -1,10 +1,11 @@
+import { useNavigation } from '@react-navigation/native';
 import {
   createStackNavigator,
   TransitionPresets,
 } from '@react-navigation/stack';
 import { useCallback } from 'react';
 
-import { CreationStackParamList } from './types';
+import { CreationStackParamList, ModalStackNavigationProp } from './types';
 
 import { Loading } from '@/components/screens';
 import {
@@ -20,6 +21,7 @@ import { useCreationWizardStore } from '@/store';
 const Navigator = createStackNavigator<CreationStackParamList>();
 
 const CreationWizardStack = () => {
+  const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
   const { name, startDate, image, reset, setStartDate, setLoading } =
     useCreationWizardStore(state => ({
       name: state.name,
@@ -29,7 +31,12 @@ const CreationWizardStack = () => {
       setStartDate: state.setStartDate,
       setLoading: state.setLoading,
     }));
-  const { create, task, uploadProgress, creating } = useAddictionCreator();
+  const {
+    create: createAddiction,
+    task,
+    uploadProgress,
+    creating,
+  } = useAddictionCreator();
 
   const onWizardStart = useCallback(async () => {
     setStartDate(new Date());
@@ -38,17 +45,27 @@ const CreationWizardStack = () => {
   const onWizardComplete = useCallback(async () => {
     const addiction: UnidentifiedAddiction = {
       name,
-      relapses: [new Date(startDate)],
-      lastRelapse: new Date(startDate),
       image,
+      relapses: [],
       hidden: false,
-      tags: [],
     };
 
     setLoading(true);
-    await create(addiction);
+    await createAddiction(addiction, startDate);
     reset();
-  }, [create, image, name, reset, startDate, setLoading]);
+
+    modalStackNavigation.navigate('BottomTabs', {
+      screen: 'Addictions',
+    });
+  }, [
+    name,
+    image,
+    startDate,
+    createAddiction,
+    reset,
+    modalStackNavigation,
+    setLoading,
+  ]);
 
   if (task) {
     return (

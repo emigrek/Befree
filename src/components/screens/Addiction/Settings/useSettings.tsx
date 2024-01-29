@@ -3,7 +3,7 @@ import { List, Switch } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
 import i18n from '@/i18n';
-import { editAddiction } from '@/services/queries';
+import UserData from '@/services/data/userData';
 import { useAuthStore } from '@/store';
 import { useTheme } from '@/theme';
 
@@ -62,13 +62,10 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
         },
         onChange: () => {
           if (!user) return;
+          const { addictions } = UserData.getInstance(user.uid);
 
-          editAddiction({
-            user,
-            id: addiction.id,
-            addiction: {
-              hidden: !addiction.hidden,
-            },
+          addictions.update(addiction.id, {
+            hidden: !addiction.hidden,
           });
         },
       },

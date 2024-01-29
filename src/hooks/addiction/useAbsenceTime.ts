@@ -2,6 +2,8 @@ import { differenceInMilliseconds } from 'date-fns';
 import { useCallback, useState } from 'react';
 import { useElapsedTime } from 'use-elapsed-time';
 
+import { useAddictionLastRelapse } from '../relapse/useAddictionLastRelapse';
+
 export interface UseAbsenceTimeProps {
   addiction: Addiction;
   refresh?: boolean;
@@ -11,20 +13,19 @@ export const useAbsenceTime = ({
   addiction,
   refresh = true,
 }: UseAbsenceTimeProps) => {
+  const lastRelapse = useAddictionLastRelapse({ addiction });
   const [absenceTime, setAbsenceTime] = useState<number>(
-    differenceInMilliseconds(new Date(), new Date(addiction.lastRelapse)),
+    lastRelapse ? differenceInMilliseconds(new Date(), lastRelapse) : 0,
   );
 
   useElapsedTime({
     isPlaying: refresh,
     updateInterval: 1,
     onUpdate: useCallback(() => {
-      const timeDiff = differenceInMilliseconds(
-        new Date(),
-        new Date(addiction.lastRelapse),
+      setAbsenceTime(
+        lastRelapse ? differenceInMilliseconds(new Date(), lastRelapse) : 0,
       );
-      setAbsenceTime(timeDiff);
-    }, [addiction.lastRelapse]),
+    }, [lastRelapse]),
   });
 
   return { absenceTime };

@@ -7,7 +7,7 @@ import Animated, {
 
 import { FAB } from '@/components/ui/FAB';
 import { removeAllNotifications } from '@/hooks/goal/achievementsNotifications';
-import { removeAddiction } from '@/services/queries';
+import UserData from '@/services/data/userData';
 import { useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
@@ -29,14 +29,14 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
   } = useGlobalStore(state => ({
     selected: state.selected,
     setSelected: state.setSelected,
-    storeRemove: state.remove,
+    storeRemove: state.removeAddiction,
     removeBlacklist: state.removeBlacklist,
   }));
 
   const closeStyle = useAnimatedStyle(() => {
     return {
-      right: 31,
-      bottom: withTiming(selected.length > 0 ? 155 : 30),
+      right: 30,
+      bottom: withTiming(selected.length > 0 ? 150 : 30),
       backgroundColor: colors.secondaryContainer,
       opacity: withTiming(selected.length > 0 ? 1 : 0),
     };
@@ -44,8 +44,8 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
 
   const deleteStyle = useAnimatedStyle(() => {
     return {
-      right: 31,
-      bottom: withTiming(selected.length > 0 ? 100 : 30),
+      right: 30,
+      bottom: withTiming(selected.length > 0 ? 95 : 30),
       backgroundColor: colors.secondaryContainer,
       opacity: withTiming(selected.length > 0 ? 1 : 0),
     };
@@ -55,18 +55,13 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
     if (!user) return;
     setLoading(true);
 
-    selected.map(id => {
+    const deletionPromise = selected.map(async id => {
       storeRemove(id);
       removeAllNotifications({
         addictionId: id,
       });
       removeAddictionFromNotificationsBlacklist(id);
-    });
-
-    const deletionPromise = selected.map(async id => {
-      const addiction = addictions.find(addiction => addiction.id === id);
-      if (!addiction) return Promise.resolve();
-      await removeAddiction({ user, id });
+      UserData.getInstance(user.uid).addictions.delete(id);
     });
 
     await Promise.all(deletionPromise).then(() => {
@@ -76,11 +71,9 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
   }, [
     user,
     selected,
-    addictions,
     storeRemove,
-    setLoading,
-    setSelected,
     removeAddictionFromNotificationsBlacklist,
+    setSelected,
   ]);
 
   const handleSelectionCancel = useCallback(() => {

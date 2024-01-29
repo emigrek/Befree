@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { customAlphabet } from 'nanoid/non-secure';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
@@ -10,11 +9,9 @@ import {
 } from '@/hooks/goal/achievementsNotifications';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
-import { createRelapse, removeAddiction } from '@/services/queries';
+import UserData from '@/services/data/userData';
 import { useAuthStore, useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
-
-const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
 interface AddictionActionsProps {
   addiction: Addiction;
@@ -33,46 +30,55 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
   } = useGlobalStore(state => ({
     storeAddAddiction: state.addAddiction,
     storeRemoveAddiction: state.removeAddiction,
-    storeAddRelapse: state.addRelapse,
     isBlacklisted: state.isBlacklisted,
     removeBlacklist: state.removeBlacklist,
   }));
 
+  const [isRelapsing, setIsRelapsing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const handleRelapse = useCallback(() => {
     if (!user) return;
+    setIsRelapsing(true);
 
     if (!hasNotificationsBlacklisted(addiction.id)) {
       removeAllNotifications({ addictionId: addiction.id });
       addAllNotifications({ addiction });
     }
 
-    const id = nanoid();
+    const { relapses } = UserData.getInstance(user.uid);
 
-    createRelapse({
-      user,
-      relapse: {
-        id,
+    relapses
+      .create({
         addictionId: addiction.id,
-        createdAt: new Date(),
-      },
-    });
+        relapseAt: new Date(),
+      })
+      .then(() => {
+        setIsRelapsing(false);
+      });
   }, [user, addiction, hasNotificationsBlacklisted]);
 
   const handleRemove = useCallback(() => {
+    if (!user) return;
+
+    setIsDeleting(true);
+
     navigation.navigate('BottomTabs', { screen: 'Addictions' });
 
     storeRemoveAddiction(id);
     removeAllNotifications({ addictionId: addiction.id });
     removeAddictionFromNotificationsBlacklist(addiction.id);
 
-    if (!user) return;
+    const { addictions } = UserData.getInstance(user.uid);
 
-    removeAddiction({
-      user,
-      id,
-    }).catch(() => {
-      storeAddAddiction(addiction);
-    });
+    addictions
+      .delete(id)
+      .then(() => {
+        setIsDeleting(false);
+      })
+      .catch(() => {
+        storeAddAddiction(addiction);
+      });
   }, [
     user,
     addiction,
@@ -91,6 +97,7 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
         mode="contained"
         icon="restart"
         onPress={handleRelapse}
+        loading={isRelapsing}
       >
         {i18n.t(['labels', 'relapse'])}
       </Button>
@@ -104,6 +111,7 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
           color: colors.text,
         }}
         onPress={handleRemove}
+        loading={isDeleting}
       >
         {i18n.t(['labels', 'remove'])}
       </Button>

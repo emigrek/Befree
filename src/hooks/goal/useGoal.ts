@@ -3,6 +3,16 @@ import { useMemo } from 'react';
 
 import { goalTimeDiffs } from './goalTimeDiffs';
 
+export const useGoal = (lastRelapseDate: Date | null) => {
+  return useMemo(() => {
+    if (!lastRelapseDate) {
+      return null;
+    }
+
+    return getGoal(lastRelapseDate);
+  }, [lastRelapseDate]);
+};
+
 export const getGoal = (lastRelapseDate: Date) => {
   const diff = differenceInMilliseconds(new Date(), lastRelapseDate);
 
@@ -20,10 +30,4 @@ export const getGoal = (lastRelapseDate: Date) => {
     goalAt,
     goalType,
   };
-};
-
-export const useGoal = (lastRelapseDate: Date) => {
-  return useMemo(() => {
-    return getGoal(lastRelapseDate);
-  }, [lastRelapseDate]);
 };

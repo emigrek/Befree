@@ -15,7 +15,7 @@ import { ImagePicker } from '@/components/ui/ImagePicker';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
-import { editAddiction } from '@/services/queries';
+import UserData from '@/services/data/userData';
 import { addictionImageRef } from '@/services/refs/image';
 import { useImageUpload } from '@/services/storage';
 import { useAuthStore, useNetInfoStore } from '@/store';
@@ -54,6 +54,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   const handleSave = useCallback(async () => {
     if (!user) return;
 
+    const { addictions } = UserData.getInstance(user.uid);
     const imageChanged = image !== addiction.image;
     const nameChanged = name !== addiction.name;
     const { isInternetReachable } = await Network.getNetworkStateAsync();
@@ -88,11 +89,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
       image: newImage,
     };
 
-    editAddiction({
-      user,
-      id: addiction.id,
-      addiction: newAddiction,
-    });
+    await addictions.update(addiction.id, newAddiction);
 
     setSaving(false);
     navigation.navigate('Addiction', {

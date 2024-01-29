@@ -4,6 +4,7 @@ import React, { FC, useMemo } from 'react';
 import { Addiction as AddictionPrimitive } from '@/components/ui/Addiction';
 import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
 import { useGoal } from '@/hooks/goal/useGoal';
+import { useAddictionLastRelapse } from '@/hooks/relapse/useAddictionLastRelapse';
 import i18n from '@/i18n';
 import { useTheme } from '@/theme';
 
@@ -14,16 +15,15 @@ interface GoalProgressProps {
 const GoalProgress: FC<GoalProgressProps> = ({ addiction }) => {
   const { colors } = useTheme();
   const { absenceTime } = useAbsenceTime({ addiction });
-  const goal = useGoal(new Date(addiction.lastRelapse));
+  const lastRelapse = useAddictionLastRelapse({ addiction });
+  const goal = useGoal(lastRelapse);
 
   const progress = useMemo(() => {
-    const total = differenceInMilliseconds(
-      goal.goalAt,
-      new Date(addiction.lastRelapse),
-    );
+    if (!goal || !lastRelapse) return 0;
+    const total = differenceInMilliseconds(goal.goalAt, new Date(lastRelapse));
 
     return absenceTime / total;
-  }, [absenceTime, goal.goalAt, addiction.lastRelapse]);
+  }, [absenceTime, lastRelapse, goal]);
 
   return (
     <AddictionPrimitive.Goal
@@ -37,22 +37,24 @@ const GoalProgress: FC<GoalProgressProps> = ({ addiction }) => {
       >
         {i18n.t(['labels', 'goal'])}
       </AddictionPrimitive.Goal.Label>
-      <AddictionPrimitive.Goal.Progress>
-        <AddictionPrimitive.Goal.Progress.Text
-          style={{ color: colors.onSurfaceVariant }}
-        >
-          {i18n.t(['goals', goal.goalType]).toUpperCase()}
-        </AddictionPrimitive.Goal.Progress.Text>
-        <AddictionPrimitive.Goal.Progress.Bar
-          progress={progress}
-          color={colors.primary}
-        />
-        <AddictionPrimitive.Goal.Progress.Text
-          style={{ color: colors.onSurfaceVariant }}
-        >
-          {(progress * 100).toFixed(0)}%
-        </AddictionPrimitive.Goal.Progress.Text>
-      </AddictionPrimitive.Goal.Progress>
+      {goal && (
+        <AddictionPrimitive.Goal.Progress>
+          <AddictionPrimitive.Goal.Progress.Text
+            style={{ color: colors.onSurfaceVariant }}
+          >
+            {i18n.t(['goals', goal.goalType]).toUpperCase()}
+          </AddictionPrimitive.Goal.Progress.Text>
+          <AddictionPrimitive.Goal.Progress.Bar
+            progress={progress}
+            color={colors.primary}
+          />
+          <AddictionPrimitive.Goal.Progress.Text
+            style={{ color: colors.onSurfaceVariant }}
+          >
+            {(progress * 100).toFixed(0)}%
+          </AddictionPrimitive.Goal.Progress.Text>
+        </AddictionPrimitive.Goal.Progress>
+      )}
     </AddictionPrimitive.Goal>
   );
 };

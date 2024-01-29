@@ -6,6 +6,7 @@ import * as SystemUI from 'expo-system-ui';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
+import { useAddictionsSubscription } from '@/hooks/addiction/useAddictionsSubscription';
 import { useNetInfoStateSubscription } from '@/hooks/useNetInfoStateSubscription';
 import { usePersistingNavigationState } from '@/hooks/usePersistingNavigationState';
 import { modalsNavigationContainerRef } from '@/navigation/NavigationContainerRef';
@@ -42,6 +43,7 @@ export default function App() {
   });
 
   useNetInfoStateSubscription();
+  useAddictionsSubscription();
 
   if (!isHydrated || !isNavigationRestored) return null;
 

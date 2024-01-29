@@ -10,18 +10,12 @@ import {
 } from './creationWizard';
 import { NetInfoSlice, createNetInfoSlice } from './netInfo';
 import { NotificationsSlice, createNotificationsSlice } from './notifications';
-import { RelapsesSlice, createRelapsesSlice } from './relapses';
 import { SelectionSlice, createSelectionSlice } from './selection';
 import { SessionSlice, createSessionSlice } from './session';
 import { ThemeSlice, createThemeSlice } from './theme';
 
 export const useGlobalStore = create<
-  ThemeSlice &
-    AppSlice &
-    AddictionsSlice &
-    SelectionSlice &
-    NotificationsSlice &
-    RelapsesSlice
+  ThemeSlice & AppSlice & AddictionsSlice & SelectionSlice & NotificationsSlice
 >()(
   persist(
     (...a) => ({
@@ -30,7 +24,6 @@ export const useGlobalStore = create<
       ...createAddictionsSlice(...a),
       ...createSelectionSlice(...a),
       ...createNotificationsSlice(...a),
-      ...createRelapsesSlice(...a),
     }),
     {
       name: 'global-storage',

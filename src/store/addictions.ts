@@ -8,12 +8,16 @@ export interface AddictionSorting {
 
 export interface AddictionsSlice {
   sorting: AddictionSorting;
-  setSorting: (sorting: AddictionSorting) => void;
   addictions: Addiction[];
+  hiddenAddictions: Addiction[];
+  addictionsLoading: boolean;
+  getAddiction: (id: string) => Addiction | null;
+  setSorting: (sorting: AddictionSorting) => void;
   setAddictions: (addictions: Addiction[]) => void;
   addAddiction: (addiction: Addiction) => void;
   editAddiction: (id: string, addiction: Partial<Addiction>) => void;
   removeAddiction: (id: string) => void;
+  setAddictionsLoading: (addictionsLoading: boolean) => void;
 }
 
 export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
@@ -24,12 +28,26 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
     direction: 'asc',
     field: 'createdAt',
   },
-  setSorting: (sorting: AddictionSorting) => set({ sorting }),
   addictions: [],
+  hiddenAddictions: [],
+  addictionsLoading: false,
+  getAddiction: (id: string) => {
+    const addictions = get().addictions;
+    const hiddenAddictions = get().hiddenAddictions;
+    return (
+      addictions.find((addiction: Addiction) => addiction.id === id) ||
+      hiddenAddictions.find((addiction: Addiction) => addiction.id === id) ||
+      null
+    );
+  },
+  setSorting: (sorting: AddictionSorting) => set({ sorting }),
   setAddictions: (addictions: Addiction[]) =>
     set(
       produce(state => {
-        state.addictions = addictions;
+        state.addictions = addictions.filter(addiction => !addiction.hidden);
+        state.hiddenAddictions = addictions.filter(
+          addiction => addiction.hidden,
+        );
         return state;
       }),
     ),
@@ -65,6 +83,8 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
       }),
     );
   },
+  setAddictionsLoading: (addictionsLoading: boolean) =>
+    set({ addictionsLoading }),
 });
 
 export const getSortingFunction = (sorting: AddictionSorting) => {
