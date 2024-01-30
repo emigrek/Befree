@@ -6,6 +6,7 @@ import { radiosStyle } from './radiosStyle';
 
 import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
+import { SortingField } from '@/store/addictions';
 import { useTheme } from '@/theme';
 
 const FieldRadios = () => {
@@ -16,7 +17,7 @@ const FieldRadios = () => {
   }));
 
   const handleFieldChange = (value: string) => {
-    const field = value as 'name' | 'lastRelapse' | 'createdAt';
+    const field = value as SortingField;
 
     setSorting({ ...sorting, field });
   };
@@ -31,7 +32,16 @@ const FieldRadios = () => {
         value={sorting.field}
         onValueChange={handleFieldChange}
       >
-        <RadioButton.Item
+        {Object.keys(SortingField).map((field, index) => (
+          <RadioButton.Item
+            key={index}
+            labelVariant="bodyLarge"
+            labelStyle={{ color: colors.outline }}
+            label={i18n.t(['modals', 'sorting', 'fields', field])}
+            value={field}
+          />
+        ))}
+        {/* <RadioButton.Item
           labelVariant="bodyLarge"
           labelStyle={{ color: colors.outline }}
           label={i18n.t(['modals', 'sorting', 'fields', 'name'])}
@@ -48,7 +58,7 @@ const FieldRadios = () => {
           labelStyle={{ color: colors.outline }}
           label={i18n.t(['modals', 'sorting', 'fields', 'createdAt'])}
           value={'createdAt'}
-        />
+        /> */}
       </RadioButton.Group>
     </View>
   );

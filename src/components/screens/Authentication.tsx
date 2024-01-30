@@ -37,11 +37,11 @@ const Authentication: FC = () => {
         })
         .catch(error => {
           setLoading(false);
-          console.log(error);
+          console.log('Error when signing in with Google', error);
         });
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      console.log('Error when using Google Services', error);
     }
   };
 

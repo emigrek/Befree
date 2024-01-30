@@ -15,13 +15,11 @@ const useAddictionLastRelapse = ({
 const getLastRelapse = ({
   addiction,
 }: UseAddictionLastRelapseProps): Date | null => {
-  const relapses = addiction.relapses;
-
-  if (!relapses.length) {
+  if (!addiction.relapses.length) {
     return null;
   }
 
-  return relapses[0].relapseAt;
+  return new Date(addiction.relapses[addiction.relapses.length - 1].relapseAt);
 };
 
 export { getLastRelapse, useAddictionLastRelapse };

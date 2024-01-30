@@ -163,7 +163,7 @@ const pl: Translation = {
       },
       fields: {
         createdAt: 'Data utworzenia',
-        lastRelapse: 'Ostatnia wpadka',
+        relapses: 'Ostatnia wpadka',
         name: 'Nazwa',
       },
     },

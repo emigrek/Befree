@@ -20,8 +20,7 @@ const GoalProgress: FC<GoalProgressProps> = ({ addiction }) => {
 
   const progress = useMemo(() => {
     if (!goal || !lastRelapse) return 0;
-    const total = differenceInMilliseconds(goal.goalAt, new Date(lastRelapse));
-
+    const total = differenceInMilliseconds(goal.goalAt, lastRelapse);
     return absenceTime / total;
   }, [absenceTime, lastRelapse, goal]);
 

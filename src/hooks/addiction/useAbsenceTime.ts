@@ -14,17 +14,16 @@ export const useAbsenceTime = ({
   refresh = true,
 }: UseAbsenceTimeProps) => {
   const lastRelapse = useAddictionLastRelapse({ addiction });
-  const [absenceTime, setAbsenceTime] = useState<number>(
-    lastRelapse ? differenceInMilliseconds(new Date(), lastRelapse) : 0,
-  );
+  const [absenceTime, setAbsenceTime] = useState<number>(0);
 
   useElapsedTime({
     isPlaying: refresh,
     updateInterval: 1,
     onUpdate: useCallback(() => {
-      setAbsenceTime(
-        lastRelapse ? differenceInMilliseconds(new Date(), lastRelapse) : 0,
-      );
+      const time = lastRelapse
+        ? differenceInMilliseconds(new Date(), lastRelapse)
+        : 0;
+      setAbsenceTime(time);
     }, [lastRelapse]),
   });
 

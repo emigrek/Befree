@@ -1,6 +1,4 @@
-import firestore, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
 
 import RelapseManager from './relapse';
@@ -89,7 +87,18 @@ class AddictionManager {
     this.unsubscribeFromChanges = addictionsRef(this.userId).onSnapshot(
       snapshot => {
         this.data = snapshot.docs.map(doc => {
-          return this.parseData(doc.data());
+          const data = doc.data();
+
+          return {
+            id: data.id,
+            name: data.name,
+            image: data.image,
+            relapses: [],
+            hidden: data.hidden,
+            createdAt: data.createdAt
+              ? parseFirebaseTimestamp(data.createdAt)
+              : new Date(),
+          };
         });
         updateCallback(this.data);
       },
@@ -97,19 +106,6 @@ class AddictionManager {
         console.error('Error listening to Addictions collection: ', error);
       },
     );
-  }
-
-  parseData(data: FirebaseFirestoreTypes.DocumentData): Addiction {
-    return {
-      id: data.id,
-      name: data.name,
-      image: data.image,
-      relapses: [],
-      hidden: data.hidden,
-      createdAt: data.createdAt
-        ? parseFirebaseTimestamp(data.createdAt)
-        : new Date(),
-    };
   }
 
   getAddictionsData(): Addiction[] {

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { differenceInMilliseconds, isDate } from 'date-fns';
+import { differenceInMilliseconds } from 'date-fns';
 import React, { FC, useCallback, useMemo } from 'react';
 import Animated, {
   useAnimatedStyle,
@@ -26,16 +26,15 @@ type AddictionProps = {
 const Addiction: FC<AddictionProps> = ({ addiction }) => {
   const navigation = useNavigation<ModalStackNavigationProp>();
   const { colors } = useTheme();
+
   const { absenceTime } = useAbsenceTime({ addiction });
   const { isSelected, toggleSelected } = useSelected({ id: addiction.id });
   const lastRelapse = useAddictionLastRelapse({ addiction });
   const goal = useGoal(lastRelapse);
 
   const progress = useMemo(() => {
-    if (!goal || !lastRelapse || !isDate(lastRelapse)) return 0;
-
+    if (!goal || !lastRelapse) return 0;
     const total = differenceInMilliseconds(goal.goalAt, lastRelapse);
-
     return absenceTime / total;
   }, [absenceTime, lastRelapse, goal]);
 

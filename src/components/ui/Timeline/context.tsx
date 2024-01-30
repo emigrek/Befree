@@ -5,8 +5,10 @@ import {
   isAfter,
   isBefore,
   isSameDay,
+  isSaturday,
   isSunday,
   isToday,
+  nextSaturday,
   previousSunday,
   sub,
 } from 'date-fns';
@@ -137,9 +139,14 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
     const startSunday = isSunday(range[0])
       ? range[0]
       : previousSunday(range[0]);
+
+    const endSaturday = isSaturday(range[1])
+      ? range[1]
+      : nextSaturday(range[1]);
+
     const days = eachDayOfInterval({
       start: startSunday,
-      end: range[1],
+      end: endSaturday,
     });
 
     const cells = days.map(day => {

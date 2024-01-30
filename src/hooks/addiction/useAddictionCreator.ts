@@ -23,11 +23,11 @@ export const useAddictionCreator = () => {
       const { image } = addiction;
 
       setCreating(true);
-
       const newAddictionId = await addictions.create(
         addiction,
         firstRelapseDate,
       );
+      setCreating(false);
       const imageUrl = image
         ? await upload(`users/${user.uid}/addictions/${newAddictionId}`, image)
         : null;
@@ -42,8 +42,6 @@ export const useAddictionCreator = () => {
       if (!hasNotificationsBlacklisted(newAddictionId)) {
         addAllNotifications({ addiction: newAddiction });
       }
-
-      setCreating(false);
 
       return newAddiction;
     },

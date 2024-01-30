@@ -5,6 +5,7 @@ import { goalTimeDiffs } from './goalTimeDiffs';
 import { Achievement, Goals } from './types';
 
 import { getLongestAbsence } from '@/hooks/addiction/useLongestAbsence';
+import { getLastRelapse } from '@/hooks/relapse/useAddictionLastRelapse';
 
 interface UseAchievementProps {
   addiction: Addiction;
@@ -24,11 +25,11 @@ export const getAchievement = ({
   addiction,
   goalType,
 }: UseAchievementProps): Achievement | null => {
-  const { lastRelapse } = addiction;
+  const lastRelapse = getLastRelapse({ addiction });
 
   const longestAbsence = getLongestAbsence({ addiction });
   const currentAbsence = {
-    start: new Date(lastRelapse),
+    start: lastRelapse ? lastRelapse : new Date(),
     end: null,
   };
 

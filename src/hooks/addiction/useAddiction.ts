@@ -1,21 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
-import { useAuthStore, useGlobalStore } from '@/store';
+import { useGlobalStore } from '@/store';
 
 export interface UseAddictionProps {
   id: string;
 }
 
 export const useAddiction = ({ id }: UseAddictionProps) => {
-  const user = useAuthStore(state => state.user);
-  const getAddiction = useGlobalStore(state => state.getAddiction);
-  const [addiction, setAddiction] = useState<Addiction | null>(null);
+  const addictions = useGlobalStore(state => state.addictions);
 
-  useEffect(() => {
-    if (!user) return;
-
-    setAddiction(getAddiction(id));
-  }, [id, user, getAddiction]);
-
-  return addiction;
+  return useMemo(() => {
+    return addictions.find(addiction => addiction.id === id) || null;
+  }, [addictions, id]);
 };

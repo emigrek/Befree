@@ -17,7 +17,7 @@ const LocalAuthLayout: FC<LocalAuthLayoutProps> = ({
       const result = await LocalAuthentication.authenticateAsync();
       setUnlocked(result.success);
     } catch (error) {
-      console.log(error);
+      console.log('Error when using local authentication', error);
     }
   }, []);
 

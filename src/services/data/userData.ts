@@ -37,9 +37,9 @@ class UserData {
     const relapsesData = this.relapses.getRelapsesData();
     const combinedData = addictionsData.map(addiction => ({
       ...addiction,
-      relapses: relapsesData
+      relapses: [...relapsesData]
         .filter(relapse => relapse.addictionId === addiction.id)
-        .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime()),
+        .sort((a, b) => a.relapseAt.getTime() - b.relapseAt.getTime()),
     }));
 
     callback(combinedData);

@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
 
-import { getSortedRelapses } from '../relapse/useSortedRelapses';
-
 interface UseLongestAbsenceProps {
   addiction: Addiction;
 }
@@ -24,7 +22,9 @@ const useLongestAbsence = ({
 const getLongestAbsence = ({
   addiction,
 }: UseLongestAbsenceProps): LongestAbsence => {
-  const relapses = getSortedRelapses({ addiction, direction: 'desc' });
+  const relapses = addiction.relapses.map(
+    relapse => new Date(relapse.relapseAt),
+  );
 
   if (relapses.length < 2) {
     return {

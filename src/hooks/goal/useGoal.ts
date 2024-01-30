@@ -1,20 +1,13 @@
 import { add, differenceInMilliseconds } from 'date-fns';
-import { useMemo } from 'react';
 
 import { goalTimeDiffs } from './goalTimeDiffs';
 
-export const useGoal = (lastRelapseDate: Date | null) => {
-  return useMemo(() => {
-    if (!lastRelapseDate) {
-      return null;
-    }
-
-    return getGoal(lastRelapseDate);
-  }, [lastRelapseDate]);
+export const useGoal = (lastRelapse: Date | null) => {
+  return lastRelapse ? getGoal(lastRelapse) : null;
 };
 
-export const getGoal = (lastRelapseDate: Date) => {
-  const diff = differenceInMilliseconds(new Date(), lastRelapseDate);
+export const getGoal = (lastRelapse: Date) => {
+  const diff = differenceInMilliseconds(new Date(), lastRelapse);
 
   const { goalType, timeDiff } =
     goalTimeDiffs.find(goal => goal.timeDiff > diff) ||
@@ -22,7 +15,7 @@ export const getGoal = (lastRelapseDate: Date) => {
 
   const periodsPassed = Math.ceil(diff / timeDiff);
 
-  const goalAt = add(lastRelapseDate, {
+  const goalAt = add(lastRelapse, {
     seconds: (periodsPassed * timeDiff) / 1000,
   });
 

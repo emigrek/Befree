@@ -1,6 +1,4 @@
-import firestore, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
 
 import { relapseRef, relapsesRef } from '@/services/refs/relapses';
@@ -57,7 +55,15 @@ class RelapseManager {
     this.unsubscribeFromChanges = relapsesRef(this.userId).onSnapshot(
       snapshot => {
         this.data = snapshot.docs.map(doc => {
-          return this.parseData(doc.data());
+          const data = doc.data();
+          return {
+            id: data.id,
+            addictionId: data.addictionId,
+            relapseAt: parseFirebaseTimestamp(data.relapseAt),
+            createdAt: data.createdAt
+              ? parseFirebaseTimestamp(data.createdAt)
+              : new Date(),
+          };
         }) as Relapse[];
         updateCallback(this.data);
       },
@@ -65,17 +71,6 @@ class RelapseManager {
         console.error('Error listening to Relapses collection: ', error);
       },
     );
-  }
-
-  parseData(data: FirebaseFirestoreTypes.DocumentData): Relapse {
-    return {
-      id: data.id,
-      addictionId: data.addictionId,
-      relapseAt: parseFirebaseTimestamp(data.relapseAt),
-      createdAt: data.createdAt
-        ? parseFirebaseTimestamp(data.createdAt)
-        : new Date(),
-    };
   }
 
   getRelapsesData(): Relapse[] {

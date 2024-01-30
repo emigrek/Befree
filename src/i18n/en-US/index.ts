@@ -163,7 +163,7 @@ const enUS: Translation = {
       },
       fields: {
         createdAt: 'Creation date',
-        lastRelapse: 'Last relapse',
+        relapses: 'Last relapse',
         name: 'Name',
       },
     },

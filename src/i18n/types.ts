@@ -148,7 +148,7 @@ export interface Translation {
       };
       fields: {
         name: string;
-        lastRelapse: string;
+        relapses: string;
         createdAt: string;
       };
     };

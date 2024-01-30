@@ -1,17 +1,21 @@
 import { produce } from 'immer';
 import { StateCreator } from 'zustand';
 
+export enum SortingField {
+  createdAt = 'createdAt',
+  name = 'name',
+  relapses = 'relapses',
+}
+
 export interface AddictionSorting {
   direction: 'asc' | 'desc';
-  field: keyof Addiction;
+  field: SortingField;
 }
 
 export interface AddictionsSlice {
   sorting: AddictionSorting;
   addictions: Addiction[];
-  hiddenAddictions: Addiction[];
   addictionsLoading: boolean;
-  getAddiction: (id: string) => Addiction | null;
   setSorting: (sorting: AddictionSorting) => void;
   setAddictions: (addictions: Addiction[]) => void;
   addAddiction: (addiction: Addiction) => void;
@@ -26,28 +30,15 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
 ) => ({
   sorting: {
     direction: 'asc',
-    field: 'createdAt',
+    field: SortingField.relapses,
   },
   addictions: [],
-  hiddenAddictions: [],
   addictionsLoading: false,
-  getAddiction: (id: string) => {
-    const addictions = get().addictions;
-    const hiddenAddictions = get().hiddenAddictions;
-    return (
-      addictions.find((addiction: Addiction) => addiction.id === id) ||
-      hiddenAddictions.find((addiction: Addiction) => addiction.id === id) ||
-      null
-    );
-  },
   setSorting: (sorting: AddictionSorting) => set({ sorting }),
   setAddictions: (addictions: Addiction[]) =>
     set(
       produce(state => {
-        state.addictions = addictions.filter(addiction => !addiction.hidden);
-        state.hiddenAddictions = addictions.filter(
-          addiction => addiction.hidden,
-        );
+        state.addictions = addictions;
         return state;
       }),
     ),
@@ -103,6 +94,8 @@ export const getSortingFunction = (sorting: AddictionSorting) => {
       typeof aField === 'string' && typeof bField === 'string';
     const comparingNumbers =
       typeof aField === 'number' && typeof bField === 'number';
+    const comparingArrays =
+      Array.isArray(aField) && Array.isArray(bField) && aField.length > 0;
 
     if (comparingDates) {
       const aDate = new Date(aField as Date);
@@ -123,6 +116,21 @@ export const getSortingFunction = (sorting: AddictionSorting) => {
       const bNumber = bField as number;
 
       return direction === 'asc' ? aNumber - bNumber : bNumber - aNumber;
+    } else if (comparingArrays) {
+      const aRelapse = aField as Relapse[];
+      const bRelapse = bField as Relapse[];
+      if (field === 'relapses') {
+        const aRelapseDate = new Date(aRelapse[aRelapse.length - 1].relapseAt);
+        const bRelapseDate = new Date(bRelapse[bRelapse.length - 1].relapseAt);
+
+        return direction === 'asc'
+          ? aRelapseDate.getTime() - bRelapseDate.getTime()
+          : bRelapseDate.getTime() - aRelapseDate.getTime();
+      } else {
+        return direction === 'asc'
+          ? aRelapse.length - bRelapse.length
+          : bRelapse.length - aRelapse.length;
+      }
     } else {
       return 0;
     }
