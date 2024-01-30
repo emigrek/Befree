@@ -23,5 +23,5 @@ export const useSelected = ({ id }: UseSelectedProps) => {
     }
   }, [addSelected, id, isSelected, removeSelected]);
 
-  return { isSelected, toggleSelected };
+  return { selected, isSelected, toggleSelected };
 };

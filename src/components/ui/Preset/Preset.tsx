@@ -4,7 +4,10 @@ import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { useAddictionCreator } from '@/hooks/addiction/useAddictionCreator';
-import { ModalStackNavigationProp } from '@/navigation/types';
+import {
+  BottomTabsStackNavigationProp,
+  ModalStackNavigationProp,
+} from '@/navigation/types';
 import { useCreationWizardStore } from '@/store';
 
 interface PresetProps {
@@ -13,6 +16,8 @@ interface PresetProps {
 
 const Preset: FC<PresetProps> = ({ name }) => {
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
+  const bottomTabsStackNavigation =
+    useNavigation<BottomTabsStackNavigationProp>();
   const setName = useCreationWizardStore(state => state.setName);
   const [loading, setLoading] = useState(false);
   const { create } = useAddictionCreator();
@@ -22,16 +27,16 @@ const Preset: FC<PresetProps> = ({ name }) => {
 
     const addiction = {
       name,
-      relapses: [new Date()],
-      lastRelapse: new Date(),
+      relapses: [],
       image: null,
-      tags: [],
+      hidden: false,
     };
 
-    create(addiction).then(() => {
+    create(addiction, new Date()).then(() => {
       setLoading(false);
+      bottomTabsStackNavigation.navigate('Addictions');
     });
-  }, [create, name]);
+  }, [create, name, bottomTabsStackNavigation]);
 
   const handleLongPress = useCallback(() => {
     setName(name);

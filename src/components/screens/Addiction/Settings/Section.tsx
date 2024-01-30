@@ -2,6 +2,7 @@ import { FC, useCallback } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { List } from 'react-native-paper';
 
+import { Setting } from './Setting';
 import { AddictionSetting, Section as SectionEnum } from './useSettings';
 
 import { Divider } from '@/components/ui/Divider';
@@ -14,15 +15,7 @@ interface SectionProps {
 
 const Section: FC<SectionProps> = ({ section, settings }) => {
   const renderItem = useCallback(
-    ({ item }: { item: AddictionSetting }) => (
-      <List.Item
-        title={item.name}
-        description={item.description}
-        left={item.left}
-        right={item.right}
-        onPress={item.onChange}
-      />
-    ),
+    ({ item }: { item: AddictionSetting }) => <Setting setting={item} />,
     [],
   );
 

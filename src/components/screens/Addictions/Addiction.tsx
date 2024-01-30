@@ -28,7 +28,9 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
   const { colors } = useTheme();
 
   const { absenceTime } = useAbsenceTime({ addiction });
-  const { isSelected, toggleSelected } = useSelected({ id: addiction.id });
+  const { isSelected, toggleSelected, selected } = useSelected({
+    id: addiction.id,
+  });
   const lastRelapse = useAddictionLastRelapse({ addiction });
   const goal = useGoal(lastRelapse);
 
@@ -39,14 +41,21 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
   }, [absenceTime, lastRelapse, goal]);
 
   const handleAddictionPress = useCallback(() => {
+    if (selected.length) {
+      toggleSelected();
+      return;
+    }
+
     navigation.navigate('Addiction', {
       id: addiction.id,
     });
-  }, [navigation, addiction.id]);
+  }, [navigation, addiction.id, selected, toggleSelected]);
 
   const handleLongPress = useCallback(() => {
+    if (selected.length) return;
+
     toggleSelected();
-  }, [toggleSelected]);
+  }, [toggleSelected, selected]);
 
   const addictionStyle = useAnimatedStyle(() => {
     return {

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { View } from 'react-native';
 import { List, Switch } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
@@ -20,7 +21,7 @@ export interface AddictionSetting {
   section: Section;
   name: string;
   description?: string;
-  onChange: () => void;
+  onChange: () => Promise<void>;
   left?: SideProps;
   right?: SideProps;
 }
@@ -58,13 +59,17 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
           return <List.Icon {...props} icon="eye-off-outline" />;
         },
         right: () => {
-          return <Switch color={colors.primary} value={addiction.hidden} />;
+          return (
+            <View pointerEvents={'none'}>
+              <Switch color={colors.primary} value={addiction.hidden} />
+            </View>
+          );
         },
-        onChange: () => {
+        onChange: async () => {
           if (!user) return;
           const { addictions } = UserData.getInstance(user.uid);
 
-          addictions.update(addiction.id, {
+          await addictions.update(addiction.id, {
             hidden: !addiction.hidden,
           });
         },
