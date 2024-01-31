@@ -201,6 +201,10 @@ const enUS: Translation = {
         'Sex',
       ],
     },
+    dailyQuote: {
+      title: 'Daily quote',
+      description: 'Daily motivation',
+    },
   },
   notifications: {
     achievement: {

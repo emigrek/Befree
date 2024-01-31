@@ -201,6 +201,10 @@ const pl: Translation = {
         'Seks',
       ],
     },
+    dailyQuote: {
+      title: 'Cytat dnia',
+      description: 'Codzienna motywacja',
+    },
   },
   notifications: {
     achievement: {

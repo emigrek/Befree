@@ -171,6 +171,10 @@ export interface Translation {
       description: string;
       presetNames: string[];
     };
+    dailyQuote: {
+      title: string;
+      description: string;
+    };
   };
   notifications: {
     achievement: {
