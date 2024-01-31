@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { ActivityIndicator, Card } from 'react-native-paper';
+import { ActivityIndicator, Card, HelperText } from 'react-native-paper';
 
 import QuoteManger, { Quote } from '@/services/data/managers/quote';
 
 const QuoteCard = () => {
   const [quote, setQuote] = useState<Quote>();
+  const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const manager = new QuoteManger();
 
-    manager.getDailyQuote().then(quote => {
-      setQuote(quote);
-      setIsLoading(false);
-    });
+    manager
+      .getDailyQuote()
+      .then(quote => {
+        setQuote(quote);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setIsLoading(false);
+      });
   }, []);
+
+  if (error)
+    return (
+      <Card mode="contained" style={styles.container}>
+        <HelperText type="error">{error}</HelperText>
+      </Card>
+    );
 
   if (isLoading || !quote) return <ActivityIndicator />;
 

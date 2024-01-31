@@ -13,7 +13,7 @@ class QuoteManger {
 
   constructor() {
     this.apiKey = 'https://zenquotes.io/api/today';
-    this.cacheKey = 'quoteFetchDate';
+    this.cacheKey = 'QuoteManager';
   }
 
   async getDailyQuote() {
@@ -46,7 +46,7 @@ class QuoteManger {
       await this.cacheQuote(quote, author);
       return quote;
     } catch (e) {
-      console.error(`There was an error fetching the quote: ${e}`);
+      throw new Error(`There was an error fetching the quote: ${e}`);
     }
   }
 
@@ -55,7 +55,7 @@ class QuoteManger {
       const data = { quote, author, date: new Date() };
       await AsyncStorage.setItem(this.cacheKey, JSON.stringify(data));
     } catch (e) {
-      console.error(`There was an error caching the quote: ${e}`);
+      throw new Error(`There was an error caching the quote: ${e}`);
     }
   }
 
@@ -64,7 +64,7 @@ class QuoteManger {
       const dataString = await AsyncStorage.getItem(this.cacheKey);
       return dataString ? JSON.parse(dataString) : null;
     } catch (e) {
-      console.error(`There was an error getting the cached quote: ${e}`);
+      throw new Error(`There was an error getting the cached quote: ${e}`);
     }
   }
 }
