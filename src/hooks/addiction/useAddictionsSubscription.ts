@@ -14,7 +14,7 @@ export const useAddictionsSubscription = () => {
 
   useEffect(() => {
     if (!user) return;
-    const userData = UserData.getInstance(user.uid);
+    const userData = new UserData(user.uid);
 
     setLoading(true);
 

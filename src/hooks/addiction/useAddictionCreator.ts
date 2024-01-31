@@ -19,7 +19,7 @@ export const useAddictionCreator = () => {
   const create = useCallback(
     async (addiction: UnidentifiedAddiction, firstRelapseDate?: Date) => {
       if (!user) return;
-      const { addictions } = UserData.getInstance(user.uid);
+      const { addictions } = new UserData(user.uid);
       const { image } = addiction;
 
       setCreating(true);

@@ -54,6 +54,7 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
   const handleSelectedDelete = useCallback(async () => {
     if (!user) return;
     setLoading(true);
+    const { addictions } = new UserData(user.uid);
 
     const deletionPromise = selected.map(async id => {
       storeRemove(id);
@@ -61,7 +62,7 @@ const SelectionFABs: FC<SelectionFABsProps> = ({ user, addictions }) => {
         addictionId: id,
       });
       removeAddictionFromNotificationsBlacklist(id);
-      UserData.getInstance(user.uid).addictions.delete(id);
+      addictions.delete(id);
     });
 
     await Promise.all(deletionPromise).then(() => {

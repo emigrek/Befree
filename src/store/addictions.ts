@@ -120,8 +120,15 @@ export const getSortingFunction = (sorting: AddictionSorting) => {
       const aRelapse = aField as Relapse[];
       const bRelapse = bField as Relapse[];
       if (field === 'relapses') {
-        const aRelapseDate = new Date(aRelapse[aRelapse.length - 1].relapseAt);
-        const bRelapseDate = new Date(bRelapse[bRelapse.length - 1].relapseAt);
+        const aLastRelapse = aRelapse[aRelapse.length - 1];
+        const bLastRelapse = bRelapse[bRelapse.length - 1];
+
+        if (!aLastRelapse || !bLastRelapse) {
+          return 0;
+        }
+
+        const aRelapseDate = new Date(aLastRelapse.relapseAt);
+        const bRelapseDate = new Date(bLastRelapse.relapseAt);
 
         return direction === 'asc'
           ? aRelapseDate.getTime() - bRelapseDate.getTime()

@@ -67,7 +67,7 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
         },
         onChange: async () => {
           if (!user) return;
-          const { addictions } = UserData.getInstance(user.uid);
+          const { addictions } = new UserData(user.uid);
 
           await addictions.update(addiction.id, {
             hidden: !addiction.hidden,

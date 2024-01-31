@@ -2,24 +2,14 @@ import AddictionManager from './managers/addiction';
 import RelapseManager from './managers/relapse';
 
 class UserData {
-  private static instance: UserData | null = null;
-
   private userId: string;
   public addictions: AddictionManager;
   public relapses: RelapseManager;
 
-  private constructor(userId: string) {
+  constructor(userId: string) {
     this.userId = userId;
     this.addictions = new AddictionManager(userId);
     this.relapses = new RelapseManager(userId);
-  }
-
-  public static getInstance(userId: string): UserData {
-    if (!UserData.instance) {
-      UserData.instance = new UserData(userId);
-    }
-
-    return UserData.instance;
   }
 
   initializeDataListeners(updateCallback: (data: any) => void): void {

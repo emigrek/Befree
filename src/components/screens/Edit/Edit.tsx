@@ -54,7 +54,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   const handleSave = useCallback(async () => {
     if (!user) return;
 
-    const { addictions } = UserData.getInstance(user.uid);
+    const { addictions } = new UserData(user.uid);
     const imageChanged = image !== addiction.image;
     const nameChanged = name !== addiction.name;
     const { isInternetReachable } = await Network.getNetworkStateAsync();

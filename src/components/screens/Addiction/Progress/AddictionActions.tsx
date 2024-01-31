@@ -46,7 +46,7 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
       addAllNotifications({ addiction });
     }
 
-    const { relapses } = UserData.getInstance(user.uid);
+    const { relapses } = new UserData(user.uid);
 
     relapses
       .create({
@@ -69,7 +69,7 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
     removeAllNotifications({ addictionId: addiction.id });
     removeAddictionFromNotificationsBlacklist(addiction.id);
 
-    const { addictions } = UserData.getInstance(user.uid);
+    const { addictions } = new UserData(user.uid);
 
     addictions
       .delete(id)
