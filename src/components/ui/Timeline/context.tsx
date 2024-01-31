@@ -25,7 +25,7 @@ import {
 } from 'react';
 import { MD3Theme, useTheme } from 'react-native-paper';
 
-import { TimelineProps } from './types';
+import { Cell, TimelineProps } from './types';
 
 interface TimelineContextProps {
   theme?: MD3Theme;
@@ -34,10 +34,7 @@ interface TimelineContextProps {
   setRange: Dispatch<SetStateAction<[Date, Date]>>;
   data: Date[];
   setData: Dispatch<SetStateAction<Date[]>>;
-  cellsData: {
-    day: Date;
-    backgroundColor: string;
-  }[];
+  cellsData: Cell[];
   cellSize: number;
   setCellSize: Dispatch<SetStateAction<number>>;
   cellMargin: number;
@@ -150,6 +147,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
     });
 
     const cells = days.map(day => {
+      const key = format(day, 'yyyy-MM-dd');
       const totalSeconds =
         new Date().getHours() * 60 * 60 +
         new Date().getMinutes() * 60 +
@@ -159,12 +157,13 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
       return {
         day,
         backgroundColor: getCellBackgroundColor(day),
+        frequency: frequencyMap[key] || 0,
         dayProgress,
       };
     });
 
     return mirrored ? cells.reverse() : cells;
-  }, [range, getCellBackgroundColor, mirrored]);
+  }, [range, getCellBackgroundColor, mirrored, frequencyMap]);
 
   return (
     <TimelineContext.Provider

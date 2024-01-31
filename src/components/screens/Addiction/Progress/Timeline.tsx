@@ -12,10 +12,10 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
   }, [addiction]);
 
   const range = useMemo(() => {
-    const first = data[0];
-    const last = data[data.length - 1];
+    if (data.length === 1)
+      return [data[data.length - 1], new Date()] as [Date, Date];
 
-    return [first, last] as [Date, Date];
+    return [data[0], data[data.length - 1]] as [Date, Date];
   }, [data]);
 
   if (!addiction.relapses.length) return null;

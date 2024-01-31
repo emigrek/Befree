@@ -1,5 +1,6 @@
 import { FC, useMemo } from 'react';
 import { View, ViewProps } from 'react-native';
+import { Text } from 'react-native-paper';
 
 import { useTimelineContext } from './context';
 import { Cell } from './types';
@@ -37,6 +38,25 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
               },
             ]}
           >
+            {item.frequency > 0 && (
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: 1,
+                  right: 2,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 6,
+                    color: colors.text,
+                    textAlign: 'center',
+                  }}
+                >
+                  {item.frequency}
+                </Text>
+              </View>
+            )}
             <View
               style={{
                 width: '100%',
