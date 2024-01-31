@@ -15,7 +15,7 @@ const QuoteCard = () => {
       setQuote(quote);
       setIsLoading(false);
     });
-  });
+  }, []);
 
   if (isLoading || !quote) return <ActivityIndicator />;
 
