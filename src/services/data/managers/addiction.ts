@@ -21,10 +21,7 @@ class AddictionManager {
     this.relapses = new RelapseManager(userId);
   }
 
-  public async create(
-    addiction: UnidentifiedAddiction,
-    firstRelapseDate?: Date,
-  ): Promise<string> {
+  public async create(addiction: UnidentifiedAddiction): Promise<Addiction> {
     try {
       const id = nanoid();
 
@@ -34,14 +31,11 @@ class AddictionManager {
         createdAt: firestore.FieldValue.serverTimestamp(),
       });
 
-      if (firstRelapseDate) {
-        await this.relapses.create({
-          addictionId: id,
-          relapseAt: firstRelapseDate,
-        });
-      }
-
-      return id;
+      return {
+        id,
+        ...addiction,
+        createdAt: new Date(),
+      };
     } catch (error) {
       console.error('Error adding addiction: ', error);
       throw error;
@@ -95,6 +89,7 @@ class AddictionManager {
             image: data.image,
             relapses: [],
             hidden: data.hidden,
+            startedAt: parseFirebaseTimestamp(data.startedAt),
             createdAt: data.createdAt
               ? parseFirebaseTimestamp(data.createdAt)
               : new Date(),

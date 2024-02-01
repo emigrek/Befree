@@ -40,12 +40,6 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
   const handleRelapse = useCallback(() => {
     if (!user) return;
     setIsRelapsing(true);
-
-    if (!hasNotificationsBlacklisted(addiction.id)) {
-      removeAllNotifications({ addictionId: addiction.id });
-      addAllNotifications({ addiction });
-    }
-
     const { relapses } = new UserData(user.uid);
 
     relapses
@@ -55,6 +49,11 @@ const AddictionActions: FC<AddictionActionsProps> = ({ addiction }) => {
       })
       .then(() => {
         setIsRelapsing(false);
+
+        if (!hasNotificationsBlacklisted(addiction.id)) {
+          removeAllNotifications({ addictionId: addiction.id });
+          addAllNotifications({ addiction });
+        }
       });
   }, [user, addiction, hasNotificationsBlacklisted]);
 

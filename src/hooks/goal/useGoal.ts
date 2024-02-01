@@ -2,8 +2,8 @@ import { add, differenceInMilliseconds } from 'date-fns';
 
 import { goalTimeDiffs } from './goalTimeDiffs';
 
-export const useGoal = (lastRelapse: Date | null) => {
-  return lastRelapse ? getGoal(lastRelapse) : null;
+export const useGoal = (lastRelapse: Date) => {
+  return getGoal(lastRelapse);
 };
 
 export const getGoal = (lastRelapse: Date) => {

@@ -17,7 +17,6 @@ export const useAddictionsSubscription = () => {
     const userData = new UserData(user.uid);
 
     setLoading(true);
-
     userData.initializeDataListeners(data => {
       setAddictions(data);
       setLoading(false);

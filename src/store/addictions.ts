@@ -94,8 +94,7 @@ export const getSortingFunction = (sorting: AddictionSorting) => {
       typeof aField === 'string' && typeof bField === 'string';
     const comparingNumbers =
       typeof aField === 'number' && typeof bField === 'number';
-    const comparingArrays =
-      Array.isArray(aField) && Array.isArray(bField) && aField.length > 0;
+    const comparingArrays = Array.isArray(aField) && Array.isArray(bField);
 
     if (comparingDates) {
       const aDate = new Date(aField as Date);
@@ -120,19 +119,20 @@ export const getSortingFunction = (sorting: AddictionSorting) => {
       const aRelapse = aField as Relapse[];
       const bRelapse = bField as Relapse[];
       if (field === 'relapses') {
-        const aLastRelapse = aRelapse[aRelapse.length - 1];
-        const bLastRelapse = bRelapse[bRelapse.length - 1];
-
-        if (!aLastRelapse || !bLastRelapse) {
-          return 0;
-        }
-
-        const aRelapseDate = new Date(aLastRelapse.relapseAt);
-        const bRelapseDate = new Date(bLastRelapse.relapseAt);
+        const aLastRelapseDate = new Date(
+          aRelapse[aRelapse.length - 1]
+            ? aRelapse[aRelapse.length - 1].relapseAt
+            : a.startedAt,
+        );
+        const bLastRelapseDate = new Date(
+          bRelapse[bRelapse.length - 1]
+            ? bRelapse[bRelapse.length - 1].relapseAt
+            : b.startedAt,
+        );
 
         return direction === 'asc'
-          ? aRelapseDate.getTime() - bRelapseDate.getTime()
-          : bRelapseDate.getTime() - aRelapseDate.getTime();
+          ? aLastRelapseDate.getTime() - bLastRelapseDate.getTime()
+          : bLastRelapseDate.getTime() - aLastRelapseDate.getTime();
       } else {
         return direction === 'asc'
           ? aRelapse.length - bRelapse.length

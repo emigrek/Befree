@@ -12,6 +12,7 @@ interface Addiction {
   image: string | null;
   relapses: Relapse[];
   hidden: boolean;
+  startedAt: Date;
   createdAt: Date;
 }
 

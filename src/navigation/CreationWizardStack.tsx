@@ -47,15 +47,16 @@ const CreationWizardStack = () => {
       name,
       image,
       relapses: [],
+      startedAt: startDate,
       hidden: false,
     };
 
     setLoading(true);
-    await createAddiction(addiction, startDate);
-    reset();
-
-    modalStackNavigation.navigate('BottomTabs', {
-      screen: 'Addictions',
+    createAddiction(addiction).then(() => {
+      reset();
+      modalStackNavigation.navigate('BottomTabs', {
+        screen: 'Addictions',
+      });
     });
   }, [
     name,

@@ -8,17 +8,17 @@ interface TimelineProps {
 
 const Timeline: FC<TimelineProps> = ({ addiction }) => {
   const data = useMemo(() => {
-    return addiction.relapses.map(relapse => new Date(relapse.relapseAt));
+    return [
+      new Date(addiction.startedAt),
+      ...addiction.relapses.map(relapse => new Date(relapse.relapseAt)),
+    ];
   }, [addiction]);
 
   const range = useMemo(() => {
-    if (data.length === 1)
-      return [data[data.length - 1], new Date()] as [Date, Date];
-
-    return [data[0], data[data.length - 1]] as [Date, Date];
+    const left = data[0];
+    const right = data.length === 1 ? new Date() : data[data.length - 1];
+    return [left, right] as [Date, Date];
   }, [data]);
-
-  if (!addiction.relapses.length) return null;
 
   return (
     <TimelinePrimitive

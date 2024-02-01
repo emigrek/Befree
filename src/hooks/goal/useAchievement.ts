@@ -29,7 +29,7 @@ export const getAchievement = ({
 
   const longestAbsence = getLongestAbsence({ addiction });
   const currentAbsence = {
-    start: lastRelapse ? lastRelapse : new Date(),
+    start: lastRelapse,
     end: null,
   };
 

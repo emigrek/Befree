@@ -14,16 +14,21 @@ class RelapseManager {
     this.userId = userId;
   }
 
-  public async create(relapse: UnidentifiedRelapse): Promise<string> {
+  public async create(relapse: UnidentifiedRelapse): Promise<Relapse> {
     try {
       const id = nanoid();
+
       await relapseRef(this.userId, id).set({
         ...relapse,
         id,
         createdAt: firestore.FieldValue.serverTimestamp(),
       });
 
-      return id;
+      return {
+        id,
+        ...relapse,
+        createdAt: new Date(),
+      };
     } catch (error) {
       console.error('Error adding relapse: ', error);
       throw error;

@@ -28,11 +28,9 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
                 height: cellSize,
                 margin: cellMargin,
                 position: 'relative',
-                borderWidth: 1,
-                borderColor: colors.border,
-                borderRadius: 3,
                 overflow: 'hidden',
               },
+              { borderWidth: 1, borderColor: colors.border, borderRadius: 3 },
               mirrored && {
                 justifyContent: 'flex-end',
               },

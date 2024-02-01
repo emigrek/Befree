@@ -17,33 +17,27 @@ export const useAddictionCreator = () => {
   const user = useAuthStore(state => state.user);
 
   const create = useCallback(
-    async (addiction: UnidentifiedAddiction, firstRelapseDate?: Date) => {
+    async (addiction: UnidentifiedAddiction) => {
       if (!user) return;
       const { addictions } = new UserData(user.uid);
       const { image } = addiction;
 
       setCreating(true);
-      const newAddictionId = await addictions.create(
-        addiction,
-        firstRelapseDate,
-      );
+      const newAddiction = await addictions.create(addiction);
       setCreating(false);
+
       const imageUrl = image
-        ? await upload(`users/${user.uid}/addictions/${newAddictionId}`, image)
+        ? await upload(`users/${user.uid}/addictions/${newAddiction.id}`, image)
         : null;
 
-      const newAddiction = {
-        ...addiction,
-        id: newAddictionId,
-        image: imageUrl,
-        createdAt: new Date(),
-      };
-
-      if (!hasNotificationsBlacklisted(newAddictionId)) {
+      if (!hasNotificationsBlacklisted(newAddiction.id)) {
         addAllNotifications({ addiction: newAddiction });
       }
 
-      return newAddiction;
+      return {
+        ...newAddiction,
+        image: imageUrl,
+      };
     },
     [user, hasNotificationsBlacklisted, upload],
   );

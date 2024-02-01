@@ -25,18 +25,10 @@ const getLongestAbsence = ({
   const relapses = addiction.relapses.map(
     relapse => new Date(relapse.relapseAt),
   );
-
-  if (relapses.length < 2) {
-    return {
-      start: relapses[0],
-      end: null,
-    };
-  }
-
   let maxDifference = 0;
   let result: LongestAbsence = {
-    start: relapses[0],
-    end: relapses[1],
+    start: addiction.startedAt,
+    end: relapses[0] ? relapses[0] : null,
   };
 
   for (let i = 0; i < relapses.length - 1; i++) {

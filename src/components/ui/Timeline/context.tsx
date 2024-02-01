@@ -7,7 +7,6 @@ import {
   isSameDay,
   isSaturday,
   isSunday,
-  isToday,
   nextSaturday,
   previousSunday,
   sub,
@@ -98,6 +97,14 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   const [fontSize, setFontSize] = useState<number>(props.fontSize || 8);
   const [mirrored, setMirrored] = useState<boolean>(props.mirrored || true);
 
+  const startSunday = useMemo(() => {
+    return isSunday(range[0]) ? range[0] : previousSunday(range[0]);
+  }, [range]);
+
+  const endSaturday = useMemo(() => {
+    return isSaturday(range[1]) ? range[1] : nextSaturday(range[1]);
+  }, [range]);
+
   const frequencyMap = useMemo(() => {
     return props.data.reduce<{ [key: string]: number }>((map, date) => {
       const key = format(date, 'yyyy-MM-dd');
@@ -110,14 +117,13 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
     (day: Date) => {
       const key = format(day, 'yyyy-MM-dd');
       const frequency = frequencyMap[key] || 0;
-
       const withinRange =
-        isBefore(day, range[1]) &&
+        (isBefore(day, range[1]) || isSameDay(day, range[1])) &&
         (isAfter(day, range[0]) || isSameDay(day, range[0]));
       const future = isAfter(day, new Date());
       const past = isBefore(day, new Date());
 
-      if (future || !withinRange) {
+      if ((future || !withinRange) && !isSameDay(day, new Date())) {
         return 'transparent';
       }
 
@@ -133,14 +139,6 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   );
 
   const cellsData = useMemo(() => {
-    const startSunday = isSunday(range[0])
-      ? range[0]
-      : previousSunday(range[0]);
-
-    const endSaturday = isSaturday(range[1])
-      ? range[1]
-      : nextSaturday(range[1]);
-
     const days = eachDayOfInterval({
       start: startSunday,
       end: endSaturday,
@@ -152,7 +150,9 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         new Date().getHours() * 60 * 60 +
         new Date().getMinutes() * 60 +
         new Date().getSeconds();
-      const dayProgress = isToday(day) ? totalSeconds / (24 * 60 * 60) : 1;
+      const dayProgress = isSameDay(day, new Date())
+        ? totalSeconds / (24 * 60 * 60)
+        : 1;
 
       return {
         day,
@@ -163,7 +163,13 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
     });
 
     return mirrored ? cells.reverse() : cells;
-  }, [range, getCellBackgroundColor, mirrored, frequencyMap]);
+  }, [
+    startSunday,
+    endSaturday,
+    getCellBackgroundColor,
+    frequencyMap,
+    mirrored,
+  ]);
 
   return (
     <TimelineContext.Provider

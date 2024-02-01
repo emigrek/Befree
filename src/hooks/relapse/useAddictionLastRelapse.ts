@@ -6,17 +6,15 @@ interface UseAddictionLastRelapseProps {
 
 const useAddictionLastRelapse = ({
   addiction,
-}: UseAddictionLastRelapseProps): Date | null => {
+}: UseAddictionLastRelapseProps): Date => {
   return useMemo(() => {
     return getLastRelapse({ addiction });
   }, [addiction]);
 };
 
-const getLastRelapse = ({
-  addiction,
-}: UseAddictionLastRelapseProps): Date | null => {
+const getLastRelapse = ({ addiction }: UseAddictionLastRelapseProps): Date => {
   if (!addiction.relapses.length) {
-    return null;
+    return new Date(addiction.startedAt);
   }
 
   return new Date(addiction.relapses[addiction.relapses.length - 1].relapseAt);

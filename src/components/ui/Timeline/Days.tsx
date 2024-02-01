@@ -38,13 +38,14 @@ const Days: FC<DaysProps> = ({ dayStyle }) => {
               dayStyle,
               {
                 height: cellSize,
+                width: cellSize * 2,
                 margin: cellMargin,
                 color: colors.onSurface,
                 fontSize,
               },
             ]}
           >
-            {[1, 3, 5].includes(index) ? item : ''}
+            {item}
           </Text>
         );
       },
@@ -78,6 +79,7 @@ const style = StyleSheet.create({
     borderColor: 'transparent',
     borderRadius: 2,
     verticalAlign: 'middle',
+    textAlign: 'center',
   },
 });
 
