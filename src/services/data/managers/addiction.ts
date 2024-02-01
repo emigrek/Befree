@@ -1,4 +1,6 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
 
 import RelapseManager from './relapse';
@@ -21,21 +23,28 @@ class AddictionManager {
     this.relapses = new RelapseManager(userId);
   }
 
-  public async create(addiction: UnidentifiedAddiction): Promise<Addiction> {
+  public async create(
+    addiction: UnidentifiedAddiction,
+  ): Promise<Addiction | null> {
     try {
       const id = nanoid();
+      const ref = addictionRef(this.userId, id);
 
-      await addictionRef(this.userId, id).set({
+      await ref.set({
         ...addiction,
         id,
         createdAt: firestore.FieldValue.serverTimestamp(),
       });
 
-      return {
-        id,
-        ...addiction,
-        createdAt: new Date(),
-      };
+      return await ref.get().then(doc => {
+        const data = doc.data();
+
+        if (!data) {
+          return null;
+        }
+
+        return this.parseAddictionData(data);
+      });
     } catch (error) {
       console.error('Error adding addiction: ', error);
       throw error;
@@ -45,9 +54,21 @@ class AddictionManager {
   public async update(
     id: string,
     addiction: Partial<UnidentifiedAddiction>,
-  ): Promise<void> {
+  ): Promise<Addiction | null> {
     try {
-      await addictionRef(this.userId, id).update(addiction);
+      const ref = addictionRef(this.userId, id);
+
+      await ref.update(addiction);
+
+      return await ref.get().then(doc => {
+        const data = doc.data();
+
+        if (!data) {
+          return null;
+        }
+
+        return this.parseAddictionData(data);
+      });
     } catch (error) {
       console.error('Error updating addiction: ', error);
       throw error;
@@ -80,27 +101,29 @@ class AddictionManager {
   listenToChanges(updateCallback: (addictions: Addiction[]) => void): void {
     this.unsubscribeFromChanges = addictionsRef(this.userId).onSnapshot(
       snapshot => {
-        this.data = snapshot.docs.map(doc => {
-          const data = doc.data();
-
-          return {
-            id: data.id,
-            name: data.name,
-            image: data.image,
-            relapses: [],
-            hidden: data.hidden,
-            startedAt: parseFirebaseTimestamp(data.startedAt),
-            createdAt: data.createdAt
-              ? parseFirebaseTimestamp(data.createdAt)
-              : new Date(),
-          };
-        });
+        this.data = snapshot.docs.map(doc =>
+          this.parseAddictionData(doc.data()),
+        );
         updateCallback(this.data);
       },
       error => {
         console.error('Error listening to Addictions collection: ', error);
       },
     );
+  }
+
+  parseAddictionData(data: FirebaseFirestoreTypes.DocumentData): Addiction {
+    return {
+      id: data.id,
+      name: data.name,
+      image: data.image,
+      relapses: [],
+      hidden: data.hidden,
+      startedAt: parseFirebaseTimestamp(data.startedAt),
+      createdAt: data.createdAt
+        ? parseFirebaseTimestamp(data.createdAt)
+        : new Date(),
+    };
   }
 
   getAddictionsData(): Addiction[] {

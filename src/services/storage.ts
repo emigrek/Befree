@@ -6,7 +6,7 @@ export const useImageUpload = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [task, setTask] = useState<FirebaseStorageTypes.Task | null>(null);
 
-  const upload = async (path: string, uri: string) => {
+  const upload = async (path: string, uri: string): Promise<string | null> => {
     const { isInternetReachable } = await Network.getNetworkStateAsync();
 
     if (!isInternetReachable) {

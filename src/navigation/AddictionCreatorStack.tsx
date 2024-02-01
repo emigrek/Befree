@@ -3,24 +3,32 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from '@react-navigation/stack';
-import { useCallback } from 'react';
+import { FC, useCallback } from 'react';
 
-import { CreationStackParamList, ModalStackNavigationProp } from './types';
+import {
+  AddictionCreatorParamList,
+  AddictionCreatorScreenProps,
+  ModalStackNavigationProp,
+} from './types';
 
 import { Loading } from '@/components/screens';
 import {
   ImageUploading,
   NameAndImage,
   StartDate,
-} from '@/components/screens/CreationWizard';
-import Navigation from '@/components/screens/CreationWizard/Navigation';
+} from '@/components/screens/AddictionCreator';
+import Navigation from '@/components/screens/AddictionCreator/Navigation';
 import { useAddictionCreator } from '@/hooks/addiction/useAddictionCreator';
 import i18n from '@/i18n';
 import { useCreationWizardStore } from '@/store';
 
-const Navigator = createStackNavigator<CreationStackParamList>();
+const Navigator = createStackNavigator<AddictionCreatorParamList>();
 
-const CreationWizardStack = () => {
+const AddictionCreatorStack: FC<AddictionCreatorScreenProps> = ({
+  navigation,
+  route,
+}) => {
+  const { hide } = route.params;
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
   const { name, startDate, image, reset, setStartDate, setLoading } =
     useCreationWizardStore(state => ({
@@ -38,25 +46,25 @@ const CreationWizardStack = () => {
     creating,
   } = useAddictionCreator();
 
-  const onWizardStart = useCallback(async () => {
+  const onStart = useCallback(async () => {
     setStartDate(new Date());
   }, [setStartDate]);
 
-  const onWizardComplete = useCallback(async () => {
-    const addiction: UnidentifiedAddiction = {
+  const onComplete = useCallback(async () => {
+    setLoading(true);
+
+    createAddiction({
       name,
       image,
       relapses: [],
       startedAt: startDate,
-      hidden: false,
-    };
-
-    setLoading(true);
-    createAddiction(addiction).then(() => {
+      hidden: hide,
+    }).then(addiction => {
       reset();
-      modalStackNavigation.navigate('BottomTabs', {
-        screen: 'Addictions',
-      });
+
+      if (addiction) {
+        modalStackNavigation.navigate('Addiction', { id: addiction.id });
+      }
     });
   }, [
     name,
@@ -66,6 +74,7 @@ const CreationWizardStack = () => {
     reset,
     modalStackNavigation,
     setLoading,
+    hide,
   ]);
 
   if (task) {
@@ -87,8 +96,8 @@ const CreationWizardStack = () => {
       screenOptions={{
         header: props => (
           <Navigation
-            startCallback={onWizardStart}
-            completeCallback={onWizardComplete}
+            startCallback={onStart}
+            completeCallback={onComplete}
             {...props}
           />
         ),
@@ -101,4 +110,4 @@ const CreationWizardStack = () => {
   );
 };
 
-export { CreationWizardStack };
+export { AddictionCreatorStack };

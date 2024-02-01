@@ -110,7 +110,7 @@ const pl: Translation = {
     },
   },
   modals: {
-    add: {
+    addictioncreator: {
       label: 'Dodaj uzależnienie',
     },
     addiction: {

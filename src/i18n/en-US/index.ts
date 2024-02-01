@@ -110,7 +110,7 @@ const enUS: Translation = {
     },
   },
   modals: {
-    add: {
+    addictioncreator: {
       label: 'Add addiction',
     },
     addiction: {

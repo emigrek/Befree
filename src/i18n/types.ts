@@ -96,7 +96,7 @@ export interface Translation {
     };
   };
   modals: {
-    add: {
+    addictioncreator: {
       label: string;
     };
     addiction: {

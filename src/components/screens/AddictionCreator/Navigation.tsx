@@ -13,8 +13,8 @@ import style from './style';
 
 import i18n from '@/i18n';
 import {
-  CreationStackNavigationProp,
-  CreationStackParamList,
+  AddictionCreatorNavigationProp,
+  AddictionCreatorParamList,
 } from '@/navigation/types';
 import { useCreationWizardStore } from '@/store';
 import { NameSchema } from '@/validation/name.schema';
@@ -33,24 +33,25 @@ const Navigation: FC<NavigationProps> = ({
     name: state.name,
     loading: state.loading,
   }));
-  const creationStackNavigation = useNavigation<CreationStackNavigationProp>();
+  const addictionCreatorNavigation =
+    useNavigation<AddictionCreatorNavigationProp>();
 
   const isLastScreenInStack = useMemo(() => {
     const currentRouteName =
-      creationStackNavigation.getState().routes[
-        creationStackNavigation.getState().index
+      addictionCreatorNavigation.getState().routes[
+        addictionCreatorNavigation.getState().index
       ].name;
-    const currentRouteIndex = creationStackNavigation
+    const currentRouteIndex = addictionCreatorNavigation
       .getState()
       .routeNames.indexOf(currentRouteName);
     const nextRouteName =
-      creationStackNavigation.getState().routeNames[currentRouteIndex + 1];
+      addictionCreatorNavigation.getState().routeNames[currentRouteIndex + 1];
 
     return !nextRouteName;
-  }, [creationStackNavigation]);
+  }, [addictionCreatorNavigation]);
 
   const pushNext = useCallback(
-    () => (state: StackNavigationState<CreationStackParamList>) => {
+    () => (state: StackNavigationState<AddictionCreatorParamList>) => {
       const currentRouteName = state.routes[state.index].name;
       const currentRouteIndex = state.routeNames.indexOf(currentRouteName);
       const nextRouteName = state.routeNames[currentRouteIndex + 1];
@@ -66,12 +67,12 @@ const Navigation: FC<NavigationProps> = ({
   );
 
   const back = useCallback(() => {
-    creationStackNavigation.goBack();
-  }, [creationStackNavigation]);
+    addictionCreatorNavigation.goBack();
+  }, [addictionCreatorNavigation]);
 
   const next = useCallback(() => {
-    creationStackNavigation.dispatch(pushNext());
-  }, [creationStackNavigation, pushNext]);
+    addictionCreatorNavigation.dispatch(pushNext());
+  }, [addictionCreatorNavigation, pushNext]);
 
   const isDisabled = useMemo(() => {
     return !NameSchema.safeParse({ name }).success;

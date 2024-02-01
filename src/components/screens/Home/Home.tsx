@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import { DailyQuote, FastCreate } from './widgets';
 
-import { AddictionAddFAB } from '@/components/ui/AddictionAddFAB';
+import { AddictionCreatorFab } from '@/components/ui/AddictionCreatorFab';
 import { Screen } from '@/components/ui/Screen';
 import { Bold } from '@/components/ui/Text';
 import i18n from '@/i18n';
@@ -25,7 +25,7 @@ const Home: FC = () => {
         <DailyQuote />
         <FastCreate />
       </Screen>
-      <AddictionAddFAB />
+      <AddictionCreatorFab />
     </>
   );
 };

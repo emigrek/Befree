@@ -4,9 +4,9 @@ import {
 } from '@react-navigation/stack';
 import { useWindowDimensions } from 'react-native';
 
+import { AddictionCreatorStack } from './AddictionCreatorStack';
 import { AddictionStack } from './AddictionStack';
 import { BottomTabsStack } from './BottomTabsStack';
-import { CreationWizardStack } from './CreationWizardStack';
 import { HiddenAddictionsBottomTabsStack } from './HiddenAddictionsBottomTabsStack';
 import { ModalsStackParamList } from './types';
 
@@ -46,7 +46,10 @@ const ModalsStack = () => {
           gestureResponseDistance: height / 1.5,
         }}
       >
-        <Navigator.Screen name="Add" component={CreationWizardStack} />
+        <Navigator.Screen
+          name="AddictionCreator"
+          component={AddictionCreatorStack}
+        />
         <Navigator.Screen
           name="Addiction"
           component={AddictionStack}

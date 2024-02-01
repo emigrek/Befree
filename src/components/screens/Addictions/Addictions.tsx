@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { AddictionsList } from './AddictionsList';
 import { Header } from './Header';
 
-import { AddictionAddFAB } from '@/components/ui/AddictionAddFAB';
+import { AddictionCreatorFab } from '@/components/ui/AddictionCreatorFab';
 import { Commitment } from '@/components/ui/Commitment';
 import { HiddenAddictionsAction } from '@/components/ui/HiddenAddictionsAction';
 import { SelectionFABs } from '@/components/ui/SelectionFABS';
@@ -31,7 +31,7 @@ const Addictions: FC<AddictionsProps> = ({ hidden }) => {
       </Header>
       <AddictionsList addictions={addictions} loading={addictionsLoading} />
       {user && <SelectionFABs user={user} addictions={addictions} />}
-      {!hidden && <AddictionAddFAB />}
+      <AddictionCreatorFab hideAddiction={hidden} />
     </View>
   );
 };

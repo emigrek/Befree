@@ -8,7 +8,7 @@ import { Appbar } from 'react-native-paper';
 
 import { Loading } from '../Loading';
 
-import { ImageUploading } from '@/components/screens/CreationWizard';
+import { ImageUploading } from '@/components/screens/AddictionCreator';
 import { Addiction } from '@/components/ui/Addiction';
 import { ControlledTextInput } from '@/components/ui/ControlledTextInput';
 import { ImagePicker } from '@/components/ui/ImagePicker';

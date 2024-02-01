@@ -35,7 +35,7 @@ export type AddictionStackParamList = {
 
 export type ModalsStackParamList = {
   BottomTabs: NavigatorScreenParams<BottomTabsStackParamList>;
-  Add: undefined;
+  AddictionCreator: { hide: boolean };
   Addiction: { id: string };
   HiddenAddictions: NavigatorScreenParams<HiddenAddictionsBottomTabsStackParamList>;
   Achievement: { addictionId: string; goalType: Goals };
@@ -45,7 +45,7 @@ export type ModalsStackParamList = {
   Sorting: undefined;
 };
 
-export type CreationStackParamList = {
+export type AddictionCreatorParamList = {
   NameAndImage: undefined;
   StartDate: undefined;
 };
@@ -58,8 +58,8 @@ export type ModalStackNavigationProp =
 export type BottomTabsStackNavigationProp =
   StackNavigationProp<BottomTabsStackParamList>;
 
-export type CreationStackNavigationProp =
-  StackNavigationProp<CreationStackParamList>;
+export type AddictionCreatorNavigationProp =
+  StackNavigationProp<AddictionCreatorParamList>;
 
 export type AddictionStackNavigationProp = StackNavigationProp<
   ModalsStackParamList,
@@ -82,7 +82,10 @@ export type AchievementStackRouteProp = RouteProp<
 
 // SCREEN PROPS
 
-export type AddScreenProps = StackScreenProps<ModalsStackParamList, 'Add'>;
+export type AddictionCreatorScreenProps = StackScreenProps<
+  ModalsStackParamList,
+  'AddictionCreator'
+>;
 
 export type AddictionScreenProps = StackScreenProps<
   ModalsStackParamList,
