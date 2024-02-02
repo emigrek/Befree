@@ -7,7 +7,7 @@ export interface Quote {
   date: Date;
 }
 
-class QuoteManger {
+class QuoteManager {
   private apiKey: string;
   private cacheKey: string;
 
@@ -69,4 +69,4 @@ class QuoteManger {
   }
 }
 
-export default QuoteManger;
+export default QuoteManager;

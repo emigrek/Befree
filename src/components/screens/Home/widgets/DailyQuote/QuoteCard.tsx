@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { ActivityIndicator, Card, HelperText } from 'react-native-paper';
 
-import QuoteManger, { Quote } from '@/services/data/managers/quote';
+import QuoteManager, { Quote } from '@/services/data/managers/quote';
 
 const QuoteCard = () => {
   const [quote, setQuote] = useState<Quote>();
@@ -11,7 +11,7 @@ const QuoteCard = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const manager = new QuoteManger();
+    const manager = new QuoteManager();
 
     manager
       .getDailyQuote()
