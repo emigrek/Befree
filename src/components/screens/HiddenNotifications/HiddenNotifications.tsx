@@ -1,13 +1,13 @@
 import { FC, useLayoutEffect } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { AchievementNotifications } from './AchievementNotifications';
-import { Permissions } from './Permissions';
-
+import { AchievementNotifications } from '@/components/screens/Notifications/AchievementNotifications';
 import { Screen } from '@/components/ui/Screen';
-import { NotificationsScreenProps } from '@/navigation/types';
+import { HiddenAddictionsNotificationsScreenProps } from '@/navigation/types';
 
-const Notifications: FC<NotificationsScreenProps> = ({ navigation }) => {
+const HiddenAddictionsNotifications: FC<
+  HiddenAddictionsNotificationsScreenProps
+> = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => undefined,
@@ -16,8 +16,7 @@ const Notifications: FC<NotificationsScreenProps> = ({ navigation }) => {
 
   return (
     <Screen style={style.screen}>
-      <Permissions />
-      <AchievementNotifications />
+      <AchievementNotifications hidden />
     </Screen>
   );
 };
@@ -28,4 +27,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { Notifications };
+export { HiddenAddictionsNotifications };

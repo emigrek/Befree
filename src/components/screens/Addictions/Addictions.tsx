@@ -36,6 +36,4 @@ const Addictions: FC<AddictionsProps> = ({ hidden }) => {
   );
 };
 
-const HiddenAddictions = () => <Addictions hidden />;
-
-export { Addictions, HiddenAddictions };
+export { Addictions };

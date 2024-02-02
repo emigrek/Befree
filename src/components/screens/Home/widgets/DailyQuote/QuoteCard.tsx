@@ -24,21 +24,21 @@ const QuoteCard = () => {
       });
   }, []);
 
-  if (error)
-    return (
-      <Card mode="contained" style={styles.container}>
-        <HelperText type="error">{error}</HelperText>
-      </Card>
-    );
+  if (error) return <HelperText type="error">{error}</HelperText>;
 
   if (isLoading || !quote) return <ActivityIndicator />;
 
   return (
-    <Card mode="contained" style={styles.container}>
+    <Card
+      mode={'outlined'}
+      style={styles.card}
+      contentStyle={styles.cardContainer}
+    >
       <Card.Title
         title={quote.quote}
         subtitle={`~ ${quote.author}`}
         titleVariant="titleMedium"
+        subtitleVariant="bodySmall"
         titleNumberOfLines={0}
         titleStyle={styles.title}
       />
@@ -49,10 +49,14 @@ const QuoteCard = () => {
 export { QuoteCard };
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 5,
+  card: {
+    marginHorizontal: 6,
+  },
+  cardContainer: {
+    padding: 10,
   },
   title: {
     fontStyle: 'italic',
+    marginBottom: 10,
   },
 });

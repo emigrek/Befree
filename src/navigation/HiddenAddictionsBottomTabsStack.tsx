@@ -6,8 +6,8 @@ import { TabBarIcon } from './BottomTabsStack';
 import { HiddenAddictionsBottomTabsStackParamList } from './types';
 
 import { LocalAuthLayout } from '@/components/layouts/LocalAuthLayout';
-import { HiddenAddictions } from '@/components/screens/Addictions';
-import { HiddenAddictionsNotifications } from '@/components/screens/Notifications';
+import { HiddenAddictions } from '@/components/screens/HiddenAddictions';
+import { HiddenAddictionsNotifications } from '@/components/screens/HiddenNotifications';
 import { Locked } from '@/components/ui/Locked';
 import i18n from '@/i18n';
 
