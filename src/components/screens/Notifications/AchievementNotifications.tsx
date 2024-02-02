@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import { AchievementNotificationsList } from './AchievementNotificationsList';
 
-import { Empty } from '@/components/screens/Addictions/Empty';
-import { Header } from '@/components/ui/Header';
+import { PushNotifications } from '@/components/illustrations';
+import { Empty } from '@/components/ui/Empty';
 import { useAchievementsNotifications } from '@/hooks/goal/useAchievementsNotifications';
 import i18n from '@/i18n';
 
@@ -16,22 +16,16 @@ const AchievementNotifications: FC<AchievementNotificationsProps> = ({
 }) => {
   const notifications = useAchievementsNotifications({ hidden });
 
-  return (
-    <>
-      <Header
-        title={i18n.t([
-          'screens',
-          'notifications',
-          'achievementsNotifications',
-        ])}
+  if (!notifications.length) {
+    return (
+      <Empty
+        illustration={PushNotifications}
+        message={i18n.t(['screens', 'notifications', 'empty'])}
       />
-      {notifications.length ? (
-        <AchievementNotificationsList notifications={notifications} />
-      ) : (
-        <Empty />
-      )}
-    </>
-  );
+    );
+  }
+
+  return <AchievementNotificationsList notifications={notifications} />;
 };
 
 export { AchievementNotifications };

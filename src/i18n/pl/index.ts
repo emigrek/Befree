@@ -22,7 +22,6 @@ const pl: Translation = {
     name: 'Nazwa',
     pickImage: 'Wybierz obraz',
     removeImage: 'Usuń obraz',
-    empty: 'Pusto, zacznij lepsze życie!',
   },
   goals: {
     'ten-minutes': '10 minut',
@@ -61,10 +60,12 @@ const pl: Translation = {
       turnNotificationsOff: 'Wyłącz powiadomienia',
       turnNotificationsOn: 'Włącz powiadomienia',
       notificationsCount: '%{count} powiadomień',
+      empty: 'Brak powiadomień',
     },
     addictions: {
       label: 'Uzależnienia',
       commitment: 'Postanawiam skończyć z:',
+      empty: 'Brak uzależnień, zacznij lepsze życie od dodania nowego!',
     },
     authentication: {
       title: 'Logowanie',

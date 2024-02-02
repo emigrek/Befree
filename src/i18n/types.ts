@@ -20,7 +20,6 @@ export interface Translation {
     name: string;
     pickImage: string;
     removeImage: string;
-    empty: string;
   };
   goals: {
     'ten-minutes': string;
@@ -46,10 +45,12 @@ export interface Translation {
       turnNotificationsOn: string;
       turnNotificationsOff: string;
       notificationsCount: string;
+      empty: string;
     };
     addictions: {
       label: string;
       commitment: string;
+      empty: string;
     };
     authentication: {
       title: string;

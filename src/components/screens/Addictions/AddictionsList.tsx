@@ -3,10 +3,12 @@ import { FlatList } from 'react-native-gesture-handler';
 import { Divider } from 'react-native-paper';
 
 import { Addiction } from './Addiction';
-import { Empty } from './Empty';
 
+import { Launching } from '@/components/illustrations';
 import { Loading } from '@/components/screens/Loading';
 import { ADDICTION_ITEM_HEIGHT } from '@/components/ui/Addiction/style';
+import { Empty } from '@/components/ui/Empty';
+import i18n from '@/i18n';
 
 interface AddictionsListProps {
   addictions: Addiction[];
@@ -26,7 +28,12 @@ const AddictionsList: FC<AddictionsListProps> = ({ addictions, loading }) => {
   }
 
   if (!addictions.length) {
-    return <Empty />;
+    return (
+      <Empty
+        illustration={Launching}
+        message={i18n.t(['screens', 'addictions', 'empty'])}
+      />
+    );
   }
 
   return (

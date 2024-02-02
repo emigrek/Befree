@@ -22,7 +22,6 @@ const enUS: Translation = {
     name: 'Name',
     pickImage: 'Pick image',
     removeImage: 'Remove image',
-    empty: 'Empty',
   },
   goals: {
     'ten-minutes': '10 minutes',
@@ -61,10 +60,12 @@ const enUS: Translation = {
       turnNotificationsOn: 'Turn notifications on',
       turnNotificationsOff: 'Turn notifications off',
       notificationsCount: '%{count} notifications',
+      empty: 'No notifications',
     },
     addictions: {
       label: 'Addictions',
       commitment: 'I decide to end with:',
+      empty: 'No addictions, start better life by adding one!',
     },
     authentication: {
       title: 'Authentication',
