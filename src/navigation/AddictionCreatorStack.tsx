@@ -63,6 +63,7 @@ const AddictionCreatorStack: FC<AddictionCreatorScreenProps> = ({
       reset();
 
       if (addiction) {
+        modalStackNavigation.pop();
         modalStackNavigation.navigate('Addiction', { id: addiction.id });
       }
     });

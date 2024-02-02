@@ -45,7 +45,7 @@ const Days: FC<DaysProps> = ({ dayStyle }) => {
               },
             ]}
           >
-            {item}
+            {item.split('.').at(0)}
           </Text>
         );
       },

@@ -6,9 +6,11 @@ import { TabBarIcon } from './BottomTabsStack';
 import { AddictionScreenProps, AddictionStackParamList } from './types';
 
 import { AddictionHeader } from '@/components/headers';
-import { ProgressScreen } from '@/components/screens/Addiction';
-import { AchievementsScreen } from '@/components/screens/Addiction/Achievements';
-import { SettingsScreen } from '@/components/screens/Addiction/Settings';
+import {
+  AchievementsScreen,
+  ProgressScreen,
+  SettingsScreen,
+} from '@/components/screens/Addiction';
 import i18n from '@/i18n';
 
 const Navigator = createBottomTabNavigator<AddictionStackParamList>();
