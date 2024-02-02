@@ -53,7 +53,6 @@ const pl: Translation = {
   screens: {
     home: {
       label: 'Główna',
-      gretting: 'Cześć, %{name}! 👋',
     },
     notifications: {
       label: 'Powiadomienia',
@@ -204,6 +203,11 @@ const pl: Translation = {
     dailyQuote: {
       title: 'Cytat dnia',
       description: 'Codzienna motywacja',
+    },
+    greeting: {
+      morning: 'Dzień dobry, %{name}! 👋',
+      afternoon: 'Dzień dobry, %{name}! 👋',
+      evening: 'Dobry wieczór, %{name}! 👋',
     },
   },
   notifications: {

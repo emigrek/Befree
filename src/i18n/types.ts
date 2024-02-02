@@ -38,7 +38,6 @@ export interface Translation {
   screens: {
     home: {
       label: string;
-      gretting: string;
     };
     notifications: {
       label: string;
@@ -174,6 +173,11 @@ export interface Translation {
     dailyQuote: {
       title: string;
       description: string;
+    };
+    greeting: {
+      morning: string;
+      afternoon: string;
+      evening: string;
     };
   };
   notifications: {

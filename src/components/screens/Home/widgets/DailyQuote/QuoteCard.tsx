@@ -7,9 +7,10 @@ import QuoteManger, { Quote } from '@/services/data/managers/quote';
 const QuoteCard = () => {
   const [quote, setQuote] = useState<Quote>();
   const [error, setError] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const manager = new QuoteManger();
 
     manager
@@ -24,9 +25,27 @@ const QuoteCard = () => {
       });
   }, []);
 
-  if (error) return <HelperText type="error">{error}</HelperText>;
+  if (error)
+    return (
+      <Card
+        mode={'outlined'}
+        style={styles.card}
+        contentStyle={styles.cardContainer}
+      >
+        <HelperText type="error">{error}</HelperText>
+      </Card>
+    );
 
-  if (isLoading || !quote) return <ActivityIndicator />;
+  if (isLoading || !quote)
+    return (
+      <Card
+        mode={'outlined'}
+        style={styles.card}
+        contentStyle={styles.cardContainer}
+      >
+        <ActivityIndicator />
+      </Card>
+    );
 
   return (
     <Card
@@ -35,12 +54,13 @@ const QuoteCard = () => {
       contentStyle={styles.cardContainer}
     >
       <Card.Title
-        title={quote.quote}
+        title={`„ ${quote.quote} “`}
         subtitle={`~ ${quote.author}`}
-        titleVariant="titleMedium"
+        titleVariant="titleLarge"
         subtitleVariant="bodySmall"
         titleNumberOfLines={0}
         titleStyle={styles.title}
+        subtitleStyle={styles.subtitle}
       />
     </Card>
   );
@@ -53,10 +73,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 6,
   },
   cardContainer: {
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
   },
   title: {
     fontStyle: 'italic',
-    marginBottom: 10,
+    marginBottom: 5,
+  },
+  subtitle: {
+    textAlign: 'right',
   },
 });

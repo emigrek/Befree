@@ -2,11 +2,10 @@ import { FC } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { DailyQuote, FastCreate } from './widgets';
+import { Greeting } from './widgets/Greeting';
 
 import { AddictionCreatorFab } from '@/components/ui/AddictionCreatorFab';
 import { Screen } from '@/components/ui/Screen';
-import { Bold } from '@/components/ui/Text';
-import i18n from '@/i18n';
 import { useAuthStore } from '@/store';
 
 const Home: FC = () => {
@@ -15,13 +14,7 @@ const Home: FC = () => {
   return (
     <>
       <Screen style={style.screen}>
-        {user && (
-          <Bold variant="headlineMedium" style={style.text}>
-            {i18n.t(['screens', 'home', 'gretting'], {
-              name: user?.displayName,
-            })}
-          </Bold>
-        )}
+        <Greeting name={user?.displayName || ''} />
         <DailyQuote />
         <FastCreate />
       </Screen>
@@ -33,9 +26,6 @@ const Home: FC = () => {
 const style = StyleSheet.create({
   screen: {
     gap: 40,
-  },
-  text: {
-    paddingHorizontal: 20,
   },
 });
 
