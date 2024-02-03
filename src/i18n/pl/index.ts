@@ -93,7 +93,7 @@ const pl: Translation = {
         'Jesteś gotowy, aby rozpocząć swoją podróż ku zdrowszemu, wolnemu od uzależnień życiu. Zaczynajmy ten pierwszy krok razem!',
       ],
     },
-    creationWizard: {
+    addictionCreator: {
       nameAndImage: {
         title: 'Nazwa i obraz',
         description: 'Z jakim uzależnieniem chcesz skonczyć?',
@@ -102,7 +102,9 @@ const pl: Translation = {
       },
       startDate: {
         title: 'Data rozpoczęcia',
-        description: 'Kiedy rozpocząłeś swoją podróż?',
+        description: 'Kiedy był twój ostatni raz?',
+        hour: 'O której godzinię?',
+        day: 'Którego dnia?',
       },
       uploading: {
         title: 'Tworzenie...',

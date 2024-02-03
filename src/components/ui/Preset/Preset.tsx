@@ -3,12 +3,12 @@ import React, { FC, useCallback, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
-import { useAddictionCreator } from '@/hooks/addiction/useAddictionCreator';
 import {
   BottomTabsStackNavigationProp,
   ModalStackNavigationProp,
 } from '@/navigation/types';
-import { useCreationWizardStore } from '@/store';
+import AddictionManager from '@/services/data/managers/addiction';
+import { useAddictionCreatorStore, useAuthStore } from '@/store';
 
 interface PresetProps {
   name: string;
@@ -18,29 +18,35 @@ const Preset: FC<PresetProps> = ({ name }) => {
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
   const bottomTabsStackNavigation =
     useNavigation<BottomTabsStackNavigationProp>();
-  const setName = useCreationWizardStore(state => state.setName);
+  const user = useAuthStore(state => state.user);
+  const setName = useAddictionCreatorStore(state => state.setName);
   const [loading, setLoading] = useState(false);
-  const { create } = useAddictionCreator();
 
   const handlePress = useCallback(async () => {
+    if (!user) return;
     setLoading(true);
+
+    const addictions = new AddictionManager(user.uid);
 
     const addiction = {
       name,
       relapses: [],
       image: null,
+      startedAt: new Date(),
       hidden: false,
     };
 
-    create(addiction, new Date()).then(() => {
+    addictions.create(addiction).then(() => {
       setLoading(false);
       bottomTabsStackNavigation.navigate('Addictions');
     });
-  }, [create, name, bottomTabsStackNavigation]);
+  }, [bottomTabsStackNavigation, name, user]);
 
   const handleLongPress = useCallback(() => {
     setName(name);
-    modalStackNavigation.navigate('Add');
+    modalStackNavigation.navigate('AddictionCreator', {
+      hide: false,
+    });
   }, [modalStackNavigation, setName, name]);
 
   return (

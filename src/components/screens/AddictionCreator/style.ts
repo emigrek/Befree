@@ -31,6 +31,11 @@ const style = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
   },
+  textsContainer: {
+    marginBottom: 5,
+    textAlign: 'center',
+    width: '100%',
+  },
   details: {
     gap: 10,
     width: '90%',

@@ -1,16 +1,16 @@
 import { StateCreator } from 'zustand';
 
-export type CreationWizardSlice = CreationWizardSliceState &
-  CreationWizardSliceActions;
+export type AddictionCreatorSlice = AddictionCreatorSliceState &
+  AddictionCreatorSliceActions;
 
-export interface CreationWizardSliceState {
+export interface AddictionCreatorSliceState {
   name: string;
   startDate: Date;
   image: string | null;
   loading: boolean;
 }
 
-export interface CreationWizardSliceActions {
+export interface AddictionCreatorSliceActions {
   setName: (name: string) => void;
   setStartDate: (startDate: Date) => void;
   setImage: (image: string | null) => void;
@@ -18,15 +18,15 @@ export interface CreationWizardSliceActions {
   setLoading: (loading: boolean) => void;
 }
 
-const initialState: CreationWizardSliceState = {
+const initialState: AddictionCreatorSliceState = {
   name: '',
   startDate: new Date(),
   image: null,
   loading: false,
 };
 
-export const createCreationWizardSlice: StateCreator<
-  CreationWizardSlice
+export const createAddictionCreatorSlice: StateCreator<
+  AddictionCreatorSlice
 > = set => ({
   name: '',
   setName: (name: string) => set({ name }),

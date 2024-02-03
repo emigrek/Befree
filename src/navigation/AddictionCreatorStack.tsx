@@ -20,7 +20,7 @@ import {
 import Navigation from '@/components/screens/AddictionCreator/Navigation';
 import { useAddictionCreator } from '@/hooks/addiction/useAddictionCreator';
 import i18n from '@/i18n';
-import { useCreationWizardStore } from '@/store';
+import { useAddictionCreatorStore } from '@/store';
 
 const Navigator = createStackNavigator<AddictionCreatorParamList>();
 
@@ -31,7 +31,7 @@ const AddictionCreatorStack: FC<AddictionCreatorScreenProps> = ({
   const { hide } = route.params;
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
   const { name, startDate, image, reset, setStartDate, setLoading } =
-    useCreationWizardStore(state => ({
+    useAddictionCreatorStore(state => ({
       name: state.name,
       startDate: state.startDate,
       image: state.image,
@@ -81,7 +81,7 @@ const AddictionCreatorStack: FC<AddictionCreatorScreenProps> = ({
   if (task) {
     return (
       <ImageUploading
-        label={i18n.t(['screens', 'creationWizard', 'uploading', 'title'])}
+        label={i18n.t(['screens', 'addictionCreator', 'uploading', 'title'])}
         progress={uploadProgress}
       />
     );

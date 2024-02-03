@@ -93,7 +93,7 @@ const enUS: Translation = {
         "You're all set to start your journey towards a healthier, addiction-free life. Let's take that first step together!",
       ],
     },
-    creationWizard: {
+    addictionCreator: {
       nameAndImage: {
         title: 'Name and image',
         description: 'What addiction do you want to break free from?',
@@ -102,7 +102,9 @@ const enUS: Translation = {
       },
       startDate: {
         title: 'Start date',
-        description: 'When did you start your journey?',
+        description: 'When was the last time?',
+        hour: 'What time was it?',
+        day: 'What day was it?',
       },
       uploading: {
         title: 'Uploading...',
@@ -137,9 +139,14 @@ const enUS: Translation = {
             description:
               'Hidden addictions are protected by local authorization',
           },
+          delete: {
+            name: 'Delete',
+            description: 'Delete addiction (irreversible)',
+          },
         },
         sections: {
           privacy: 'Privacy',
+          management: 'Management',
         },
       },
     },

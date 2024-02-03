@@ -16,7 +16,7 @@ import {
   AddictionCreatorNavigationProp,
   AddictionCreatorParamList,
 } from '@/navigation/types';
-import { useCreationWizardStore } from '@/store';
+import { useAddictionCreatorStore } from '@/store';
 import { NameSchema } from '@/validation/name.schema';
 
 interface NavigationProps extends StackHeaderProps {
@@ -29,7 +29,7 @@ const Navigation: FC<NavigationProps> = ({
   completeCallback,
   ...props
 }) => {
-  const { name, loading } = useCreationWizardStore(state => ({
+  const { name, loading } = useAddictionCreatorStore(state => ({
     name: state.name,
     loading: state.loading,
   }));

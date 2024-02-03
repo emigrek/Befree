@@ -66,7 +66,7 @@ export interface Translation {
       titles: string[];
       descriptions: string[];
     };
-    creationWizard: {
+    addictionCreator: {
       nameAndImage: {
         title: string;
         description: string;
@@ -76,6 +76,8 @@ export interface Translation {
       startDate: {
         title: string;
         description: string;
+        hour: string;
+        day: string;
       };
       uploading: {
         title: string;

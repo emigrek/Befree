@@ -3,7 +3,7 @@ import { FC, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Switch, Text } from 'react-native-paper';
 
-import { useNotificationsSettings } from '@/hooks/notifications/useNotificationsSettings';
+import { useNotificationsSettings } from '@/hooks/notification/useNotificationsSettings';
 import i18n from '@/i18n';
 
 const Permissions: FC = () => {
