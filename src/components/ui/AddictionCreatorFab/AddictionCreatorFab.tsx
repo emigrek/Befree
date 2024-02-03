@@ -27,7 +27,6 @@ const AddictionCreatorFab: FC<AddictionCreatorFabProps> = ({
         right: 25,
         bottom: 25,
       }}
-      mode={'flat'}
       onPress={() =>
         navigate('AddictionCreator', {
           hide: hideAddiction,

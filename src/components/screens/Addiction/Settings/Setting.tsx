@@ -1,5 +1,5 @@
 import { FC, useCallback, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewProps } from 'react-native';
 import { ActivityIndicator, List } from 'react-native-paper';
 
 import { AddictionSetting } from './useSettings';
@@ -12,8 +12,7 @@ interface SettingProps {
 }
 
 const Setting: FC<SettingProps> = ({ setting }) => {
-  const { colors } = useTheme();
-  const { name, description, left, right, onChange } = setting;
+  const { name, description, left, right, onChange, titleStyle } = setting;
   const [isChanging, setIsChanging] = useState(false);
 
   const handleSettingChange = useCallback(async () => {
@@ -25,18 +24,9 @@ const Setting: FC<SettingProps> = ({ setting }) => {
   return (
     <View style={styles.wrapper}>
       {isChanging && (
-        <View
-          style={[
-            StyleSheet.absoluteFill,
-            styles.loadingOverlay,
-            {
-              backgroundColor: hexAlpha(colors.background, 0.5),
-              zIndex: 1,
-            },
-          ]}
-        >
+        <Cover>
           <ActivityIndicator />
-        </View>
+        </Cover>
       )}
       <List.Item
         pointerEvents={isChanging ? 'none' : 'auto'}
@@ -45,8 +35,27 @@ const Setting: FC<SettingProps> = ({ setting }) => {
         left={left}
         right={right}
         onPress={handleSettingChange}
+        titleStyle={titleStyle}
       />
     </View>
+  );
+};
+
+const Cover: FC<ViewProps> = props => {
+  const { colors } = useTheme();
+
+  return (
+    <View
+      style={[
+        StyleSheet.absoluteFill,
+        styles.loadingOverlay,
+        {
+          backgroundColor: hexAlpha(colors.background, 0.5),
+          zIndex: 1,
+        },
+      ]}
+      {...props}
+    />
   );
 };
 

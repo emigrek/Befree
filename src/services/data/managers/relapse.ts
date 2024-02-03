@@ -1,10 +1,11 @@
-import firestore, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
 
 import { relapseRef, relapsesRef } from '@/services/refs/relapses';
-import { parseFirebaseTimestamp } from '@/utils/parseFirebaseTimestamp';
+import {
+  firebaseTimestampField,
+  parseFirebaseTimestamp,
+} from '@/utils/firebase';
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
 class RelapseManager {
@@ -24,7 +25,7 @@ class RelapseManager {
       await ref.set({
         ...relapse,
         id,
-        createdAt: firestore.FieldValue.serverTimestamp(),
+        createdAt: firebaseTimestampField,
       });
 
       return await ref.get().then(doc => {

@@ -1,1 +1,1 @@
-export { SelectionFABs } from './SelectionFABs';
+export { SelectionFabs } from './SelectionFabs';

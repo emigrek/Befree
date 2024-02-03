@@ -16,7 +16,7 @@ const QuoteCard = () => {
     manager
       .getDailyQuote()
       .then(quote => {
-        setQuote(quote);
+        setQuote(quote ?? undefined);
         setIsLoading(false);
       })
       .catch(err => {

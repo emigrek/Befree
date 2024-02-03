@@ -16,18 +16,18 @@ class QuoteManager {
     this.cacheKey = 'QuoteManager';
   }
 
-  async getDailyQuote() {
+  async getDailyQuote(): Promise<Quote | null> {
     const cachedQuote = await this.getCachedQuote();
 
-    if (cachedQuote && isSameDay(new Date(cachedQuote.date), new Date())) {
-      return cachedQuote;
-    } else {
+    if (!cachedQuote || !isSameDay(new Date(cachedQuote.date), new Date())) {
       const quote = await this.fetchAndCacheQuote();
       return quote;
     }
+
+    return cachedQuote;
   }
 
-  async fetchAndCacheQuote() {
+  async fetchAndCacheQuote(): Promise<Quote | null> {
     try {
       const response = await fetch(this.apiKey);
       if (!response.ok) {
@@ -44,13 +44,13 @@ class QuoteManager {
       const quote = quotes[0].q;
       const author = quotes[0].a;
       await this.cacheQuote(quote, author);
-      return quote;
+      return { quote, author, date: new Date() };
     } catch (e) {
       throw new Error(`There was an error fetching the quote: ${e}`);
     }
   }
 
-  async cacheQuote(quote: string, author: string) {
+  async cacheQuote(quote: string, author: string): Promise<void> {
     try {
       const data = { quote, author, date: new Date() };
       await AsyncStorage.setItem(this.cacheKey, JSON.stringify(data));
@@ -59,7 +59,7 @@ class QuoteManager {
     }
   }
 
-  async getCachedQuote() {
+  async getCachedQuote(): Promise<Quote | null> {
     try {
       const dataString = await AsyncStorage.getItem(this.cacheKey);
       return dataString ? JSON.parse(dataString) : null;

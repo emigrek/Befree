@@ -122,9 +122,14 @@ export interface Translation {
             name: string;
             description: string;
           };
+          delete: {
+            name: string;
+            description: string;
+          };
         };
         sections: {
           privacy: string;
+          management: string;
         };
       };
     };

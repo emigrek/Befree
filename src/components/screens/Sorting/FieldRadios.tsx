@@ -1,9 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Divider, RadioButton, Text } from 'react-native-paper';
+import { RadioButton, Text } from 'react-native-paper';
 
 import { radiosStyle } from './radiosStyle';
 
+import { Divider } from '@/components/ui/Divider';
 import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
 import { SortingField } from '@/store/addictions';
@@ -41,24 +42,6 @@ const FieldRadios = () => {
             value={field}
           />
         ))}
-        {/* <RadioButton.Item
-          labelVariant="bodyLarge"
-          labelStyle={{ color: colors.outline }}
-          label={i18n.t(['modals', 'sorting', 'fields', 'name'])}
-          value={'name'}
-        />
-        <RadioButton.Item
-          labelVariant="bodyLarge"
-          labelStyle={{ color: colors.outline }}
-          label={i18n.t(['modals', 'sorting', 'fields', 'lastRelapse'])}
-          value={'lastRelapse'}
-        />
-        <RadioButton.Item
-          labelVariant="bodyLarge"
-          labelStyle={{ color: colors.outline }}
-          label={i18n.t(['modals', 'sorting', 'fields', 'createdAt'])}
-          value={'createdAt'}
-        /> */}
       </RadioButton.Group>
     </View>
   );

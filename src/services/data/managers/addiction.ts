@@ -1,26 +1,23 @@
-import firestore, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
-
-import RelapseManager from './relapse';
 
 import { addictionRef, addictionsRef } from '@/services/refs/addictions';
 import { addictionImageRef } from '@/services/refs/image';
 import { addictionRelapsesRef } from '@/services/refs/relapses';
-import { parseFirebaseTimestamp } from '@/utils/parseFirebaseTimestamp';
+import {
+  firebaseTimestampField,
+  parseFirebaseTimestamp,
+} from '@/utils/firebase';
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
 class AddictionManager {
   private userId: string;
   private data: Addiction[] = [];
-  private relapses: RelapseManager;
   private unsubscribeFromChanges: () => void = () => {};
 
   constructor(userId: string) {
     this.userId = userId;
-    this.relapses = new RelapseManager(userId);
   }
 
   public async create(
@@ -33,7 +30,7 @@ class AddictionManager {
       await ref.set({
         ...addiction,
         id,
-        createdAt: firestore.FieldValue.serverTimestamp(),
+        createdAt: firebaseTimestampField,
       });
 
       return await ref.get().then(doc => {

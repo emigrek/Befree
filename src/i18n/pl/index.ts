@@ -137,9 +137,14 @@ const pl: Translation = {
             description:
               'Ukryte uzależnienia są zabezpieczone autoryzacją lokalną',
           },
+          delete: {
+            name: 'Usuń',
+            description: 'Usuń uzależnienie (nieodwracalne)',
+          },
         },
         sections: {
           privacy: 'Prywatność',
+          management: 'Zarządzanie',
         },
       },
     },

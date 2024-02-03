@@ -1,15 +1,19 @@
+import { useNavigation } from '@react-navigation/native';
 import { useMemo } from 'react';
-import { View } from 'react-native';
+import { StyleProp, TextStyle, View } from 'react-native';
 import { List, Switch } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
+import { removeAllNotifications } from '@/hooks/goal/achievementsNotifications';
 import i18n from '@/i18n';
+import { ModalStackNavigationProp } from '@/navigation/types';
 import UserData from '@/services/data/userData';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useGlobalStore } from '@/store';
 import { useTheme } from '@/theme';
 
 export enum Section {
   PRIVACY = 'privacy',
+  MANAGEMENT = 'management',
 }
 
 type SideProps =
@@ -22,6 +26,7 @@ export interface AddictionSetting {
   name: string;
   description?: string;
   onChange: () => Promise<void>;
+  titleStyle?: StyleProp<TextStyle>;
   left?: SideProps;
   right?: SideProps;
 }
@@ -31,11 +36,17 @@ interface UseSettingsProps {
 }
 
 export const useSettings = ({ addiction }: UseSettingsProps) => {
+  const navigation = useNavigation<ModalStackNavigationProp>();
   const user = useAuthStore(state => state.user);
+  const { removeBlacklist: removeAddictionFromNotificationsBlacklist } =
+    useGlobalStore(state => ({
+      removeBlacklist: state.removeBlacklist,
+    }));
+
   const { colors } = useTheme();
 
-  return useMemo<AddictionSetting[]>(() => {
-    return [
+  return useMemo<AddictionSetting[]>(
+    () => [
       {
         id: 0,
         section: Section.PRIVACY,
@@ -74,6 +85,49 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
           });
         },
       },
-    ];
-  }, [addiction, user, colors]);
+      {
+        id: 1,
+        section: Section.MANAGEMENT,
+        name: i18n.t([
+          'modals',
+          'addiction',
+          'settings',
+          'list',
+          'delete',
+          'name',
+        ]),
+        description: i18n.t([
+          'modals',
+          'addiction',
+          'settings',
+          'list',
+          'delete',
+          'description',
+        ]),
+        left: props => {
+          return <List.Icon {...props} icon="trash-can" />;
+        },
+        titleStyle: {
+          color: colors.error,
+        },
+        onChange: async () => {
+          if (!user) return;
+          const { addictions } = new UserData(user.uid);
+
+          removeAllNotifications({ addictionId: addiction.id });
+          removeAddictionFromNotificationsBlacklist(addiction.id);
+          navigation.navigate('BottomTabs', { screen: 'Addictions' });
+
+          await addictions.delete(addiction.id);
+        },
+      },
+    ],
+    [
+      addiction,
+      user,
+      removeAddictionFromNotificationsBlacklist,
+      navigation,
+      colors,
+    ],
+  );
 };
