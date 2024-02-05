@@ -3,14 +3,13 @@ import React, { useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import { AddictionActions } from './AddictionActions';
 import { GoalProgress } from './GoalProgress';
-import { Timeline } from './Timeline';
 
 import { Loading } from '@/components/screens/Loading';
 import { Addiction } from '@/components/ui/Addiction';
 import { EditAction } from '@/components/ui/EditAction';
-import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
+import { RelapseCreatorFab } from '@/components/ui/RelapseCreatorFab';
+import { useAbsenceDuration } from '@/hooks/addiction/useAbsenceDuration';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import {
@@ -24,7 +23,7 @@ interface ProgressProps {
 
 const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   const navigation = useNavigation<ModalStackNavigationProp>();
-  const { absenceTime } = useAbsenceTime({ addiction });
+  const { duration } = useAbsenceDuration({ addiction });
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,22 +33,23 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   }, [addiction, navigation]);
 
   return (
-    <View style={style.container}>
-      <View style={style.imageNameContainer}>
-        <Addiction.Image
-          image={addiction.image}
-          name={addiction.name}
-          size={200}
-        />
-        <View style={style.progress}>
-          <Text variant="titleMedium">{i18n.t(['labels', 'freeFor'])}</Text>
-          <Addiction.CountUp time={absenceTime} variant={'displaySmall'} />
+    <>
+      <View style={style.container}>
+        <View style={style.imageNameContainer}>
+          <Addiction.Image
+            image={addiction.image}
+            name={addiction.name}
+            size={200}
+          />
+          <View style={style.progress}>
+            <Text variant="titleMedium">{i18n.t(['labels', 'freeFor'])}</Text>
+            <Addiction.CountUp duration={duration} variant={'displaySmall'} />
+          </View>
         </View>
+        <GoalProgress addiction={addiction} />
       </View>
-      <GoalProgress addiction={addiction} />
-      <AddictionActions addiction={addiction} />
-      <Timeline addiction={addiction} />
-    </View>
+      <RelapseCreatorFab />
+    </>
   );
 };
 
@@ -67,8 +67,9 @@ const ProgressScreen: React.FC<ProgressScreenProps> = ({ route }) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 30,
-    gap: 15,
+    justifyContent: 'center',
+    marginBottom: 120,
+    gap: 20,
   },
   imageNameContainer: {
     marginTop: 15,

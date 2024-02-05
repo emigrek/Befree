@@ -123,6 +123,23 @@ const pl: Translation = {
           invert: 'Odwróć kolory',
         },
       },
+      relapses: {
+        label: 'Wpadki',
+        timeline: {
+          title: 'Oś czasu',
+        },
+        list: {
+          title: 'Ostatnie wpadki',
+          startedAt: 'Data dodania',
+          longestAbsenceEnd: 'Koniec najdłuższej przerwy',
+          timeSectionTitles: {
+            today: 'Dzisiaj',
+            yesterday: 'Wczoraj',
+            last7Days: 'Ostatnie 7 Dni',
+            last30Days: 'Ostatnie 30 Dni',
+          },
+        },
+      },
       achievements: {
         label: 'Osiągnięcia',
         achieved: 'Osiągnięto %{achievedAt} temu',

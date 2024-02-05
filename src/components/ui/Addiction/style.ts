@@ -19,11 +19,10 @@ export const style = StyleSheet.create({
   },
   goalContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   progressContainer: {
-    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
     alignItems: 'center',
     gap: 5,
   },

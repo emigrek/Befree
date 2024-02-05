@@ -13,7 +13,7 @@ const Subtitle: FC<SubtitleProps> = ({ style, ...props }) => {
       style={[
         style,
         {
-          color: colors.outline,
+          color: colors.onSurfaceVariant,
         },
       ]}
       {...props}

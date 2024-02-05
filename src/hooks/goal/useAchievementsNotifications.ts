@@ -17,7 +17,7 @@ export const useAchievementsNotifications = ({
   hidden,
 }: UseAchievementsNotificationsProps) => {
   const { triggerNotifications } = useTriggerNotifications();
-  const { addictions } = useAddictions();
+  const { addictions } = useAddictions({ hidden });
 
   return useMemo(() => {
     return addictions.map(addiction => {

@@ -51,10 +51,10 @@ const NameAndImage = () => {
     >
       <View style={style.container}>
         <View style={style.textsContainer}>
-          <Bold variant="headlineSmall" style={style.texts}>
+          <Bold variant="titleLarge" style={style.texts}>
             {i18n.t(['screens', 'addictionCreator', 'nameAndImage', 'title'])}
           </Bold>
-          <Subtitle variant="bodySmall" style={style.texts}>
+          <Subtitle variant="bodyMedium" style={style.texts}>
             {i18n.t([
               'screens',
               'addictionCreator',

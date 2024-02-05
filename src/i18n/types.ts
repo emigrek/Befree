@@ -109,6 +109,23 @@ export interface Translation {
         };
         label: string;
       };
+      relapses: {
+        label: string;
+        timeline: {
+          title: string;
+        };
+        list: {
+          title: string;
+          startedAt: string;
+          longestAbsenceEnd: string;
+          timeSectionTitles: {
+            today: string;
+            yesterday: string;
+            last7Days: string;
+            last30Days: string;
+          };
+        };
+      };
       achievements: {
         label: string;
         achieved: string;

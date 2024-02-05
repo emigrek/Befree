@@ -15,7 +15,7 @@ const Divider: FC<DividerProps> = ({ style, ...props }) => {
       style={[
         style,
         {
-          backgroundColor: theme.colors.border,
+          backgroundColor: theme.colors.outlineVariant,
         },
       ]}
       {...props}

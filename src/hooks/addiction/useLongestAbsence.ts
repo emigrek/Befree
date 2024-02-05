@@ -22,31 +22,30 @@ const useLongestAbsence = ({
 const getLongestAbsence = ({
   addiction,
 }: UseLongestAbsenceProps): LongestAbsence => {
-  const relapses = addiction.relapses.map(
-    relapse => new Date(relapse.relapseAt),
-  );
+  const dates = [
+    new Date(addiction.startedAt),
+    ...addiction.relapses.map(r => new Date(r.relapseAt)),
+    new Date(),
+  ];
   let maxDifference = 0;
-  let result: LongestAbsence = {
-    start: addiction.startedAt,
-    end: relapses[0] ? relapses[0] : null,
-  };
+  let longestPeriod: LongestAbsence = { start: dates[0], end: null };
 
-  for (let i = 0; i < relapses.length - 1; i++) {
-    const current = relapses[i];
-    const next = relapses[i + 1];
-
-    const difference = Math.abs(next.getTime() - current.getTime());
+  for (let i = 0; i < dates.length - 1; i++) {
+    const current = dates[i];
+    const next = dates[i + 1];
+    const difference = next.getTime() - current.getTime();
 
     if (difference > maxDifference) {
       maxDifference = difference;
-      result = {
-        start: next,
-        end: current,
-      };
+      longestPeriod = { start: current, end: next };
     }
   }
 
-  return result;
+  if (longestPeriod.end?.getTime() === new Date().getTime()) {
+    longestPeriod.end = null;
+  }
+
+  return longestPeriod;
 };
 
 export { getLongestAbsence, useLongestAbsence };

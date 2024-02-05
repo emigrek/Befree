@@ -6,7 +6,7 @@ import { Bold } from '@/components/ui/Text';
 import { useTheme } from '@/theme';
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   description?: string;
 }
 
@@ -15,9 +15,9 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
 
   return (
     <View style={styles.texts}>
-      <Bold variant="titleLarge">{title}</Bold>
+      {title && <Bold variant="titleLarge">{title}</Bold>}
       {description && (
-        <Text variant="bodySmall" style={[{ color: colors.outline }]}>
+        <Text variant="bodyMedium" style={[{ color: colors.onSurfaceVariant }]}>
           {description}
         </Text>
       )}

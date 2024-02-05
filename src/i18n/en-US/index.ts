@@ -123,6 +123,23 @@ const enUS: Translation = {
           invert: 'Invert colors',
         },
       },
+      relapses: {
+        label: 'Relapses',
+        timeline: {
+          title: 'Timeline',
+        },
+        list: {
+          title: 'Last relapses',
+          startedAt: 'Added at',
+          longestAbsenceEnd: 'Longest absence ended',
+          timeSectionTitles: {
+            today: 'Today',
+            yesterday: 'Yesterday',
+            last7Days: 'Last 7 days',
+            last30Days: 'Last 30 days',
+          },
+        },
+      },
       achievements: {
         label: 'Achievements',
         achieved: 'Achieved %{achievedAt} ago',

@@ -9,6 +9,7 @@ import { AddictionHeader } from '@/components/headers';
 import {
   AchievementsScreen,
   ProgressScreen,
+  RelapsesScreen,
   SettingsScreen,
 } from '@/components/screens/Addiction';
 import i18n from '@/i18n';
@@ -26,6 +27,10 @@ const addictionIconMap: AddictionTabsIconMap = {
   Progress: {
     name: 'time-outline',
     focusedName: 'time',
+  },
+  Relapses: {
+    name: 'calendar-outline',
+    focusedName: 'calendar',
   },
   Achievements: {
     name: 'trophy-outline',
@@ -81,6 +86,11 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
       <Navigator.Screen
         name="Progress"
         component={ProgressScreen}
+        initialParams={params}
+      />
+      <Navigator.Screen
+        name="Relapses"
+        component={RelapsesScreen}
         initialParams={params}
       />
       <Navigator.Screen

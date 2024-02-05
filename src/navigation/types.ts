@@ -29,6 +29,7 @@ export type HiddenAddictionsBottomTabsStackParamList = Omit<
 
 export type AddictionStackParamList = {
   Progress: { id: string };
+  Relapses: { id: string };
   Achievements: { id: string };
   Settings: { id: string };
 };
@@ -81,6 +82,11 @@ export type AchievementStackRouteProp = RouteProp<
 >;
 
 // SCREEN PROPS
+
+export type RelapsesScreenProps = StackScreenProps<
+  AddictionStackParamList,
+  'Relapses'
+>;
 
 export type AddictionCreatorScreenProps = StackScreenProps<
   ModalsStackParamList,

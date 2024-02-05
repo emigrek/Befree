@@ -67,7 +67,7 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
           'description',
         ]),
         left: props => {
-          return <List.Icon {...props} icon="eye-off-outline" />;
+          return <List.Icon {...props} icon="eye-off" />;
         },
         right: () => {
           return (

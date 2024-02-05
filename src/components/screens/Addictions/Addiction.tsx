@@ -8,7 +8,7 @@ import Animated, {
 
 import { Addiction as AddictionPrimitive } from '@/components/ui/Addiction';
 import { TouchableRipple } from '@/components/ui/TouchableRipple';
-import { useAbsenceTime } from '@/hooks/addiction/useAbsenceTime';
+import { useAbsenceDuration } from '@/hooks/addiction/useAbsenceDuration';
 import { useGoal } from '@/hooks/goal/useGoal';
 import { useAddictionLastRelapse } from '@/hooks/relapse/useAddictionLastRelapse';
 import { useSelected } from '@/hooks/selection/useSelected';
@@ -27,7 +27,7 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
   const navigation = useNavigation<ModalStackNavigationProp>();
   const { colors } = useTheme();
 
-  const { absenceTime } = useAbsenceTime({ addiction });
+  const { time, duration } = useAbsenceDuration({ addiction });
   const { isSelected, toggleSelected, selected } = useSelected({
     id: addiction.id,
   });
@@ -36,8 +36,8 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
 
   const progress = useMemo(() => {
     const total = differenceInMilliseconds(goal.goalAt, lastRelapse);
-    return Math.min(absenceTime / total, 1);
-  }, [absenceTime, lastRelapse, goal]);
+    return Math.min(time / total, 1);
+  }, [time, lastRelapse, goal]);
 
   const handleAddictionPress = useCallback(() => {
     if (selected.length) {
@@ -79,7 +79,10 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
         />
         <AddictionPrimitive.Body>
           <AddictionPrimitive.Name>{addiction.name}</AddictionPrimitive.Name>
-          <AddictionPrimitive.CountUp variant="titleLarge" time={absenceTime} />
+          <AddictionPrimitive.CountUp
+            variant="titleLarge"
+            duration={duration}
+          />
           <AddictionPrimitive.Goal>
             <AddictionPrimitive.Goal.Label
               style={{ fontWeight: 'bold', color: colors.text }}

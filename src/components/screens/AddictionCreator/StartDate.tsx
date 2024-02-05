@@ -68,10 +68,10 @@ const StartDate = () => {
     <Screen style={style.screen}>
       <View style={style.container}>
         <View style={style.textsContainer}>
-          <Bold variant="headlineSmall" style={style.texts}>
+          <Bold variant="titleLarge" style={style.texts}>
             {i18n.t(['screens', 'addictionCreator', 'startDate', 'title'])}
           </Bold>
-          <Subtitle variant="bodySmall" style={style.texts}>
+          <Subtitle variant="bodyMedium" style={style.texts}>
             {i18n.t([
               'screens',
               'addictionCreator',

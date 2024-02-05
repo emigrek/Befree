@@ -27,41 +27,35 @@ const QuoteCard = () => {
 
   if (error)
     return (
-      <Card
-        mode={'outlined'}
-        style={styles.card}
-        contentStyle={styles.cardContainer}
-      >
-        <HelperText type="error">{error}</HelperText>
+      <Card mode={'outlined'} style={styles.card}>
+        <Card.Content>
+          <HelperText type="error">{error}</HelperText>
+        </Card.Content>
       </Card>
     );
 
   if (isLoading || !quote)
     return (
-      <Card
-        mode={'outlined'}
-        style={styles.card}
-        contentStyle={styles.cardContainer}
-      >
-        <ActivityIndicator />
+      <Card mode={'outlined'} style={styles.card}>
+        <Card.Content>
+          <ActivityIndicator />
+        </Card.Content>
       </Card>
     );
 
   return (
-    <Card
-      mode={'outlined'}
-      style={styles.card}
-      contentStyle={styles.cardContainer}
-    >
-      <Card.Title
-        title={`„ ${quote.quote} “`}
-        subtitle={`~ ${quote.author}`}
-        titleVariant="titleLarge"
-        subtitleVariant="bodySmall"
-        titleNumberOfLines={0}
-        titleStyle={styles.title}
-        subtitleStyle={styles.subtitle}
-      />
+    <Card mode={'outlined'} style={styles.card}>
+      <Card.Content>
+        <Card.Title
+          title={`„ ${quote.quote} “`}
+          subtitle={`~ ${quote.author}`}
+          titleVariant="titleLarge"
+          subtitleVariant="bodyMedium"
+          titleNumberOfLines={0}
+          titleStyle={styles.title}
+          subtitleStyle={styles.subtitle}
+        />
+      </Card.Content>
     </Card>
   );
 };
@@ -71,10 +65,6 @@ export { QuoteCard };
 const styles = StyleSheet.create({
   card: {
     marginHorizontal: 6,
-  },
-  cardContainer: {
-    paddingHorizontal: 10,
-    paddingVertical: 20,
   },
   title: {
     fontStyle: 'italic',

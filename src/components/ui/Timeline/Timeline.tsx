@@ -41,6 +41,7 @@ const style = StyleSheet.create({
   timeline: {
     display: 'flex',
     flexDirection: 'row',
+    gap: 5,
   },
 });
 

@@ -40,7 +40,7 @@ const Days: FC<DaysProps> = ({ dayStyle }) => {
                 height: cellSize,
                 width: cellSize * 2,
                 margin: cellMargin,
-                color: colors.onSurface,
+                color: colors.onSurfaceVariant,
                 fontSize,
               },
             ]}
@@ -49,7 +49,7 @@ const Days: FC<DaysProps> = ({ dayStyle }) => {
           </Text>
         );
       },
-    [dayStyle, cellMargin, cellSize, fontSize, colors.onSurface],
+    [dayStyle, cellMargin, cellSize, fontSize, colors.onSurfaceVariant],
   );
 
   const keyExtractor = (item: string, index: number) => {

@@ -1,4 +1,5 @@
 import { FC, useMemo } from 'react';
+import { StyleSheet } from 'react-native';
 
 import { Timeline as TimelinePrimitive } from '@/components/ui/Timeline';
 
@@ -27,6 +28,7 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
       cellSize={22}
       fontSize={12}
       mirrored
+      style={style.container}
     >
       <TimelinePrimitive.Days />
       <TimelinePrimitive.Body>
@@ -38,3 +40,10 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
 };
 
 export { Timeline };
+
+const style = StyleSheet.create({
+  container: {
+    paddingLeft: 8,
+    paddingVertical: 8,
+  },
+});
