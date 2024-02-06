@@ -25,9 +25,11 @@ export function ControlledTextInput<T extends FieldValues>({
             onBlur={onBlur}
             error={invalid}
           />
-          <HelperText type="error" visible={invalid}>
-            {error?.message}
-          </HelperText>
+          {invalid && (
+            <HelperText type="error" visible={invalid}>
+              {error?.message}
+            </HelperText>
+          )}
         </View>
       )}
     />

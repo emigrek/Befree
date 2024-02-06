@@ -8,7 +8,7 @@ import {
   ModalStackNavigationProp,
 } from '@/navigation/types';
 import AddictionManager from '@/services/data/managers/addiction';
-import { useAddictionCreatorStore, useAuthStore } from '@/store';
+import { useAuthStore } from '@/store';
 
 interface PresetProps {
   name: string;
@@ -19,7 +19,6 @@ const Preset: FC<PresetProps> = ({ name }) => {
   const bottomTabsStackNavigation =
     useNavigation<BottomTabsStackNavigationProp>();
   const user = useAuthStore(state => state.user);
-  const setName = useAddictionCreatorStore(state => state.setName);
   const [loading, setLoading] = useState(false);
 
   const handlePress = useCallback(async () => {
@@ -43,11 +42,11 @@ const Preset: FC<PresetProps> = ({ name }) => {
   }, [bottomTabsStackNavigation, name, user]);
 
   const handleLongPress = useCallback(() => {
-    setName(name);
     modalStackNavigation.navigate('AddictionCreator', {
+      name,
       hide: false,
     });
-  }, [modalStackNavigation, setName, name]);
+  }, [modalStackNavigation, name]);
 
   return (
     <Button

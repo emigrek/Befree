@@ -22,6 +22,8 @@ const enUS: Translation = {
     name: 'Name',
     pickImage: 'Pick image',
     removeImage: 'Remove image',
+    date: 'Date',
+    hour: 'Hour',
   },
   goals: {
     'ten-minutes': '10 minutes',
@@ -94,20 +96,8 @@ const enUS: Translation = {
       ],
     },
     addictionCreator: {
-      nameAndImage: {
-        title: 'Name and image',
-        description: 'What addiction do you want to break free from?',
-        placeholder: 'e.g. Alcohol',
-        connectionError: 'Unavailable without internet connection',
-      },
-      startDate: {
-        title: 'Start date',
-        description: 'When was the last time?',
-        hour: 'What time was it?',
-        day: 'What day was it?',
-      },
       uploading: {
-        title: 'Uploading...',
+        title: 'Uploading image',
       },
     },
   },

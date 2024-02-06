@@ -29,6 +29,14 @@ export const dark = {
   surfaceTint: '#5addad',
   outlineVariant: '#404944',
   scrim: '#000000',
+  elevation: {
+    level0: '#191c1a',
+    level1: '#1c2621',
+    level2: '#1e2b26',
+    level3: '#20312a',
+    level4: '#21332c',
+    level5: '#22372f',
+  },
 };
 
 export const lightsOut = {
@@ -67,4 +75,12 @@ export const light = {
   surfaceTint: '#006c4f',
   outlineVariant: '#bfc9c2',
   scrim: '#000000',
+  elevation: {
+    level0: '#fbfdf9',
+    level1: '#eef6f0',
+    level2: '#e7f1eb',
+    level3: '#dfede6',
+    level4: '#ddece5',
+    level5: '#d8e9e1',
+  },
 };

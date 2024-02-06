@@ -20,6 +20,8 @@ export interface Translation {
     name: string;
     pickImage: string;
     removeImage: string;
+    date: string;
+    hour: string;
   };
   goals: {
     'ten-minutes': string;
@@ -67,18 +69,6 @@ export interface Translation {
       descriptions: string[];
     };
     addictionCreator: {
-      nameAndImage: {
-        title: string;
-        description: string;
-        placeholder: string;
-        connectionError: string;
-      };
-      startDate: {
-        title: string;
-        description: string;
-        hour: string;
-        day: string;
-      };
       uploading: {
         title: string;
       };

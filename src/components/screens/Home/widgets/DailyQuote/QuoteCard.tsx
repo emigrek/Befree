@@ -44,7 +44,7 @@ const QuoteCard = () => {
     );
 
   return (
-    <Card mode={'outlined'} style={styles.card}>
+    <Card style={styles.card}>
       <Card.Content>
         <Card.Title
           title={`„ ${quote.quote} “`}
@@ -64,7 +64,7 @@ export { QuoteCard };
 
 const styles = StyleSheet.create({
   card: {
-    marginHorizontal: 6,
+    marginHorizontal: 15,
   },
   title: {
     fontStyle: 'italic',

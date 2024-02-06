@@ -4,7 +4,6 @@ import {
 } from '@react-navigation/stack';
 import { useWindowDimensions } from 'react-native';
 
-import { AddictionCreatorStack } from './AddictionCreatorStack';
 import { AddictionStack } from './AddictionStack';
 import { BottomTabsStack } from './BottomTabsStack';
 import { HiddenAddictionsBottomTabsStack } from './HiddenAddictionsBottomTabsStack';
@@ -12,6 +11,7 @@ import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
 import { AchievementScreen } from '@/components/screens/Achievement';
+import { AddictionCreator } from '@/components/screens/AddictionCreator';
 import { EditScreen } from '@/components/screens/Edit';
 import { SortingScreen } from '@/components/screens/Sorting';
 import i18n from '@/i18n';
@@ -48,7 +48,7 @@ const ModalsStack = () => {
       >
         <Navigator.Screen
           name="AddictionCreator"
-          component={AddictionCreatorStack}
+          component={AddictionCreator}
         />
         <Navigator.Screen
           name="Addiction"

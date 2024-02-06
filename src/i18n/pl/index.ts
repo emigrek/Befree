@@ -22,6 +22,8 @@ const pl: Translation = {
     name: 'Nazwa',
     pickImage: 'Wybierz obraz',
     removeImage: 'Usuń obraz',
+    date: 'Data',
+    hour: 'Godzina',
   },
   goals: {
     'ten-minutes': '10 minut',
@@ -94,20 +96,8 @@ const pl: Translation = {
       ],
     },
     addictionCreator: {
-      nameAndImage: {
-        title: 'Nazwa i obraz',
-        description: 'Z jakim uzależnieniem chcesz skonczyć?',
-        placeholder: 'np. Alkohol',
-        connectionError: 'Niedostępne bez internetu',
-      },
-      startDate: {
-        title: 'Data rozpoczęcia',
-        description: 'Kiedy był twój ostatni raz?',
-        hour: 'O której godzinię?',
-        day: 'Którego dnia?',
-      },
       uploading: {
-        title: 'Tworzenie...',
+        title: 'Przesyłanie obrazu',
       },
     },
   },

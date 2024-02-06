@@ -36,7 +36,10 @@ export type AddictionStackParamList = {
 
 export type ModalsStackParamList = {
   BottomTabs: NavigatorScreenParams<BottomTabsStackParamList>;
-  AddictionCreator: { hide: boolean };
+  AddictionCreator: {
+    hide: boolean;
+    name?: string;
+  };
   Addiction: { id: string };
   HiddenAddictions: NavigatorScreenParams<HiddenAddictionsBottomTabsStackParamList>;
   Achievement: { addictionId: string; goalType: Goals };
