@@ -2,10 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import {
-  AddictionCreatorSlice,
-  createAddictionCreatorSlice,
-} from './addictionCreator';
 import { AddictionsSlice, createAddictionsSlice } from './addictions';
 import { AppSlice, createAppSlice } from './app';
 import { NetInfoSlice, createNetInfoSlice } from './netInfo';
@@ -39,9 +35,3 @@ export const useNetInfoStore = create<NetInfoSlice>()((...a) => ({
 export const useAuthStore = create<SessionSlice>()((...a) => ({
   ...createSessionSlice(...a),
 }));
-
-export const useAddictionCreatorStore = create<AddictionCreatorSlice>()(
-  (...a) => ({
-    ...createAddictionCreatorSlice(...a),
-  }),
-);
