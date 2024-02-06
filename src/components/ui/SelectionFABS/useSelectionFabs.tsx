@@ -60,7 +60,6 @@ const useSelectionFabs = () => {
       {
         id: 2,
         icon: 'restart',
-        color: colors.onSecondaryContainer,
         backgroundColor: colors.secondaryContainer,
         onPress: async () => {
           if (!user) return;

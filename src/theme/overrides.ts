@@ -42,6 +42,14 @@ export const dark = {
 export const lightsOut = {
   background: '#000',
   surface: '#000',
+  elevation: {
+    level0: '#000',
+    level1: '#040b09',
+    level2: '#07120e',
+    level3: '#0a1813',
+    level4: '#0b1b15',
+    level5: '#0d1f18',
+  },
 };
 
 export const light = {

@@ -59,14 +59,14 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
   const addictionStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: withTiming(
-        isSelected ? colors.secondaryContainer : 'transparent',
+        isSelected ? colors.surfaceVariant : 'transparent',
       ),
     };
-  }, [isSelected]);
+  }, [isSelected, colors]);
 
   return (
     <AnimatedTouchableRipple
-      rippleColor={colors.secondaryContainer}
+      rippleColor={colors.surfaceVariant}
       onPress={handleAddictionPress}
       onLongPress={handleLongPress}
       delayLongPress={100}

@@ -10,14 +10,12 @@ import { HiddenAddictionsAction } from '@/components/ui/HiddenAddictionsAction';
 import { SelectionFabs } from '@/components/ui/SelectionFabs';
 import { SortingAction } from '@/components/ui/SortingAction';
 import { useAddictions } from '@/hooks/addiction/useAddictions';
-import { useAuthStore } from '@/store';
 
 interface AddictionsProps {
   hidden?: boolean;
 }
 
 const Addictions: FC<AddictionsProps> = ({ hidden }) => {
-  const user = useAuthStore(state => state.user);
   const { addictions, addictionsLoading } = useAddictions({ hidden });
 
   return (
@@ -30,7 +28,7 @@ const Addictions: FC<AddictionsProps> = ({ hidden }) => {
         {!hidden && <HiddenAddictionsAction />}
       </Header>
       <AddictionsList addictions={addictions} loading={addictionsLoading} />
-      {user && <SelectionFabs />}
+      <SelectionFabs />
       <AddictionCreatorFab hideAddiction={hidden} />
     </View>
   );
