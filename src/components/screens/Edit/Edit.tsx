@@ -3,15 +3,16 @@ import { useNavigation } from '@react-navigation/native';
 import * as Network from 'expo-network';
 import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { Appbar } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
+import { Button, Card } from 'react-native-paper';
 
 import { Loading } from '../Loading';
 
-import { ImageUploading } from '@/components/screens/AddictionCreator';
 import { Addiction } from '@/components/ui/Addiction';
 import { ControlledTextInput } from '@/components/ui/ControlledTextInput';
 import { ImagePicker } from '@/components/ui/ImagePicker';
+import { KeyboardAvoidingView } from '@/components/ui/KeyboardAvoidingView';
+import { UploadingDialog } from '@/components/ui/UploadingDialog';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
@@ -19,7 +20,6 @@ import UserData from '@/services/data/userData';
 import { addictionImageRef } from '@/services/refs/image';
 import { useImageUpload } from '@/services/storage';
 import { useAuthStore, useNetInfoStore } from '@/store';
-import { useTheme } from '@/theme';
 import { NameSchema, Name as NameType } from '@/validation/name.schema';
 
 interface EditProps {
@@ -27,13 +27,12 @@ interface EditProps {
 }
 
 const Edit: FC<EditProps> = ({ addiction }) => {
-  const { colors } = useTheme();
   const user = useAuthStore(state => state.user);
   const { upload, task, uploadProgress } = useImageUpload();
   const navigation = useNavigation<ModalStackNavigationProp>();
   const netState = useNetInfoStore(state => state.netState);
 
-  const { control, watch, formState } = useForm<NameType>({
+  const { control, watch, handleSubmit } = useForm<NameType>({
     defaultValues: {
       name: addiction.name,
     },
@@ -43,6 +42,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   const name = watch('name');
   const [image, setImage] = useState<string | null>(addiction.image);
   const [saving, setSaving] = useState<boolean>(false);
+  const disabled = saving || Boolean(task);
 
   const handleImageChange = useCallback(
     (image: string | null) => {
@@ -51,7 +51,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
     [setImage],
   );
 
-  const handleSave = useCallback(async () => {
+  const onSubmit = useCallback(async () => {
     if (!user) return;
 
     const { addictions } = new UserData(user.uid);
@@ -63,6 +63,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
       (!imageChanged && !nameChanged) ||
       (imageChanged && !nameChanged && !isInternetReachable)
     ) {
+      navigation.pop();
       navigation.navigate('Addiction', {
         id: addiction.id,
       });
@@ -92,6 +93,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
     await addictions.update(addiction.id, newAddiction);
 
     setSaving(false);
+    navigation.pop();
     navigation.navigate('Addiction', {
       id: addiction.id,
     });
@@ -99,65 +101,48 @@ const Edit: FC<EditProps> = ({ addiction }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: addiction.name,
       headerRight: () => (
-        <Appbar.Action
-          color={colors.primary}
-          icon="check"
-          onPress={handleSave}
-          disabled={saving || !formState.isValid}
-        />
+        <Button
+          disabled={disabled}
+          loading={disabled}
+          onPress={handleSubmit(onSubmit)}
+        >
+          {i18n.t(['labels', 'save'])}
+        </Button>
       ),
     });
-  }, [
-    navigation,
-    addiction,
-    handleSave,
-    saving,
-    formState.isValid,
-    colors.primary,
-  ]);
-
-  if (task) {
-    return (
-      <ImageUploading
-        label={i18n.t(['modals', 'edit', 'editing'])}
-        progress={uploadProgress}
-      />
-    );
-  }
-
-  if (saving) {
-    return <Loading />;
-  }
+  }, [navigation, handleSubmit, onSubmit, disabled]);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={style.screen}
-    >
-      <View style={style.innerContainer}>
-        <Addiction.Image name={addiction.name} image={image} size={200} full />
-        <ImagePicker
-          image={image}
-          onImageChange={handleImageChange}
-          style={style.imagePicker}
-        >
-          <ImagePicker.Pick disabled={!netState?.isConnected}>
-            {i18n.t(['labels', 'pickImage'])}
-          </ImagePicker.Pick>
-          <ImagePicker.Remove disabled={!netState?.isConnected}>
-            {i18n.t(['labels', 'removeImage'])}
-          </ImagePicker.Remove>
-        </ImagePicker>
-        <ControlledTextInput
-          control={control}
-          name="name"
-          label={i18n.t(['labels', 'name'])}
-          defaultValue={addiction.name}
-          style={style.input}
-        />
-      </View>
+    <KeyboardAvoidingView scrollViewContentStyle={style.screen}>
+      <Card>
+        <Card.Content style={style.imageCardContent}>
+          <Addiction.Image name={name || ''} image={image} size={250} />
+          <ImagePicker
+            image={image}
+            onImageChange={handleImageChange}
+            style={style.imagePicker}
+          >
+            <ImagePicker.Pick disabled={!netState?.isConnected || disabled}>
+              {i18n.t(['labels', 'pickImage'])}
+            </ImagePicker.Pick>
+            <ImagePicker.Remove disabled={!netState?.isConnected || disabled}>
+              {i18n.t(['labels', 'removeImage'])}
+            </ImagePicker.Remove>
+          </ImagePicker>
+        </Card.Content>
+      </Card>
+      <Card style={{ marginTop: 10 }}>
+        <Card.Content>
+          <ControlledTextInput
+            control={control}
+            name="name"
+            disabled={disabled}
+            label={i18n.t(['labels', 'name'])}
+          />
+        </Card.Content>
+      </Card>
+      <UploadingDialog visible={Boolean(task)} progress={uploadProgress} />
     </KeyboardAvoidingView>
   );
 };
@@ -176,23 +161,13 @@ const EditScreen: React.FC<EditScreenProps> = ({ route }) => {
 const style = StyleSheet.create({
   screen: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 50,
-    paddingHorizontal: 50,
+    paddingHorizontal: 15,
   },
-  input: {
-    width: '100%',
-  },
-  innerContainer: {
-    width: '100%',
-    alignItems: 'center',
-    gap: 15,
-    marginBottom: 160,
-  },
+  imageCardContent: { gap: 5, justifyContent: 'center', alignItems: 'center' },
   imagePicker: {
-    flexDirection: 'row',
+    marginTop: 10,
     gap: 5,
+    justifyContent: 'center',
   },
 });
 

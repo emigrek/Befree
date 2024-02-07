@@ -20,9 +20,7 @@ const UploadingDialog: FC<UploadingDialogProps> = ({
         visible={visible}
         {...props}
       >
-        <Dialog.Title>
-          {i18n.t(['screens', 'addictionCreator', 'uploading', 'title'])}
-        </Dialog.Title>
+        <Dialog.Title>{i18n.t(['labels', 'uploadingImage'])}</Dialog.Title>
         <Dialog.Content>
           <ProgressBar progress={progress} />
         </Dialog.Content>

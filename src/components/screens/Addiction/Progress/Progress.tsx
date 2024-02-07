@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import React, { useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -24,6 +25,7 @@ interface ProgressProps {
 const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   const navigation = useNavigation<ModalStackNavigationProp>();
   const { duration } = useAbsenceDuration({ addiction });
+  const headerHeight = useHeaderHeight();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,7 +36,7 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
 
   return (
     <>
-      <View style={style.container}>
+      <View style={[style.container, { marginBottom: headerHeight }]}>
         <View style={style.imageNameContainer}>
           <Addiction.Image
             image={addiction.image}
@@ -68,7 +70,6 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    marginBottom: 120,
     gap: 20,
   },
   imageNameContainer: {

@@ -9,7 +9,6 @@ const SectionHeader = ({ title }: { title: string }) => {
 
   return (
     <View style={style.sectionHeaderContainer}>
-      <Divider style={style.sectionHeaderDivider} />
       <Text
         variant={'bodySmall'}
         style={{
@@ -20,7 +19,7 @@ const SectionHeader = ({ title }: { title: string }) => {
       >
         {title}
       </Text>
-      <Divider style={style.sectionHeaderDivider} />
+      <Divider horizontalInset style={style.sectionHeaderDivider} />
     </View>
   );
 };
@@ -36,5 +35,10 @@ const style = StyleSheet.create({
   },
   sectionHeaderDivider: {
     flex: 1,
+  },
+  sectionHeaderText: {
+    color: 'white',
+    paddingHorizontal: 3,
+    paddingVertical: 16,
   },
 });

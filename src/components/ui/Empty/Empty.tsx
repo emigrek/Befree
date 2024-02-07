@@ -16,7 +16,10 @@ const Empty: FC<EmptyProps> = ({ illustration: Illustration, message }) => {
   return (
     <Screen style={style.screen}>
       <Illustration />
-      <Text variant="bodyLarge" style={[style.text, { color: colors.outline }]}>
+      <Text
+        variant="bodyMedium"
+        style={[style.text, { color: colors.onSurfaceDisabled }]}
+      >
         {message}
       </Text>
     </Screen>

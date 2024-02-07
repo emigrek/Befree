@@ -10,7 +10,7 @@ import { SelectionFab as SelectionFabType } from './useSelectionFabs';
 import { useGlobalStore } from '@/store';
 
 const AnimatedFAB = Animated.createAnimatedComponent(FAB);
-const BASE_BOTTOM = 100;
+const BASE_BOTTOM = 95;
 const MARGIN_BETWEEN = 7;
 
 interface SelectionFabProps {

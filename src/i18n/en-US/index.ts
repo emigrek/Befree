@@ -24,6 +24,7 @@ const enUS: Translation = {
     removeImage: 'Remove image',
     date: 'Date',
     hour: 'Hour',
+    uploadingImage: 'Uploading image',
   },
   goals: {
     'ten-minutes': '10 minutes',
@@ -94,11 +95,6 @@ const enUS: Translation = {
         'Receive daily motivational quotes and messages to keep you inspired on your path to recovery.',
         "You're all set to start your journey towards a healthier, addiction-free life. Let's take that first step together!",
       ],
-    },
-    addictionCreator: {
-      uploading: {
-        title: 'Uploading image',
-      },
     },
   },
   modals: {

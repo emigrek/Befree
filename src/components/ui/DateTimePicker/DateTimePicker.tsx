@@ -9,11 +9,13 @@ import i18n from '@/i18n';
 interface DateTimePickerProps extends ViewProps {
   date: Date;
   setDate: (date: Date) => void;
+  disabled?: boolean;
 }
 
 const DateTimePicker: FC<DateTimePickerProps> = ({
   date,
   setDate,
+  disabled,
   ...props
 }) => {
   const [timeModalVisible, setTimeModalVisible] = useState<boolean>(false);
@@ -66,6 +68,7 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
           label={i18n.t(['labels', 'hour'])}
           showSoftInputOnFocus={false}
           value={format(date, 'HH:mm')}
+          disabled={disabled}
         />
         <DatePickerInput
           label={i18n.t(['labels', 'date'])}
@@ -78,6 +81,7 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
             endDate: new Date(),
           }}
           disableStatusBarPadding={true}
+          disabled={disabled}
         />
       </View>
       <TimePickerModal

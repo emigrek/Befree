@@ -4,7 +4,6 @@ import React, { FC, useCallback, useLayoutEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Card } from 'react-native-paper';
 
-import { UploadingDialog } from './UploadingDialog';
 import style from './style';
 
 import { Addiction } from '@/components/ui/Addiction';
@@ -12,6 +11,7 @@ import { ControlledTextInput } from '@/components/ui/ControlledTextInput';
 import { DateTimePicker } from '@/components/ui/DateTimePicker';
 import { ImagePicker } from '@/components/ui/ImagePicker';
 import { KeyboardAvoidingView } from '@/components/ui/KeyboardAvoidingView/KeyboardAvoidingView';
+import { UploadingDialog } from '@/components/ui/UploadingDialog';
 import { useAddictionCreator } from '@/hooks/addiction/useAddictionCreator';
 import i18n from '@/i18n';
 import {
@@ -37,6 +37,7 @@ const AddictionCreator: FC<AddictionCreatorScreenProps> = ({ route }) => {
   const { create, creating, task, uploadProgress } = useAddictionCreator();
   const netState = useNetInfoStore(state => state.netState);
   const name = watch('name');
+  const disabled = loading || creating || Boolean(task);
 
   const handleImageChange = useCallback(
     (image: string | null) => {
@@ -79,15 +80,15 @@ const AddictionCreator: FC<AddictionCreatorScreenProps> = ({ route }) => {
     navigation.setOptions({
       headerRight: () => (
         <Button
-          disabled={loading || creating || Boolean(task)}
-          loading={loading || creating || Boolean(task)}
+          disabled={disabled}
+          loading={disabled}
           onPress={handleSubmit(onSubmit)}
         >
           {i18n.t(['labels', 'add'])}
         </Button>
       ),
     });
-  }, [navigation, handleSubmit, onSubmit, loading, task, creating]);
+  }, [disabled, handleSubmit, navigation, onSubmit]);
 
   return (
     <KeyboardAvoidingView scrollViewContentStyle={style.screen}>
@@ -99,10 +100,10 @@ const AddictionCreator: FC<AddictionCreatorScreenProps> = ({ route }) => {
             onImageChange={handleImageChange}
             style={style.imagePicker}
           >
-            <ImagePicker.Pick disabled={!netState?.isConnected}>
+            <ImagePicker.Pick disabled={!netState?.isConnected || disabled}>
               {i18n.t(['labels', 'pickImage'])}
             </ImagePicker.Pick>
-            <ImagePicker.Remove disabled={!netState?.isConnected}>
+            <ImagePicker.Remove disabled={!netState?.isConnected || disabled}>
               {i18n.t(['labels', 'removeImage'])}
             </ImagePicker.Remove>
           </ImagePicker>
@@ -114,11 +115,13 @@ const AddictionCreator: FC<AddictionCreatorScreenProps> = ({ route }) => {
             control={control}
             name="name"
             label={i18n.t(['labels', 'name'])}
+            disabled={disabled}
           />
           <DateTimePicker
             style={style.dateTimePicker}
             date={startDate}
             setDate={setStartDate}
+            disabled={disabled}
           />
         </Card.Content>
       </Card>

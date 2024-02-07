@@ -24,6 +24,7 @@ const pl: Translation = {
     removeImage: 'Usuń obraz',
     date: 'Data',
     hour: 'Godzina',
+    uploadingImage: 'Wysyłanie obrazu',
   },
   goals: {
     'ten-minutes': '10 minut',
@@ -94,11 +95,6 @@ const pl: Translation = {
         'Otrzymuj codzienne motywacyjne cytaty i wiadomości, aby zachować inspirację na swojej ścieżce do zdrowia.',
         'Jesteś gotowy, aby rozpocząć swoją podróż ku zdrowszemu, wolnemu od uzależnień życiu. Zaczynajmy ten pierwszy krok razem!',
       ],
-    },
-    addictionCreator: {
-      uploading: {
-        title: 'Przesyłanie obrazu',
-      },
     },
   },
   modals: {
