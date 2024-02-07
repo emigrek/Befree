@@ -128,12 +128,12 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
       }
 
       if (past && frequency !== 0) {
-        return defaultTheme.colors.surfaceDisabled;
+        return defaultTheme.colors.errorContainer;
       }
 
       return frequency === 0
         ? defaultTheme.colors.primary
-        : defaultTheme.colors.surfaceDisabled;
+        : defaultTheme.colors.errorContainer;
     },
     [frequencyMap, range, defaultTheme],
   );

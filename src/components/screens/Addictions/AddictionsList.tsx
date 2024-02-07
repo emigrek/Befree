@@ -1,12 +1,12 @@
 import { FC, useCallback } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
+import { Divider } from 'react-native-paper';
 
 import { Addiction } from './Addiction';
 
 import { Launching } from '@/components/illustrations';
 import { Loading } from '@/components/screens/Loading';
 import { ADDICTION_ITEM_HEIGHT } from '@/components/ui/Addiction/style';
-import { Divider } from '@/components/ui/Divider';
 import { Empty } from '@/components/ui/Empty';
 import i18n from '@/i18n';
 

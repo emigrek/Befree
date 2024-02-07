@@ -1,7 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import { Divider } from '@/components/ui/Divider';
 import { useTheme } from '@/theme';
 
 const SectionHeader = ({ title }: { title: string }) => {
@@ -13,13 +12,10 @@ const SectionHeader = ({ title }: { title: string }) => {
         variant={'bodySmall'}
         style={{
           color: colors.outline,
-          paddingHorizontal: 3,
-          paddingVertical: 16,
         }}
       >
         {title}
       </Text>
-      <Divider horizontalInset style={style.sectionHeaderDivider} />
     </View>
   );
 };
@@ -31,14 +27,8 @@ const style = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-  },
-  sectionHeaderDivider: {
-    flex: 1,
-  },
-  sectionHeaderText: {
-    color: 'white',
-    paddingHorizontal: 3,
+    paddingHorizontal: 6,
     paddingVertical: 16,
+    gap: 10,
   },
 });

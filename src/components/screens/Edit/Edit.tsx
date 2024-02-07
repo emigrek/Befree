@@ -163,7 +163,11 @@ const style = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
   },
-  imageCardContent: { gap: 5, justifyContent: 'center', alignItems: 'center' },
+  imageCardContent: {
+    gap: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   imagePicker: {
     marginTop: 10,
     gap: 5,

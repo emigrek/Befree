@@ -1,11 +1,10 @@
 import { FC, useCallback } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
-import { List } from 'react-native-paper';
+import { Divider, List } from 'react-native-paper';
 
 import { Setting } from './Setting';
 import { AddictionSetting, Section as SectionEnum } from './useSettings';
 
-import { Divider } from '@/components/ui/Divider';
 import i18n from '@/i18n';
 
 interface SectionProps {

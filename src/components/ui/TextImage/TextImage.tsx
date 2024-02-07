@@ -11,7 +11,7 @@ import { Text } from 'react-native-paper';
 
 import { useTheme } from '@/theme';
 
-interface ImageProps extends ViewProps {
+interface TextImageProps extends ViewProps {
   image: string | null;
   name: string;
   textImageLetters?: number;
@@ -21,7 +21,7 @@ interface ImageProps extends ViewProps {
   full?: boolean;
 }
 
-const Image: FC<ImageProps> = ({
+const TextImage: FC<TextImageProps> = ({
   image,
   name,
   size = 69,
@@ -63,7 +63,7 @@ const Image: FC<ImageProps> = ({
           propsStyle,
           styles.container,
           {
-            backgroundColor: colors.secondaryContainer,
+            backgroundColor: colors.elevation.level4,
             borderRadius: roundness,
           },
           !full
@@ -127,7 +127,7 @@ const Image: FC<ImageProps> = ({
   );
 };
 
-export { Image };
+export { TextImage };
 
 const styles = StyleSheet.create({
   container: {

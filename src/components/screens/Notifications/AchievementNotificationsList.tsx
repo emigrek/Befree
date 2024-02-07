@@ -1,10 +1,10 @@
 import { TriggerNotification } from '@notifee/react-native';
 import React, { FC, useCallback } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
+import { Divider } from 'react-native-paper';
 
 import { AchievementNotification } from './AchievementNotification';
 
-import { Divider } from '@/components/ui/Divider';
 import { AchievementNotifications } from '@/hooks/goal/useAchievementsNotifications';
 
 interface AchievementNotificationsListProps {

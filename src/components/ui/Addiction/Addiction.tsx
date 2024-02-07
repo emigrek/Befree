@@ -4,9 +4,10 @@ import { View, ViewProps } from 'react-native';
 import { Body } from './Body';
 import { CountUp } from './CountUp';
 import { Goal } from './Goal';
-import { Image } from './Image';
 import { Name } from './Name';
 import { style } from './style';
+
+import { TextImage as Image } from '@/components/ui/TextImage';
 
 type AddictionProps = ViewProps;
 
@@ -16,6 +17,7 @@ function Addiction({ style: addictionStyle, ...props }: AddictionProps) {
 
 Addiction.Image = Image;
 Addiction.Body = Body;
+Addiction.Image = Image;
 Addiction.Name = Name;
 Addiction.CountUp = CountUp;
 Addiction.Goal = Goal;

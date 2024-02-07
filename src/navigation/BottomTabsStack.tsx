@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TransitionPresets } from '@react-navigation/stack';
 import React from 'react';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import { BottomTabsStackParamList } from './types';
 
@@ -9,6 +8,7 @@ import { BottomTabsHeader } from '@/components/headers';
 import { Home } from '@/components/screens';
 import { Addictions } from '@/components/screens/Addictions';
 import { Notifications } from '@/components/screens/Notifications';
+import { BottomTabsBar, TabBarIcon } from '@/components/ui/BottomTabsBar';
 import i18n from '@/i18n';
 
 const Navigator = createBottomTabNavigator<BottomTabsStackParamList>();
@@ -38,68 +38,21 @@ const bottomTabsIconMap: BottomTabsIconMap = {
 const BottomTabsStack = () => {
   return (
     <Navigator.Navigator
+      tabBar={props => <BottomTabsBar {...props} />}
       screenOptions={({ route }) => ({
-        tabBarShowLabel: true,
         header: props => <BottomTabsHeader {...props} />,
-        tabBarStyle: {
-          height: 100,
-        },
-        tabBarItemStyle: {
-          marginTop: 'auto',
-          marginBottom: 'auto',
-          height: 50,
-        },
-        tabBarLabelStyle: {
-          fontSize: 11,
-        },
         title: i18n.t(['screens', route.name.toLowerCase(), 'label']),
-        tabBarIcon: props => {
-          const { focusedName, name } = bottomTabsIconMap[route.name];
-
-          return (
-            <TabBarIcon
-              {...props}
-              name={name}
-              focusedName={focusedName}
-              size={30}
-            />
-          );
-        },
+        tabBarIcon: props => (
+          <TabBarIcon {...bottomTabsIconMap[route.name]} {...props} />
+        ),
         ...TransitionPresets.SlideFromRightIOS,
       })}
       initialRouteName={'Home'}
     >
       <Navigator.Screen name={'Home'} component={Home} />
-      <Navigator.Screen
-        name={'Addictions'}
-        component={Addictions}
-        options={{ unmountOnBlur: true }}
-      />
+      <Navigator.Screen name={'Addictions'} component={Addictions} />
       <Navigator.Screen name={'Notifications'} component={Notifications} />
     </Navigator.Navigator>
   );
 };
-
-interface TabBarIconProps {
-  name: string;
-  focusedName?: string;
-  color: string;
-  focused: boolean;
-  size: number;
-}
-
-const TabBarIcon = ({
-  name,
-  focusedName,
-  color,
-  focused,
-  size,
-}: TabBarIconProps) => {
-  return focused && focusedName ? (
-    <Ionicon size={size} name={focusedName} color={color} />
-  ) : (
-    <Ionicon size={size} name={name} color={color} />
-  );
-};
-
-export { BottomTabsStack, TabBarIcon };
+export { BottomTabsStack };

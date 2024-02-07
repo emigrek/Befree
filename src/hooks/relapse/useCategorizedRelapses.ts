@@ -8,6 +8,7 @@ import {
 import { useMemo } from 'react';
 
 import i18n from '@/i18n';
+import { capitalizeFirstLetter } from '@/utils';
 
 export interface RelapsesSection {
   title: string;
@@ -90,7 +91,7 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
       ) {
         sections[3].data.push(relapse);
       } else if (relapseDate >= thisYearStart) {
-        const monthYear = format(relapseDate, 'MMMM');
+        const monthYear = capitalizeFirstLetter(format(relapseDate, 'LLLL'));
         monthlySections[monthYear] = monthlySections[monthYear] || {
           title: monthYear,
           data: [],

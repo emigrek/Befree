@@ -16,7 +16,7 @@ const HiddenAddictionsAction = () => {
   return (
     <Appbar.Action
       icon={'shield-lock'}
-      mode={'contained-tonal'}
+      mode={'contained'}
       onPress={handleActionPress}
     />
   );

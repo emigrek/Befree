@@ -4,6 +4,7 @@ import { Card, Chip } from 'react-native-paper';
 
 import { useRelapseCardChips } from './useRelapseCardChips';
 
+import { useTheme } from '@/theme';
 import { capitalizeFirstLetter } from '@/utils';
 
 interface RelapseCardProps {
@@ -12,6 +13,7 @@ interface RelapseCardProps {
 }
 
 const RelapseCard: FC<RelapseCardProps> = ({ relapse, addiction }) => {
+  const { colors } = useTheme();
   const chips = useRelapseCardChips({ relapse, addiction });
   const title = capitalizeFirstLetter(
     formatDistanceToNow(new Date(relapse.relapseAt), {
@@ -21,11 +23,14 @@ const RelapseCard: FC<RelapseCardProps> = ({ relapse, addiction }) => {
   const subtitle = format(new Date(relapse.relapseAt), 'PPPpp');
 
   return (
-    <Card mode="elevated">
+    <Card>
       <Card.Title
         title={title}
         subtitle={subtitle}
         subtitleVariant="bodySmall"
+        subtitleStyle={{
+          color: colors.outline,
+        }}
       />
       {Boolean(chips.length) && (
         <Card.Content style={{ flexDirection: 'row', gap: 5 }}>

@@ -1,10 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
-import { RadioButton, Text } from 'react-native-paper';
+import { Divider, RadioButton, Text } from 'react-native-paper';
 
 import { radiosStyle } from './radiosStyle';
 
-import { Divider } from '@/components/ui/Divider';
 import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
 import { SortingField } from '@/store/addictions';

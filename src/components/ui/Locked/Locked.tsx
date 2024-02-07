@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements';
 import { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { IconButton, Text } from 'react-native-paper';
@@ -10,19 +11,15 @@ interface LockedProps {
 }
 
 const Locked: FC<LockedProps> = ({ localAuthenticate }) => {
+  const headerHeight = useHeaderHeight();
   return (
-    <Screen style={styles.screen}>
+    <Screen style={[styles.screen, { marginBottom: headerHeight }]}>
       <View style={styles.texts}>
         <Text variant={'titleMedium'}>
           {i18n.t(['modals', 'hiddenaddictions', 'locked', 'title'])}
         </Text>
       </View>
-      <IconButton
-        size={100}
-        icon="fingerprint"
-        mode="contained"
-        onPress={localAuthenticate}
-      />
+      <IconButton size={130} icon={'fingerprint'} onPress={localAuthenticate} />
     </Screen>
   );
 };

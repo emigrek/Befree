@@ -1,10 +1,9 @@
 import { FC, useCallback } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
+import { Divider } from 'react-native-paper';
 
 import { Section } from './Section';
 import { AddictionSetting, Section as SectionEnum } from './useSettings';
-
-import { Divider } from '@/components/ui/Divider';
 
 interface SettingsListProps {
   settings: AddictionSetting[];

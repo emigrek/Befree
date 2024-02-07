@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TransitionPresets } from '@react-navigation/stack';
 import { FC } from 'react';
 
-import { TabBarIcon } from './BottomTabsStack';
 import { AddictionScreenProps, AddictionStackParamList } from './types';
 
 import { AddictionHeader } from '@/components/headers';
@@ -12,6 +11,7 @@ import {
   RelapsesScreen,
   SettingsScreen,
 } from '@/components/screens/Addiction';
+import { BottomTabsBar, TabBarIcon } from '@/components/ui/BottomTabsBar';
 import i18n from '@/i18n';
 
 const Navigator = createBottomTabNavigator<AddictionStackParamList>();
@@ -44,9 +44,9 @@ const addictionIconMap: AddictionTabsIconMap = {
 
 const AddictionStack: FC<AddictionScreenProps> = props => {
   const params = props.route.params;
-
   return (
     <Navigator.Navigator
+      tabBar={props => <BottomTabsBar {...props} />}
       screenOptions={({ route }) => ({
         tabBarLabel: i18n.t([
           'modals',
@@ -55,30 +55,9 @@ const AddictionStack: FC<AddictionScreenProps> = props => {
           'label',
         ]),
         header: props => <AddictionHeader {...props} />,
-        tabBarStyle: {
-          height: 100,
-          elevation: 15,
-        },
-        tabBarItemStyle: {
-          marginTop: 'auto',
-          marginBottom: 'auto',
-          height: 50,
-        },
-        tabBarLabelStyle: {
-          fontSize: 11,
-        },
-        tabBarIcon: props => {
-          const { focusedName, name } = addictionIconMap[route.name];
-
-          return (
-            <TabBarIcon
-              {...props}
-              name={name}
-              focusedName={focusedName}
-              size={30}
-            />
-          );
-        },
+        tabBarIcon: props => (
+          <TabBarIcon {...addictionIconMap[route.name]} {...props} />
+        ),
         ...TransitionPresets.SlideFromRightIOS,
       })}
       initialRouteName={'Progress'}

@@ -30,18 +30,23 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
                 position: 'relative',
                 overflow: 'hidden',
               },
-              { borderWidth: 1, borderColor: colors.border, borderRadius: 3 },
+              {
+                borderWidth: 1,
+                borderColor: colors.outlineVariant,
+                borderRadius: 3,
+              },
               mirrored && {
                 justifyContent: 'flex-end',
               },
             ]}
           >
-            {item.frequency > 0 && (
+            {item.frequency !== 0 && (
               <View
                 style={{
                   position: 'absolute',
                   bottom: 1,
                   right: 2,
+                  zIndex: 1,
                 }}
               >
                 <Text

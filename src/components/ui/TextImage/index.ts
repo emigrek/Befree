@@ -1,0 +1,1 @@
+export { TextImage } from './TextImage';

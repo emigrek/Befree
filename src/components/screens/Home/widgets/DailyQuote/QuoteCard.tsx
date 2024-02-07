@@ -27,7 +27,7 @@ const QuoteCard = () => {
 
   if (error)
     return (
-      <Card mode={'outlined'} style={styles.card}>
+      <Card mode="contained" style={styles.card}>
         <Card.Content>
           <HelperText type="error">{error}</HelperText>
         </Card.Content>
@@ -36,7 +36,7 @@ const QuoteCard = () => {
 
   if (isLoading || !quote)
     return (
-      <Card mode={'outlined'} style={styles.card}>
+      <Card mode="contained" style={styles.card}>
         <Card.Content>
           <ActivityIndicator />
         </Card.Content>
@@ -44,7 +44,7 @@ const QuoteCard = () => {
     );
 
   return (
-    <Card style={styles.card}>
+    <Card mode="contained" style={styles.card}>
       <Card.Content>
         <Card.Title
           title={`„ ${quote.quote} “`}
