@@ -75,7 +75,12 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
     const monthlySections: KeyedSection = {};
     const yearlySections: KeyedSection = {};
 
-    for (const relapse of relapses) {
+    const sortedRelapses = [...relapses].sort(
+      (a, b) =>
+        new Date(a.relapseAt).getTime() - new Date(b.relapseAt).getTime(),
+    );
+
+    for (const relapse of sortedRelapses) {
       const relapseDate = new Date(relapse.relapseAt);
 
       if (isSameDay(relapseDate, today)) {
@@ -114,13 +119,12 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
       ...monthlySectionsArray,
       ...yearlySectionsArray,
     ];
-
     return allSections
+      .filter(section => section.data.length > 0)
       .map(section => ({
         ...section,
         data: [...section.data].reverse(),
-      }))
-      .filter(section => section.data.length > 0);
+      }));
   }, [relapses]);
 };
 

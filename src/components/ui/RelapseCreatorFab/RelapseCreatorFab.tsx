@@ -24,6 +24,7 @@ const RelapseCreatorFab = () => {
         position: 'absolute',
         right: 25,
         bottom: 25,
+        zIndex: 1,
       }}
     />
   );

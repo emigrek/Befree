@@ -9,6 +9,7 @@ import { Timeline } from './Timeline';
 import { Loading } from '@/components/screens/Loading';
 import { Header } from '@/components/ui/Header';
 import { RelapseCreatorFab } from '@/components/ui/RelapseCreatorFab';
+import { RelapsesSelectionFabs } from '@/components/ui/RelapsesSelectionFabs';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
 import {
@@ -60,6 +61,7 @@ const Relapses: FC<RelapsesProps> = ({ addiction }) => {
         </View>
       </ScrollView>
       <RelapseCreatorFab />
+      <RelapsesSelectionFabs addiction={addiction} />
     </>
   );
 };

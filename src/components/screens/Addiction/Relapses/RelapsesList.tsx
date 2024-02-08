@@ -12,6 +12,7 @@ const RelapsesList: FC<RelapsesListProps> = ({ addiction }) => {
   const startAtRelapse: Relapse = useMemo(
     () => ({
       relapseAt: new Date(addiction.startedAt),
+      note: '',
       addictionId: addiction.id,
       createdAt: new Date(addiction.startedAt),
       id: 'startedAt',

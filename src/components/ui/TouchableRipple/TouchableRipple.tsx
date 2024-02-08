@@ -13,4 +13,7 @@ const TouchableRipple = forwardRef<
   );
 });
 
-export { TouchableRipple };
+const AnimatedTouchableRipple =
+  Animated.createAnimatedComponent(TouchableRipple);
+
+export { AnimatedTouchableRipple, TouchableRipple };

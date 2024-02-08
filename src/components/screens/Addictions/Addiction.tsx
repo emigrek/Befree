@@ -1,23 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import { differenceInMilliseconds } from 'date-fns';
 import React, { FC, useCallback, useMemo } from 'react';
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated';
+import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { Addiction as AddictionPrimitive } from '@/components/ui/Addiction';
-import { TouchableRipple } from '@/components/ui/TouchableRipple';
+import { AnimatedTouchableRipple } from '@/components/ui/TouchableRipple';
 import { useAbsenceDuration } from '@/hooks/addiction/useAbsenceDuration';
 import { useGoal } from '@/hooks/goal/useGoal';
 import { useAddictionLastRelapse } from '@/hooks/relapse/useAddictionLastRelapse';
-import { useSelected } from '@/hooks/selection/useSelected';
+import { useSelectedAddictions } from '@/hooks/selection/useSelectedAddictions';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
 import { useTheme } from '@/theme';
-
-const AnimatedTouchableRipple =
-  Animated.createAnimatedComponent(TouchableRipple);
 
 type AddictionProps = {
   addiction: Addiction;
@@ -28,7 +22,7 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
   const { colors } = useTheme();
 
   const { time, duration } = useAbsenceDuration({ addiction });
-  const { isSelected, toggleSelected, selected } = useSelected({
+  const { isSelected, toggleSelected, selected } = useSelectedAddictions({
     id: addiction.id,
   });
   const lastRelapse = useAddictionLastRelapse({ addiction });

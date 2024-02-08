@@ -2,12 +2,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TransitionPresets } from '@react-navigation/stack';
 import React from 'react';
 
-import { TabBarIcon } from './BottomTabsStack';
 import { HiddenAddictionsBottomTabsStackParamList } from './types';
 
 import { LocalAuthLayout } from '@/components/layouts/LocalAuthLayout';
 import { HiddenAddictions } from '@/components/screens/HiddenAddictions';
 import { HiddenAddictionsNotifications } from '@/components/screens/HiddenNotifications';
+import { BottomTabsBar, TabBarIcon } from '@/components/ui/BottomTabsBar';
 import { Locked } from '@/components/ui/Locked';
 import i18n from '@/i18n';
 
@@ -40,33 +40,13 @@ const HiddenAddictionsBottomTabsStack = () => {
       )}
     >
       <Navigator.Navigator
+        tabBar={props => <BottomTabsBar {...props} />}
         screenOptions={({ route }) => ({
-          tabBarShowLabel: true,
           headerShown: false,
-          tabBarStyle: {
-            height: 100,
-          },
-          tabBarItemStyle: {
-            marginTop: 'auto',
-            marginBottom: 'auto',
-            height: 50,
-          },
-          tabBarLabelStyle: {
-            fontSize: 11,
-          },
           title: i18n.t(['screens', route.name.toLowerCase(), 'label']),
-          tabBarIcon: props => {
-            const { focusedName, name } = bottomTabsIconMap[route.name];
-
-            return (
-              <TabBarIcon
-                {...props}
-                name={name}
-                focusedName={focusedName}
-                size={30}
-              />
-            );
-          },
+          tabBarIcon: props => (
+            <TabBarIcon {...bottomTabsIconMap[route.name]} {...props} />
+          ),
           ...TransitionPresets.SlideFromRightIOS,
         })}
         initialRouteName={'Addictions'}

@@ -1,4 +1,6 @@
-import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
 
 import { addictionRef, addictionsRef } from '@/services/refs/addictions';
@@ -8,6 +10,7 @@ import {
   firebaseTimestampField,
   parseFirebaseTimestamp,
 } from '@/utils/firebase';
+import { hasNetworkConnection } from '@/utils/hasNetworkConnection';
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
@@ -20,76 +23,83 @@ class AddictionManager {
     this.userId = userId;
   }
 
-  public async create(
-    addiction: UnidentifiedAddiction,
-  ): Promise<Addiction | null> {
+  public async create(addiction: UnidentifiedAddiction): Promise<Addiction> {
+    const isConnected = await hasNetworkConnection();
+    const id = nanoid();
+    const ref = addictionRef(this.userId, id);
+    const payload = {
+      ...addiction,
+      id,
+      createdAt: firebaseTimestampField,
+    };
+
     try {
-      const id = nanoid();
-      const ref = addictionRef(this.userId, id);
-
-      await ref.set({
-        ...addiction,
-        id,
-        createdAt: firebaseTimestampField,
-      });
-
-      return await ref.get().then(doc => {
-        const data = doc.data();
-
-        if (!data) {
-          return null;
-        }
-
-        return this.parseAddictionData(data);
-      });
+      if (isConnected) {
+        await ref.set(payload);
+      } else {
+        ref.set(payload);
+      }
     } catch (error) {
-      console.error('Error adding addiction: ', error);
-      throw error;
+      console.log('Error creating addiction: ', error);
     }
+
+    return {
+      ...addiction,
+      id,
+      createdAt: new Date(),
+    };
   }
 
   public async update(
     id: string,
     addiction: Partial<UnidentifiedAddiction>,
-  ): Promise<Addiction | null> {
+  ): Promise<void> {
+    const isConnected = await hasNetworkConnection();
+    const ref = addictionRef(this.userId, id);
+
     try {
-      const ref = addictionRef(this.userId, id);
-
-      await ref.update(addiction);
-
-      return await ref.get().then(doc => {
-        const data = doc.data();
-
-        if (!data) {
-          return null;
-        }
-
-        return this.parseAddictionData(data);
-      });
+      if (isConnected) {
+        await ref.update(addiction);
+      } else {
+        ref.update(addiction);
+      }
     } catch (error) {
-      console.error('Error updating addiction: ', error);
-      throw error;
+      console.log('Error updating addiction: ', error);
     }
   }
 
   public async delete(id: string): Promise<void> {
+    const isConnected = await hasNetworkConnection();
+
     try {
-      await addictionRef(this.userId, id).delete();
+      if (isConnected) {
+        await addictionRef(this.userId, id).delete();
+      } else {
+        addictionRef(this.userId, id).delete();
+      }
     } catch (error) {
-      console.error('Error removing addiction: ', error);
-      throw error;
+      console.log('Error removing addiction: ', error);
     }
 
     try {
       const relapses = await addictionRelapsesRef(this.userId, id).get();
-      relapses.docs.forEach(relapse => relapse.ref.delete());
+      const batch = firestore().batch();
+
+      relapses.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+
+      batch.commit();
     } catch (error) {
-      console.error('Error removing addiction relapses: ', error);
-      throw error;
+      console.log('Error removing addiction relapses: ', error);
     }
 
     try {
-      await addictionImageRef(this.userId, id).delete();
+      if (isConnected) {
+        await addictionImageRef(this.userId, id).delete();
+      } else {
+        addictionImageRef(this.userId, id).delete();
+      }
     } catch (error) {
       console.log('Error removing addiction image (doesn`t exist): ', error);
     }

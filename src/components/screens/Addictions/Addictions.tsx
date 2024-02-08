@@ -5,9 +5,9 @@ import { AddictionsList } from './AddictionsList';
 import { Header } from './Header';
 
 import { AddictionCreatorFab } from '@/components/ui/AddictionCreatorFab';
+import { AddictionsSelectionFabs } from '@/components/ui/AddictionsSelectionFabs';
 import { Commitment } from '@/components/ui/Commitment';
 import { HiddenAddictionsAction } from '@/components/ui/HiddenAddictionsAction';
-import { SelectionFabs } from '@/components/ui/SelectionFabs';
 import { SortingAction } from '@/components/ui/SortingAction';
 import { useAddictions } from '@/hooks/addiction/useAddictions';
 
@@ -28,7 +28,7 @@ const Addictions: FC<AddictionsProps> = ({ hidden }) => {
         {!hidden && <HiddenAddictionsAction />}
       </Header>
       <AddictionsList addictions={addictions} loading={addictionsLoading} />
-      <SelectionFabs />
+      <AddictionsSelectionFabs />
       <AddictionCreatorFab hideAddiction={hidden} />
     </View>
   );

@@ -60,9 +60,9 @@ const AddictionCreator: FC<AddictionCreatorScreenProps> = ({ route }) => {
 
         setLoading(false);
 
-        if (!addiction) return;
-
         navigation.pop();
+
+        if (!addiction) return;
 
         navigation.navigate('Addiction', {
           id: addiction.id,

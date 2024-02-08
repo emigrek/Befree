@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import { StateCreator } from 'zustand';
 
-export interface SelectionSlice {
+export interface RelapsesSelectionSlice {
   selected: string[];
   setSelected: (selected: string[]) => void;
   addSelected: (id: string) => void;
@@ -9,10 +9,9 @@ export interface SelectionSlice {
   clearSelected: () => void;
 }
 
-export const createSelectionSlice: StateCreator<SelectionSlice> = (
-  set,
-  get,
-) => ({
+export const createRelapsesSelectionSlice: StateCreator<
+  RelapsesSelectionSlice
+> = (set, get) => ({
   selected: [],
   setSelected: (selected: string[]) => set({ selected }),
   addSelected: (id: string) =>

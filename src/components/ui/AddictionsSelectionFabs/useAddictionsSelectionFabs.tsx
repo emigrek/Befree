@@ -1,30 +1,29 @@
 import { useMemo } from 'react';
 
+import { SelectionFabType } from '@/components/ui/SelectionFab';
 import { removeAllNotifications } from '@/hooks/goal/achievementsNotifications';
 import UserData from '@/services/data/userData';
-import { useAuthStore, useGlobalStore } from '@/store';
+import {
+  useAddictionsSelectionStore,
+  useAuthStore,
+  useGlobalStore,
+} from '@/store';
 import { useTheme } from '@/theme';
 
-interface SelectionFab {
-  id: number;
-  icon: string;
-  onPress: () => Promise<void>;
-  size?: number;
-  color?: string;
-  backgroundColor?: string;
-}
-
-const useSelectionFabs = () => {
+const useAddictionsSelectionFabs = () => {
   const { colors } = useTheme();
   const user = useAuthStore(state => state.user);
-  const { selected, setSelected, removeAddictionFromNotificationsBlacklist } =
-    useGlobalStore(state => ({
-      selected: state.selected,
-      setSelected: state.setSelected,
+  const { removeAddictionFromNotificationsBlacklist } = useGlobalStore(
+    state => ({
       removeAddictionFromNotificationsBlacklist: state.removeBlacklist,
-    }));
+    }),
+  );
+  const { selected, setSelected } = useAddictionsSelectionStore(state => ({
+    selected: state.selected,
+    setSelected: state.setSelected,
+  }));
 
-  return useMemo<SelectionFab[]>(
+  return useMemo<SelectionFabType[]>(
     () => [
       {
         id: 0,
@@ -52,29 +51,8 @@ const useSelectionFabs = () => {
             return addictions.delete(id);
           });
 
-          setSelected([]);
-
           await Promise.all(deletionPromise);
-        },
-      },
-      {
-        id: 2,
-        icon: 'restart',
-        backgroundColor: colors.secondaryContainer,
-        onPress: async () => {
-          if (!user) return;
-          const { relapses } = new UserData(user.uid);
-
-          const relapsePromise = selected.map(async id => {
-            return relapses.create({
-              addictionId: id,
-              relapseAt: new Date(),
-            });
-          });
-
           setSelected([]);
-
-          await Promise.all(relapsePromise);
         },
       },
     ],
@@ -88,4 +66,4 @@ const useSelectionFabs = () => {
   );
 };
 
-export { SelectionFab, useSelectionFabs };
+export { useAddictionsSelectionFabs };

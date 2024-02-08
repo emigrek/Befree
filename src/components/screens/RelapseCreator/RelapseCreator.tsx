@@ -9,6 +9,10 @@ import { ControlledTextInput } from '@/components/ui/ControlledTextInput';
 import { DateTimePicker } from '@/components/ui/DateTimePicker';
 import { KeyboardAvoidingView } from '@/components/ui/KeyboardAvoidingView/KeyboardAvoidingView';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
+import {
+  addAllNotifications,
+  removeAllNotifications,
+} from '@/hooks/goal/achievementsNotifications';
 import i18n from '@/i18n';
 import {
   ModalStackNavigationProp,
@@ -34,7 +38,7 @@ const RelapseCreator: FC<RelapseCreatorScreenProps> = ({ route }) => {
 
   const onSubmit = useCallback(
     async ({ note }: { note?: string }) => {
-      if (!user) return;
+      if (!user || !addiction) return;
       const relapses = new RelapseManager(user.uid);
 
       setLoading(true);
@@ -45,9 +49,12 @@ const RelapseCreator: FC<RelapseCreatorScreenProps> = ({ route }) => {
       });
       setLoading(false);
 
+      removeAllNotifications({ addictionId });
+      addAllNotifications({ addiction });
+
       navigation.pop();
     },
-    [addictionId, relapseAtDate, user, navigation],
+    [addictionId, relapseAtDate, user, navigation, addiction],
   );
 
   useLayoutEffect(() => {

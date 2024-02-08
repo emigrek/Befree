@@ -6,6 +6,7 @@ import {
   firebaseTimestampField,
   parseFirebaseTimestamp,
 } from '@/utils/firebase';
+import { hasNetworkConnection } from '@/utils/hasNetworkConnection';
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
 class RelapseManager {
@@ -17,62 +18,59 @@ class RelapseManager {
     this.userId = userId;
   }
 
-  public async create(relapse: UnidentifiedRelapse): Promise<Relapse | null> {
+  public async create(relapse: UnidentifiedRelapse): Promise<Relapse> {
+    const isConnected = await hasNetworkConnection();
+    const id = nanoid();
+    const ref = relapseRef(this.userId, id);
+    const payload = {
+      ...relapse,
+      id,
+      createdAt: firebaseTimestampField,
+    };
+
     try {
-      const id = nanoid();
-      const ref = relapseRef(this.userId, id);
-
-      await ref.set({
-        ...relapse,
-        id,
-        createdAt: firebaseTimestampField,
-      });
-
-      return await ref.get().then(doc => {
-        const data = doc.data();
-
-        if (!data) {
-          return null;
-        }
-
-        return this.parseRelapseData(data);
-      });
+      if (isConnected) {
+        await ref.set(payload);
+      } else {
+        ref.set(payload);
+      }
     } catch (error) {
-      console.error('Error adding relapse: ', error);
-      throw error;
+      console.error('Error creating relapse: ', error);
     }
+
+    return {
+      ...relapse,
+      id,
+      createdAt: new Date(),
+    };
   }
 
-  public async update(
-    id: string,
-    relapse: Partial<UnidentifiedRelapse>,
-  ): Promise<Relapse | null> {
+  public async update(id: string, relapse: Partial<UnidentifiedRelapse>) {
+    const isConnected = await hasNetworkConnection();
+    const ref = relapseRef(this.userId, id);
+
     try {
-      const ref = relapseRef(this.userId, id);
-
-      await ref.update(relapse);
-
-      return await ref.get().then(doc => {
-        const data = doc.data();
-
-        if (!data) {
-          return null;
-        }
-
-        return this.parseRelapseData(data);
-      });
+      if (isConnected) {
+        await ref.update(relapse);
+      } else {
+        ref.update(relapse);
+      }
     } catch (error) {
-      console.error('Error updating relapse: ', error);
-      throw error;
+      console.log('Error updating addiction: ', error);
     }
   }
 
   public async delete(id: string): Promise<void> {
+    const isConnected = await hasNetworkConnection();
+
     try {
-      await relapseRef(this.userId, id).delete();
+      if (isConnected) {
+        await relapseRef(this.userId, id).delete();
+      } else {
+        relapseRef(this.userId, id).delete();
+      }
     } catch (error) {
-      console.error('Error removing relapse: ', error);
-      throw error;
+      console.log('Error removing relapse: ', error);
     }
   }
 
@@ -94,6 +92,7 @@ class RelapseManager {
     return {
       id: data.id,
       addictionId: data.addictionId,
+      note: data.note,
       relapseAt: parseFirebaseTimestamp(data.relapseAt),
       createdAt: data.createdAt
         ? parseFirebaseTimestamp(data.createdAt)

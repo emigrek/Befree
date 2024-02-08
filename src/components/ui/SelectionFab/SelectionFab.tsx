@@ -5,9 +5,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { SelectionFab as SelectionFabType } from './useSelectionFabs';
-
-import { useGlobalStore } from '@/store';
+import { SelectionFabType } from './types';
 
 const AnimatedFAB = Animated.createAnimatedComponent(FAB);
 const BASE_BOTTOM = 95;
@@ -16,14 +14,15 @@ const MARGIN_BETWEEN = 7;
 interface SelectionFabProps {
   selectionFab: SelectionFabType;
   totalSelectionFabs: number;
+  totalSelected: number;
 }
 
 const SelectionFab: FC<SelectionFabProps> = ({
   selectionFab,
   totalSelectionFabs,
+  totalSelected,
 }) => {
   const { icon, id, onPress, color, size, backgroundColor } = selectionFab;
-  const selected = useGlobalStore(state => state.selected);
   const [loading, setLoading] = useState(false);
 
   const onPressHandler = useCallback(async () => {
@@ -33,7 +32,7 @@ const SelectionFab: FC<SelectionFabProps> = ({
   }, [onPress]);
 
   const style = useAnimatedStyle(() => {
-    const isSelected = selected.length > 0;
+    const isSelected = totalSelected > 0;
     const inverseIndex = totalSelectionFabs - id - 1;
 
     return {
@@ -50,7 +49,7 @@ const SelectionFab: FC<SelectionFabProps> = ({
       backgroundColor,
       opacity: withTiming(isSelected ? 1 : 0),
     };
-  }, [selected]);
+  }, [totalSelected]);
 
   return (
     <AnimatedFAB

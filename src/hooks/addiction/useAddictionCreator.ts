@@ -19,34 +19,31 @@ export const useAddictionCreator = () => {
   const create = useCallback(
     async (addiction: UnidentifiedAddiction) => {
       if (!user) return null;
+
       setCreating(true);
 
       const { addictions } = new UserData(user.uid);
       const { image } = addiction;
       const newAddiction = await addictions.create(addiction);
 
-      if (!newAddiction) {
-        return null;
-      }
-
       if (!hasNotificationsBlacklisted(newAddiction.id)) {
         addAllNotifications({ addiction: newAddiction });
       }
 
-      const imageDownloadUrl = image
-        ? await upload(`users/${user.uid}/addictions/${newAddiction.id}`, image)
-        : null;
+      if (image) {
+        const downloadUrl = await upload(
+          `users/${user.uid}/addictions/${newAddiction.id}`,
+          image,
+        );
 
-      const updatedAddiction = await addictions.update(newAddiction.id, {
-        image: imageDownloadUrl,
-      });
-
-      if (!updatedAddiction) {
-        return null;
+        await addictions.update(newAddiction.id, {
+          image: downloadUrl,
+        });
       }
 
       setCreating(false);
-      return updatedAddiction;
+
+      return newAddiction;
     },
     [user, hasNotificationsBlacklisted, upload],
   );
