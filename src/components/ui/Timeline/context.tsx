@@ -26,6 +26,8 @@ import { MD3Theme, useTheme } from 'react-native-paper';
 
 import { Cell, TimelineProps } from './types';
 
+import { hexAlpha } from '@/utils/hexAlpha';
+
 interface TimelineContextProps {
   theme?: MD3Theme;
   setTheme?: Dispatch<SetStateAction<MD3Theme>>;
@@ -128,12 +130,14 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
       }
 
       if (past && frequency !== 0) {
-        return defaultTheme.colors.errorContainer;
+        const frequencyMax = Math.max(...Object.values(frequencyMap));
+        return hexAlpha(
+          defaultTheme.colors.errorContainer,
+          frequency / frequencyMax,
+        );
       }
 
-      return frequency === 0
-        ? defaultTheme.colors.primary
-        : defaultTheme.colors.errorContainer;
+      return defaultTheme.colors.primary;
     },
     [frequencyMap, range, defaultTheme],
   );

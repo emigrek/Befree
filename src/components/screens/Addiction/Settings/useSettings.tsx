@@ -116,7 +116,7 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
 
           removeAllNotifications({ addictionId: addiction.id });
           removeAddictionFromNotificationsBlacklist(addiction.id);
-          navigation.navigate('BottomTabs', { screen: 'Addictions' });
+          navigation.pop();
 
           await addictions.delete(addiction.id);
         },

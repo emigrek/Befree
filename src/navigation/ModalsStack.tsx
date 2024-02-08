@@ -13,6 +13,7 @@ import { ModalsHeader } from '@/components/headers';
 import { AchievementScreen } from '@/components/screens/Achievement';
 import { AddictionCreator } from '@/components/screens/AddictionCreator';
 import { EditScreen } from '@/components/screens/Edit';
+import { RelapseCreator } from '@/components/screens/RelapseCreator';
 import { SortingScreen } from '@/components/screens/Sorting';
 import i18n from '@/i18n';
 
@@ -50,6 +51,7 @@ const ModalsStack = () => {
           name="AddictionCreator"
           component={AddictionCreator}
         />
+        <Navigator.Screen name="RelapseCreator" component={RelapseCreator} />
         <Navigator.Screen
           name="Addiction"
           component={AddictionStack}

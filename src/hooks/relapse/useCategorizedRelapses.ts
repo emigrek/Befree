@@ -115,7 +115,12 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
       ...yearlySectionsArray,
     ];
 
-    return allSections.filter(section => section.data.length > 0);
+    return allSections
+      .map(section => ({
+        ...section,
+        data: [...section.data].reverse(),
+      }))
+      .filter(section => section.data.length > 0);
   }, [relapses]);
 };
 

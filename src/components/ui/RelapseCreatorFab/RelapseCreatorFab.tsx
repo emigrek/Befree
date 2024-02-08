@@ -1,29 +1,25 @@
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { FAB } from 'react-native-paper';
 
-import { AddictionStackRouteProp } from '@/navigation/types';
-import RelapseManager from '@/services/data/managers/relapse';
-import { useAuthStore } from '@/store';
+import {
+  AddictionStackRouteProp,
+  ModalStackNavigationProp,
+} from '@/navigation/types';
 
 const RelapseCreatorFab = () => {
   const route = useRoute<AddictionStackRouteProp>();
-  const user = useAuthStore(state => state.user);
-  const handleRelapse = useCallback(async () => {
-    if (!user) return;
-    const relapses = new RelapseManager(user.uid);
+  const { navigate } = useNavigation<ModalStackNavigationProp>();
 
-    await relapses.create({
-      addictionId: route.params.id,
-      relapseAt: new Date(),
-    });
-  }, [user, route.params.id]);
+  const handleRelaposeCreatorNavigate = useCallback(async () => {
+    navigate('RelapseCreator', { addictionId: route.params.id });
+  }, [navigate, route.params.id]);
 
   return (
     <FAB
       icon="restart"
       customSize={60}
-      onPress={handleRelapse}
+      onPress={handleRelaposeCreatorNavigate}
       style={{
         position: 'absolute',
         right: 25,

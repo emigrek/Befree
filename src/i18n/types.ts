@@ -23,6 +23,7 @@ export interface Translation {
     date: string;
     hour: string;
     uploadingImage: string;
+    note: string;
   };
   goals: {
     'ten-minutes': string;
@@ -82,9 +83,15 @@ export interface Translation {
       min: string;
       max: string;
     };
+    note: {
+      max: string;
+    };
   };
   modals: {
     addictioncreator: {
+      label: string;
+    };
+    relapsecreator: {
       label: string;
     };
     addiction: {

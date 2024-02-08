@@ -25,6 +25,7 @@ const pl: Translation = {
     date: 'Data',
     hour: 'Godzina',
     uploadingImage: 'Wysyłanie obrazu',
+    note: 'Notatka',
   },
   goals: {
     'ten-minutes': '10 minut',
@@ -50,6 +51,9 @@ const pl: Translation = {
     name: {
       max: 'Maksymalnie %{max} znaków',
       min: 'Minimalnie %{min} znaki',
+    },
+    note: {
+      max: 'Maksymalnie %{max} znaków',
     },
   },
   screens: {
@@ -98,6 +102,9 @@ const pl: Translation = {
     },
   },
   modals: {
+    relapsecreator: {
+      label: 'Dodaj wpadkę',
+    },
     addictioncreator: {
       label: 'Dodaj uzależnienie',
     },

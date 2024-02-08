@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo } from 'react';
+import { FC, useCallback } from 'react';
 import { SectionList } from 'react-native';
 
 import { RelapseCard } from './RelapseCard';
@@ -15,15 +15,6 @@ const RelapsesSectionList: FC<RelapsesSectionListProps> = ({
   sections,
   addiction,
 }) => {
-  const reversedSection = useMemo(() => {
-    return sections.map(section => {
-      return {
-        ...section,
-        data: section.data.slice().reverse(),
-      };
-    });
-  }, [sections]);
-
   const renderItem = useCallback(
     ({ item }: { item: Relapse }) => (
       <RelapseCard relapse={item} addiction={addiction} />
@@ -41,7 +32,7 @@ const RelapsesSectionList: FC<RelapsesSectionListProps> = ({
   return (
     <SectionList
       scrollEnabled={false}
-      sections={reversedSection}
+      sections={sections}
       contentContainerStyle={{ gap: 6, marginBottom: 2 }}
       keyExtractor={item => item.id}
       renderItem={renderItem}

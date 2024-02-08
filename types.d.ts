@@ -21,6 +21,7 @@ interface Relapse {
   addictionId: string;
   relapseAt: Date;
   createdAt: Date;
+  note: string;
 }
 
 interface Goal {

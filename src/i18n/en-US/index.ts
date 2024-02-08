@@ -25,6 +25,7 @@ const enUS: Translation = {
     date: 'Date',
     hour: 'Hour',
     uploadingImage: 'Uploading image',
+    note: 'Note',
   },
   goals: {
     'ten-minutes': '10 minutes',
@@ -48,8 +49,11 @@ const enUS: Translation = {
   },
   validation: {
     name: {
-      max: 'Max 16 characters',
-      min: 'Min 2 characters',
+      max: 'Max %{max} characters',
+      min: 'Min %{min} characters',
+    },
+    note: {
+      max: 'Max %{max} characters',
     },
   },
   screens: {
@@ -98,6 +102,9 @@ const enUS: Translation = {
     },
   },
   modals: {
+    relapsecreator: {
+      label: 'Add relapse',
+    },
     addictioncreator: {
       label: 'Add addiction',
     },

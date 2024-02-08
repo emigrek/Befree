@@ -9,12 +9,18 @@ import i18n from '@/i18n';
 interface DateTimePickerProps extends ViewProps {
   date: Date;
   setDate: (date: Date) => void;
+  dateValidRange?: {
+    startDate?: Date;
+    endDate?: Date;
+    disabledDates?: Date[];
+  };
   disabled?: boolean;
 }
 
 const DateTimePicker: FC<DateTimePickerProps> = ({
   date,
   setDate,
+  dateValidRange,
   disabled,
   ...props
 }) => {
@@ -76,10 +82,7 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
           onChange={onDateModalConfirm}
           locale={i18n.locale}
           inputMode="end"
-          validRange={{
-            startDate: undefined,
-            endDate: new Date(),
-          }}
+          validRange={dateValidRange}
           disableStatusBarPadding={true}
           disabled={disabled}
         />

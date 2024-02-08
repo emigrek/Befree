@@ -94,9 +94,6 @@ const Edit: FC<EditProps> = ({ addiction }) => {
 
     setSaving(false);
     navigation.pop();
-    navigation.navigate('Addiction', {
-      id: addiction.id,
-    });
   }, [user, addiction, name, image, upload, navigation]);
 
   useLayoutEffect(() => {

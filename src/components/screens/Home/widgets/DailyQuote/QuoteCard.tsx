@@ -47,7 +47,7 @@ const QuoteCard = () => {
     <Card mode="contained" style={styles.card}>
       <Card.Content>
         <Card.Title
-          title={`„ ${quote.quote} “`}
+          title={`“${quote.quote}“`}
           subtitle={`~ ${quote.author}`}
           titleVariant="titleLarge"
           subtitleVariant="bodyMedium"

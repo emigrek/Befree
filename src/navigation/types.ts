@@ -40,6 +40,9 @@ export type ModalsStackParamList = {
     hide: boolean;
     name?: string;
   };
+  RelapseCreator: {
+    addictionId: string;
+  };
   Addiction: { id: string };
   HiddenAddictions: NavigatorScreenParams<HiddenAddictionsBottomTabsStackParamList>;
   Achievement: { addictionId: string; goalType: Goals };
@@ -94,6 +97,11 @@ export type RelapsesScreenProps = StackScreenProps<
 export type AddictionCreatorScreenProps = StackScreenProps<
   ModalsStackParamList,
   'AddictionCreator'
+>;
+
+export type RelapseCreatorScreenProps = StackScreenProps<
+  ModalsStackParamList,
+  'RelapseCreator'
 >;
 
 export type AddictionScreenProps = StackScreenProps<
