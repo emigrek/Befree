@@ -38,7 +38,7 @@ export const Achievement: FC<AchievementProps> = ({
       <AchievementPrimitive.Icon
         name={i18n.t(['goals', goal.goalType]).toUpperCase()}
         color={achieved ? activeColor : inactiveColor}
-        fontSize={12}
+        fontSize={10}
         backgroundColor={iconBackgroundColor}
       />
       <AchievementPrimitive.Body>

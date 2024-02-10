@@ -33,12 +33,12 @@ interface AchievementProps {
 const Achievement: FC<AchievementProps> = ({ addiction, goalType }) => {
   const achievement = useAchievement({ addiction, goalType });
   const { colors } = useTheme();
-  const gyroscope = useAnimatedSensor(SensorType.GYROSCOPE, {
+  const { sensor } = useAnimatedSensor(SensorType.GYROSCOPE, {
     interval: 60,
   });
 
   const modalStyle = useAnimatedStyle(() => {
-    const { x, y } = gyroscope.sensor.value;
+    const { x, y } = sensor.value;
 
     return {
       transform: [
@@ -66,7 +66,7 @@ const Achievement: FC<AchievementProps> = ({ addiction, goalType }) => {
           style.modal,
           modalStyle,
           {
-            backgroundColor: colors.surfaceDisabled,
+            backgroundColor: colors.elevation.level2,
           },
         ]}
       >

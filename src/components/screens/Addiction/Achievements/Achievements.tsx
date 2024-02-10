@@ -56,21 +56,15 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
               inactiveColor={colors.outline}
               textColor={colors.text}
               iconBackgroundColor={
-                item.progress >= 1 ? colors.surfaceDisabled : undefined
+                item.progress === 1
+                  ? colors.elevation.level5
+                  : colors.elevation.level1
               }
             />
           </TouchableRipple>
         );
       },
-    [
-      colors.outline,
-      colors.primary,
-      colors.text,
-      colors.secondaryContainer,
-      colors.surfaceDisabled,
-      addiction.id,
-      navigation,
-    ],
+    [colors, addiction.id, navigation],
   );
 
   const renderDivider = useCallback(() => <Divider />, []);

@@ -3,17 +3,17 @@ import { useMemo } from 'react';
 import { useLongestAbsence } from '@/hooks/addiction/useLongestAbsence';
 import i18n from '@/i18n';
 
-interface RelapseCardChipsProps {
+interface RelapseChipsProps {
   relapse: Relapse;
   addiction: Addiction;
 }
 
-interface RelapseCardChip {
+interface RelapseChip {
   label: string;
   icon: string;
 }
 
-const useRelapseCardChips = ({ relapse, addiction }: RelapseCardChipsProps) => {
+const useRelapseChips = ({ relapse, addiction }: RelapseChipsProps) => {
   const longestAbsence = useLongestAbsence({ addiction });
   const isStartedAt = relapse.id === 'startedAt';
   const isLongestAbsenceEnd = longestAbsence.end
@@ -24,28 +24,16 @@ const useRelapseCardChips = ({ relapse, addiction }: RelapseCardChipsProps) => {
     () =>
       [
         isStartedAt && {
-          label: i18n.t([
-            'modals',
-            'addiction',
-            'relapses',
-            'list',
-            'startedAt',
-          ]),
+          label: i18n.t(['labels', 'startedAt']),
           icon: 'star',
         },
         isLongestAbsenceEnd && {
-          label: i18n.t([
-            'modals',
-            'addiction',
-            'relapses',
-            'list',
-            'longestAbsenceEnd',
-          ]),
+          label: i18n.t(['labels', 'longestAbsenceEnd']),
           icon: 'timer-sand',
         },
-      ].filter(Boolean) as RelapseCardChip[],
+      ].filter(Boolean) as RelapseChip[],
     [isStartedAt, isLongestAbsenceEnd],
   );
 };
 
-export { useRelapseCardChips };
+export { RelapseChip, useRelapseChips };

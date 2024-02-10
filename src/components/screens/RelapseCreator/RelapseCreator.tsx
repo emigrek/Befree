@@ -19,7 +19,7 @@ import {
   RelapseCreatorScreenProps,
 } from '@/navigation/types';
 import RelapseManager from '@/services/data/managers/relapse';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useGlobalStore } from '@/store';
 import { NoteSchema, Note as NoteType } from '@/validation/note.schema';
 
 const RelapseCreator: FC<RelapseCreatorScreenProps> = ({ route }) => {
@@ -35,6 +35,9 @@ const RelapseCreator: FC<RelapseCreatorScreenProps> = ({ route }) => {
     mode: 'all',
     resolver: zodResolver(NoteSchema),
   });
+  const { hasNotificationsBlacklisted } = useGlobalStore(state => ({
+    hasNotificationsBlacklisted: state.isBlacklisted,
+  }));
 
   const onSubmit = useCallback(
     async ({ note }: { note?: string }) => {
@@ -49,12 +52,21 @@ const RelapseCreator: FC<RelapseCreatorScreenProps> = ({ route }) => {
       });
       setLoading(false);
 
-      removeAllNotifications({ addictionId });
-      addAllNotifications({ addiction });
+      if (!hasNotificationsBlacklisted(addictionId)) {
+        removeAllNotifications({ addictionId });
+        addAllNotifications({ addiction });
+      }
 
       navigation.pop();
     },
-    [addictionId, relapseAtDate, user, navigation, addiction],
+    [
+      addictionId,
+      relapseAtDate,
+      user,
+      navigation,
+      addiction,
+      hasNotificationsBlacklisted,
+    ],
   );
 
   useLayoutEffect(() => {

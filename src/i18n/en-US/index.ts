@@ -26,6 +26,9 @@ const enUS: Translation = {
     hour: 'Hour',
     uploadingImage: 'Uploading image',
     note: 'Note',
+    emptyNote: 'No note left',
+    startedAt: 'Added at',
+    longestAbsenceEnd: 'Longest absence ended',
   },
   goals: {
     'ten-minutes': '10 minutes',
@@ -123,8 +126,6 @@ const enUS: Translation = {
         },
         list: {
           title: 'Last relapses',
-          startedAt: 'Added at',
-          longestAbsenceEnd: 'Longest absence ended',
           timeSectionTitles: {
             today: 'Today',
             yesterday: 'Yesterday',
@@ -186,6 +187,9 @@ const enUS: Translation = {
     },
     achievement: {
       label: 'Achievement',
+    },
+    relapse: {
+      label: 'Relapse %{addictionName}',
     },
   },
   bottomSheets: {

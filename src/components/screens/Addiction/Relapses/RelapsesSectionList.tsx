@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
 import { SectionList } from 'react-native';
 
-import { RelapseCard } from './RelapseCard';
+import { RelapseItem } from './RelapseItem';
 import { SectionHeader } from './SectionHeader';
 
 import { RelapsesSection } from '@/hooks/relapse/useCategorizedRelapses';
@@ -17,7 +17,7 @@ const RelapsesSectionList: FC<RelapsesSectionListProps> = ({
 }) => {
   const renderItem = useCallback(
     ({ item }: { item: Relapse }) => (
-      <RelapseCard relapse={item} addiction={addiction} />
+      <RelapseItem relapse={item} addiction={addiction} />
     ),
     [addiction],
   );

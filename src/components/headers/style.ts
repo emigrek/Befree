@@ -8,6 +8,7 @@ export const style = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   center: {
     flex: 1,

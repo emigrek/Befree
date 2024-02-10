@@ -24,6 +24,9 @@ export interface Translation {
     hour: string;
     uploadingImage: string;
     note: string;
+    emptyNote: string;
+    startedAt: string;
+    longestAbsenceEnd: string;
   };
   goals: {
     'ten-minutes': string;
@@ -109,8 +112,6 @@ export interface Translation {
         };
         list: {
           title: string;
-          startedAt: string;
-          longestAbsenceEnd: string;
           timeSectionTitles: {
             today: string;
             yesterday: string;
@@ -170,6 +171,9 @@ export interface Translation {
       };
     };
     achievement: {
+      label: string;
+    };
+    relapse: {
       label: string;
     };
   };

@@ -24,7 +24,7 @@ const useRelapsesSelectionFabs = ({
   const user = useAuthStore(state => state.user);
   const { selected, setSelected } = useRelapsesSelectionStore(state => ({
     selected: state.selected,
-    setSelected: state.setSelected,
+    setSelected: state.set,
   }));
   const { hasNotificationsBlacklisted } = useGlobalStore(state => ({
     hasNotificationsBlacklisted: state.isBlacklisted,
@@ -48,11 +48,11 @@ const useRelapsesSelectionFabs = ({
         backgroundColor: colors.errorContainer,
         onPress: async () => {
           if (!user) return;
-          const relapses = new RelapseManager(user.uid);
 
-          const deletionPromise = selected.map(async id => {
-            return relapses.delete(id);
-          });
+          const relapses = new RelapseManager(user.uid);
+          const deletionPromise = selected.map(relapse =>
+            relapses.delete(relapse.id),
+          );
 
           await Promise.all(deletionPromise);
           setSelected([]);
@@ -65,9 +65,7 @@ const useRelapsesSelectionFabs = ({
       },
     ],
     [
-      colors.error,
-      colors.errorContainer,
-      colors.onSecondaryContainer,
+      colors,
       setSelected,
       selected,
       user,

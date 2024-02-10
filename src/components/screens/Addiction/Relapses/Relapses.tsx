@@ -11,6 +11,7 @@ import { Header } from '@/components/ui/Header';
 import { RelapseCreatorFab } from '@/components/ui/RelapseCreatorFab';
 import { RelapsesSelectionFabs } from '@/components/ui/RelapsesSelectionFabs';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
+import { useAddictions } from '@/hooks/addiction/useAddictions';
 import i18n from '@/i18n';
 import {
   ModalStackNavigationProp,
@@ -81,9 +82,10 @@ const style = StyleSheet.create({
 
 const RelapsesScreen: FC<RelapsesScreenProps> = ({ route }) => {
   const { id } = route.params;
+  const { addictionsLoading } = useAddictions();
   const addiction = useAddiction({ id });
 
-  if (!addiction) {
+  if (!addiction || addictionsLoading) {
     return <Loading />;
   }
 

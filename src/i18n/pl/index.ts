@@ -26,6 +26,9 @@ const pl: Translation = {
     hour: 'Godzina',
     uploadingImage: 'Wysyłanie obrazu',
     note: 'Notatka',
+    emptyNote: 'Brak notatki',
+    startedAt: 'Data dodania',
+    longestAbsenceEnd: 'Koniec najdłuższej przerwy',
   },
   goals: {
     'ten-minutes': '10 minut',
@@ -123,8 +126,6 @@ const pl: Translation = {
         },
         list: {
           title: 'Ostatnie wpadki',
-          startedAt: 'Data dodania',
-          longestAbsenceEnd: 'Koniec najdłuższej przerwy',
           timeSectionTitles: {
             today: 'Dzisiaj',
             yesterday: 'Wczoraj',
@@ -186,6 +187,9 @@ const pl: Translation = {
     },
     achievement: {
       label: 'Osiągnięcie',
+    },
+    relapse: {
+      label: 'Wpadka %{addictionName}',
     },
   },
   bottomSheets: {

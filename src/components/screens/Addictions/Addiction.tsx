@@ -8,9 +8,9 @@ import { AnimatedTouchableRipple } from '@/components/ui/TouchableRipple';
 import { useAbsenceDuration } from '@/hooks/addiction/useAbsenceDuration';
 import { useGoal } from '@/hooks/goal/useGoal';
 import { useAddictionLastRelapse } from '@/hooks/relapse/useAddictionLastRelapse';
-import { useSelectedAddictions } from '@/hooks/selection/useSelectedAddictions';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
+import { useAddictionsSelectionStore } from '@/store';
 import { useTheme } from '@/theme';
 
 type AddictionProps = {
@@ -22,9 +22,13 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
   const { colors } = useTheme();
 
   const { time, duration } = useAbsenceDuration({ addiction });
-  const { isSelected, toggleSelected, selected } = useSelectedAddictions({
-    id: addiction.id,
-  });
+  const { isSelected, toggleSelected, selected } = useAddictionsSelectionStore(
+    state => ({
+      isSelected: state.isSelected(addiction),
+      toggleSelected: state.toggle,
+      selected: state.selected,
+    }),
+  );
   const lastRelapse = useAddictionLastRelapse({ addiction });
   const goal = useGoal(lastRelapse);
 
@@ -35,20 +39,20 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
 
   const handleAddictionPress = useCallback(() => {
     if (selected.length) {
-      toggleSelected();
+      toggleSelected(addiction);
       return;
     }
 
     navigation.navigate('Addiction', {
       id: addiction.id,
     });
-  }, [navigation, addiction.id, selected, toggleSelected]);
+  }, [navigation, selected, toggleSelected, addiction]);
 
   const handleLongPress = useCallback(() => {
     if (selected.length) return;
 
-    toggleSelected();
-  }, [toggleSelected, selected]);
+    toggleSelected(addiction);
+  }, [toggleSelected, selected, addiction]);
 
   const addictionStyle = useAnimatedStyle(() => {
     return {

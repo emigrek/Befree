@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { FAB } from 'react-native-paper';
 
 import { ModalStackNavigationProp } from '@/navigation/types';
@@ -12,6 +12,13 @@ const AddictionCreatorFab: FC<AddictionCreatorFabProps> = ({
   hideAddiction = false,
 }) => {
   const { navigate } = useNavigation<ModalStackNavigationProp>();
+
+  const handleAddictionCreatorNavigate = useCallback(() => {
+    navigate('AddictionCreator', {
+      hide: hideAddiction,
+    });
+  }, [navigate, hideAddiction]);
+
   return (
     <FAB
       icon="plus"
@@ -20,12 +27,9 @@ const AddictionCreatorFab: FC<AddictionCreatorFabProps> = ({
         position: 'absolute',
         right: 25,
         bottom: 25,
+        zIndex: 1,
       }}
-      onPress={() =>
-        navigate('AddictionCreator', {
-          hide: hideAddiction,
-        })
-      }
+      onPress={handleAddictionCreatorNavigate}
     />
   );
 };

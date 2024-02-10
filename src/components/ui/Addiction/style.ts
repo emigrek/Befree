@@ -24,7 +24,7 @@ export const style = StyleSheet.create({
   progressContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: 4,
   },
   bar: {
     width: 140,

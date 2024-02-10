@@ -17,6 +17,7 @@ const RelapseCreatorFab = () => {
 
   return (
     <FAB
+      variant="secondary"
       icon="restart"
       customSize={60}
       onPress={handleRelaposeCreatorNavigate}

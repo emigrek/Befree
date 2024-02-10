@@ -50,6 +50,10 @@ export type ModalsStackParamList = {
     id: string;
   };
   Sorting: undefined;
+  Relapse: {
+    relapseId: string;
+    addictionId: string;
+  };
 };
 
 export type AddictionCreatorParamList = {
@@ -144,4 +148,9 @@ export type AddictionsScreenProps = StackScreenProps<
 export type SettingsScreenProps = StackScreenProps<
   AddictionStackParamList,
   'Settings'
+>;
+
+export type RelapseScreenProps = StackScreenProps<
+  ModalsStackParamList,
+  'Relapse'
 >;
