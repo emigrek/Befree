@@ -1,1 +1,0 @@
-export { EditScreen } from './Edit';

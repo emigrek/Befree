@@ -29,8 +29,8 @@ const Settings: FC<SettingsProps> = ({ addiction }) => {
 };
 
 const SettingsScreen: FC<SettingsScreenProps> = ({ route }) => {
-  const { id } = route.params;
-  const addiction = useAddiction({ id });
+  const { addictionId } = route.params;
+  const addiction = useAddiction({ id: addictionId });
 
   if (!addiction) {
     return <Loading />;

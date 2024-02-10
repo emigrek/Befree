@@ -81,9 +81,9 @@ const style = StyleSheet.create({
 });
 
 const RelapsesScreen: FC<RelapsesScreenProps> = ({ route }) => {
-  const { id } = route.params;
+  const { addictionId } = route.params;
   const { addictionsLoading } = useAddictions();
-  const addiction = useAddiction({ id });
+  const addiction = useAddiction({ id: addictionId });
 
   if (!addiction || addictionsLoading) {
     return <Loading />;

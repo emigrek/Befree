@@ -2,20 +2,18 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
-import {
-  AddictionStackRouteProp,
-  ModalStackNavigationProp,
-} from '@/navigation/types';
+import { ModalStackNavigationProp, RelapseRouteProp } from '@/navigation/types';
 
-const EditAction = () => {
+const RelapseEditAction = () => {
   const navigation = useNavigation<ModalStackNavigationProp>();
-  const route = useRoute<AddictionStackRouteProp>();
+  const route = useRoute<RelapseRouteProp>();
 
   const handleBottomSheetOpen = () => {
     navigation.navigate({
-      name: 'Edit',
+      name: 'RelapseEdit',
       params: {
-        id: route.params.id,
+        addictionId: route.params.addictionId,
+        relapseId: route.params.relapseId,
       },
     });
   };
@@ -35,4 +33,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { EditAction };
+export { RelapseEditAction };

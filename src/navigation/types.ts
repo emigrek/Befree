@@ -28,10 +28,10 @@ export type HiddenAddictionsBottomTabsStackParamList = Omit<
 >;
 
 export type AddictionStackParamList = {
-  Progress: { id: string };
-  Relapses: { id: string };
-  Achievements: { id: string };
-  Settings: { id: string };
+  Progress: { addictionId: string };
+  Relapses: { addictionId: string };
+  Achievements: { addictionId: string };
+  Settings: { addictionId: string };
 };
 
 export type ModalsStackParamList = {
@@ -43,11 +43,15 @@ export type ModalsStackParamList = {
   RelapseCreator: {
     addictionId: string;
   };
-  Addiction: { id: string };
+  Addiction: { addictionId: string };
   HiddenAddictions: NavigatorScreenParams<HiddenAddictionsBottomTabsStackParamList>;
   Achievement: { addictionId: string; goalType: Goals };
-  Edit: {
-    id: string;
+  AddictionEdit: {
+    addictionId: string;
+  };
+  RelapseEdit: {
+    addictionId: string;
+    relapseId: string;
   };
   Sorting: undefined;
   Relapse: {
@@ -90,6 +94,8 @@ export type AchievementStackRouteProp = RouteProp<
   ModalsStackParamList,
   'Achievement'
 >;
+
+export type RelapseRouteProp = RouteProp<ModalsStackParamList, 'Relapse'>;
 
 // SCREEN PROPS
 
@@ -138,7 +144,10 @@ export type HiddenAddictionsNotificationsScreenProps = StackScreenProps<
   'Notifications'
 >;
 
-export type EditScreenProps = StackScreenProps<ModalsStackParamList, 'Edit'>;
+export type AddictionEditScreenProps = StackScreenProps<
+  ModalsStackParamList,
+  'AddictionEdit'
+>;
 
 export type AddictionsScreenProps = StackScreenProps<
   BottomTabsStackParamList,
@@ -153,4 +162,9 @@ export type SettingsScreenProps = StackScreenProps<
 export type RelapseScreenProps = StackScreenProps<
   ModalsStackParamList,
   'Relapse'
+>;
+
+export type RelapseEditScreenProps = StackScreenProps<
+  ModalsStackParamList,
+  'RelapseEdit'
 >;

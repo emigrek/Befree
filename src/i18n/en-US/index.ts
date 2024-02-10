@@ -167,9 +167,12 @@ const enUS: Translation = {
         title: 'Use local authorization to unlock',
       },
     },
-    edit: {
-      label: 'Edit',
+    addictionedit: {
+      label: 'Edit addiction',
       editing: 'Editing...',
+    },
+    relapseedit: {
+      label: 'Edit relapse',
     },
     sorting: {
       label: 'Sorting',

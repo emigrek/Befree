@@ -51,11 +51,7 @@ const HiddenAddictionsBottomTabsStack = () => {
         })}
         initialRouteName={'Addictions'}
       >
-        <Navigator.Screen
-          name={'Addictions'}
-          component={HiddenAddictions}
-          options={{ unmountOnBlur: true }}
-        />
+        <Navigator.Screen name={'Addictions'} component={HiddenAddictions} />
         <Navigator.Screen
           name={'Notifications'}
           component={HiddenAddictionsNotifications}

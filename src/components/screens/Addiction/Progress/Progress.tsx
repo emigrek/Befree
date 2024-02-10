@@ -8,7 +8,7 @@ import { GoalProgress } from './GoalProgress';
 
 import { Loading } from '@/components/screens/Loading';
 import { Addiction } from '@/components/ui/Addiction';
-import { EditAction } from '@/components/ui/EditAction';
+import { AddictionEditAction } from '@/components/ui/AddictionEditAction';
 import { RelapseCreatorFab } from '@/components/ui/RelapseCreatorFab';
 import { useAbsenceDuration } from '@/hooks/addiction/useAbsenceDuration';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
@@ -30,7 +30,7 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: addiction.name,
-      headerRight: () => <EditAction />,
+      headerRight: () => <AddictionEditAction />,
     });
   }, [addiction, navigation]);
 
@@ -56,8 +56,8 @@ const Progress: React.FC<ProgressProps> = ({ addiction }) => {
 };
 
 const ProgressScreen: React.FC<ProgressScreenProps> = ({ route }) => {
-  const { id } = route.params;
-  const addiction = useAddiction({ id });
+  const { addictionId } = route.params;
+  const addiction = useAddiction({ id: addictionId });
 
   if (!addiction) {
     return <Loading />;

@@ -65,7 +65,7 @@ const AddictionCreator: FC<AddictionCreatorScreenProps> = ({ route }) => {
         if (!addiction) return;
 
         navigation.navigate('Addiction', {
-          id: addiction.id,
+          addictionId: addiction.id,
         });
       } catch (error) {
         setLoading(false);

@@ -167,9 +167,12 @@ const pl: Translation = {
         title: 'Odblokuj używając lokalnej autoryzacji',
       },
     },
-    edit: {
-      label: 'Edytuj',
+    addictionedit: {
+      label: 'Edytuj uzależnienie',
       editing: 'Edytowanie...',
+    },
+    relapseedit: {
+      label: 'Edytuj wpadke',
     },
     sorting: {
       label: 'Sortowanie',

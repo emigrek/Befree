@@ -104,7 +104,8 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   }, [range]);
 
   const endSaturday = useMemo(() => {
-    return isSaturday(range[1]) ? range[1] : nextSaturday(range[1]);
+    const saturday = isSaturday(range[1]) ? range[1] : nextSaturday(range[1]);
+    return nextSaturday(saturday);
   }, [range]);
 
   const frequencyMap = useMemo(() => {

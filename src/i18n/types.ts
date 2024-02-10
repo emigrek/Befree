@@ -152,9 +152,12 @@ export interface Translation {
         title: string;
       };
     };
-    edit: {
+    addictionedit: {
       label: string;
       editing: string;
+    };
+    relapseedit: {
+      label: string;
     };
     sorting: {
       label: string;

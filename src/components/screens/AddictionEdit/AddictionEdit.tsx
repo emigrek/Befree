@@ -15,18 +15,21 @@ import { KeyboardAvoidingView } from '@/components/ui/KeyboardAvoidingView';
 import { UploadingDialog } from '@/components/ui/UploadingDialog';
 import { useAddiction } from '@/hooks/addiction/useAddiction';
 import i18n from '@/i18n';
-import { EditScreenProps, ModalStackNavigationProp } from '@/navigation/types';
+import {
+  AddictionEditScreenProps,
+  ModalStackNavigationProp,
+} from '@/navigation/types';
 import UserData from '@/services/data/userData';
 import { addictionImageRef } from '@/services/refs/image';
 import { useImageUpload } from '@/services/storage';
 import { useAuthStore, useNetInfoStore } from '@/store';
 import { NameSchema, Name as NameType } from '@/validation/name.schema';
 
-interface EditProps {
+interface AddictionEditProps {
   addiction: Addiction;
 }
 
-const Edit: FC<EditProps> = ({ addiction }) => {
+const AddictionEdit: FC<AddictionEditProps> = ({ addiction }) => {
   const user = useAuthStore(state => state.user);
   const { upload, task, uploadProgress } = useImageUpload();
   const navigation = useNavigation<ModalStackNavigationProp>();
@@ -65,7 +68,7 @@ const Edit: FC<EditProps> = ({ addiction }) => {
     ) {
       navigation.pop();
       navigation.navigate('Addiction', {
-        id: addiction.id,
+        addictionId: addiction.id,
       });
       return;
     }
@@ -144,15 +147,15 @@ const Edit: FC<EditProps> = ({ addiction }) => {
   );
 };
 
-const EditScreen: React.FC<EditScreenProps> = ({ route }) => {
-  const { id } = route.params;
-  const addiction = useAddiction({ id });
+const AddictionEditScreen: React.FC<AddictionEditScreenProps> = ({ route }) => {
+  const { addictionId } = route.params;
+  const addiction = useAddiction({ id: addictionId });
 
   if (!addiction) {
     return <Loading />;
   }
 
-  return <Edit addiction={addiction} />;
+  return <AddictionEdit addiction={addiction} />;
 };
 
 const style = StyleSheet.create({
@@ -172,4 +175,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { EditScreen };
+export { AddictionEditScreen };

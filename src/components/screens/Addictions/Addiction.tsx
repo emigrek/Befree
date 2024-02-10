@@ -44,7 +44,7 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
     }
 
     navigation.navigate('Addiction', {
-      id: addiction.id,
+      addictionId: addiction.id,
     });
   }, [navigation, selected, toggleSelected, addiction]);
 

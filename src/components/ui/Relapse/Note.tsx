@@ -12,7 +12,12 @@ const Note: FC<NoteProps> = ({ note, style, ...props }) => {
   const { colors } = useTheme();
   return (
     <Text
-      style={[style, { color: colors.outline }]}
+      style={[
+        style,
+        {
+          color: colors.outline,
+        },
+      ]}
       variant={'bodyMedium'}
       {...props}
     >

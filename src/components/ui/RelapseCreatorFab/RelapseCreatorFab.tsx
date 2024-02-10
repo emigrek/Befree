@@ -12,8 +12,8 @@ const RelapseCreatorFab = () => {
   const { navigate } = useNavigation<ModalStackNavigationProp>();
 
   const handleRelaposeCreatorNavigate = useCallback(async () => {
-    navigate('RelapseCreator', { addictionId: route.params.id });
-  }, [navigate, route.params.id]);
+    navigate('RelapseCreator', { addictionId: route.params.addictionId });
+  }, [navigate, route.params.addictionId]);
 
   return (
     <FAB
