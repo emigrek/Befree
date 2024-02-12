@@ -2,8 +2,7 @@ import { useAssets } from 'expo-asset';
 import React from 'react';
 import { Image, View } from 'react-native';
 
-import { Bold } from '../Text';
-
+import { Bold } from '@/components/ui/Text';
 import { useTheme } from '@/theme';
 
 const Logo = () => {

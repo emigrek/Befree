@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { useAddiction } from '../addiction/useAddiction';
+import { useAddiction } from '@/hooks/addiction/useAddiction';
 
 interface UseRelapseProps {
   addictionId: string;

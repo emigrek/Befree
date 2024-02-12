@@ -10,7 +10,7 @@ import {
   ProgressScreen,
   RelapsesScreen,
   SettingsScreen,
-} from '@/components/screens/Addiction';
+} from '@/components/modals';
 import { BottomTabsBar, TabBarIcon } from '@/components/ui/BottomTabsBar';
 import i18n from '@/i18n';
 

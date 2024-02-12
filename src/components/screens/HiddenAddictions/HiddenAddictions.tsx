@@ -1,5 +1,5 @@
-import { Addictions } from '@/components/screens/Addictions';
+import { AddictionsScreen } from '@/components/screens/Addictions';
 
-const HiddenAddictions = () => <Addictions hidden />;
+const HiddenAddictionsScreen = () => <AddictionsScreen hidden />;
 
-export { HiddenAddictions };
+export { HiddenAddictionsScreen };

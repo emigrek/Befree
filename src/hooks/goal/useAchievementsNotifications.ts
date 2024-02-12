@@ -1,8 +1,8 @@
 import { TriggerNotification } from '@notifee/react-native';
 import { useMemo } from 'react';
 
-import { useAddictions } from '../addiction/useAddictions';
-import { useTriggerNotifications } from '../notification/useTriggerNotifications';
+import { useAddictions } from '@/hooks/addiction';
+import { useTriggerNotifications } from '@/hooks/notification';
 
 interface UseAchievementsNotificationsProps {
   hidden?: boolean;

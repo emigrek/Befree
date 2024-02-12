@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import UserData from '@/services/data/userData';
+import { UserDataManager } from '@/services/managers/firebase';
 import { useAuthStore, useGlobalStore } from '@/store';
 
 export const useAddictionsSubscription = () => {
@@ -14,7 +14,7 @@ export const useAddictionsSubscription = () => {
 
   useEffect(() => {
     if (!user) return;
-    const userData = new UserData(user.uid);
+    const userData = new UserDataManager(user.uid);
 
     setLoading(true);
     userData.initializeDataListeners(data => {

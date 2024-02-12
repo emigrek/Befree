@@ -5,20 +5,16 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { AddictionsSlice, createAddictionsSlice } from './addictions';
 import { AppSlice, createAppSlice } from './app';
 import { NetInfoSlice, createNetInfoSlice } from './netInfo';
-import { NotificationsSlice, createNotificationsSlice } from './notifications';
 import { SelectionSlice, createSelectionSlice } from './selection';
 import { SessionSlice, createSessionSlice } from './session';
 import { ThemeSlice, createThemeSlice } from './theme';
 
-export const useGlobalStore = create<
-  ThemeSlice & AppSlice & AddictionsSlice & NotificationsSlice
->()(
+export const useGlobalStore = create<ThemeSlice & AppSlice & AddictionsSlice>()(
   persist(
     (...a) => ({
       ...createThemeSlice(...a),
       ...createAppSlice(...a),
       ...createAddictionsSlice(...a),
-      ...createNotificationsSlice(...a),
     }),
     {
       name: 'global-storage',

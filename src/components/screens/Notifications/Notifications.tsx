@@ -9,7 +9,7 @@ import { Screen } from '@/components/ui/Screen';
 import i18n from '@/i18n';
 import { NotificationsScreenProps } from '@/navigation/types';
 
-const Notifications: FC<NotificationsScreenProps> = ({ navigation }) => {
+const NotificationsScreen: FC<NotificationsScreenProps> = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => undefined,
@@ -37,4 +37,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { Notifications };
+export { NotificationsScreen };

@@ -1,14 +1,13 @@
 import { FC } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { DailyQuote, FastCreate } from './widgets';
-import { Greeting } from './widgets/Greeting';
+import { DailyQuote, FastCreate, Greeting } from './widgets';
 
 import { AddictionCreatorFab } from '@/components/ui/AddictionCreatorFab';
 import { Screen } from '@/components/ui/Screen';
 import { useAuthStore } from '@/store';
 
-const Home: FC = () => {
+const HomeScreen: FC = () => {
   const user = useAuthStore(state => state.user);
 
   return (
@@ -29,4 +28,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { Home };
+export { HomeScreen };

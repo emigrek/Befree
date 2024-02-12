@@ -8,7 +8,11 @@ import { AuthDrawerStack } from './AuthDrawerStack';
 import { RootStackParamList } from './types';
 
 import { RootHeader } from '@/components/headers';
-import { Authentication, Loading, Onboarding } from '@/components/screens';
+import {
+  AuthenticationScreen,
+  LoadingScreen,
+  OnboardingScreen,
+} from '@/components/screens';
 import { useAuthStateListener } from '@/hooks/useAuthStateListener';
 import { useAuthStore, useGlobalStore } from '@/store';
 
@@ -20,7 +24,7 @@ const RootStack = () => {
 
   const { loading } = useAuthStateListener({
     onUserChange: useCallback(
-      u => {
+      async u => {
         setUser(u);
       },
       [setUser],
@@ -35,11 +39,13 @@ const RootStack = () => {
         ...TransitionPresets.SlideFromRightIOS,
       }}
     >
-      {loading && <Stack.Screen name="Loading" component={Loading} />}
+      {loading && <Stack.Screen name="Loading" component={LoadingScreen} />}
       {!user && (
-        <Stack.Screen name="Authentication" component={Authentication} />
+        <Stack.Screen name="Authentication" component={AuthenticationScreen} />
       )}
-      {!onboarded && <Stack.Screen name="Onboarding" component={Onboarding} />}
+      {!onboarded && (
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+      )}
       {onboarded && user && (
         <Stack.Screen name="Home" component={AuthDrawerStack} />
       )}

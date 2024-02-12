@@ -5,9 +5,11 @@ import React from 'react';
 import { BottomTabsStackParamList } from './types';
 
 import { BottomTabsHeader } from '@/components/headers';
-import { Home } from '@/components/screens';
-import { Addictions } from '@/components/screens/Addictions';
-import { Notifications } from '@/components/screens/Notifications';
+import {
+  AddictionsScreen,
+  HomeScreen,
+  NotificationsScreen,
+} from '@/components/screens';
 import { BottomTabsBar, TabBarIcon } from '@/components/ui/BottomTabsBar';
 import i18n from '@/i18n';
 
@@ -49,9 +51,12 @@ const BottomTabsStack = () => {
       })}
       initialRouteName={'Home'}
     >
-      <Navigator.Screen name={'Home'} component={Home} />
-      <Navigator.Screen name={'Addictions'} component={Addictions} />
-      <Navigator.Screen name={'Notifications'} component={Notifications} />
+      <Navigator.Screen name={'Home'} component={HomeScreen} />
+      <Navigator.Screen name={'Addictions'} component={AddictionsScreen} />
+      <Navigator.Screen
+        name={'Notifications'}
+        component={NotificationsScreen}
+      />
     </Navigator.Navigator>
   );
 };

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { StyleSheet, View, ViewProps } from 'react-native';
 import { Chip } from 'react-native-paper';
 
-import { RelapseChip } from '@/hooks/relapse/useRelapseChips';
+import { RelapseChip } from '@/hooks/relapse';
 
 interface ChipsListProps extends ViewProps {
   chips: RelapseChip[];

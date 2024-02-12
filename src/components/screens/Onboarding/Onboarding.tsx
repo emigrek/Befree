@@ -12,19 +12,21 @@ import Animated, {
 
 import { Dot } from './Dot';
 import { Page } from './Page';
+import { onboardingPages } from './onboardingPages';
 
-import { onboardingPages } from '@/components/screens/Onboarding/onboardingPages';
 import { Screen } from '@/components/ui/Screen';
+import { useNotificationsSettings } from '@/hooks/notification';
 import i18n from '@/i18n';
 import { useGlobalStore } from '@/store';
 
 const { width } = Dimensions.get('window');
 
-const Onboarding: FC = () => {
+const OnboardingScreen: FC = () => {
   const setOnboarded = useGlobalStore(state => state.setOnboarded);
   const scrollRef = useAnimatedRef<ScrollView>();
   const translateX = useSharedValue(0);
   const [onLastPage, setOnLastPage] = useState<boolean>(false);
+  const { requestAuthorization } = useNotificationsSettings();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: event => {
@@ -47,15 +49,17 @@ const Onboarding: FC = () => {
     );
   });
 
-  const handleSkip = useCallback(() => {
+  const handleSkip = useCallback(async () => {
     if (activePageIndex.value === onboardingPages.length - 1) {
       setOnboarded(true);
+      await requestAuthorization();
       return;
     }
+
     scrollRef.current?.scrollTo({
       x: width * (onboardingPages.length - 1),
     });
-  }, [scrollRef, activePageIndex.value, setOnboarded]);
+  }, [scrollRef, activePageIndex.value, setOnboarded, requestAuthorization]);
 
   return (
     <Screen style={style.screen}>
@@ -118,4 +122,4 @@ const style = StyleSheet.create({
   },
 });
 
-export { Onboarding };
+export { OnboardingScreen };

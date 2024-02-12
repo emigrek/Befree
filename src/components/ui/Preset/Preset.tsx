@@ -1,14 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
+import { useAddictionCreator } from '@/hooks/addiction';
 import {
   BottomTabsStackNavigationProp,
   ModalStackNavigationProp,
 } from '@/navigation/types';
-import AddictionManager from '@/services/data/managers/addiction';
-import { useAuthStore } from '@/store';
 
 interface PresetProps {
   name: string;
@@ -18,28 +17,20 @@ const Preset: FC<PresetProps> = ({ name }) => {
   const modalStackNavigation = useNavigation<ModalStackNavigationProp>();
   const bottomTabsStackNavigation =
     useNavigation<BottomTabsStackNavigationProp>();
-  const user = useAuthStore(state => state.user);
-  const [loading, setLoading] = useState(false);
+  const { create, creating } = useAddictionCreator();
 
   const handlePress = useCallback(async () => {
-    if (!user) return;
-    setLoading(true);
-
-    const addictions = new AddictionManager(user.uid);
-
-    const addiction = {
+    const newAddiction = await create({
       name,
-      relapses: [],
       image: null,
+      relapses: [],
       startedAt: new Date(),
       hidden: false,
-    };
-
-    addictions.create(addiction).then(() => {
-      setLoading(false);
-      bottomTabsStackNavigation.navigate('Addictions');
     });
-  }, [bottomTabsStackNavigation, name, user]);
+
+    if (!newAddiction) return;
+    bottomTabsStackNavigation.navigate('Addictions');
+  }, [bottomTabsStackNavigation, create, name]);
 
   const handleLongPress = useCallback(() => {
     modalStackNavigation.navigate('AddictionCreator', {
@@ -50,8 +41,8 @@ const Preset: FC<PresetProps> = ({ name }) => {
 
   return (
     <Button
-      disabled={loading}
-      loading={loading}
+      disabled={creating}
+      loading={creating}
       onPress={handlePress}
       onLongPress={handleLongPress}
       mode={'contained-tonal'}

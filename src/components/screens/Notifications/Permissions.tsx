@@ -3,7 +3,7 @@ import { FC, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Switch, Text } from 'react-native-paper';
 
-import { useNotificationsSettings } from '@/hooks/notification/useNotificationsSettings';
+import { useNotificationsSettings } from '@/hooks/notification';
 import i18n from '@/i18n';
 
 const Permissions: FC = () => {
@@ -11,7 +11,7 @@ const Permissions: FC = () => {
     useNotificationsSettings();
 
   const onValueChange = useCallback(
-    (value: boolean) => {
+    async (value: boolean) => {
       if (
         value &&
         notificationSettings?.authorizationStatus !==

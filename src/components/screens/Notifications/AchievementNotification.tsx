@@ -1,14 +1,14 @@
 import { TriggerNotification } from '@notifee/react-native';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { Button, Text } from 'react-native-paper';
 
 import { Addiction } from '@/components/ui/Addiction';
-import {
-  addAllNotifications,
-  removeAllNotifications,
-} from '@/hooks/goal/achievementsNotifications';
+import { useNotificationsBlacklistedStatus } from '@/hooks/notification';
 import i18n from '@/i18n';
-import { useGlobalStore } from '@/store';
+import {
+  AchievementNotificationsManager,
+  NotificationsBlacklistManager,
+} from '@/services/managers/local';
 import { useTheme } from '@/theme';
 
 interface AchievementNotificationProps {
@@ -21,23 +21,21 @@ const AchievementNotification: FC<AchievementNotificationProps> = ({
   notifications,
 }) => {
   const { colors } = useTheme();
-  const { addBlacklist, removeBlacklist, isBlacklisted } = useGlobalStore(
-    state => ({
-      addBlacklist: state.addBlacklist,
-      removeBlacklist: state.removeBlacklist,
-      isBlacklisted: state.isBlacklisted,
-    }),
-  );
+  const { blacklisted, refresh } = useNotificationsBlacklistedStatus({
+    addiction,
+  });
 
-  const handleButtonPress = () => {
-    if (isBlacklisted(addiction.id)) {
-      removeBlacklist(addiction.id);
-      addAllNotifications({ addiction });
+  const handleButtonPress = useCallback(async () => {
+    if (blacklisted) {
+      await NotificationsBlacklistManager.remove(addiction.id);
+      await AchievementNotificationsManager.scheduleAll(addiction);
     } else {
-      addBlacklist(addiction.id);
-      removeAllNotifications({ addictionId: addiction.id });
+      await NotificationsBlacklistManager.add(addiction.id);
+      await AchievementNotificationsManager.cancelAll(addiction);
     }
-  };
+
+    await refresh();
+  }, [addiction, blacklisted, refresh]);
 
   return (
     <Addiction>
@@ -53,12 +51,10 @@ const AchievementNotification: FC<AchievementNotificationProps> = ({
       <Button
         onPress={handleButtonPress}
         mode="text"
-        textColor={isBlacklisted(addiction.id) ? colors.primary : colors.error}
-        icon={isBlacklisted(addiction.id) ? 'bell' : 'bell-off'}
+        textColor={blacklisted ? colors.primary : colors.error}
+        icon={blacklisted ? 'bell' : 'bell-off'}
       >
-        {isBlacklisted(addiction.id)
-          ? i18n.t(['labels', 'on'])
-          : i18n.t(['labels', 'off'])}
+        {blacklisted ? i18n.t(['labels', 'on']) : i18n.t(['labels', 'off'])}
       </Button>
     </Addiction>
   );

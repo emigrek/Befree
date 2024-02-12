@@ -24,9 +24,10 @@ interface Relapse {
   note: string;
 }
 
-interface Goal {
-  goalAt: Date;
-  goalType: `${GoalType}`;
+interface Achievement {
+  goal: Goal;
+  progress: number;
+  achievedAt?: Date;
 }
 
 type UnidentifiedAddiction = Omit<Addiction, 'id' | 'createdAt'>;

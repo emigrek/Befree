@@ -10,7 +10,7 @@ export const useStatusBarTheme = () => {
     return currentTheme === Themes.System
       ? 'auto'
       : currentTheme === Themes.Light
-      ? Themes.Dark
-      : Themes.Light;
+        ? Themes.Dark
+        : Themes.Light;
   }, [currentTheme]);
 };

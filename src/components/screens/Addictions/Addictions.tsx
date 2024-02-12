@@ -11,11 +11,11 @@ import { HiddenAddictionsAction } from '@/components/ui/HiddenAddictionsAction';
 import { SortingAction } from '@/components/ui/SortingAction';
 import { useAddictions } from '@/hooks/addiction/useAddictions';
 
-interface AddictionsProps {
+interface AddictionsScreenProps {
   hidden?: boolean;
 }
 
-const Addictions: FC<AddictionsProps> = ({ hidden }) => {
+const AddictionsScreen: FC<AddictionsScreenProps> = ({ hidden }) => {
   const { addictions, addictionsLoading } = useAddictions({ hidden });
 
   return (
@@ -34,4 +34,4 @@ const Addictions: FC<AddictionsProps> = ({ hidden }) => {
   );
 };
 
-export { Addictions };
+export { AddictionsScreen };

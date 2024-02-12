@@ -1,15 +1,12 @@
-import notifee, { AuthorizationStatus } from '@notifee/react-native';
-import { useCallback, useEffect } from 'react';
-
-import { useGlobalStore } from '@/store';
+import notifee, {
+  AuthorizationStatus,
+  NotificationSettings,
+} from '@notifee/react-native';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useNotificationsSettings = () => {
-  const { notificationSettings, setNotificationSettings } = useGlobalStore(
-    state => ({
-      notificationSettings: state.notificationsSettings,
-      setNotificationSettings: state.setNotificationsSettings,
-    }),
-  );
+  const [notificationSettings, setNotificationSettings] =
+    useState<NotificationSettings | null>(null);
 
   const requestAuthorization = useCallback(async () => {
     const settings = await notifee.requestPermission();

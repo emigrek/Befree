@@ -1,0 +1,1 @@
+export { LocalAuthLayout } from './LocalAuthLayout';

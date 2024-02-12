@@ -5,8 +5,8 @@ import {
   Progress,
   PushNotifications,
   Target,
+  Welcome,
 } from '@/components/illustrations';
-import { Welcome } from '@/components/illustrations/Welcome';
 import { IllustrationProps } from '@/components/illustrations/types';
 import i18n from '@/i18n';
 

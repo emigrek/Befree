@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements';
 import React, { FC } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
@@ -12,13 +13,14 @@ interface EmptyProps {
 
 const Empty: FC<EmptyProps> = ({ illustration: Illustration, message }) => {
   const { colors } = useTheme();
+  const headerHeight = useHeaderHeight();
 
   return (
-    <Screen style={style.screen}>
+    <Screen style={[style.screen, { marginBottom: headerHeight }]}>
       <Illustration />
       <Text
         variant="bodyMedium"
-        style={[style.text, { color: colors.onSurfaceDisabled }]}
+        style={[style.text, { color: colors.outline }]}
       >
         {message}
       </Text>
@@ -33,7 +35,6 @@ const style = StyleSheet.create({
     paddingHorizontal: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 100,
     gap: 40,
     flex: 1,
   },

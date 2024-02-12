@@ -4,9 +4,11 @@ import React from 'react';
 
 import { HiddenAddictionsBottomTabsStackParamList } from './types';
 
-import { LocalAuthLayout } from '@/components/layouts/LocalAuthLayout';
-import { HiddenAddictions } from '@/components/screens/HiddenAddictions';
-import { HiddenAddictionsNotifications } from '@/components/screens/HiddenNotifications';
+import { LocalAuthLayout } from '@/components/layouts';
+import {
+  HiddenAddictionsNotificationsScreen,
+  HiddenAddictionsScreen,
+} from '@/components/screens';
 import { BottomTabsBar, TabBarIcon } from '@/components/ui/BottomTabsBar';
 import { Locked } from '@/components/ui/Locked';
 import i18n from '@/i18n';
@@ -51,10 +53,13 @@ const HiddenAddictionsBottomTabsStack = () => {
         })}
         initialRouteName={'Addictions'}
       >
-        <Navigator.Screen name={'Addictions'} component={HiddenAddictions} />
+        <Navigator.Screen
+          name={'Addictions'}
+          component={HiddenAddictionsScreen}
+        />
         <Navigator.Screen
           name={'Notifications'}
-          component={HiddenAddictionsNotifications}
+          component={HiddenAddictionsNotificationsScreen}
         />
       </Navigator.Navigator>
     </LocalAuthLayout>

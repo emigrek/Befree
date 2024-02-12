@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { ActivityIndicator, Card, HelperText } from 'react-native-paper';
 
-import QuoteManager, { Quote } from '@/services/data/managers/quote';
+import { Quote, QuoteManager } from '@/services/managers/foreign';
 
 const QuoteCard = () => {
   const [quote, setQuote] = useState<Quote>();

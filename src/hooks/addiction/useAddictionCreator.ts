@@ -1,18 +1,15 @@
 import { useCallback, useState } from 'react';
 
-import { addAllNotifications } from '../goal/achievementsNotifications';
-
-import UserData from '@/services/data/userData';
-import { useImageUpload } from '@/services/storage';
-import { useAuthStore, useGlobalStore } from '@/store';
+import { useImageUpload } from '@/hooks/storage';
+import { UserDataManager } from '@/services/managers/firebase';
+import {
+  AchievementNotificationsManager,
+  NotificationsBlacklistManager,
+} from '@/services/managers/local';
+import { useAuthStore } from '@/store';
 
 export const useAddictionCreator = () => {
   const { upload, task, uploadProgress } = useImageUpload();
-  const { isBlacklisted: hasNotificationsBlacklisted } = useGlobalStore(
-    state => ({
-      isBlacklisted: state.isBlacklisted,
-    }),
-  );
   const [creating, setCreating] = useState(false);
   const user = useAuthStore(state => state.user);
 
@@ -22,12 +19,15 @@ export const useAddictionCreator = () => {
 
       setCreating(true);
 
-      const { addictions } = new UserData(user.uid);
+      const { addictions } = new UserDataManager(user.uid);
       const { image } = addiction;
       const newAddiction = await addictions.create(addiction);
 
-      if (!hasNotificationsBlacklisted(newAddiction.id)) {
-        addAllNotifications({ addiction: newAddiction });
+      const isBlacklisted = await NotificationsBlacklistManager.has(
+        newAddiction.id,
+      );
+      if (!isBlacklisted) {
+        await AchievementNotificationsManager.scheduleAll(newAddiction);
       }
 
       if (image) {
@@ -45,7 +45,7 @@ export const useAddictionCreator = () => {
 
       return newAddiction;
     },
-    [user, hasNotificationsBlacklisted, upload],
+    [user, upload],
   );
 
   return {

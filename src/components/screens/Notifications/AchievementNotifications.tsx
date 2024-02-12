@@ -4,7 +4,7 @@ import { AchievementNotificationsList } from './AchievementNotificationsList';
 
 import { PushNotifications } from '@/components/illustrations';
 import { Empty } from '@/components/ui/Empty';
-import { useAchievementsNotifications } from '@/hooks/goal/useAchievementsNotifications';
+import { useAchievementsNotifications } from '@/hooks/goal';
 import i18n from '@/i18n';
 
 interface AchievementNotificationsProps {

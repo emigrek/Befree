@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { useLongestAbsence } from '@/hooks/addiction/useLongestAbsence';
+import { useLongestAbstinence } from '@/hooks/addiction/useLongestAbstinence';
 import i18n from '@/i18n';
 
 interface RelapseChipsProps {
@@ -14,7 +14,7 @@ interface RelapseChip {
 }
 
 const useRelapseChips = ({ relapse, addiction }: RelapseChipsProps) => {
-  const longestAbsence = useLongestAbsence({ addiction });
+  const longestAbsence = useLongestAbstinence({ addiction });
   const isStartedAt = relapse.id === 'startedAt';
   const isLongestAbsenceEnd = longestAbsence.end
     ? longestAbsence.end.getTime() === new Date(relapse.relapseAt).getTime()

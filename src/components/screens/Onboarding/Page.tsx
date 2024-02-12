@@ -2,7 +2,8 @@ import { FC } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import { OnboardingPage } from '@/components/screens/Onboarding/onboardingPages';
+import { OnboardingPage } from './onboardingPages';
+
 import { Bold } from '@/components/ui/Text';
 import { useTheme } from '@/theme';
 

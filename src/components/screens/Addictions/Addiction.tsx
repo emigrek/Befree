@@ -5,11 +5,11 @@ import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { Addiction as AddictionPrimitive } from '@/components/ui/Addiction';
 import { AnimatedTouchableRipple } from '@/components/ui/TouchableRipple';
-import { useAbsenceDuration } from '@/hooks/addiction/useAbsenceDuration';
-import { useGoal } from '@/hooks/goal/useGoal';
-import { useAddictionLastRelapse } from '@/hooks/relapse/useAddictionLastRelapse';
+import { useAbsenceDuration } from '@/hooks/addiction';
+import { useAddictionLastRelapse } from '@/hooks/relapse';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
+import { GoalManager } from '@/services/managers/local';
 import { useAddictionsSelectionStore } from '@/store';
 import { useTheme } from '@/theme';
 
@@ -30,7 +30,7 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
     }),
   );
   const lastRelapse = useAddictionLastRelapse({ addiction });
-  const goal = useGoal(lastRelapse);
+  const goal = GoalManager.getGoal(lastRelapse);
 
   const progress = useMemo(() => {
     const total = differenceInMilliseconds(goal.goalAt, lastRelapse);

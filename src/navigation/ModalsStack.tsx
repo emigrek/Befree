@@ -10,13 +10,15 @@ import { HiddenAddictionsBottomTabsStack } from './HiddenAddictionsBottomTabsSta
 import { ModalsStackParamList } from './types';
 
 import { ModalsHeader } from '@/components/headers';
-import { AchievementScreen } from '@/components/screens/Achievement';
-import { AddictionCreator } from '@/components/screens/AddictionCreator';
-import { AddictionEditScreen } from '@/components/screens/AddictionEdit';
-import { RelapseScreen } from '@/components/screens/Relapse';
-import { RelapseCreator } from '@/components/screens/RelapseCreator';
-import { RelapseEditScreen } from '@/components/screens/RelapseEdit';
-import { SortingScreen } from '@/components/screens/Sorting';
+import {
+  AchievementScreen,
+  AddictionCreatorScreen,
+  AddictionEditScreen,
+  RelapseCreatorScreen,
+  RelapseEditScreen,
+  RelapseScreen,
+  SortingScreen,
+} from '@/components/modals';
 import i18n from '@/i18n';
 
 const Navigator = createStackNavigator<ModalsStackParamList>();
@@ -51,9 +53,12 @@ const ModalsStack = () => {
       >
         <Navigator.Screen
           name="AddictionCreator"
-          component={AddictionCreator}
+          component={AddictionCreatorScreen}
         />
-        <Navigator.Screen name="RelapseCreator" component={RelapseCreator} />
+        <Navigator.Screen
+          name="RelapseCreator"
+          component={RelapseCreatorScreen}
+        />
         <Navigator.Screen
           name="Addiction"
           component={AddictionStack}

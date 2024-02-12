@@ -1,16 +1,12 @@
 import { useMemo } from 'react';
 
 import { SelectionFabType } from '@/components/ui/SelectionFab';
+import { UserDataManager } from '@/services/managers/firebase';
 import {
-  addAllNotifications,
-  removeAllNotifications,
-} from '@/hooks/goal/achievementsNotifications';
-import RelapseManager from '@/services/data/managers/relapse';
-import {
-  useAuthStore,
-  useGlobalStore,
-  useRelapsesSelectionStore,
-} from '@/store';
+  AchievementNotificationsManager,
+  NotificationsBlacklistManager,
+} from '@/services/managers/local';
+import { useAuthStore, useRelapsesSelectionStore } from '@/store';
 import { useTheme } from '@/theme';
 
 interface UseRelapsesSelectionFabsProps {
@@ -25,9 +21,6 @@ const useRelapsesSelectionFabs = ({
   const { selected, setSelected } = useRelapsesSelectionStore(state => ({
     selected: state.selected,
     setSelected: state.set,
-  }));
-  const { hasNotificationsBlacklisted } = useGlobalStore(state => ({
-    hasNotificationsBlacklisted: state.isBlacklisted,
   }));
 
   return useMemo<SelectionFabType[]>(
@@ -49,29 +42,27 @@ const useRelapsesSelectionFabs = ({
         onPress: async () => {
           if (!user) return;
 
-          const relapses = new RelapseManager(user.uid);
+          const { relapses, addictions } = new UserDataManager(user.uid);
           const deletionPromise = selected.map(relapse =>
             relapses.delete(relapse.id),
           );
 
           await Promise.all(deletionPromise);
-          setSelected([]);
 
-          if (!hasNotificationsBlacklisted(addiction.id)) {
-            removeAllNotifications({ addictionId: addiction.id });
-            addAllNotifications({ addiction });
+          const isBlacklisted = await NotificationsBlacklistManager.has(
+            addiction.id,
+          );
+          if (!isBlacklisted) {
+            const newAddiction = await addictions.get(addiction.id);
+            if (newAddiction)
+              await AchievementNotificationsManager.reload(newAddiction);
           }
+
+          setSelected([]);
         },
       },
     ],
-    [
-      colors,
-      setSelected,
-      selected,
-      user,
-      addiction,
-      hasNotificationsBlacklisted,
-    ],
+    [colors, setSelected, selected, user, addiction],
   );
 };
 

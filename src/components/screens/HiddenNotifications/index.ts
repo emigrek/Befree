@@ -1,1 +1,1 @@
-export { HiddenAddictionsNotifications } from './HiddenNotifications';
+export { HiddenAddictionsNotificationsScreen } from './HiddenNotifications';

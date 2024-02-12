@@ -5,7 +5,7 @@ import { Divider } from 'react-native-paper';
 import { Addiction } from './Addiction';
 
 import { Launching } from '@/components/illustrations';
-import { Loading } from '@/components/screens/Loading';
+import { LoadingScreen } from '@/components/screens/Loading';
 import { ADDICTION_ITEM_HEIGHT } from '@/components/ui/Addiction/style';
 import { Empty } from '@/components/ui/Empty';
 import i18n from '@/i18n';
@@ -24,7 +24,7 @@ const AddictionsList: FC<AddictionsListProps> = ({ addictions, loading }) => {
   const renderDivider = useCallback(() => <Divider />, []);
 
   if (loading) {
-    return <Loading />;
+    return <LoadingScreen />;
   }
 
   if (!addictions.length) {

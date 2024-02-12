@@ -2,28 +2,19 @@ import { useMemo } from 'react';
 
 import { SelectionFabType } from '@/components/ui/SelectionFab';
 import {
-  addAllNotifications,
-  removeAllNotifications,
-} from '@/hooks/goal/achievementsNotifications';
-import AddictionManager from '@/services/data/managers/addiction';
-import RelapseManager from '@/services/data/managers/relapse';
+  AddictionManager,
+  UserDataManager,
+} from '@/services/managers/firebase';
 import {
-  useAddictionsSelectionStore,
-  useAuthStore,
-  useGlobalStore,
-} from '@/store';
+  AchievementNotificationsManager,
+  NotificationsBlacklistManager,
+} from '@/services/managers/local';
+import { useAddictionsSelectionStore, useAuthStore } from '@/store';
 import { useTheme } from '@/theme';
 
 const useAddictionsSelectionFabs = () => {
   const { colors } = useTheme();
   const user = useAuthStore(state => state.user);
-  const {
-    removeAddictionFromNotificationsBlacklist,
-    hasNotificationsBlacklisted,
-  } = useGlobalStore(state => ({
-    removeAddictionFromNotificationsBlacklist: state.removeBlacklist,
-    hasNotificationsBlacklisted: state.isBlacklisted,
-  }));
   const { selected, setSelected } = useAddictionsSelectionStore(state => ({
     selected: state.selected,
     setSelected: state.set,
@@ -49,12 +40,11 @@ const useAddictionsSelectionFabs = () => {
           if (!user) return;
 
           const addictions = new AddictionManager(user.uid);
+
           const deletionPromise = selected.map(async addiction => {
-            removeAllNotifications({
-              addictionId: addiction.id,
-            });
-            removeAddictionFromNotificationsBlacklist(addiction.id);
-            return addictions.delete(addiction.id);
+            AchievementNotificationsManager.cancelAll(addiction);
+            NotificationsBlacklistManager.remove(addiction.id);
+            addictions.delete(addiction.id);
           });
 
           await Promise.all(deletionPromise);
@@ -68,8 +58,8 @@ const useAddictionsSelectionFabs = () => {
         backgroundColor: colors.secondaryContainer,
         onPress: async () => {
           if (!user) return;
+          const { relapses, addictions } = new UserDataManager(user.uid);
 
-          const relapses = new RelapseManager(user.uid);
           const relapsePromise = selected.map(async addiction => {
             await relapses.create({
               addictionId: addiction.id,
@@ -77,9 +67,13 @@ const useAddictionsSelectionFabs = () => {
               relapseAt: new Date(),
             });
 
-            if (!hasNotificationsBlacklisted(addiction.id)) {
-              removeAllNotifications({ addictionId: addiction.id });
-              addAllNotifications({ addiction });
+            const isBlacklisted = await NotificationsBlacklistManager.has(
+              addiction.id,
+            );
+            if (!isBlacklisted) {
+              const newAddiction = await addictions.get(addiction.id);
+              if (newAddiction)
+                await AchievementNotificationsManager.reload(newAddiction);
             }
           });
 
@@ -88,14 +82,7 @@ const useAddictionsSelectionFabs = () => {
         },
       },
     ],
-    [
-      colors,
-      removeAddictionFromNotificationsBlacklist,
-      user,
-      selected,
-      setSelected,
-      hasNotificationsBlacklisted,
-    ],
+    [colors, user, selected, setSelected],
   );
 };
 

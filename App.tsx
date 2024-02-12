@@ -6,12 +6,12 @@ import * as SystemUI from 'expo-system-ui';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
-import { useAddictionsSubscription } from '@/hooks/addiction/useAddictionsSubscription';
+import { useAddictionsSubscription } from '@/hooks/addiction';
 import { useNetInfoStateSubscription } from '@/hooks/useNetInfoStateSubscription';
 import { usePersistingNavigationState } from '@/hooks/usePersistingNavigationState';
 import { modalsNavigationContainerRef } from '@/navigation/NavigationContainerRef';
 import { RootStack } from '@/navigation/RootStack';
-import '@/services/notifications';
+import '@/services/managers/local/notifications';
 import { useGlobalStore } from '@/store';
 import { AppSlice } from '@/store/app';
 import { ThemeSlice } from '@/store/theme';
