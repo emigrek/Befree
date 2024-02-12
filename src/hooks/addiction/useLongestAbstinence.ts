@@ -9,7 +9,7 @@ interface UseLongestAbstinenceProps {
 const useLongestAbstinence = ({
   addiction,
 }: UseLongestAbstinenceProps): Abstinence => {
-  const longestAbsence = useMemo(() => {
+  const longestAbstinence = useMemo(() => {
     const relapses = [
       ...addiction.relapses.map(r => new Date(r.relapseAt)),
       addiction.createdAt,
@@ -18,7 +18,7 @@ const useLongestAbstinence = ({
     return AchievementManager.getLongestAbstinence(relapses);
   }, [addiction]);
 
-  return longestAbsence;
+  return longestAbstinence;
 };
 
 export { useLongestAbstinence };

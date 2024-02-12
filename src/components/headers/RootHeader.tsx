@@ -6,6 +6,7 @@ import { Appbar } from 'react-native-paper';
 import { style } from './style';
 
 import { Logo } from '@/components/ui/Logo';
+import { ThemeChanger } from '@/components/ui/ThemeChanger';
 
 const RootHeader: FC<StackHeaderProps> = ({ options }) => {
   return (
@@ -13,6 +14,8 @@ const RootHeader: FC<StackHeaderProps> = ({ options }) => {
       <View style={style.container}>
         <Logo />
       </View>
+      <View style={style.center} />
+      <ThemeChanger />
       {options.headerRight &&
         options.headerRight({
           pressColor: options.headerPressColor,

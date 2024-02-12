@@ -31,7 +31,7 @@ const Achievement: FC<AchievementProps> = ({ addiction, goalType }) => {
     <Portal>
       <View style={[style.container]}>
         <AchievementModal
-          entering={ZoomIn.duration(1000)}
+          entering={ZoomIn.duration(600)}
           exiting={ZoomOut}
           style={{ backgroundColor: colors.elevation.level1 }}
         >

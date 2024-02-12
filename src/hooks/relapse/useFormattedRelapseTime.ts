@@ -11,7 +11,7 @@ const useFormattedRelapseTime = ({ relapse }: UseFormattedRelapseTimeProps) => {
   const toNow = capitalizeFirstLetter(
     formatDistanceToNow(relapseAt, { addSuffix: true }),
   );
-  const date = format(relapseAt, 'dd/MM/yyyy');
+  const date = format(relapseAt, 'HH:mm, dd/MM/yyyy');
 
   return { toNow, date };
 };

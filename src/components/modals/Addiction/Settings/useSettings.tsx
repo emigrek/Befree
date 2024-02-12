@@ -4,6 +4,7 @@ import { StyleProp, TextStyle, View } from 'react-native';
 import { List, Switch } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
+import { useLocalAuthenticationHardwareStatus } from '@/hooks/useLocalAuthenticationHardwareStatus';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
 import { UserDataManager } from '@/services/managers/firebase';
@@ -30,6 +31,7 @@ export interface AddictionSetting {
   description?: string;
   onChange: () => Promise<void>;
   titleStyle?: StyleProp<TextStyle>;
+  disabled?: boolean;
   left?: SideProps;
   right?: SideProps;
 }
@@ -41,6 +43,7 @@ interface UseSettingsProps {
 export const useSettings = ({ addiction }: UseSettingsProps) => {
   const navigation = useNavigation<ModalStackNavigationProp>();
   const user = useAuthStore(state => state.user);
+  const { hasHardware } = useLocalAuthenticationHardwareStatus();
 
   const { colors } = useTheme();
 
@@ -65,6 +68,7 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
           'hidden',
           'description',
         ]),
+        disabled: !hasHardware,
         left: props => {
           return <List.Icon {...props} icon="eye-off" />;
         },
@@ -78,7 +82,6 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
         onChange: async () => {
           if (!user) return;
           const { addictions } = new UserDataManager(user.uid);
-
           await addictions.update(addiction.id, {
             hidden: !addiction.hidden,
           });
@@ -121,6 +124,6 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
         },
       },
     ],
-    [addiction, user, navigation, colors],
+    [addiction, colors.error, colors.primary, hasHardware, navigation, user],
   );
 };

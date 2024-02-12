@@ -28,7 +28,8 @@ const pl: Translation = {
     note: 'Notatka',
     emptyNote: 'Brak notatki',
     startedAt: 'Data dodania',
-    longestAbsenceEnd: 'Koniec najdłuższej przerwy',
+    longestAbstinenceEnd: 'Koniec najdłuższej przerwy',
+    hidden: 'Ukryte',
   },
   goals: {
     'ten-minutes': '10 minut',

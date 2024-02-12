@@ -10,6 +10,7 @@ import { style } from './style';
 
 import { Logo } from '@/components/ui/Logo';
 import { OfflineBanner } from '@/components/ui/OfflineBanner';
+import { ThemeChanger } from '@/components/ui/ThemeChanger';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { AuthDrawerStackParamList } from '@/navigation/types';
 import { useAuthStore } from '@/store';
@@ -31,6 +32,7 @@ const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options }) => {
           <View style={style.center}>
             <Logo />
           </View>
+          <ThemeChanger />
           {options.headerRight &&
             options.headerRight({
               pressColor: options.headerPressColor,

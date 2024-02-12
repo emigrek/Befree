@@ -28,7 +28,8 @@ const enUS: Translation = {
     note: 'Note',
     emptyNote: 'No note left',
     startedAt: 'Added at',
-    longestAbsenceEnd: 'Longest absence ended',
+    longestAbstinenceEnd: 'Longest abstinence ended',
+    hidden: 'Hidden',
   },
   goals: {
     'ten-minutes': '10 minutes',

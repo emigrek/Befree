@@ -8,23 +8,23 @@ import { useElapsedTime } from 'use-elapsed-time';
 
 import { useAddictionLastRelapse } from '@/hooks/relapse/useAddictionLastRelapse';
 
-export interface UseAbsenceDurationProps {
+export interface UseAbstinenceDurationProps {
   addiction: Addiction;
   refresh?: boolean;
 }
 
-export const useAbsenceDuration = ({
+export const useAbstinenceDuration = ({
   addiction,
   refresh = true,
-}: UseAbsenceDurationProps) => {
+}: UseAbstinenceDurationProps) => {
   const lastRelapse = useAddictionLastRelapse({ addiction });
-  const [absenceDuration, setAbsenceDuration] = useState<Duration>(
+  const [abscinenceDuration, setAbscinenceDuration] = useState<Duration>(
     intervalToDuration({
       start: lastRelapse,
       end: new Date(),
     }),
   );
-  const [absenceTime, setAbsenceTime] = useState<number>(
+  const [abstinenceTime, setAbstinenceTime] = useState<number>(
     differenceInMilliseconds(new Date(), lastRelapse),
   );
 
@@ -32,18 +32,18 @@ export const useAbsenceDuration = ({
     isPlaying: refresh,
     updateInterval: 1,
     onUpdate: useCallback(() => {
-      setAbsenceDuration(
+      setAbscinenceDuration(
         intervalToDuration({
           start: lastRelapse,
           end: new Date(),
         }),
       );
-      setAbsenceTime(differenceInMilliseconds(new Date(), lastRelapse));
+      setAbstinenceTime(differenceInMilliseconds(new Date(), lastRelapse));
     }, [lastRelapse]),
   });
 
   return {
-    time: absenceTime,
-    duration: absenceDuration,
+    time: abstinenceTime,
+    duration: abscinenceDuration,
   };
 };

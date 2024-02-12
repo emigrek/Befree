@@ -10,7 +10,7 @@ import { LoadingScreen } from '@/components/screens';
 import { Addiction } from '@/components/ui/Addiction';
 import { AddictionEditAction } from '@/components/ui/AddictionEditAction';
 import { RelapseCreatorFab } from '@/components/ui/RelapseCreatorFab';
-import { useAbsenceDuration, useAddiction } from '@/hooks/addiction';
+import { useAbstinenceDuration, useAddiction } from '@/hooks/addiction';
 import i18n from '@/i18n';
 import {
   ModalStackNavigationProp,
@@ -23,7 +23,7 @@ interface ProgressProps {
 
 const Progress: React.FC<ProgressProps> = ({ addiction }) => {
   const navigation = useNavigation<ModalStackNavigationProp>();
-  const { duration } = useAbsenceDuration({ addiction });
+  const { duration } = useAbstinenceDuration({ addiction });
   const headerHeight = useHeaderHeight();
 
   useLayoutEffect(() => {

@@ -11,9 +11,9 @@ class AchievementManager {
   static getAchievement(relapses: Date[], goalType: Goals): Achievement | null {
     const sortedRelapses = relapses.sort((a, b) => a.getTime() - b.getTime());
     const lastRelapse = sortedRelapses[sortedRelapses.length - 1];
-    const longestAbsence = this.getLongestAbstinence(sortedRelapses);
+    const longestAbstinence = this.getLongestAbstinence(sortedRelapses);
 
-    const currentAbsence = {
+    const currentAbstinence = {
       start: lastRelapse,
       end: null,
     };
@@ -26,26 +26,26 @@ class AchievementManager {
       return null;
     }
 
-    const longestAbsenceDiff = differenceInMilliseconds(
-      longestAbsence.end === null ? new Date() : longestAbsence.end,
-      longestAbsence.start,
+    const longestAbstinenceDiff = differenceInMilliseconds(
+      longestAbstinence.end === null ? new Date() : longestAbstinence.end,
+      longestAbstinence.start,
     );
 
-    const currentAbsenceDiff = differenceInMilliseconds(
+    const currentAbstinenceDiff = differenceInMilliseconds(
       new Date(),
-      currentAbsence.start,
+      currentAbstinence.start,
     );
 
     const achieved =
-      longestAbsenceDiff >= goal.timeDiff ||
-      currentAbsenceDiff >= goal.timeDiff;
+      longestAbstinenceDiff >= goal.timeDiff ||
+      currentAbstinenceDiff >= goal.timeDiff;
 
     const progress = achieved
       ? 1
-      : Math.min(1, currentAbsenceDiff / goal.timeDiff);
+      : Math.min(1, currentAbstinenceDiff / goal.timeDiff);
 
     const goalAt = new Date(
-      (achieved ? longestAbsence.start : currentAbsence.start).getTime() +
+      (achieved ? longestAbstinence.start : currentAbstinence.start).getTime() +
         goal.timeDiff,
     );
 
@@ -73,19 +73,19 @@ class AchievementManager {
     let maxDifference = 0;
     let longestPeriod: Abstinence = { start: dates[0], end: null };
 
+    if (dates.length === 1) {
+      return longestPeriod;
+    }
+
     for (let i = 0; i < dates.length - 1; i++) {
       const current = dates[i];
       const next = dates[i + 1];
-      const difference = next.getTime() - current.getTime();
+      const difference = new Date(next).getTime() - new Date(current).getTime();
 
       if (difference > maxDifference) {
         maxDifference = difference;
         longestPeriod = { start: current, end: next };
       }
-    }
-
-    if (longestPeriod.end?.getTime() === new Date().getTime()) {
-      longestPeriod.end = null;
     }
 
     return longestPeriod;

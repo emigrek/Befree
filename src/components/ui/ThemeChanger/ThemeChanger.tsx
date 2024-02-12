@@ -4,7 +4,7 @@ import BottomSheet, {
 } from '@gorhom/bottom-sheet';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { FAB, Portal } from 'react-native-paper';
+import { IconButton, Portal } from 'react-native-paper';
 
 import ModeRadios from './ModeRadios';
 import ThemeRadios from './ThemeRadios';
@@ -33,11 +33,10 @@ const ThemeChanger = () => {
 
   return (
     <>
-      <FAB
+      <IconButton
+        style={{ margin: 0 }}
         icon={'theme-light-dark'}
-        mode="flat"
         onPress={handleBottomSheetOpen}
-        style={style.fab}
       />
       <Portal>
         <BottomSheet
@@ -60,12 +59,6 @@ const ThemeChanger = () => {
 };
 
 const style = StyleSheet.create({
-  fab: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    backgroundColor: 'transparent',
-  },
   container: {
     flex: 1,
     paddingVertical: 20,

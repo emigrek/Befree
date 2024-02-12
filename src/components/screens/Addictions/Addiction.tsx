@@ -5,7 +5,7 @@ import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { Addiction as AddictionPrimitive } from '@/components/ui/Addiction';
 import { AnimatedTouchableRipple } from '@/components/ui/TouchableRipple';
-import { useAbsenceDuration } from '@/hooks/addiction';
+import { useAbstinenceDuration } from '@/hooks/addiction';
 import { useAddictionLastRelapse } from '@/hooks/relapse';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
@@ -21,7 +21,7 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
   const navigation = useNavigation<ModalStackNavigationProp>();
   const { colors } = useTheme();
 
-  const { time, duration } = useAbsenceDuration({ addiction });
+  const { time, duration } = useAbstinenceDuration({ addiction });
   const { isSelected, toggleSelected, selected } = useAddictionsSelectionStore(
     state => ({
       isSelected: state.isSelected(addiction),
@@ -64,9 +64,9 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
 
   return (
     <AnimatedTouchableRipple
-      rippleColor={colors.surfaceVariant}
       onPress={handleAddictionPress}
       onLongPress={handleLongPress}
+      rippleColor={colors.elevation.level3}
       delayLongPress={100}
       style={addictionStyle}
     >

@@ -43,12 +43,12 @@ export const lightsOut = {
   background: '#000',
   surface: '#000',
   elevation: {
-    level0: '#000',
-    level1: '#040b09',
-    level2: '#07120e',
-    level3: '#0a1813',
-    level4: '#0b1b15',
-    level5: '#0d1f18',
+    level0: '#000000',
+    level1: '#0a1813',
+    level2: '#0d1f18',
+    level3: '#0e211a',
+    level4: '#0e231c',
+    level5: '#0f261d',
   },
 };
 

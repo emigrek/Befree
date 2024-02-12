@@ -26,7 +26,8 @@ export interface Translation {
     note: string;
     emptyNote: string;
     startedAt: string;
-    longestAbsenceEnd: string;
+    longestAbstinenceEnd: string;
+    hidden: string;
   };
   goals: {
     'ten-minutes': string;

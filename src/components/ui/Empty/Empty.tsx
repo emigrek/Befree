@@ -9,9 +9,14 @@ import { useTheme } from '@/theme';
 interface EmptyProps {
   illustration: FC;
   message: string;
+  action?: FC;
 }
 
-const Empty: FC<EmptyProps> = ({ illustration: Illustration, message }) => {
+const Empty: FC<EmptyProps> = ({
+  illustration: Illustration,
+  message,
+  action: Action,
+}) => {
   const { colors } = useTheme();
   const headerHeight = useHeaderHeight();
 
@@ -24,6 +29,7 @@ const Empty: FC<EmptyProps> = ({ illustration: Illustration, message }) => {
       >
         {message}
       </Text>
+      {Action && <Action />}
     </Screen>
   );
 };

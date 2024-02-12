@@ -14,11 +14,11 @@ interface RelapseChip {
 }
 
 const useRelapseChips = ({ relapse, addiction }: RelapseChipsProps) => {
-  const longestAbsence = useLongestAbstinence({ addiction });
+  const longestAbstinence = useLongestAbstinence({ addiction });
   const isStartedAt = relapse.id === 'startedAt';
-  const isLongestAbsenceEnd = longestAbsence.end
-    ? longestAbsence.end.getTime() === new Date(relapse.relapseAt).getTime()
-    : false;
+  const isLongestAbstinenceEnd = longestAbstinence.end
+    ? longestAbstinence.end.getTime() === new Date(relapse.relapseAt).getTime()
+    : true;
 
   return useMemo(
     () =>
@@ -27,12 +27,12 @@ const useRelapseChips = ({ relapse, addiction }: RelapseChipsProps) => {
           label: i18n.t(['labels', 'startedAt']),
           icon: 'star',
         },
-        isLongestAbsenceEnd && {
-          label: i18n.t(['labels', 'longestAbsenceEnd']),
+        isLongestAbstinenceEnd && {
+          label: i18n.t(['labels', 'longestAbstinenceEnd']),
           icon: 'timer-sand',
         },
       ].filter(Boolean) as RelapseChip[],
-    [isStartedAt, isLongestAbsenceEnd],
+    [isStartedAt, isLongestAbstinenceEnd],
   );
 };
 

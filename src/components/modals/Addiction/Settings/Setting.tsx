@@ -31,6 +31,7 @@ const Setting: FC<SettingProps> = ({ setting }) => {
       <List.Item
         pointerEvents={isChanging ? 'none' : 'auto'}
         title={name}
+        disabled={setting.disabled}
         description={description}
         left={left}
         right={right}

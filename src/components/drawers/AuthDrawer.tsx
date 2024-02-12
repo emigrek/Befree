@@ -8,7 +8,6 @@ import React, { FC } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { IconButton, Title, Tooltip } from 'react-native-paper';
 
-import { ThemeChanger } from '@/components/ui/ThemeChanger';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import i18n from '@/i18n';
 import { RootStackNavigationProp } from '@/navigation/types';
@@ -42,39 +41,30 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
   };
 
   return (
-    <>
-      <DrawerContentScrollView
-        style={{ backgroundColor: colors.background }}
-        {...props}
-      >
-        <View style={style.content}>
-          <View style={style.user}>
-            <View style={style.userDetails}>
-              <UserAvatar size={40} user={user} />
-              {user ? (
-                <Tooltip title={i18n.t(['labels', 'signOut'])}>
-                  <IconButton
-                    onPress={handleSignOut}
-                    size={20}
-                    icon={'logout'}
-                  />
-                </Tooltip>
-              ) : (
-                <Tooltip title={i18n.t(['labels', 'signIn'])}>
-                  <IconButton onPress={handleOnline} size={20} icon={'login'} />
-                </Tooltip>
-              )}
-            </View>
-            {user && (
-              <Title style={style.title}>
-                {user.displayName ?? user.email}
-              </Title>
+    <DrawerContentScrollView
+      style={{ backgroundColor: colors.background }}
+      {...props}
+    >
+      <View style={style.content}>
+        <View style={style.user}>
+          <View style={style.userDetails}>
+            <UserAvatar size={40} user={user} />
+            {user ? (
+              <Tooltip title={i18n.t(['labels', 'signOut'])}>
+                <IconButton onPress={handleSignOut} size={20} icon={'logout'} />
+              </Tooltip>
+            ) : (
+              <Tooltip title={i18n.t(['labels', 'signIn'])}>
+                <IconButton onPress={handleOnline} size={20} icon={'login'} />
+              </Tooltip>
             )}
           </View>
+          {user && (
+            <Title style={style.title}>{user.displayName ?? user.email}</Title>
+          )}
         </View>
-      </DrawerContentScrollView>
-      <ThemeChanger />
-    </>
+      </View>
+    </DrawerContentScrollView>
   );
 };
 

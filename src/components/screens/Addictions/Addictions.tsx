@@ -25,7 +25,13 @@ const AddictionsScreen: FC<AddictionsScreenProps> = ({ hidden }) => {
           <Commitment />
         </View>
         <SortingAction />
-        {!hidden && <HiddenAddictionsAction />}
+        {!hidden && (
+          <HiddenAddictionsAction
+            mode="contained-tonal"
+            icon={'eye-off'}
+            compact
+          />
+        )}
       </Header>
       <AddictionsList addictions={addictions} loading={addictionsLoading} />
       <AddictionsSelectionFabs />

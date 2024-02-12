@@ -47,7 +47,7 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
         return (
           <TouchableRipple
             onPress={handlePress}
-            rippleColor={colors.secondaryContainer}
+            rippleColor={colors.elevation.level3}
           >
             <Achievement
               achievement={item}
