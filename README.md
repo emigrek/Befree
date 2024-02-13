@@ -1,5 +1,6 @@
 ![Showcase](https://i.imgur.com/1E87GU6.png)
-[Mockup by AppMockUp](https://app-mockup.com/)
+
+<div style="text-align: right"><a href="https://app-mockup.com" target="_blank">Mockup by AppMockUp</a></div>
 
 # 🍀 Befree
 
@@ -17,6 +18,7 @@ App supports multiple languages, by default comes with English and Polish transl
 | React Native Paper | Material Design components         |
 | Notifee            | Notifications                      |
 | i18n-js            | Internationalization               |
+| undraw             | Illustrations                      |
 
 ## 🚀 Running
 
