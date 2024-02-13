@@ -75,13 +75,6 @@ export interface Translation {
       descriptions: string[];
     };
   };
-  banners: {
-    offline: {
-      title: string;
-      description: string;
-      acknowledge: string;
-    };
-  };
   validation: {
     name: {
       min: string;

@@ -22,7 +22,12 @@ const Greeting: FC<GreetingProps> = ({ name }) => {
   };
 
   return (
-    <Bold variant="headlineMedium" style={styles.text} numberOfLines={0}>
+    <Bold
+      variant="headlineMedium"
+      style={styles.text}
+      numberOfLines={1}
+      adjustsFontSizeToFit
+    >
       {i18n.t(['widgets', 'greeting', timeOfDay()], {
         name,
       })}

@@ -9,7 +9,6 @@ import { Appbar } from 'react-native-paper';
 import { style } from './style';
 
 import { Logo } from '@/components/ui/Logo';
-import { OfflineBanner } from '@/components/ui/OfflineBanner';
 import { ThemeChanger } from '@/components/ui/ThemeChanger';
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import { AuthDrawerStackParamList } from '@/navigation/types';
@@ -23,25 +22,22 @@ const BottomTabsHeader: FC<BottomTabHeaderProps> = ({ options }) => {
   const { openDrawer } = useNavigation<AuthDrawerStackNavigationProp>();
 
   return (
-    <>
-      <Appbar.Header mode={'center-aligned'} style={style.header}>
-        <View style={style.container}>
-          <TouchableOpacity onPress={openDrawer}>
-            <UserAvatar user={user} />
-          </TouchableOpacity>
-          <View style={style.center}>
-            <Logo />
-          </View>
-          <ThemeChanger />
-          {options.headerRight &&
-            options.headerRight({
-              pressColor: options.headerPressColor,
-              tintColor: options.headerTintColor,
-            })}
+    <Appbar.Header mode={'center-aligned'} style={style.header}>
+      <View style={style.container}>
+        <TouchableOpacity onPress={openDrawer}>
+          <UserAvatar user={user} />
+        </TouchableOpacity>
+        <View style={style.center}>
+          <Logo />
         </View>
-      </Appbar.Header>
-      <OfflineBanner />
-    </>
+        <ThemeChanger />
+        {options.headerRight &&
+          options.headerRight({
+            pressColor: options.headerPressColor,
+            tintColor: options.headerTintColor,
+          })}
+      </View>
+    </Appbar.Header>
   );
 };
 

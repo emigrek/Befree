@@ -12,12 +12,10 @@ import { UserAvatar } from '@/components/ui/UserAvatar';
 import i18n from '@/i18n';
 import { RootStackNavigationProp } from '@/navigation/types';
 import { useAuthStore } from '@/store';
-import { useTheme } from '@/theme';
 
 const AuthDrawer: FC<DrawerContentComponentProps> = props => {
   const user = useAuthStore(state => state.user);
   const navigation = useNavigation<RootStackNavigationProp>();
-  const { colors } = useTheme();
 
   const handleSignOut = () => {
     Alert.alert(
@@ -41,10 +39,7 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
   };
 
   return (
-    <DrawerContentScrollView
-      style={{ backgroundColor: colors.background }}
-      {...props}
-    >
+    <DrawerContentScrollView {...props}>
       <View style={style.content}>
         <View style={style.user}>
           <View style={style.userDetails}>

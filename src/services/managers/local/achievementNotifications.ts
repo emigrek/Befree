@@ -9,7 +9,7 @@ import i18n from '@/i18n';
 class AchievementNotificationsManager {
   public static schedule = async (addiction: Addiction, goalType: Goals) => {
     const relapses = [
-      ...addiction.relapses.map(r => r.relapseAt),
+      ...addiction.relapses.map(r => new Date(r.relapseAt)),
       addiction.startedAt,
     ];
 

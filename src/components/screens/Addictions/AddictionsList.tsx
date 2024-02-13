@@ -8,7 +8,6 @@ import { Launching } from '@/components/illustrations';
 import { LoadingScreen } from '@/components/screens/Loading';
 import { ADDICTION_ITEM_HEIGHT } from '@/components/ui/Addiction/style';
 import { Empty } from '@/components/ui/Empty';
-import { HiddenAddictionsAction } from '@/components/ui/HiddenAddictionsAction';
 import i18n from '@/i18n';
 
 interface AddictionsListProps {
@@ -33,7 +32,6 @@ const AddictionsList: FC<AddictionsListProps> = ({ addictions, loading }) => {
       <Empty
         illustration={Launching}
         message={i18n.t(['screens', 'addictions', 'empty'])}
-        action={() => <HiddenAddictionsAction mode="text" icon={'eye-off'} />}
       />
     );
   }

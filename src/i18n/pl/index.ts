@@ -44,13 +44,6 @@ const pl: Translation = {
     'half-year': 'Pół roku',
     year: 'Rok',
   },
-  banners: {
-    offline: {
-      title: 'Tryb bez internetu',
-      description: 'Niektóre funkcje mogą być niedostępne',
-      acknowledge: 'Rozumiem',
-    },
-  },
   validation: {
     name: {
       max: 'Maksymalnie %{max} znaków',

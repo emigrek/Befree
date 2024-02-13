@@ -69,7 +69,10 @@ class AchievementManager {
   }
 
   static getLongestAbstinence(relapses: Date[]): Abstinence {
-    const dates = [...relapses, new Date()];
+    const dates = [...relapses, new Date()].sort(
+      (a, b) => new Date(a).getTime() - new Date(b).getTime(),
+    );
+
     let maxDifference = 0;
     let longestPeriod: Abstinence = { start: dates[0], end: null };
 
@@ -77,7 +80,7 @@ class AchievementManager {
       return longestPeriod;
     }
 
-    for (let i = 0; i < dates.length - 1; i++) {
+    for (let i = 0; i < dates.length; i++) {
       const current = dates[i];
       const next = dates[i + 1];
       const difference = new Date(next).getTime() - new Date(current).getTime();

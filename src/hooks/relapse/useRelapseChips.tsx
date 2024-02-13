@@ -18,7 +18,7 @@ const useRelapseChips = ({ relapse, addiction }: RelapseChipsProps) => {
   const isStartedAt = relapse.id === 'startedAt';
   const isLongestAbstinenceEnd = longestAbstinence.end
     ? longestAbstinence.end.getTime() === new Date(relapse.relapseAt).getTime()
-    : true;
+    : false;
 
   return useMemo(
     () =>

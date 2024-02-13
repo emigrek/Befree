@@ -44,13 +44,6 @@ const enUS: Translation = {
     'half-year': 'Half-year',
     year: 'Year',
   },
-  banners: {
-    offline: {
-      title: 'No internet connection',
-      description: 'Some features may be unavailable',
-      acknowledge: 'Got it',
-    },
-  },
   validation: {
     name: {
       max: 'Max %{max} characters',
