@@ -2,13 +2,13 @@
 
 # 🍀 Befree
 
-Befree is addiction tracking mobile app, which helps to monitor and control your bad habits.
+**Befree** is addiction tracking mobile app, which helps to monitor and control your bad habits.
 
 App track your progress and motivates you to stay clean by providing a timeline of your addiction-free days and enabling you to achieve time goals such as day, week, month or year.
 
-App works in offline mode, so you can use it without internet connection. All data is synchronized with the cloud when the connection is available. Internet connection is required only for authentication during the first login.
+App works in **offline mode**, so you can use it without internet connection. All data is synchronized with the cloud when the connection is available. Internet connection is required only for authentication during the first login.
 
-App supports multiple languages, by default comes with English and Polish translations. Translations are automatically detected based on the device's language settings.
+App supports **multiple languages**, by default comes with English and Polish translations. Translations are automatically detected based on the device's language settings.
 
 ## 📦 Used packages
 
@@ -31,6 +31,9 @@ cd befree
 npm install
 npm install -g eas-cli
 ```
+
+<details>
+<summary>Firebase setup</summary>
 
 1. Create a new project in the [Firebase Console](https://console.firebase.google.com/)
 2. Enable the Google Sign-In provider in the Firebase Console
@@ -90,6 +93,8 @@ service firebase.storage {
   }
 }
 ```
+
+</details>
 
 Run the app
 
