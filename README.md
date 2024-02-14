@@ -1,10 +1,12 @@
 ![Showcase](https://i.imgur.com/1E87GU6.png)
 
-<div style="text-align: right"><a href="https://app-mockup.com" target="_blank">Mockup by AppMockUp</a></div>
-
 # 🍀 Befree
 
-Befree is addiction tracking mobile app, which helps to monitor and control your bad habits. App track your progress and motivates you to stay clean by providing a timeline of your addiction-free days and enabling you to achieve time goals such as day, week, month or year.
+Befree is addiction tracking mobile app, which helps to monitor and control your bad habits.
+
+App track your progress and motivates you to stay clean by providing a timeline of your addiction-free days and enabling you to achieve time goals such as day, week, month or year.
+
+App works in offline mode, so you can use it without internet connection. All data is synchronized with the cloud when the connection is available. Internet connection is required only for authentication during the first login.
 
 App supports multiple languages, by default comes with English and Polish translations. Translations are automatically detected based on the device's language settings.
 
@@ -19,6 +21,7 @@ App supports multiple languages, by default comes with English and Polish transl
 | Notifee            | Notifications                      |
 | i18n-js            | Internationalization               |
 | undraw             | Illustrations                      |
+| AppMockUp          | Repo app mockup                    |
 
 ## 🚀 Running
 
