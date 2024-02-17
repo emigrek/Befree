@@ -56,7 +56,7 @@ const useRelapsesSelectionFabs = ({
             if (newAddiction)
               await new AchievementNotificationsManager(
                 newAddiction,
-              ).reloadAll();
+              ).reschedule();
           }
 
           setSelected([]);

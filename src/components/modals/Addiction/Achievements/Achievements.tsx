@@ -7,6 +7,7 @@ import { Achievement } from './Achievement';
 
 import { LoadingScreen } from '@/components/screens';
 import { ACHIEVEMENT_HEIGHT } from '@/components/ui/Achievement';
+import { AchievementNotificationsAction } from '@/components/ui/AchievementNotificationsAction';
 import { useAchievements } from '@/hooks/achievement';
 import { useAddiction } from '@/hooks/addiction';
 import {
@@ -25,6 +26,9 @@ const Achievements: FC<AchievementsProps> = ({ addiction }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: addiction.name,
+      headerRight: () => (
+        <AchievementNotificationsAction addiction={addiction} />
+      ),
     });
   }, [addiction, navigation]);
 

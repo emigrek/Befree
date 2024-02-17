@@ -81,6 +81,22 @@ class AchievementNotificationsManager {
     );
   };
 
+  reschedule = async () => {
+    const scheduled = await this.getAll();
+    const scheduledGoalTypes = scheduled.map(({ notification }) => {
+      return notification.data?.goalType;
+    });
+
+    const goalTypes = GoalManager.getGoalDurations().map(goal => goal.goalType);
+    const promises = goalTypes.map(goalType => {
+      if (!scheduledGoalTypes.includes(goalType)) return;
+      this.cancel(goalType);
+      this.schedule(goalType);
+    });
+
+    return Promise.all(promises);
+  };
+
   scheduleAll = () => {
     const promises = GoalManager.getGoalDurations().map(goal => {
       return this.schedule(goal.goalType);

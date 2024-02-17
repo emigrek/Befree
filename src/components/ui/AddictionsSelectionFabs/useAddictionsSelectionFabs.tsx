@@ -76,7 +76,7 @@ const useAddictionsSelectionFabs = () => {
               if (newAddiction)
                 await new AchievementNotificationsManager(
                   addiction,
-                ).reloadAll();
+                ).reschedule();
             }
           });
 

@@ -1,11 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import { format, formatDistanceToNow } from 'date-fns';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
+import { View } from 'react-native';
 import { Text, TouchableRipple } from 'react-native-paper';
 
 import { Achievement as AchievementPrimitive } from '@/components/ui/Achievement';
+import { useAchievementNotification } from '@/hooks/achievement';
+import { useNotificationsBlacklisted } from '@/hooks/notification';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
+import { AchievementNotificationsManager } from '@/services/managers/local';
 import { useTheme } from '@/theme';
 
 interface AchievementProps {
@@ -20,6 +24,10 @@ export const Achievement: FC<AchievementProps> = ({
   const { colors } = useTheme();
   const navigation = useNavigation<ModalStackNavigationProp>();
   const { goal, achievedAt, progress } = achievement;
+  const notification = useAchievementNotification({ addiction, achievement });
+  const isBlacklisted = useNotificationsBlacklisted({
+    addiction,
+  });
 
   const achieved = progress >= 1;
   const title =
@@ -42,6 +50,22 @@ export const Achievement: FC<AchievementProps> = ({
     });
   };
 
+  const handleNotificationButtonPress = useCallback(async () => {
+    if (isBlacklisted) {
+      return;
+    }
+
+    if (notification) {
+      new AchievementNotificationsManager(addiction).cancel(
+        achievement.goal.goalType,
+      );
+    } else {
+      new AchievementNotificationsManager(addiction).schedule(
+        achievement.goal.goalType,
+      );
+    }
+  }, [addiction, achievement, notification, isBlacklisted]);
+
   return (
     <TouchableRipple
       onPress={handlePress}
@@ -60,22 +84,41 @@ export const Achievement: FC<AchievementProps> = ({
         />
         <AchievementPrimitive.Body>
           <AchievementPrimitive.Header>
-            <AchievementPrimitive.Title>
-              <Text
-                variant="bodyLarge"
-                style={{ color: achieved ? colors.primary : colors.text }}
-              >
-                {title}
-              </Text>
-            </AchievementPrimitive.Title>
-            <Text
-              variant="labelMedium"
-              style={{
-                color: colors.outline,
-              }}
+            <View
+              style={
+                achieved
+                  ? {
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flex: 1,
+                    }
+                  : {}
+              }
             >
-              {format(goal.goalAt, 'HH:mm, dd/MM/yyyy')}
-            </Text>
+              <AchievementPrimitive.Title>
+                <Text
+                  variant="bodyLarge"
+                  style={{ color: achieved ? colors.primary : colors.text }}
+                >
+                  {title}
+                </Text>
+              </AchievementPrimitive.Title>
+              <Text
+                variant="labelMedium"
+                style={{
+                  color: colors.outline,
+                }}
+              >
+                {format(goal.goalAt, 'HH:mm, dd/MM/yyyy')}
+              </Text>
+            </View>
+            {!achieved && (
+              <AchievementPrimitive.NotificationIconButton
+                onPress={handleNotificationButtonPress}
+                disabled={isBlacklisted}
+                icon={notification ? 'bell' : 'bell-off'}
+              />
+            )}
           </AchievementPrimitive.Header>
           {!achieved && (
             <AchievementPrimitive.ProgressBar progress={progress} />

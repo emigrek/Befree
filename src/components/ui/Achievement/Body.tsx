@@ -11,6 +11,6 @@ export { Body };
 const style = StyleSheet.create({
   body: {
     flex: 1,
-    gap: 15,
+    gap: 5,
   },
 });

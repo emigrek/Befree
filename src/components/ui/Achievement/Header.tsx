@@ -10,7 +10,8 @@ export { Header };
 
 const style = StyleSheet.create({
   header: {
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
 });

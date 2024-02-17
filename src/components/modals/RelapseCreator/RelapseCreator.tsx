@@ -49,13 +49,12 @@ const RelapseCreatorScreen: FC<RelapseCreatorScreenProps> = ({ route }) => {
         relapseAt: relapseAtDate,
       });
 
-      const isBlacklisted = await NotificationsBlacklistManager.has(
-        addiction.id,
-      );
+      const isBlacklisted =
+        await NotificationsBlacklistManager.getInstance().has(addiction.id);
       if (!isBlacklisted) {
         const newAddiction = await addictions.get(addiction.id);
         if (newAddiction)
-          await new AchievementNotificationsManager(addiction).reloadAll();
+          await new AchievementNotificationsManager(addiction).reschedule();
       }
 
       setLoading(false);

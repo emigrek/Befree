@@ -3,6 +3,7 @@ import { StyleSheet, View, ViewProps } from 'react-native';
 import { Body } from './Body';
 import { Header } from './Header';
 import { Icon } from './Icon';
+import { NotificationIconButton } from './NotificationIconButton';
 import { ProgressBar } from './ProgressBar';
 import { Title } from './Title';
 
@@ -19,6 +20,7 @@ Achievement.Body = Body;
 Achievement.ProgressBar = ProgressBar;
 Achievement.Title = Title;
 Achievement.Header = Header;
+Achievement.NotificationIconButton = NotificationIconButton;
 
 export { ACHIEVEMENT_HEIGHT, Achievement };
 
