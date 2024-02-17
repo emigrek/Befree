@@ -49,13 +49,14 @@ const useRelapsesSelectionFabs = ({
 
           await Promise.all(deletionPromise);
 
-          const isBlacklisted = await NotificationsBlacklistManager.has(
-            addiction.id,
-          );
+          const isBlacklisted =
+            await NotificationsBlacklistManager.getInstance().has(addiction.id);
           if (!isBlacklisted) {
             const newAddiction = await addictions.get(addiction.id);
             if (newAddiction)
-              await AchievementNotificationsManager.reload(newAddiction);
+              await new AchievementNotificationsManager(
+                newAddiction,
+              ).reloadAll();
           }
 
           setSelected([]);

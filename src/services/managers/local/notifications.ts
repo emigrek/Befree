@@ -1,21 +1,73 @@
-import notifee, { EventType, Notification } from '@notifee/react-native';
+import notifee, {
+  EventType,
+  Notification,
+  Trigger,
+} from '@notifee/react-native';
+import { NativeEventEmitter } from 'react-native';
 
 import { showAchievement } from './notificationPressHandlers/showAchievement';
 
-class NotificationsManager {
-  constructor() {
+class NotificationsManager extends NativeEventEmitter {
+  private static instance: NotificationsManager;
+
+  private constructor() {
+    super();
     this.init();
     this.registerAndroidChannels();
     this.registerEventsListeners();
   }
 
-  public async init() {
+  public static getInstance(): NotificationsManager {
+    if (!NotificationsManager.instance) {
+      NotificationsManager.instance = new NotificationsManager();
+    }
+    return NotificationsManager.instance;
+  }
+
+  private async init() {
     const initial = await notifee.getInitialNotification();
     if (!initial) return;
     this.handlePress(initial.notification);
   }
 
-  public async registerEventsListeners() {
+  public scheduleTrigger = async (
+    notification: Notification,
+    trigger: Trigger,
+  ) => {
+    const id = await notifee.createTriggerNotification(notification, trigger);
+    const newNotification = { id, ...notification };
+    this.emit('create', {
+      notification: newNotification,
+      trigger,
+    });
+  };
+
+  public display = async (notification: Notification) => {
+    notifee.displayNotification(notification);
+    this.emit('display', notification);
+  };
+
+  public getAllTrigger = async () => {
+    return notifee.getTriggerNotifications();
+  };
+
+  public cancelTrigger = async (notificationId: string) => {
+    notifee.cancelNotification(notificationId);
+    this.emit('cancel', notificationId);
+  };
+
+  public cancelAllTrigger = async () => {
+    const triggerNotifications = await notifee.getTriggerNotifications();
+
+    return Promise.all(
+      triggerNotifications.map(({ notification }) => {
+        if (!notification.id) return;
+        return this.cancelTrigger(notification.id);
+      }),
+    );
+  };
+
+  private async registerEventsListeners() {
     notifee.onForegroundEvent(async ({ type, detail }) => {
       const { notification } = detail;
       if (!notification) return;
@@ -39,7 +91,7 @@ class NotificationsManager {
     });
   }
 
-  public async registerAndroidChannels() {
+  private async registerAndroidChannels() {
     const defaultChannel = {
       id: 'default',
       name: 'Default',
@@ -52,11 +104,9 @@ class NotificationsManager {
     }
   }
 
-  public async handlePress(notification: Notification) {
+  private async handlePress(notification: Notification) {
     showAchievement(notification);
   }
 }
 
-const notifications = new NotificationsManager();
-
-export { notifications };
+export { NotificationsManager };

@@ -1,9 +1,9 @@
 import { TriggerNotification } from '@notifee/react-native';
-import { FC, useCallback } from 'react';
-import { Button, Text } from 'react-native-paper';
+import { FC, useCallback, useState } from 'react';
+import { Switch, Text } from 'react-native-paper';
 
 import { Addiction } from '@/components/ui/Addiction';
-import { useNotificationsBlacklistedStatus } from '@/hooks/notification';
+import { useNotificationsBlacklisted } from '@/hooks/notification';
 import i18n from '@/i18n';
 import {
   AchievementNotificationsManager,
@@ -21,21 +21,24 @@ const AchievementNotification: FC<AchievementNotificationProps> = ({
   notifications,
 }) => {
   const { colors } = useTheme();
-  const { blacklisted, refresh } = useNotificationsBlacklistedStatus({
+  const [loading, setLoading] = useState(false);
+  const isBlacklisted = useNotificationsBlacklisted({
     addiction,
   });
 
-  const handleButtonPress = useCallback(async () => {
-    if (blacklisted) {
-      await NotificationsBlacklistManager.remove(addiction.id);
-      await AchievementNotificationsManager.scheduleAll(addiction);
+  const handleSwitch = useCallback(async () => {
+    setLoading(true);
+
+    if (isBlacklisted) {
+      await NotificationsBlacklistManager.getInstance().remove(addiction.id);
+      await new AchievementNotificationsManager(addiction).scheduleAll();
     } else {
-      await NotificationsBlacklistManager.add(addiction.id);
-      await AchievementNotificationsManager.cancelAll(addiction);
+      await NotificationsBlacklistManager.getInstance().add(addiction.id);
+      await new AchievementNotificationsManager(addiction).cancelAll();
     }
 
-    await refresh();
-  }, [addiction, blacklisted, refresh]);
+    setLoading(false);
+  }, [addiction, isBlacklisted]);
 
   return (
     <Addiction>
@@ -48,14 +51,12 @@ const AchievementNotification: FC<AchievementNotificationProps> = ({
           })}
         </Text>
       </Addiction.Body>
-      <Button
-        onPress={handleButtonPress}
-        mode="text"
-        textColor={blacklisted ? colors.primary : colors.error}
-        icon={blacklisted ? 'bell' : 'bell-off'}
-      >
-        {blacklisted ? i18n.t(['labels', 'on']) : i18n.t(['labels', 'off'])}
-      </Button>
+      <Switch
+        value={!isBlacklisted}
+        onValueChange={handleSwitch}
+        color={colors.primary}
+        disabled={loading}
+      />
     </Addiction>
   );
 };

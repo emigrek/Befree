@@ -8,8 +8,8 @@ import { Confetti } from './Confetti';
 
 import { LoadingScreen } from '@/components/screens';
 import { AchievementModal } from '@/components/ui/AchievementModal';
+import { useAchievement } from '@/hooks/achievement';
 import { useAddiction } from '@/hooks/addiction';
-import { useAchievement } from '@/hooks/goal';
 import i18n from '@/i18n';
 import { AchievementScreenProps } from '@/navigation/types';
 import { Goals } from '@/services/managers/local';

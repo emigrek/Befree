@@ -5,7 +5,7 @@ import { Divider } from 'react-native-paper';
 
 import { AchievementNotification } from './AchievementNotification';
 
-import { AchievementNotifications } from '@/hooks/goal';
+import { AchievementNotifications } from '@/hooks/achievement';
 
 interface AchievementNotificationsListProps {
   notifications: AchievementNotifications[];

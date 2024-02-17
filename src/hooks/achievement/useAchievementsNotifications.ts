@@ -2,7 +2,7 @@ import { TriggerNotification } from '@notifee/react-native';
 import { useMemo } from 'react';
 
 import { useAddictions } from '@/hooks/addiction';
-import { useTriggerNotifications } from '@/hooks/notification';
+import { useTriggerNotificationsStore } from '@/store';
 
 interface UseAchievementsNotificationsProps {
   hidden?: boolean;
@@ -16,16 +16,17 @@ export interface AchievementNotifications {
 export const useAchievementsNotifications = ({
   hidden,
 }: UseAchievementsNotificationsProps) => {
-  const { triggerNotifications } = useTriggerNotifications();
+  const triggerNotifications = useTriggerNotificationsStore(
+    state => state.triggerNotifications,
+  );
   const { addictions } = useAddictions({ hidden });
 
   return useMemo(() => {
     return addictions.map(addiction => {
-      const notifications = triggerNotifications.filter(({ notification }) => {
-        const data = notification.data;
-        return data?.addictionId === addiction.id;
-      });
-
+      const notifications = triggerNotifications.filter(
+        triggerNotification =>
+          triggerNotification.notification?.data?.addictionId === addiction.id,
+      );
       return {
         addiction,
         notifications,

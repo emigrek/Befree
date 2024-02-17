@@ -5,9 +5,17 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { AddictionsSlice, createAddictionsSlice } from './addictions';
 import { AppSlice, createAppSlice } from './app';
 import { NetInfoSlice, createNetInfoSlice } from './netInfo';
+import {
+  NotificationsBlacklistSlice,
+  createNotificationsBlacklistSlice,
+} from './notificationsBlacklist';
 import { SelectionSlice, createSelectionSlice } from './selection';
 import { SessionSlice, createSessionSlice } from './session';
 import { ThemeSlice, createThemeSlice } from './theme';
+import {
+  TriggerNotificationsSlice,
+  createTriggerNotificationsSlice,
+} from './triggerNotifications';
 
 export const useGlobalStore = create<ThemeSlice & AppSlice & AddictionsSlice>()(
   persist(
@@ -30,6 +38,17 @@ export const useNetInfoStore = create<NetInfoSlice>()((...a) => ({
 export const useAuthStore = create<SessionSlice>()((...a) => ({
   ...createSessionSlice(...a),
 }));
+
+export const useTriggerNotificationsStore = create<TriggerNotificationsSlice>()(
+  (...a) => ({
+    ...createTriggerNotificationsSlice(...a),
+  }),
+);
+
+export const useNotificationsBlacklistStore =
+  create<NotificationsBlacklistSlice>()((...a) => ({
+    ...createNotificationsBlacklistSlice(...a),
+  }));
 
 export const useAddictionsSelectionStore = create<SelectionSlice<Addiction>>(
   createSelectionSlice<Addiction>(),

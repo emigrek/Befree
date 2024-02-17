@@ -55,7 +55,7 @@ const RelapseCreatorScreen: FC<RelapseCreatorScreenProps> = ({ route }) => {
       if (!isBlacklisted) {
         const newAddiction = await addictions.get(addiction.id);
         if (newAddiction)
-          await AchievementNotificationsManager.reload(newAddiction);
+          await new AchievementNotificationsManager(addiction).reloadAll();
       }
 
       setLoading(false);

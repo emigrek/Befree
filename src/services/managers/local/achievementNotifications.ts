@@ -3,14 +3,41 @@ import { format } from 'date-fns';
 
 import { AchievementManager } from './achievement';
 import { GoalManager, Goals } from './goal';
+import { NotificationsManager } from './notifications';
 
 import i18n from '@/i18n';
 
 class AchievementNotificationsManager {
-  public static schedule = async (addiction: Addiction, goalType: Goals) => {
+  private addiction: Addiction;
+
+  constructor(addiction: Addiction) {
+    this.addiction = addiction;
+  }
+
+  get = async (goalType: Goals) => {
+    const triggerNotifications = await notifee.getTriggerNotifications();
+
+    return triggerNotifications.find(({ notification }) => {
+      const data = notification.data;
+      return (
+        data?.addictionId === this.addiction.id && data?.goalType === goalType
+      );
+    });
+  };
+
+  getAll = async () => {
+    const triggerNotifications = await notifee.getTriggerNotifications();
+
+    return triggerNotifications.filter(({ notification }) => {
+      const data = notification.data;
+      return data?.addictionId === this.addiction.id;
+    });
+  };
+
+  schedule = async (goalType: Goals) => {
     const relapses = [
-      ...addiction.relapses.map(r => new Date(r.relapseAt)),
-      addiction.startedAt,
+      ...this.addiction.relapses.map(r => new Date(r.relapseAt)),
+      this.addiction.startedAt,
     ];
 
     const achievement = AchievementManager.getAchievement(relapses, goalType);
@@ -22,11 +49,11 @@ class AchievementNotificationsManager {
     const { goal } = achievement;
 
     const channel = await notifee.getChannel('default');
-    await notifee.createTriggerNotification(
+    await NotificationsManager.getInstance().scheduleTrigger(
       {
         title: i18n.t(['notifications', 'achievement', 'title']),
         body: i18n.t(['notifications', 'achievement', 'body'], {
-          name: addiction.name,
+          name: this.addiction.name,
           goalType: i18n.t(['goals', goal.goalType]),
         }),
         android: {
@@ -37,7 +64,7 @@ class AchievementNotificationsManager {
           },
         },
         data: {
-          addictionId: addiction.id,
+          addictionId: this.addiction.id,
           goalType: goal.goalType,
         },
       },
@@ -46,55 +73,50 @@ class AchievementNotificationsManager {
         timestamp: goal.goalAt.getTime(),
       },
     );
+
     console.log(
-      `Scheduled achievement notification for ${addiction.name} (${
+      `Scheduled achievement notification for ${this.addiction.name} (${
         goal.goalType
       }), at ${format(goal.goalAt, 'yyyy-MM-dd HH:mm:ss')}`,
     );
   };
 
-  public static scheduleAll = (addiction: Addiction) => {
+  scheduleAll = () => {
     const promises = GoalManager.getGoalDurations().map(goal => {
-      return this.schedule(addiction, goal.goalType);
+      return this.schedule(goal.goalType);
     });
 
     return Promise.all(promises);
   };
 
-  public static cancelAll = async (addiction: Addiction) => {
-    const triggerNotifications = await notifee.getTriggerNotifications();
+  cancel = async (goalType: Goals) => {
+    const toRemove = await this.get(goalType);
 
-    const toRemove = triggerNotifications.filter(({ notification }) => {
-      const data = notification.data;
-      return data?.addictionId === addiction.id;
-    });
+    if (!toRemove) return;
+
+    const { notification } = toRemove;
+
+    if (!notification.id) return;
+
+    return NotificationsManager.getInstance().cancelTrigger(notification.id);
+  };
+
+  cancelAll = async () => {
+    const toRemove = await this.getAll();
 
     return Promise.all(
       toRemove.map(({ notification }) => {
         if (!notification.id) return;
-        console.log('Canceling notification: ', notification.id);
-        return notifee.cancelNotification(notification.id);
+        return NotificationsManager.getInstance().cancelTrigger(
+          notification.id,
+        );
       }),
     );
   };
 
-  public static clear = async () => {
-    const triggerNotifications = await notifee.getTriggerNotifications();
-
-    return Promise.all(
-      triggerNotifications.map(({ notification }) => {
-        if (!notification.id) return;
-        console.log('Canceling notification: ', notification.id);
-        return notifee.cancelNotification(notification.id);
-      }),
-    );
-  };
-
-  public static reload = async (addiction: Addiction) => {
-    return Promise.all([
-      this.cancelAll(addiction),
-      this.scheduleAll(addiction),
-    ]);
+  reloadAll = async () => {
+    await this.cancelAll();
+    await this.scheduleAll();
   };
 }
 

@@ -42,8 +42,8 @@ const useAddictionsSelectionFabs = () => {
           const addictions = new AddictionManager(user.uid);
 
           const deletionPromise = selected.map(async addiction => {
-            AchievementNotificationsManager.cancelAll(addiction);
-            NotificationsBlacklistManager.remove(addiction.id);
+            new AchievementNotificationsManager(addiction).cancelAll();
+            NotificationsBlacklistManager.getInstance().remove(addiction.id);
             addictions.delete(addiction.id);
           });
 
@@ -67,13 +67,16 @@ const useAddictionsSelectionFabs = () => {
               relapseAt: new Date(),
             });
 
-            const isBlacklisted = await NotificationsBlacklistManager.has(
-              addiction.id,
-            );
+            const isBlacklisted =
+              await NotificationsBlacklistManager.getInstance().has(
+                addiction.id,
+              );
             if (!isBlacklisted) {
               const newAddiction = await addictions.get(addiction.id);
               if (newAddiction)
-                await AchievementNotificationsManager.reload(newAddiction);
+                await new AchievementNotificationsManager(
+                  addiction,
+                ).reloadAll();
             }
           });
 

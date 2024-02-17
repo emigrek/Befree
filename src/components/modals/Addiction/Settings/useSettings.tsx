@@ -116,8 +116,10 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
           if (!user) return;
           const { addictions } = new UserDataManager(user.uid);
 
-          await AchievementNotificationsManager.cancelAll(addiction);
-          await NotificationsBlacklistManager.remove(addiction.id);
+          await new AchievementNotificationsManager(addiction).cancelAll();
+          await NotificationsBlacklistManager.getInstance().remove(
+            addiction.id,
+          );
           navigation.pop();
 
           await addictions.delete(addiction.id);

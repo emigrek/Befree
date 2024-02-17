@@ -7,11 +7,14 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 
 import { useAddictionsSubscription } from '@/hooks/addiction';
+import {
+  useNotificationsBlacklistSubscription,
+  useTriggerNotificationsSubscription,
+} from '@/hooks/notification';
 import { useNetInfoStateSubscription } from '@/hooks/useNetInfoStateSubscription';
 import { usePersistingNavigationState } from '@/hooks/usePersistingNavigationState';
 import { modalsNavigationContainerRef } from '@/navigation/NavigationContainerRef';
 import { RootStack } from '@/navigation/RootStack';
-import '@/services/managers/local/notifications';
 import { useGlobalStore } from '@/store';
 import { AppSlice } from '@/store/app';
 import { ThemeSlice } from '@/store/theme';
@@ -44,6 +47,8 @@ export default function App() {
 
   useNetInfoStateSubscription();
   useAddictionsSubscription();
+  useTriggerNotificationsSubscription();
+  useNotificationsBlacklistSubscription();
 
   if (!isHydrated || !isNavigationRestored) return null;
 

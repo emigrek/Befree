@@ -1,4 +1,4 @@
-import { FC, useLayoutEffect } from 'react';
+import { FC } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { AchievementNotifications } from './AchievementNotifications';
@@ -9,13 +9,7 @@ import { Screen } from '@/components/ui/Screen';
 import i18n from '@/i18n';
 import { NotificationsScreenProps } from '@/navigation/types';
 
-const NotificationsScreen: FC<NotificationsScreenProps> = ({ navigation }) => {
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => undefined,
-    });
-  }, [navigation]);
-
+const NotificationsScreen: FC<NotificationsScreenProps> = () => {
   return (
     <Screen style={style.screen}>
       <Permissions />

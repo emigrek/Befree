@@ -23,11 +23,10 @@ export const useAddictionCreator = () => {
       const { image } = addiction;
       const newAddiction = await addictions.create(addiction);
 
-      const isBlacklisted = await NotificationsBlacklistManager.has(
-        newAddiction.id,
-      );
+      const isBlacklisted =
+        await NotificationsBlacklistManager.getInstance().has(newAddiction.id);
       if (!isBlacklisted) {
-        await AchievementNotificationsManager.scheduleAll(newAddiction);
+        await new AchievementNotificationsManager(newAddiction).scheduleAll();
       }
 
       if (image) {

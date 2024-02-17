@@ -1,3 +1,4 @@
-export { useNotificationsBlacklistedStatus } from './useNotificationsBlacklistedStatus';
+export { useNotificationsBlacklistSubscription } from './useNotificationsBlacklistSubscription';
+export { useNotificationsBlacklisted } from './useNotificationsBlacklisted';
 export { useNotificationsSettings } from './useNotificationsSettings';
-export { useTriggerNotifications } from './useTriggerNotifications';
+export { useTriggerNotificationsSubscription } from './useTriggerNotificationsSubscription';
