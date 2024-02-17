@@ -3,6 +3,7 @@ import { FC, useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Relapse as RelapseCard } from '@/components/ui/Relapse';
+import { RelapseDeleteAction } from '@/components/ui/RelapseDeleteAction';
 import { RelapseEditAction } from '@/components/ui/RelapseEditAction';
 import {
   useFormattedRelapseTime,
@@ -30,7 +31,12 @@ const Relapse: FC<RelapseProps> = ({ relapse, addiction }) => {
       headerTitle: i18n.t(['modals', 'relapse', 'label'], {
         addictionName: addiction.name,
       }),
-      headerRight: () => <RelapseEditAction />,
+      headerRight: () => (
+        <>
+          <RelapseDeleteAction />
+          <RelapseEditAction />
+        </>
+      ),
     });
   }, [navigation, addiction]);
 

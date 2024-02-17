@@ -7,7 +7,6 @@ import {
   AchievementNotificationsManager,
   NotificationsBlacklistManager,
 } from '@/services/managers/local';
-import { useTheme } from '@/theme';
 
 interface AchievementNotificationsActionProps {
   addiction: Addiction;
@@ -16,7 +15,6 @@ interface AchievementNotificationsActionProps {
 const AchievementNotificationsAction: FC<
   AchievementNotificationsActionProps
 > = ({ addiction }) => {
-  const { colors } = useTheme();
   const isBlacklisted = useNotificationsBlacklisted({
     addiction,
   });
@@ -40,8 +38,7 @@ const AchievementNotificationsAction: FC<
     <Appbar.Action
       style={style.action}
       disabled={loading}
-      color={!isBlacklisted ? undefined : colors.error}
-      icon={!isBlacklisted ? 'bell' : 'bell-off'}
+      icon={!isBlacklisted ? 'bell-check' : 'bell-sleep'}
       onPress={handlePress}
     />
   );

@@ -8,7 +8,7 @@ const RelapseEditAction = () => {
   const navigation = useNavigation<ModalStackNavigationProp>();
   const route = useRoute<RelapseRouteProp>();
 
-  const handleBottomSheetOpen = () => {
+  const handleNavigate = () => {
     navigation.navigate({
       name: 'RelapseEdit',
       params: {
@@ -22,7 +22,7 @@ const RelapseEditAction = () => {
     <Appbar.Action
       style={style.action}
       icon={'pencil'}
-      onPress={handleBottomSheetOpen}
+      onPress={handleNavigate}
     />
   );
 };
