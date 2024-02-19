@@ -15,9 +15,10 @@ import {
   ModalStackNavigationProp,
   RelapseScreenProps,
 } from '@/navigation/types';
+import { Addiction, Relapse as RelapseType } from '@/structures';
 
 interface RelapseProps {
-  relapse: Relapse;
+  relapse: RelapseType;
   addiction: Addiction;
 }
 

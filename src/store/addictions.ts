@@ -1,6 +1,8 @@
 import { produce } from 'immer';
 import { StateCreator } from 'zustand';
 
+import { Addiction, Relapse } from '@/structures';
+
 export enum SortingField {
   createdAt = 'createdAt',
   name = 'name',

@@ -10,6 +10,7 @@ import {
   ModalStackNavigationProp,
   SettingsScreenProps,
 } from '@/navigation/types';
+import { Addiction } from '@/structures';
 
 interface SettingsProps {
   addiction: Addiction;

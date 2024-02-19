@@ -9,7 +9,7 @@ import { useAchievementNotification } from '@/hooks/achievement';
 import { useNotificationsBlacklisted } from '@/hooks/notification';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
-import { AchievementNotificationsManager } from '@/services/managers/local';
+import { Addiction } from '@/structures';
 import { useTheme } from '@/theme';
 
 interface AchievementProps {
@@ -56,13 +56,9 @@ export const Achievement: FC<AchievementProps> = ({
     }
 
     if (notification) {
-      new AchievementNotificationsManager(addiction).cancel(
-        achievement.goal.goalType,
-      );
+      addiction.achievements.notifications.cancel(achievement.goal.goalType);
     } else {
-      new AchievementNotificationsManager(addiction).schedule(
-        achievement.goal.goalType,
-      );
+      addiction.achievements.notifications.schedule(achievement.goal.goalType);
     }
   }, [addiction, achievement, notification, isBlacklisted]);
 

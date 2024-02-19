@@ -15,10 +15,11 @@ import {
 } from '@/navigation/types';
 import { RelapseManager } from '@/services/managers/firebase';
 import { useAuthStore } from '@/store';
+import { Relapse as RelapseType } from '@/structures';
 import { NoteSchema, Note as NoteType } from '@/validation/note.schema';
 
 interface RelapseEditProps {
-  relapse: Relapse;
+  relapse: RelapseType;
 }
 
 const RelapseEdit: FC<RelapseEditProps> = ({ relapse }) => {

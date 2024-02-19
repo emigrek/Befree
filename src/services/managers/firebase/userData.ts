@@ -1,6 +1,8 @@
 import { AddictionManager } from './addiction';
 import { RelapseManager } from './relapse';
 
+import { Addiction, Relapse } from '@/structures';
+
 class UserDataManager {
   private userId: string;
   public addictions: AddictionManager;
@@ -28,14 +30,19 @@ class UserDataManager {
   ): Promise<void> {
     const addictionsData = this.addictions.getAddictionsData();
     const relapsesData = this.relapses.getRelapsesData();
-    const combinedData = addictionsData.map(addiction => ({
-      ...addiction,
-      relapses: [...relapsesData]
-        .filter(relapse => relapse.addictionId === addiction.id)
-        .sort((a, b) => a.relapseAt.getTime() - b.relapseAt.getTime()),
-    }));
 
-    callback(combinedData);
+    const combinedAddictions = addictionsData.map(addiction => {
+      const relapses = [...relapsesData].filter(
+        relapse => relapse.addictionId === addiction.id,
+      );
+
+      return new Addiction({
+        ...addiction,
+        relapses: relapses.map(relapse => new Relapse(relapse)),
+      });
+    });
+
+    callback(combinedAddictions);
   }
 
   unsubscribeFromChanges(): void {

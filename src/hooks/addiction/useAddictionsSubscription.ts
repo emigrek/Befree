@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
 import { UserDataManager } from '@/services/managers/firebase';
-import { useAuthStore, useGlobalStore } from '@/store';
+import { useAddictionsStore, useAuthStore } from '@/store';
 
 export const useAddictionsSubscription = () => {
   const user = useAuthStore(state => state.user);
-  const { setAddictions, setLoading } = useGlobalStore(state => ({
+  const { setAddictions, setLoading } = useAddictionsStore(state => ({
     addictions: state.addictions,
     setAddictions: state.setAddictions,
     loading: state.addictionsLoading,

@@ -1,29 +1,16 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 
 import { RelapsesSectionList } from './RelapsesSectionList';
 
 import { useCategorizedRelapses } from '@/hooks/relapse';
+import { Addiction } from '@/structures';
 
 interface RelapsesListProps {
   addiction: Addiction;
 }
 
 const RelapsesList: FC<RelapsesListProps> = ({ addiction }) => {
-  const startAtRelapse: Relapse = useMemo(
-    () => ({
-      relapseAt: new Date(addiction.startedAt),
-      note: '',
-      addictionId: addiction.id,
-      createdAt: new Date(addiction.startedAt),
-      id: 'startedAt',
-    }),
-    [addiction],
-  );
-  const relapses = useMemo(
-    () => [...addiction.relapses, startAtRelapse],
-    [addiction.relapses, startAtRelapse],
-  );
-  const sections = useCategorizedRelapses(relapses);
+  const sections = useCategorizedRelapses(addiction.relapses);
 
   return <RelapsesSectionList addiction={addiction} sections={sections} />;
 };

@@ -8,19 +8,19 @@ import { Achievement } from './Achievement';
 import { LoadingScreen } from '@/components/screens';
 import { ACHIEVEMENT_HEIGHT } from '@/components/ui/Achievement';
 import { AchievementNotificationsAction } from '@/components/ui/AchievementNotificationsAction';
-import { useAchievements } from '@/hooks/achievement';
 import { useAddiction } from '@/hooks/addiction';
 import {
   AchievementsScreenProps,
   ModalStackNavigationProp,
 } from '@/navigation/types';
+import { Addiction } from '@/structures';
 
 interface AchievementsProps {
   addiction: Addiction;
 }
 
 const Achievements: FC<AchievementsProps> = ({ addiction }) => {
-  const achievements = useAchievements({ addiction });
+  const achievements = addiction.achievements.getAchievements();
   const navigation = useNavigation<ModalStackNavigationProp>();
 
   useLayoutEffect(() => {

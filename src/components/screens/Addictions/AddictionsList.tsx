@@ -9,15 +9,16 @@ import { LoadingScreen } from '@/components/screens/Loading';
 import { ADDICTION_ITEM_HEIGHT } from '@/components/ui/Addiction/style';
 import { Empty } from '@/components/ui/Empty';
 import i18n from '@/i18n';
+import { Addiction as AddictionType } from '@/structures';
 
 interface AddictionsListProps {
-  addictions: Addiction[];
+  addictions: AddictionType[];
   loading: boolean;
 }
 
 const AddictionsList: FC<AddictionsListProps> = ({ addictions, loading }) => {
   const renderItem = useCallback(
-    ({ item }: { item: Addiction }) => <Addiction addiction={item} />,
+    ({ item }: { item: AddictionType }) => <Addiction addiction={item} />,
     [],
   );
 

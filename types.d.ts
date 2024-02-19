@@ -6,30 +6,8 @@ interface User {
   createdAt: Date;
 }
 
-interface Addiction {
-  id: string;
-  name: string;
-  image: string | null;
-  relapses: Relapse[];
-  hidden: boolean;
-  startedAt: Date;
-  createdAt: Date;
-}
-
-interface Relapse {
-  id: string;
-  addictionId: string;
-  relapseAt: Date;
-  createdAt: Date;
-  note: string;
-}
-
 interface Achievement {
   goal: Goal;
   progress: number;
   achievedAt?: Date;
 }
-
-type UnidentifiedAddiction = Omit<Addiction, 'id' | 'createdAt'>;
-
-type UnidentifiedRelapse = Omit<Relapse, 'id' | 'createdAt'>;

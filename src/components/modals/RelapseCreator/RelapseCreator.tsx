@@ -15,10 +15,7 @@ import {
   RelapseCreatorScreenProps,
 } from '@/navigation/types';
 import { UserDataManager } from '@/services/managers/firebase';
-import {
-  AchievementNotificationsManager,
-  NotificationsBlacklistManager,
-} from '@/services/managers/local';
+import { NotificationsBlacklistManager } from '@/services/managers/local';
 import { useAuthStore } from '@/store';
 import { NoteSchema, Note as NoteType } from '@/validation/note.schema';
 
@@ -54,7 +51,7 @@ const RelapseCreatorScreen: FC<RelapseCreatorScreenProps> = ({ route }) => {
       if (!isBlacklisted) {
         const newAddiction = await addictions.get(addiction.id);
         if (newAddiction)
-          await new AchievementNotificationsManager(addiction).reschedule();
+          await addiction.achievements.notifications.reschedule();
       }
 
       setLoading(false);

@@ -3,6 +3,8 @@ import { FC } from 'react';
 import { RelapsesSelectionFabsList } from './RelapsesSelectionFabsList';
 import { useRelapsesSelectionFabs } from './useRelapsesSelectionFabs';
 
+import { Addiction } from '@/structures';
+
 interface RelapsesSelectionFabsProps {
   addiction: Addiction;
 }

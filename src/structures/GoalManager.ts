@@ -19,11 +19,13 @@ export enum Goals {
   Year = 'year',
 }
 
+export type GoalDurationByType = {
+  goalType: Goals;
+  timeDiff: number;
+};
+
 class GoalManager {
-  private static goalDurationsByType: {
-    goalType: Goals;
-    timeDiff: number;
-  }[] = [
+  private static goalDurationsByType: GoalDurationByType[] = [
     { goalType: Goals.TenMinutes, timeDiff: 600000 },
     { goalType: Goals.ThirtyMinutes, timeDiff: 1800000 },
     { goalType: Goals.OneHour, timeDiff: 3600000 },
@@ -56,25 +58,7 @@ class GoalManager {
     };
   }
 
-  public static checkProgress(
-    lastRelapse: Date,
-    currentGoal: Goal,
-  ): Achievement {
-    const now = new Date();
-    const diff = differenceInMilliseconds(now, lastRelapse);
-    const totalDiff = differenceInMilliseconds(currentGoal.goalAt, lastRelapse);
-    const progress = Math.min(100, (diff / totalDiff) * 100);
-
-    const achievement: Achievement = {
-      goal: currentGoal,
-      progress,
-      achievedAt: progress >= 100 ? now : undefined,
-    };
-
-    return achievement;
-  }
-
-  public static getGoalDurations(): { goalType: Goals; timeDiff: number }[] {
+  public static getGoalDurations(): GoalDurationByType[] {
     return this.goalDurationsByType;
   }
 }

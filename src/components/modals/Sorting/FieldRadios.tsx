@@ -5,13 +5,13 @@ import { Divider, RadioButton, Text } from 'react-native-paper';
 import { radiosStyle } from './radiosStyle';
 
 import i18n from '@/i18n';
-import { useGlobalStore } from '@/store';
+import { useAddictionsStore } from '@/store';
 import { SortingField } from '@/store/addictions';
 import { useTheme } from '@/theme';
 
 const FieldRadios = () => {
   const { colors } = useTheme();
-  const { sorting, setSorting } = useGlobalStore(state => ({
+  const { sorting, setSorting } = useAddictionsStore(state => ({
     sorting: state.sorting,
     setSorting: state.setSorting,
   }));

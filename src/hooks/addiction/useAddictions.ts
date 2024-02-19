@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { useGlobalStore } from '@/store';
+import { useAddictionsStore } from '@/store';
 import { getSortingFunction } from '@/store/addictions';
 
 interface UseAddictionProps {
@@ -12,7 +12,7 @@ export const useAddictions = ({ hidden = false }: UseAddictionProps = {}) => {
     addictions: rawAddictions,
     addictionsLoading,
     sorting,
-  } = useGlobalStore(state => ({
+  } = useAddictionsStore(state => ({
     addictions: state.addictions,
     addictionsLoading: state.addictionsLoading,
     sorting: state.sorting,

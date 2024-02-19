@@ -48,7 +48,6 @@ export const useTheme = () => {
         : userTheme === Themes.Dark
           ? dark
           : light;
-
     return theme;
   }, [userTheme, colorScheme, lightsOut]);
 };

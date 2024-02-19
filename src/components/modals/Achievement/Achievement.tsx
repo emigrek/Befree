@@ -8,11 +8,10 @@ import { Confetti } from './Confetti';
 
 import { LoadingScreen } from '@/components/screens';
 import { AchievementModal } from '@/components/ui/AchievementModal';
-import { useAchievement } from '@/hooks/achievement';
 import { useAddiction } from '@/hooks/addiction';
 import i18n from '@/i18n';
 import { AchievementScreenProps } from '@/navigation/types';
-import { Goals } from '@/services/managers/local';
+import { Addiction, Goals } from '@/structures';
 
 interface AchievementProps {
   addiction: Addiction;
@@ -20,7 +19,7 @@ interface AchievementProps {
 }
 
 const Achievement: FC<AchievementProps> = ({ addiction, goalType }) => {
-  const achievement = useAchievement({ addiction, goalType });
+  const achievement = addiction.achievements.getAchievement(goalType);
   const { colors } = useTheme();
 
   if (!achievement) {

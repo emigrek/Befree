@@ -3,9 +3,8 @@ import React, { FC, useMemo } from 'react';
 
 import { Addiction as AddictionPrimitive } from '@/components/ui/Addiction';
 import { useAbstinenceDuration } from '@/hooks/addiction';
-import { useAddictionLastRelapse } from '@/hooks/relapse';
 import i18n from '@/i18n';
-import { GoalManager } from '@/services/managers/local';
+import { Addiction, GoalManager } from '@/structures';
 import { useTheme } from '@/theme';
 
 interface GoalProgressProps {
@@ -15,13 +14,15 @@ interface GoalProgressProps {
 const GoalProgress: FC<GoalProgressProps> = ({ addiction }) => {
   const { colors } = useTheme();
   const { time } = useAbstinenceDuration({ addiction });
-  const lastRelapse = useAddictionLastRelapse({ addiction });
-  const goal = GoalManager.getGoal(lastRelapse);
+  const goal = GoalManager.getGoal(new Date(addiction.lastRelapse.relapseAt));
 
   const progress = useMemo(() => {
-    const total = differenceInMilliseconds(goal.goalAt, lastRelapse);
+    const total = differenceInMilliseconds(
+      goal.goalAt,
+      new Date(addiction.lastRelapse.relapseAt),
+    );
     return Math.min(time / total, 1);
-  }, [time, lastRelapse, goal]);
+  }, [time, addiction, goal]);
 
   if (!goal) {
     return null;

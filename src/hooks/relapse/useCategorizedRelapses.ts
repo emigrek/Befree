@@ -8,6 +8,7 @@ import {
 import { useMemo } from 'react';
 
 import i18n from '@/i18n';
+import { Relapse } from '@/structures';
 import { capitalizeFirstLetter } from '@/utils';
 
 export interface RelapsesSection {

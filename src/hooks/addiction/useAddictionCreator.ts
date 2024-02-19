@@ -2,11 +2,9 @@ import { useCallback, useState } from 'react';
 
 import { useImageUpload } from '@/hooks/storage';
 import { UserDataManager } from '@/services/managers/firebase';
-import {
-  AchievementNotificationsManager,
-  NotificationsBlacklistManager,
-} from '@/services/managers/local';
+import { NotificationsBlacklistManager } from '@/services/managers/local';
 import { useAuthStore } from '@/store';
+import { UnidentifiedFirebaseAddiction } from '@/structures/Addiction';
 
 export const useAddictionCreator = () => {
   const { upload, task, uploadProgress } = useImageUpload();
@@ -14,7 +12,7 @@ export const useAddictionCreator = () => {
   const user = useAuthStore(state => state.user);
 
   const create = useCallback(
-    async (addiction: UnidentifiedAddiction) => {
+    async (addiction: UnidentifiedFirebaseAddiction) => {
       if (!user) return null;
 
       setCreating(true);
@@ -26,7 +24,7 @@ export const useAddictionCreator = () => {
       const isBlacklisted =
         await NotificationsBlacklistManager.getInstance().has(newAddiction.id);
       if (!isBlacklisted) {
-        await new AchievementNotificationsManager(newAddiction).scheduleAll();
+        await newAddiction.achievements.notifications.scheduleAll();
       }
 
       if (image) {

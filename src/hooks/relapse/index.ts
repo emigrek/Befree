@@ -1,4 +1,3 @@
-export { useAddictionLastRelapse } from './useAddictionLastRelapse';
 export {
   RelapsesSection,
   useCategorizedRelapses,

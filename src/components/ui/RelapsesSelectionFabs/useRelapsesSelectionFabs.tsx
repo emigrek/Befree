@@ -2,11 +2,9 @@ import { useMemo } from 'react';
 
 import { SelectionFabType } from '@/components/ui/SelectionFab';
 import { UserDataManager } from '@/services/managers/firebase';
-import {
-  AchievementNotificationsManager,
-  NotificationsBlacklistManager,
-} from '@/services/managers/local';
+import { NotificationsBlacklistManager } from '@/services/managers/local';
 import { useAuthStore, useRelapsesSelectionStore } from '@/store';
+import { Addiction } from '@/structures';
 import { useTheme } from '@/theme';
 
 interface UseRelapsesSelectionFabsProps {
@@ -54,9 +52,7 @@ const useRelapsesSelectionFabs = ({
           if (!isBlacklisted) {
             const newAddiction = await addictions.get(addiction.id);
             if (newAddiction)
-              await new AchievementNotificationsManager(
-                newAddiction,
-              ).reschedule();
+              await newAddiction.achievements.notifications.reschedule();
           }
 
           setSelected([]);

@@ -1,7 +1,7 @@
 import { NavigatorScreenParams, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 
-import { Goals } from '@/services/managers/local/goal';
+import { Goals } from '@/structures';
 
 // PARAM LIST TYPES
 

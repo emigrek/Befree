@@ -1,6 +1,9 @@
 import { differenceInMilliseconds } from 'date-fns';
 
-import { GoalManager, Goals } from './goal';
+import { AchievementNotificationsManager } from './AchievementNotificationsManager';
+import { GoalManager, Goals } from './GoalManager';
+
+import { Addiction } from '@/structures';
 
 export interface Abstinence {
   start: Date;
@@ -8,10 +11,22 @@ export interface Abstinence {
 }
 
 class AchievementManager {
-  static getAchievement(relapses: Date[], goalType: Goals): Achievement | null {
-    const sortedRelapses = relapses.sort((a, b) => a.getTime() - b.getTime());
+  private addiction: Addiction;
+
+  notifications: AchievementNotificationsManager;
+
+  constructor(addiction: Addiction) {
+    this.addiction = addiction;
+
+    this.notifications = new AchievementNotificationsManager(addiction);
+  }
+
+  public getAchievement(goalType: Goals): Achievement | null {
+    const sortedRelapses = this.addiction.relapseDates.sort(
+      (a, b) => a.getTime() - b.getTime(),
+    );
     const lastRelapse = sortedRelapses[sortedRelapses.length - 1];
-    const longestAbstinence = this.getLongestAbstinence(sortedRelapses);
+    const longestAbstinence = this.getLatestAbstinence();
 
     const currentAbstinence = {
       start: lastRelapse,
@@ -61,20 +76,17 @@ class AchievementManager {
     };
   }
 
-  static getAchievements(relapses: Date[]): Achievement[] {
+  public getAchievements(): Achievement[] {
     return GoalManager.getGoalDurations().map(goal => {
-      const achievement = this.getAchievement(relapses, goal.goalType);
+      const achievement = this.getAchievement(goal.goalType);
       return achievement as Achievement;
     });
   }
 
-  static getLongestAbstinence(relapses: Date[]): Abstinence {
-    const dates = [...relapses, new Date()].sort(
-      (a, b) => new Date(a).getTime() - new Date(b).getTime(),
-    );
-
+  public getLongestAbstinence(): Abstinence {
+    const dates = [...this.addiction.relapseDates, new Date()];
     let maxDifference = 0;
-    let longestPeriod: Abstinence = { start: dates[0], end: null };
+    let longestPeriod: Abstinence = { start: new Date(dates[0]), end: null };
 
     if (dates.length === 1) {
       return longestPeriod;
@@ -92,6 +104,17 @@ class AchievementManager {
     }
 
     return longestPeriod;
+  }
+
+  public getLatestAbstinence(): Abstinence {
+    const sortedRelapses = this.addiction.relapseDates.sort(
+      (a, b) => a.getTime() - b.getTime(),
+    );
+    const lastRelapse = sortedRelapses[sortedRelapses.length - 1];
+    return {
+      start: lastRelapse,
+      end: new Date(),
+    };
   }
 }
 

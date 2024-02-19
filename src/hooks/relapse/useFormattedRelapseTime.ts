@@ -1,5 +1,6 @@
 import { format, formatDistanceToNow } from 'date-fns';
 
+import { Relapse } from '@/structures';
 import { capitalizeFirstLetter } from '@/utils';
 
 interface UseFormattedRelapseTimeProps {

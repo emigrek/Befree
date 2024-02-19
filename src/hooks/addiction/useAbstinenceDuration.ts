@@ -6,7 +6,7 @@ import {
 import { useCallback, useState } from 'react';
 import { useElapsedTime } from 'use-elapsed-time';
 
-import { useAddictionLastRelapse } from '@/hooks/relapse/useAddictionLastRelapse';
+import { Addiction } from '@/structures';
 
 export interface UseAbstinenceDurationProps {
   addiction: Addiction;
@@ -17,16 +17,8 @@ export const useAbstinenceDuration = ({
   addiction,
   refresh = true,
 }: UseAbstinenceDurationProps) => {
-  const lastRelapse = useAddictionLastRelapse({ addiction });
-  const [abscinenceDuration, setAbscinenceDuration] = useState<Duration>(
-    intervalToDuration({
-      start: lastRelapse,
-      end: new Date(),
-    }),
-  );
-  const [abstinenceTime, setAbstinenceTime] = useState<number>(
-    differenceInMilliseconds(new Date(), lastRelapse),
-  );
+  const [abscinenceDuration, setAbscinenceDuration] = useState<Duration>({});
+  const [abstinenceTime, setAbstinenceTime] = useState<number>(0);
 
   useElapsedTime({
     isPlaying: refresh,
@@ -34,12 +26,17 @@ export const useAbstinenceDuration = ({
     onUpdate: useCallback(() => {
       setAbscinenceDuration(
         intervalToDuration({
-          start: lastRelapse,
+          start: new Date(addiction.lastRelapse.relapseAt),
           end: new Date(),
         }),
       );
-      setAbstinenceTime(differenceInMilliseconds(new Date(), lastRelapse));
-    }, [lastRelapse]),
+      setAbstinenceTime(
+        differenceInMilliseconds(
+          new Date(),
+          new Date(addiction.lastRelapse.relapseAt),
+        ),
+      );
+    }, [addiction]),
   });
 
   return {

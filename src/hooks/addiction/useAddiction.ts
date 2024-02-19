@@ -1,13 +1,14 @@
 import { useMemo } from 'react';
 
-import { useGlobalStore } from '@/store';
+import { useAddictionsStore } from '@/store';
+import { Addiction } from '@/structures';
 
 export interface UseAddictionProps {
   id: string;
 }
 
-export const useAddiction = ({ id }: UseAddictionProps) => {
-  const addictions = useGlobalStore(state => state.addictions);
+export const useAddiction = ({ id }: UseAddictionProps): Addiction | null => {
+  const addictions = useAddictionsStore(state => state.addictions);
 
   return useMemo(() => {
     return addictions.find(addiction => addiction.id === id) || null;

@@ -22,10 +22,11 @@ import {
 import { UserDataManager } from '@/services/managers/firebase';
 import { addictionImageRef } from '@/services/refs/image';
 import { useAuthStore, useNetInfoStore } from '@/store';
+import { Addiction as AddictionType } from '@/structures';
 import { NameSchema, Name as NameType } from '@/validation/name.schema';
 
 interface AddictionEditProps {
-  addiction: Addiction;
+  addiction: AddictionType;
 }
 
 const AddictionEdit: FC<AddictionEditProps> = ({ addiction }) => {

@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { useAddictions } from '@/hooks/addiction';
 import { useTriggerNotificationsStore } from '@/store';
+import { Addiction } from '@/structures';
 
 interface UseAchievementsNotificationsProps {
   hidden?: boolean;

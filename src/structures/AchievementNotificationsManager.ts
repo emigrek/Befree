@@ -1,11 +1,11 @@
 import notifee, { TriggerType } from '@notifee/react-native';
 import { format } from 'date-fns';
 
-import { AchievementManager } from './achievement';
-import { GoalManager, Goals } from './goal';
-import { NotificationsManager } from './notifications';
+import { GoalManager, Goals } from './GoalManager';
 
 import i18n from '@/i18n';
+import { NotificationsManager } from '@/services/managers/local';
+import { Addiction } from '@/structures';
 
 class AchievementNotificationsManager {
   private addiction: Addiction;
@@ -35,12 +35,7 @@ class AchievementNotificationsManager {
   };
 
   schedule = async (goalType: Goals) => {
-    const relapses = [
-      ...this.addiction.relapses.map(r => new Date(r.relapseAt)),
-      this.addiction.startedAt,
-    ];
-
-    const achievement = AchievementManager.getAchievement(relapses, goalType);
+    const achievement = this.addiction.achievements.getAchievement(goalType);
 
     if (!achievement || achievement.progress === 1) {
       return;

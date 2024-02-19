@@ -16,6 +16,7 @@ import {
   ModalStackNavigationProp,
   RelapsesScreenProps,
 } from '@/navigation/types';
+import { Addiction } from '@/structures';
 
 interface RelapsesProps {
   addiction: Addiction;

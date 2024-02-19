@@ -3,22 +3,23 @@ import firestore, {
 } from '@react-native-firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
 
-import { RelapseManager } from './relapse';
-
 import { addictionRef, addictionsRef } from '@/services/refs/addictions';
 import { addictionImageRef } from '@/services/refs/image';
 import { addictionRelapsesRef } from '@/services/refs/relapses';
+import { FirebaseDataParser, FirebaseRelapse, Relapse } from '@/structures';
 import {
-  firebaseTimestampField,
-  parseFirebaseTimestamp,
-} from '@/utils/firebase';
+  Addiction,
+  FirebaseAddiction,
+  UnidentifiedFirebaseAddiction,
+} from '@/structures/Addiction';
+import { firebaseTimestampField } from '@/utils/firebase';
 import { hasNetworkConnection } from '@/utils/hasNetworkConnection';
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
 class AddictionManager {
   private userId: string;
-  private data: Addiction[] = [];
+  private data: FirebaseAddiction[] = [];
   private unsubscribeFromChanges: () => void = () => {};
 
   constructor(userId: string) {
@@ -35,20 +36,24 @@ class AddictionManager {
         return null;
       }
 
-      const addictionData = this.parseAddictionData(
+      const addictionData = FirebaseDataParser.parseAddictionData(
         doc.data() as FirebaseFirestoreTypes.DocumentData,
       );
 
-      addictionData.relapses = await this.getAllRelapses(id);
+      const relapses = await this.getAllRelapses(id);
 
-      return addictionData;
+      addictionData.relapses = relapses.map(relapse => new Relapse(relapse));
+
+      return new Addiction(addictionData);
     } catch (e) {
       console.log('Error getting addiction: ', e);
       return null;
     }
   }
 
-  public async create(addiction: UnidentifiedAddiction): Promise<Addiction> {
+  public async create(
+    addiction: UnidentifiedFirebaseAddiction,
+  ): Promise<Addiction> {
     const isConnected = await hasNetworkConnection();
     const id = nanoid();
     const ref = addictionRef(this.userId, id);
@@ -68,16 +73,16 @@ class AddictionManager {
       console.log('Error creating addiction: ', error);
     }
 
-    return {
+    return new Addiction({
       ...addiction,
       id,
       createdAt: new Date(),
-    };
+    });
   }
 
   public async update(
     id: string,
-    addiction: Partial<UnidentifiedAddiction>,
+    addiction: Partial<UnidentifiedFirebaseAddiction>,
   ): Promise<void> {
     const isConnected = await hasNetworkConnection();
     const ref = addictionRef(this.userId, id);
@@ -130,21 +135,23 @@ class AddictionManager {
     }
   }
 
-  getAllRelapses(addictionId: string): Promise<Relapse[]> {
+  async getAllRelapses(addictionId: string): Promise<FirebaseRelapse[]> {
     return addictionRelapsesRef(this.userId, addictionId)
       .get()
       .then(snapshot =>
         snapshot.docs.map(doc =>
-          new RelapseManager(this.userId).parseRelapseData(doc.data()),
+          FirebaseDataParser.parseRelapseData(doc.data()),
         ),
       );
   }
 
-  listenToChanges(updateCallback: (addictions: Addiction[]) => void): void {
+  listenToChanges(
+    updateCallback: (addictions: FirebaseAddiction[]) => void,
+  ): void {
     this.unsubscribeFromChanges = addictionsRef(this.userId).onSnapshot(
       snapshot => {
         this.data = snapshot.docs.map(doc =>
-          this.parseAddictionData(doc.data()),
+          FirebaseDataParser.parseAddictionData(doc.data()),
         );
         updateCallback(this.data);
       },
@@ -154,21 +161,7 @@ class AddictionManager {
     );
   }
 
-  parseAddictionData(data: FirebaseFirestoreTypes.DocumentData): Addiction {
-    return {
-      id: data.id,
-      name: data.name,
-      image: data.image,
-      relapses: [],
-      hidden: data.hidden,
-      startedAt: parseFirebaseTimestamp(data.startedAt),
-      createdAt: data.createdAt
-        ? parseFirebaseTimestamp(data.createdAt)
-        : new Date(),
-    };
-  }
-
-  getAddictionsData(): Addiction[] {
+  getAddictionsData(): FirebaseAddiction[] {
     return this.data;
   }
 

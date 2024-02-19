@@ -3,10 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
 import { useNotificationsBlacklisted } from '@/hooks/notification';
-import {
-  AchievementNotificationsManager,
-  NotificationsBlacklistManager,
-} from '@/services/managers/local';
+import { NotificationsBlacklistManager } from '@/services/managers/local';
+import { Addiction } from '@/structures';
 
 interface AchievementNotificationsActionProps {
   addiction: Addiction;
@@ -25,10 +23,10 @@ const AchievementNotificationsAction: FC<
 
     if (isBlacklisted) {
       await NotificationsBlacklistManager.getInstance().remove(addiction.id);
-      await new AchievementNotificationsManager(addiction).scheduleAll();
+      await addiction.achievements.notifications.scheduleAll();
     } else {
       await NotificationsBlacklistManager.getInstance().add(addiction.id);
-      await new AchievementNotificationsManager(addiction).cancelAll();
+      await addiction.achievements.notifications.cancelAll();
     }
 
     setLoading(false);

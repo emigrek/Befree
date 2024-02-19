@@ -8,11 +8,9 @@ import { useLocalAuthenticationHardwareStatus } from '@/hooks/useLocalAuthentica
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
 import { UserDataManager } from '@/services/managers/firebase';
-import {
-  AchievementNotificationsManager,
-  NotificationsBlacklistManager,
-} from '@/services/managers/local';
+import { NotificationsBlacklistManager } from '@/services/managers/local';
 import { useAuthStore } from '@/store';
+import { Addiction } from '@/structures';
 import { useTheme } from '@/theme';
 
 export enum Section {
@@ -116,7 +114,7 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
           if (!user) return;
           const { addictions } = new UserDataManager(user.uid);
 
-          await new AchievementNotificationsManager(addiction).cancelAll();
+          await addiction.achievements.notifications.cancelAll();
           await NotificationsBlacklistManager.getInstance().remove(
             addiction.id,
           );

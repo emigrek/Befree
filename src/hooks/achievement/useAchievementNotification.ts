@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import { useTriggerNotificationsStore } from '@/store';
+import { Addiction } from '@/structures';
 
 interface UseAchievementNotification {
   addiction: Addiction;

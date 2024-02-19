@@ -5,9 +5,10 @@ import { Relapse } from '@/components/ui/Relapse';
 import { useFormattedRelapseTime, useRelapseChips } from '@/hooks/relapse';
 import { ModalStackNavigationProp } from '@/navigation/types';
 import { useRelapsesSelectionStore } from '@/store';
+import { Addiction, Relapse as RelapseType } from '@/structures';
 
 interface RelapseItemProps {
-  relapse: Relapse;
+  relapse: RelapseType;
   addiction: Addiction;
 }
 
@@ -22,34 +23,26 @@ const RelapseItem: FC<RelapseItemProps> = ({ relapse, addiction }) => {
       toggleSelected: state.toggle,
     }),
   );
-  const startedAtRelapse = relapse.id === 'startedAt';
 
   const handlePress = useCallback(() => {
-    if (selected.length && !startedAtRelapse) {
+    if (selected.length && !relapse.isStartedRelapse) {
       toggleSelected(relapse);
       return;
     }
 
-    if (startedAtRelapse) return;
+    if (relapse.isStartedRelapse) return;
 
     navigation.navigate('Relapse', {
       relapseId: relapse.id,
       addictionId: addiction.id,
     });
-  }, [
-    toggleSelected,
-    selected,
-    startedAtRelapse,
-    relapse,
-    addiction,
-    navigation,
-  ]);
+  }, [toggleSelected, selected, relapse, addiction, navigation]);
 
   const handleLongPress = useCallback(() => {
-    if (selected.length || startedAtRelapse) return;
+    if (selected.length || relapse.isStartedRelapse) return;
 
     toggleSelected(relapse);
-  }, [toggleSelected, selected, startedAtRelapse, relapse]);
+  }, [toggleSelected, selected, relapse]);
 
   return (
     <Relapse

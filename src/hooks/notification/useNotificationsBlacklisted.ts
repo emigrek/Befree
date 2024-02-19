@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import { useNotificationsBlacklistStore } from '@/store';
+import { Addiction } from '@/structures';
 
 interface UseNotificationsBlacklistedProps {
   addiction: Addiction;

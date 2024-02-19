@@ -6,10 +6,7 @@ import { Appbar } from 'react-native-paper';
 import { useAddiction } from '@/hooks/addiction';
 import { ModalStackNavigationProp, RelapseRouteProp } from '@/navigation/types';
 import { UserDataManager } from '@/services/managers/firebase';
-import {
-  AchievementNotificationsManager,
-  NotificationsBlacklistManager,
-} from '@/services/managers/local';
+import { NotificationsBlacklistManager } from '@/services/managers/local';
 import { useAuthStore } from '@/store';
 
 const RelapseDeleteAction = () => {
@@ -33,7 +30,7 @@ const RelapseDeleteAction = () => {
     if (!isBlacklisted) {
       const newAddiction = await addictions.get(addiction.id);
       if (newAddiction)
-        await new AchievementNotificationsManager(newAddiction).reschedule();
+        await newAddiction.achievements.notifications.reschedule();
     }
 
     navigation.goBack();

@@ -5,14 +5,12 @@ import { Switch, Text } from 'react-native-paper';
 import { Addiction } from '@/components/ui/Addiction';
 import { useNotificationsBlacklisted } from '@/hooks/notification';
 import i18n from '@/i18n';
-import {
-  AchievementNotificationsManager,
-  NotificationsBlacklistManager,
-} from '@/services/managers/local';
+import { NotificationsBlacklistManager } from '@/services/managers/local';
+import { Addiction as AddictionType } from '@/structures';
 import { useTheme } from '@/theme';
 
 interface AchievementNotificationProps {
-  addiction: Addiction;
+  addiction: AddictionType;
   notifications: TriggerNotification[];
 }
 
@@ -31,10 +29,10 @@ const AchievementNotification: FC<AchievementNotificationProps> = ({
 
     if (isBlacklisted) {
       await NotificationsBlacklistManager.getInstance().remove(addiction.id);
-      await new AchievementNotificationsManager(addiction).scheduleAll();
+      await addiction.achievements.notifications.scheduleAll();
     } else {
       await NotificationsBlacklistManager.getInstance().add(addiction.id);
-      await new AchievementNotificationsManager(addiction).cancelAll();
+      await addiction.achievements.notifications.cancelAll();
     }
 
     setLoading(false);

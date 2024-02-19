@@ -16,9 +16,10 @@ import {
   ModalStackNavigationProp,
   ProgressScreenProps,
 } from '@/navigation/types';
+import { Addiction as AddictionType } from '@/structures';
 
 interface ProgressProps {
-  addiction: Addiction;
+  addiction: AddictionType;
 }
 
 const Progress: React.FC<ProgressProps> = ({ addiction }) => {

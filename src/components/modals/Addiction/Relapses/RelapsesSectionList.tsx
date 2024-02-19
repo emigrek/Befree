@@ -5,6 +5,7 @@ import { RelapseItem } from './RelapseItem';
 import { SectionHeader } from './SectionHeader';
 
 import { RelapsesSection } from '@/hooks/relapse';
+import { Addiction, Relapse } from '@/structures';
 
 interface RelapsesSectionListProps {
   addiction: Addiction;

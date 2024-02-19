@@ -5,10 +5,7 @@ import {
   AddictionManager,
   UserDataManager,
 } from '@/services/managers/firebase';
-import {
-  AchievementNotificationsManager,
-  NotificationsBlacklistManager,
-} from '@/services/managers/local';
+import { NotificationsBlacklistManager } from '@/services/managers/local';
 import { useAddictionsSelectionStore, useAuthStore } from '@/store';
 import { useTheme } from '@/theme';
 
@@ -42,7 +39,7 @@ const useAddictionsSelectionFabs = () => {
           const addictions = new AddictionManager(user.uid);
 
           const deletionPromise = selected.map(async addiction => {
-            new AchievementNotificationsManager(addiction).cancelAll();
+            addiction.achievements.notifications.cancelAll();
             NotificationsBlacklistManager.getInstance().remove(addiction.id);
             addictions.delete(addiction.id);
           });
@@ -74,9 +71,7 @@ const useAddictionsSelectionFabs = () => {
             if (!isBlacklisted) {
               const newAddiction = await addictions.get(addiction.id);
               if (newAddiction)
-                await new AchievementNotificationsManager(
-                  addiction,
-                ).reschedule();
+                await newAddiction.achievements.notifications.reschedule();
             }
           });
 

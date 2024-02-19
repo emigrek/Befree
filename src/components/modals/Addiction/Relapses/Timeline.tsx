@@ -2,6 +2,7 @@ import { FC, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Timeline as TimelinePrimitive } from '@/components/ui/Timeline';
+import { Addiction } from '@/structures';
 
 interface TimelineProps {
   addiction: Addiction;
@@ -9,11 +10,8 @@ interface TimelineProps {
 
 const Timeline: FC<TimelineProps> = ({ addiction }) => {
   const data = useMemo(() => {
-    return [
-      new Date(addiction.startedAt),
-      ...addiction.relapses.map(relapse => new Date(relapse.relapseAt)),
-    ];
-  }, [addiction]);
+    return addiction.relapses.map(relapse => new Date(relapse.relapseAt));
+  }, [addiction.relapses]);
 
   const range = useMemo(() => {
     const left = data[0];

@@ -1,24 +1,26 @@
-import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { customAlphabet } from 'nanoid/non-secure';
 
 import { relapseRef, relapsesRef } from '@/services/refs/relapses';
 import {
-  firebaseTimestampField,
-  parseFirebaseTimestamp,
-} from '@/utils/firebase';
+  FirebaseDataParser,
+  FirebaseRelapse,
+  Relapse,
+  UnidentifiedFirebaseRelapse,
+} from '@/structures';
+import { firebaseTimestampField } from '@/utils/firebase';
 import { hasNetworkConnection } from '@/utils/hasNetworkConnection';
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 
 class RelapseManager {
   private userId: string;
-  private data: Relapse[] = [];
+  private data: FirebaseRelapse[] = [];
   private unsubscribeFromChanges: () => void = () => {};
 
   constructor(userId: string) {
     this.userId = userId;
   }
 
-  public async create(relapse: UnidentifiedRelapse): Promise<Relapse> {
+  public async create(relapse: UnidentifiedFirebaseRelapse): Promise<Relapse> {
     const isConnected = await hasNetworkConnection();
     const id = nanoid();
     const ref = relapseRef(this.userId, id);
@@ -38,14 +40,17 @@ class RelapseManager {
       console.error('Error creating relapse: ', error);
     }
 
-    return {
+    return new Relapse({
       ...relapse,
       id,
       createdAt: new Date(),
-    };
+    });
   }
 
-  public async update(id: string, relapse: Partial<UnidentifiedRelapse>) {
+  public async update(
+    id: string,
+    relapse: Partial<UnidentifiedFirebaseRelapse>,
+  ) {
     const isConnected = await hasNetworkConnection();
     const ref = relapseRef(this.userId, id);
 
@@ -74,12 +79,12 @@ class RelapseManager {
     }
   }
 
-  listenToChanges(updateCallback: (relapses: Relapse[]) => void): void {
+  listenToChanges(updateCallback: (relapses: FirebaseRelapse[]) => void): void {
     this.unsubscribeFromChanges = relapsesRef(this.userId).onSnapshot(
       snapshot => {
         this.data = snapshot.docs.map(doc =>
-          this.parseRelapseData(doc.data()),
-        ) as Relapse[];
+          FirebaseDataParser.parseRelapseData(doc.data()),
+        );
         updateCallback(this.data);
       },
       error => {
@@ -88,19 +93,7 @@ class RelapseManager {
     );
   }
 
-  parseRelapseData(data: FirebaseFirestoreTypes.DocumentData): Relapse {
-    return {
-      id: data.id,
-      addictionId: data.addictionId,
-      note: data.note,
-      relapseAt: parseFirebaseTimestamp(data.relapseAt),
-      createdAt: data.createdAt
-        ? parseFirebaseTimestamp(data.createdAt)
-        : new Date(),
-    };
-  }
-
-  getRelapsesData(): Relapse[] {
+  getRelapsesData(): FirebaseRelapse[] {
     return this.data;
   }
 

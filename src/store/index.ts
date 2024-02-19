@@ -17,12 +17,13 @@ import {
   createTriggerNotificationsSlice,
 } from './triggerNotifications';
 
-export const useGlobalStore = create<ThemeSlice & AppSlice & AddictionsSlice>()(
+import { Addiction, Relapse } from '@/structures';
+
+export const useGlobalStore = create<ThemeSlice & AppSlice>()(
   persist(
     (...a) => ({
       ...createThemeSlice(...a),
       ...createAppSlice(...a),
-      ...createAddictionsSlice(...a),
     }),
     {
       name: 'global-storage',
@@ -30,6 +31,10 @@ export const useGlobalStore = create<ThemeSlice & AppSlice & AddictionsSlice>()(
     },
   ),
 );
+
+export const useAddictionsStore = create<AddictionsSlice>()((...a) => ({
+  ...createAddictionsSlice(...a),
+}));
 
 export const useNetInfoStore = create<NetInfoSlice>()((...a) => ({
   ...createNetInfoSlice(...a),

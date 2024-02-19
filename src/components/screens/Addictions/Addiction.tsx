@@ -6,15 +6,14 @@ import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { Addiction as AddictionPrimitive } from '@/components/ui/Addiction';
 import { AnimatedTouchableRipple } from '@/components/ui/TouchableRipple';
 import { useAbstinenceDuration } from '@/hooks/addiction';
-import { useAddictionLastRelapse } from '@/hooks/relapse';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
-import { GoalManager } from '@/services/managers/local';
 import { useAddictionsSelectionStore } from '@/store';
+import { Addiction as AddictionType, GoalManager } from '@/structures';
 import { useTheme } from '@/theme';
 
 type AddictionProps = {
-  addiction: Addiction;
+  addiction: AddictionType;
 };
 
 const Addiction: FC<AddictionProps> = ({ addiction }) => {
@@ -29,13 +28,15 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
       selected: state.selected,
     }),
   );
-  const lastRelapse = useAddictionLastRelapse({ addiction });
-  const goal = GoalManager.getGoal(lastRelapse);
+  const goal = GoalManager.getGoal(new Date(addiction.lastRelapse.relapseAt));
 
   const progress = useMemo(() => {
-    const total = differenceInMilliseconds(goal.goalAt, lastRelapse);
+    const total = differenceInMilliseconds(
+      goal.goalAt,
+      new Date(addiction.lastRelapse.relapseAt),
+    );
     return Math.min(time / total, 1);
-  }, [time, lastRelapse, goal]);
+  }, [time, addiction, goal]);
 
   const handleAddictionPress = useCallback(() => {
     if (selected.length) {

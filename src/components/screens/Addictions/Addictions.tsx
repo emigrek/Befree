@@ -17,7 +17,6 @@ interface AddictionsScreenProps {
 
 const AddictionsScreen: FC<AddictionsScreenProps> = ({ hidden }) => {
   const { addictions, addictionsLoading } = useAddictions({ hidden });
-
   return (
     <View style={{ flex: 1 }}>
       <Header>
