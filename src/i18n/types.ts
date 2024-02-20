@@ -33,13 +33,16 @@ export interface Translation {
     'ten-minutes': string;
     'thirty-minutes': string;
     'one-hour': string;
+    'three-hours': string;
     'half-day': string;
     day: string;
     'three-days': string;
     week: string;
     month: string;
+    'three-months': string;
     quarter: string;
     'half-year': string;
+    'nine-months': string;
     year: string;
   };
   screens: {

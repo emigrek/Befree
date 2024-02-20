@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { forwardRef } from 'react';
 import { StyleSheet, View, ViewProps } from 'react-native';
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -13,47 +13,53 @@ interface IconProps extends ViewProps {
   backgroundColor?: string;
 }
 
-const Icon: FC<IconProps> = ({
-  name,
-  color,
-  size = 69,
-  fontSize,
-  roundness = 8,
-  backgroundColor = 'transparent',
-  style: containerStyle,
-  ...props
-}) => {
-  return (
-    <View
-      style={[
-        style.icon,
-        containerStyle,
-        {
-          backgroundColor: backgroundColor ? backgroundColor : 'transparent',
-        },
-        {
-          width: size,
-          height: size,
-          borderRadius: roundness,
-          justifyContent: 'center',
-        },
-      ]}
-      {...props}
-    >
-      <MCI name={'trophy'} size={size * 0.55} color={color} />
-      <Bold
-        style={{
-          color,
-          fontSize,
-        }}
+const Icon = forwardRef<View, IconProps>(
+  (
+    {
+      name,
+      color,
+      size = 69,
+      fontSize,
+      roundness = 8,
+      backgroundColor = 'transparent',
+      style: containerStyle,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <View
+        ref={ref}
+        style={[
+          style.icon,
+          containerStyle,
+          {
+            backgroundColor: backgroundColor ? backgroundColor : 'transparent',
+          },
+          {
+            width: size,
+            height: size,
+            borderRadius: roundness,
+            justifyContent: 'center',
+          },
+        ]}
+        {...props}
       >
-        {name}
-      </Bold>
-    </View>
-  );
-};
+        <MCI name={'trophy'} size={size * 0.55} color={color} />
+        <Bold
+          style={{
+            color,
+            fontSize,
+          }}
+        >
+          {name}
+        </Bold>
+      </View>
+    );
+  },
+);
 
-export { Icon };
+export { Icon, IconProps };
 
 const style = StyleSheet.create({
   icon: {
