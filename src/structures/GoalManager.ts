@@ -1,5 +1,7 @@
 import { add, differenceInMilliseconds } from 'date-fns';
 
+import { Addiction } from './Addiction';
+
 export interface Goal {
   goalAt: Date;
   goalType: Goals;
@@ -28,7 +30,7 @@ export type GoalDurationByType = {
 };
 
 class GoalManager {
-  private static goalDurationsByType: GoalDurationByType[] = [
+  private goalDurationsByType: GoalDurationByType[] = [
     { goalType: Goals.TenMinutes, timeDiff: 600000 },
     { goalType: Goals.ThirtyMinutes, timeDiff: 1800000 },
     { goalType: Goals.OneHour, timeDiff: 3600000 },
@@ -44,9 +46,17 @@ class GoalManager {
     { goalType: Goals.NineMonths, timeDiff: 23328000000 },
     { goalType: Goals.Year, timeDiff: 31536000000 },
   ];
+  private addiction: Addiction;
 
-  public static getGoal(lastRelapse: Date): Goal {
-    const diff = differenceInMilliseconds(new Date(), lastRelapse);
+  constructor(addiction: Addiction) {
+    this.addiction = addiction;
+  }
+
+  get goal(): Goal {
+    const diff = differenceInMilliseconds(
+      new Date(),
+      new Date(this.addiction.lastRelapse.relapseAt),
+    );
 
     const { goalType, timeDiff } =
       this.goalDurationsByType.find(goal => goal.timeDiff > diff) ||
@@ -54,7 +64,7 @@ class GoalManager {
 
     const periodsPassed = Math.ceil(diff / timeDiff);
 
-    const goalAt = add(lastRelapse, {
+    const goalAt = add(new Date(this.addiction.lastRelapse.relapseAt), {
       seconds: (periodsPassed * timeDiff) / 1000,
     });
 
@@ -64,7 +74,24 @@ class GoalManager {
     };
   }
 
-  public static getGoalDurations(): GoalDurationByType[] {
+  get progress(): number {
+    const { goalAt } = this.goal;
+
+    const diff = differenceInMilliseconds(new Date(), goalAt);
+    const duration = this.getGoalDuration(this.goal.goalType);
+
+    if (!duration) {
+      return 0;
+    }
+
+    return Math.min(1, Math.abs(diff) / duration.timeDiff);
+  }
+
+  public getGoalDuration(goalType: Goals): GoalDurationByType | undefined {
+    return this.goalDurationsByType.find(goal => goal.goalType === goalType);
+  }
+
+  public getGoalDurations(): GoalDurationByType[] {
     return this.goalDurationsByType;
   }
 }

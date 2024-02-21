@@ -1,4 +1,5 @@
 import { AchievementManager } from './AchievementManager';
+import { GoalManager } from './GoalManager';
 import { Relapse } from './Relapse';
 
 interface FirebaseAddiction {
@@ -28,6 +29,7 @@ class Addiction {
   initialRelapse: Relapse;
 
   achievements: AchievementManager;
+  goals: GoalManager;
 
   constructor(addiction: FirebaseAddiction) {
     this.id = addiction.id;
@@ -50,6 +52,7 @@ class Addiction {
         new Date(a.relapseAt).getTime() - new Date(b.relapseAt).getTime(),
     );
 
+    this.goals = new GoalManager(this);
     this.achievements = new AchievementManager(this);
   }
 

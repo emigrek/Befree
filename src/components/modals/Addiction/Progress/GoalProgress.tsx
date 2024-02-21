@@ -1,10 +1,8 @@
-import { differenceInMilliseconds } from 'date-fns';
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 
 import { Addiction as AddictionPrimitive } from '@/components/ui/Addiction';
-import { useAbstinenceDuration } from '@/hooks/addiction';
 import i18n from '@/i18n';
-import { Addiction, GoalManager } from '@/structures';
+import { Addiction } from '@/structures';
 import { useTheme } from '@/theme';
 
 interface GoalProgressProps {
@@ -13,16 +11,7 @@ interface GoalProgressProps {
 
 const GoalProgress: FC<GoalProgressProps> = ({ addiction }) => {
   const { colors } = useTheme();
-  const { time } = useAbstinenceDuration({ addiction });
-  const goal = GoalManager.getGoal(new Date(addiction.lastRelapse.relapseAt));
-
-  const progress = useMemo(() => {
-    const total = differenceInMilliseconds(
-      goal.goalAt,
-      new Date(addiction.lastRelapse.relapseAt),
-    );
-    return Math.min(time / total, 1);
-  }, [time, addiction, goal]);
+  const { goal, progress } = addiction.goals;
 
   if (!goal) {
     return null;

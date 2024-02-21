@@ -1,11 +1,10 @@
 import { format } from 'date-fns';
 import { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { Portal, useTheme } from 'react-native-paper';
 import { ZoomIn, ZoomOut } from 'react-native-reanimated';
 
-import { Confetti } from './Confetti';
-
+import { Confetti, ConfettiVariant } from '@/components/animations';
 import { LoadingScreen } from '@/components/screens';
 import { AchievementModal } from '@/components/ui/AchievementModal';
 import { useAddiction } from '@/hooks/addiction';
@@ -51,7 +50,19 @@ const Achievement: FC<AchievementProps> = ({ addiction, goalType }) => {
           </AchievementModal.Date>
         </AchievementModal>
       </View>
-      <Confetti />
+      <Confetti
+        variant={ConfettiVariant.ToTop}
+        style={{
+          position: 'absolute',
+          width: Dimensions.get('screen').width,
+          height: Dimensions.get('screen').height,
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+        resizeMode="cover"
+        loop={false}
+        autoPlay
+      />
     </Portal>
   );
 };

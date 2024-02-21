@@ -1,7 +1,7 @@
 import { differenceInMilliseconds } from 'date-fns';
 
 import { AchievementNotificationsManager } from './AchievementNotificationsManager';
-import { GoalManager, Goals } from './GoalManager';
+import { Goals } from './GoalManager';
 
 import { Addiction } from '@/structures';
 
@@ -17,50 +17,34 @@ class AchievementManager {
 
   constructor(addiction: Addiction) {
     this.addiction = addiction;
-
     this.notifications = new AchievementNotificationsManager(addiction);
   }
 
   public getAchievement(goalType: Goals): Achievement | null {
-    const sortedRelapses = this.addiction.relapseDates.sort(
-      (a, b) => a.getTime() - b.getTime(),
-    );
-    const lastRelapse = sortedRelapses[sortedRelapses.length - 1];
-    const longestAbstinence = this.getLatestAbstinence();
-
+    const latestAbstinence = this.getLatestAbstinence();
     const currentAbstinence = {
-      start: lastRelapse,
+      start: new Date(this.addiction.lastRelapse.relapseAt),
       end: null,
     };
 
-    const goal = GoalManager.getGoalDurations().find(
-      goal => goal.goalType === goalType,
-    );
-
+    const goal = this.addiction.goals.getGoalDuration(goalType);
     if (!goal) {
       return null;
     }
 
-    const longestAbstinenceDiff = differenceInMilliseconds(
-      longestAbstinence.end === null ? new Date() : longestAbstinence.end,
-      longestAbstinence.start,
+    const latestAbstinenceDiff = differenceInMilliseconds(
+      latestAbstinence.end === null ? new Date() : latestAbstinence.end,
+      latestAbstinence.start,
     );
 
-    const currentAbstinenceDiff = differenceInMilliseconds(
-      new Date(),
-      currentAbstinence.start,
-    );
-
-    const achieved =
-      longestAbstinenceDiff >= goal.timeDiff ||
-      currentAbstinenceDiff >= goal.timeDiff;
+    const achieved = latestAbstinenceDiff >= goal.timeDiff;
 
     const progress = achieved
       ? 1
-      : Math.min(1, currentAbstinenceDiff / goal.timeDiff);
+      : Math.min(1, latestAbstinenceDiff / goal.timeDiff);
 
     const goalAt = new Date(
-      (achieved ? longestAbstinence.start : currentAbstinence.start).getTime() +
+      (achieved ? latestAbstinence.start : currentAbstinence.start).getTime() +
         goal.timeDiff,
     );
 
@@ -77,7 +61,7 @@ class AchievementManager {
   }
 
   public getAchievements(): Achievement[] {
-    return GoalManager.getGoalDurations().map(goal => {
+    return this.addiction.goals.getGoalDurations().map(goal => {
       const achievement = this.getAchievement(goal.goalType);
       return achievement as Achievement;
     });

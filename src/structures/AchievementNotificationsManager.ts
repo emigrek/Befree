@@ -1,7 +1,7 @@
 import notifee, { TriggerType } from '@notifee/react-native';
 import { format } from 'date-fns';
 
-import { GoalManager, Goals } from './GoalManager';
+import { Goals } from './GoalManager';
 
 import i18n from '@/i18n';
 import { NotificationsManager } from '@/services/managers/local';
@@ -82,7 +82,9 @@ class AchievementNotificationsManager {
       return notification.data?.goalType;
     });
 
-    const goalTypes = GoalManager.getGoalDurations().map(goal => goal.goalType);
+    const goalTypes = this.addiction.goals
+      .getGoalDurations()
+      .map(goal => goal.goalType);
     const promises = goalTypes.map(goalType => {
       if (!scheduledGoalTypes.includes(goalType)) return;
       this.cancel(goalType);
@@ -93,7 +95,7 @@ class AchievementNotificationsManager {
   };
 
   scheduleAll = () => {
-    const promises = GoalManager.getGoalDurations().map(goal => {
+    const promises = this.addiction.goals.getGoalDurations().map(goal => {
       return this.schedule(goal.goalType);
     });
 

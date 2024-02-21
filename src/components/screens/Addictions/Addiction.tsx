@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { differenceInMilliseconds } from 'date-fns';
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, useCallback } from 'react';
 import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { Addiction as AddictionPrimitive } from '@/components/ui/Addiction';
@@ -9,7 +8,7 @@ import { useAbstinenceDuration } from '@/hooks/addiction';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
 import { useAddictionsSelectionStore } from '@/store';
-import { Addiction as AddictionType, GoalManager } from '@/structures';
+import { Addiction as AddictionType } from '@/structures';
 import { useTheme } from '@/theme';
 
 type AddictionProps = {
@@ -19,8 +18,7 @@ type AddictionProps = {
 const Addiction: FC<AddictionProps> = ({ addiction }) => {
   const navigation = useNavigation<ModalStackNavigationProp>();
   const { colors } = useTheme();
-
-  const { time, duration } = useAbstinenceDuration({ addiction });
+  const { duration } = useAbstinenceDuration({ addiction });
   const { isSelected, toggleSelected, selected } = useAddictionsSelectionStore(
     state => ({
       isSelected: state.isSelected(addiction),
@@ -28,15 +26,7 @@ const Addiction: FC<AddictionProps> = ({ addiction }) => {
       selected: state.selected,
     }),
   );
-  const goal = GoalManager.getGoal(new Date(addiction.lastRelapse.relapseAt));
-
-  const progress = useMemo(() => {
-    const total = differenceInMilliseconds(
-      goal.goalAt,
-      new Date(addiction.lastRelapse.relapseAt),
-    );
-    return Math.min(time / total, 1);
-  }, [time, addiction, goal]);
+  const { goal, progress } = addiction.goals;
 
   const handleAddictionPress = useCallback(() => {
     if (selected.length) {
