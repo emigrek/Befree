@@ -77,14 +77,14 @@ class GoalManager {
   get progress(): number {
     const { goalAt } = this.goal;
 
-    const diff = differenceInMilliseconds(new Date(), goalAt);
+    const diff = differenceInMilliseconds(goalAt, new Date());
     const duration = this.getGoalDuration(this.goal.goalType);
 
     if (!duration) {
       return 0;
     }
 
-    return Math.min(1, Math.abs(diff) / duration.timeDiff);
+    return 1 - Math.min(1, diff / duration.timeDiff);
   }
 
   public getGoalDuration(goalType: Goals): GoalDurationByType | undefined {
