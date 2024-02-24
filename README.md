@@ -38,21 +38,21 @@ npm install -g eas-cli
 1. Create a new project in the [Firebase Console](https://console.firebase.google.com/)
 2. Enable the Google Sign-In provider in the Firebase Console
 3. Enable Firestore and Storage in the Firebase Console
-4. Add new Android and iOS apps to the project. Download `google-services.json` and `Google_Service_Info.plist`
-5. Upload them to the project's EAS Secret Manager. Name keys based on `app.config.ts` file. Production names: GOOGLE_SERVICES_JSON, GOOGLE_SERVICES_JSON_IOS. Development names: GOOGLE_SERVICES_JSON_DEV, GOOGLE_SERVICES_JSON_IOS_DEV. You can do this using the following command:
-
-```
-eas secret
-```
-
-6. Generate SHA-1 and SHA-256 fingerprints using:
+4. Generate SHA-1 and SHA-256 app fingerprints using:
 
 ```
 eas credentials
 ```
 
-7. Add all fingerprints to the Firebase Console -> Project settings -> General -> Your apps -> Add fingerprint
-8. Add Client Ids from `Google_Service_Info.plist` and `google-services.json` to the Firebase Console -> Authentication -> Sign-in method -> Google -> Web client Id
+5. Add new Android and iOS apps to the project. Download `google-services.json` and `Google_Service_Info.plist`
+6. Add all fingerprints to the Firebase Console -> Project settings -> General -> Your apps -> Add fingerprint
+7. Upload them to the project's EAS Secret Manager. Name keys based on `app.config.ts` file. Production names: GOOGLE_SERVICES_JSON, GOOGLE_SERVICES_JSON_IOS. Development names: GOOGLE_SERVICES_JSON_DEV, GOOGLE_SERVICES_JSON_IOS_DEV. You can do this using the following command:
+
+```
+eas secret
+```
+
+8. Extract client id from either `Google_Service_Info.plist` (ANDROID_CLIENT_ID) or `google-services.json` (client_id from client_type 3) and add to the Firebase Console -> Authentication -> Sign-in method -> Google -> Web client ID
 9. Repeat steps 4-8 for desired environments (development, production)
 10. Add authentication rules to the Firebase Firestore -> Rules:
 
