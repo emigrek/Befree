@@ -1,5 +1,5 @@
 import { useHeaderHeight } from '@react-navigation/elements';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { IconButton, Text } from 'react-native-paper';
 
@@ -12,6 +12,11 @@ interface LockedProps {
 
 const Locked: FC<LockedProps> = ({ localAuthenticate }) => {
   const headerHeight = useHeaderHeight();
+
+  useEffect(() => {
+    localAuthenticate();
+  }, [localAuthenticate]);
+
   return (
     <Screen style={[styles.screen, { marginBottom: headerHeight }]}>
       <View style={styles.texts}>

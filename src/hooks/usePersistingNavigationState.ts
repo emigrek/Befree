@@ -38,7 +38,9 @@ export const usePersistingNavigationState = () => {
               | null)
           : undefined;
 
-        if (state) setInitialNavigationState(state);
+        if (!state) return;
+
+        setInitialNavigationState(state);
       } finally {
         if (isMounted()) setIsRestored(true);
       }

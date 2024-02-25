@@ -11,11 +11,12 @@ import {
   useNotificationsBlacklistSubscription,
   useTriggerNotificationsSubscription,
 } from '@/hooks/notification';
+import { useAppStateSubscription } from '@/hooks/useAppStateSubscription';
 import { useNetInfoStateSubscription } from '@/hooks/useNetInfoStateSubscription';
 import { usePersistingNavigationState } from '@/hooks/usePersistingNavigationState';
 import { modalsNavigationContainerRef } from '@/navigation/NavigationContainerRef';
 import { RootStack } from '@/navigation/RootStack';
-import { useGlobalStore } from '@/store';
+import { useGlobalStore, useLocalAuthStore } from '@/store';
 import { AppSlice } from '@/store/app';
 import { ThemeSlice } from '@/store/theme';
 import { usePersistedStoreHydrationState } from '@/store/usePersistedStoreHydrationState';
@@ -34,6 +35,7 @@ export default function App() {
     isRestored: isNavigationRestored,
     onNavigationStateChange,
   } = usePersistingNavigationState();
+  const { setAuthenticated: setLocalAuthenticated } = useLocalAuthStore();
 
   // Prevents white theme flash when Theme store is not hydrated
   const isHydrated = usePersistedStoreHydrationState<ThemeSlice & AppSlice>({
@@ -49,6 +51,13 @@ export default function App() {
   useAddictionsSubscription();
   useTriggerNotificationsSubscription();
   useNotificationsBlacklistSubscription();
+  useAppStateSubscription({
+    onAppStateChange: newAppStateStatus => {
+      if (newAppStateStatus !== 'active') {
+        setLocalAuthenticated(false);
+      }
+    },
+  });
 
   if (!isHydrated || !isNavigationRestored) return null;
 

@@ -4,6 +4,11 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { AddictionsSlice, createAddictionsSlice } from './addictions';
 import { AppSlice, createAppSlice } from './app';
+import { AppStateSlice, createAppStateSlice } from './appState';
+import {
+  LocalAuthenticationSlice,
+  createLocalAuthenticationSlice,
+} from './localAuthentication';
 import { NetInfoSlice, createNetInfoSlice } from './netInfo';
 import {
   NotificationsBlacklistSlice,
@@ -42,6 +47,14 @@ export const useNetInfoStore = create<NetInfoSlice>()((...a) => ({
 
 export const useAuthStore = create<SessionSlice>()((...a) => ({
   ...createSessionSlice(...a),
+}));
+
+export const useLocalAuthStore = create<LocalAuthenticationSlice>()((...a) => ({
+  ...createLocalAuthenticationSlice(...a),
+}));
+
+export const useAppStateStore = create<AppStateSlice>()((...a) => ({
+  ...createAppStateSlice(...a),
 }));
 
 export const useTriggerNotificationsStore = create<TriggerNotificationsSlice>()(
