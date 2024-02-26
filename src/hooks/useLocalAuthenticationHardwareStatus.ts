@@ -1,19 +1,19 @@
 import * as LocalAuthentication from 'expo-local-authentication';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
+
+import { useLocalAuthStore } from '@/store';
 
 const useLocalAuthenticationHardwareStatus = () => {
-  const [hasHardware, setHasHardware] = useState(false);
+  const setHasHardware = useLocalAuthStore(state => state.setHasHardware);
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     const hasHardware = await LocalAuthentication.hasHardwareAsync();
     setHasHardware(hasHardware);
-  };
+  }, [setHasHardware]);
 
   useEffect(() => {
     refresh();
-  }, []);
-
-  return { hasHardware, refresh };
+  }, [refresh]);
 };
 
 export { useLocalAuthenticationHardwareStatus };

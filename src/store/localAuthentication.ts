@@ -5,6 +5,8 @@ export interface LocalAuthenticationSlice {
   setAuthenticated: (authenticated: boolean) => void;
   authenticating: boolean;
   setAuthenticating: (authenticating: boolean) => void;
+  hasHardware: boolean;
+  setHasHardware: (hasHardware: boolean) => void;
 }
 
 export const createLocalAuthenticationSlice: StateCreator<
@@ -14,4 +16,6 @@ export const createLocalAuthenticationSlice: StateCreator<
   setAuthenticated: (authenticated: boolean) => set({ authenticated }),
   authenticating: false,
   setAuthenticating: (authenticating: boolean) => set({ authenticating }),
+  hasHardware: false,
+  setHasHardware: (hasHardware: boolean) => set({ hasHardware }),
 });

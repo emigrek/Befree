@@ -4,12 +4,11 @@ import { StyleProp, TextStyle, View } from 'react-native';
 import { List, Switch } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
-import { useLocalAuthenticationHardwareStatus } from '@/hooks/useLocalAuthenticationHardwareStatus';
 import i18n from '@/i18n';
 import { ModalStackNavigationProp } from '@/navigation/types';
 import { UserDataManager } from '@/services/managers/firebase';
 import { NotificationsBlacklistManager } from '@/services/managers/local';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useLocalAuthStore } from '@/store';
 import { Addiction } from '@/structures';
 import { useTheme } from '@/theme';
 
@@ -41,7 +40,7 @@ interface UseSettingsProps {
 export const useSettings = ({ addiction }: UseSettingsProps) => {
   const navigation = useNavigation<ModalStackNavigationProp>();
   const user = useAuthStore(state => state.user);
-  const { hasHardware } = useLocalAuthenticationHardwareStatus();
+  const hasHardware = useLocalAuthStore(state => state.hasHardware);
 
   const { colors } = useTheme();
 

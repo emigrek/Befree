@@ -12,6 +12,7 @@ import {
   useTriggerNotificationsSubscription,
 } from '@/hooks/notification';
 import { useAppStateSubscription } from '@/hooks/useAppStateSubscription';
+import { useLocalAuthenticationHardwareStatus } from '@/hooks/useLocalAuthenticationHardwareStatus';
 import { useNetInfoStateSubscription } from '@/hooks/useNetInfoStateSubscription';
 import { usePersistingNavigationState } from '@/hooks/usePersistingNavigationState';
 import { modalsNavigationContainerRef } from '@/navigation/NavigationContainerRef';
@@ -58,6 +59,7 @@ export default function App() {
       }
     },
   });
+  useLocalAuthenticationHardwareStatus();
 
   if (!isHydrated || !isNavigationRestored) return null;
 

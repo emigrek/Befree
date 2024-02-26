@@ -5,7 +5,6 @@ import { FC, useLayoutEffect } from 'react';
 import { AddictionScreenProps, AddictionStackParamList } from './types';
 
 import { AddictionHeader } from '@/components/headers';
-import { LocalAuthLayout } from '@/components/layouts';
 import {
   AchievementsScreen,
   ProgressScreen,
@@ -13,7 +12,6 @@ import {
   SettingsScreen,
 } from '@/components/modals';
 import { BottomTabsBar, TabBarIcon } from '@/components/ui/BottomTabsBar';
-import { Locked } from '@/components/ui/Locked';
 import { useAddiction } from '@/hooks/addiction';
 import i18n from '@/i18n';
 import { useLocalAuthStore } from '@/store';
@@ -46,7 +44,21 @@ const addictionIconMap: AddictionTabsIconMap = {
   },
 };
 
-const AddictionStackNavigator: FC<AddictionScreenProps> = props => {
+const AddictionStack: FC<AddictionScreenProps> = props => {
+  const params = props.route.params;
+  const { navigate } = props.navigation;
+  const authenticated = useLocalAuthStore(state => state.authenticated);
+  const addiction = useAddiction({ id: params.addictionId });
+  const hidden = addiction?.hidden ?? false;
+
+  useLayoutEffect(() => {
+    if (hidden && !authenticated) {
+      navigate('HiddenAddictions', {
+        screen: 'Addictions',
+      });
+    }
+  }, [navigate, authenticated, hidden]);
+
   return (
     <Navigator.Navigator
       tabBar={props => <BottomTabsBar {...props} />}
@@ -68,54 +80,25 @@ const AddictionStackNavigator: FC<AddictionScreenProps> = props => {
       <Navigator.Screen
         name="Progress"
         component={ProgressScreen}
-        initialParams={props.route.params}
+        initialParams={params}
       />
       <Navigator.Screen
         name="Relapses"
         component={RelapsesScreen}
-        initialParams={props.route.params}
+        initialParams={params}
       />
       <Navigator.Screen
         name="Achievements"
         component={AchievementsScreen}
-        initialParams={props.route.params}
+        initialParams={params}
       />
       <Navigator.Screen
         name="Settings"
         component={SettingsScreen}
-        initialParams={props.route.params}
+        initialParams={params}
       />
     </Navigator.Navigator>
   );
-};
-
-const AddictionStack: FC<AddictionScreenProps> = props => {
-  const params = props.route.params;
-  const authenticated = useLocalAuthStore(state => state.authenticated);
-  const addiction = useAddiction({ id: params.addictionId });
-  const hidden = addiction?.hidden ?? false;
-
-  useLayoutEffect(() => {
-    if (!authenticated && hidden) {
-      props.navigation.setOptions({
-        headerShown: true,
-      });
-    }
-  }, [props.navigation, authenticated, hidden]);
-
-  if (hidden) {
-    return (
-      <LocalAuthLayout
-        lockedComponent={localAuthenticate => (
-          <Locked localAuthenticate={localAuthenticate} />
-        )}
-      >
-        <AddictionStackNavigator {...props} />
-      </LocalAuthLayout>
-    );
-  }
-
-  return <AddictionStackNavigator {...props} />;
 };
 
 export { AddictionStack };
