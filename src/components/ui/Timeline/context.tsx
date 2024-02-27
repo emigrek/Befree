@@ -126,7 +126,7 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
       const future = isAfter(day, new Date());
       const past = isBefore(day, new Date());
 
-      if ((future || !withinRange) && !isSameDay(day, new Date())) {
+      if (future || !withinRange) {
         return 'transparent';
       }
 
