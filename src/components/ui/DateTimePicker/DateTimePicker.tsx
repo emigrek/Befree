@@ -1,5 +1,5 @@
 import { format, isAfter, set } from 'date-fns';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { View, ViewProps } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { DatePickerInput, TimePickerModal } from 'react-native-paper-dates';
@@ -25,6 +25,11 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
   ...props
 }) => {
   const [timeModalVisible, setTimeModalVisible] = useState<boolean>(false);
+
+  const use24HourClock = useMemo(() => {
+    const formatted = format(new Date(2024, 1, 1, 15, 0), 'p');
+    return !/AM|PM/i.test(formatted);
+  }, []);
 
   const onTimeModalConfirm = useCallback(
     ({ hours, minutes }: { hours: number; minutes: number }) => {
@@ -88,6 +93,8 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
         />
       </View>
       <TimePickerModal
+        locale={i18n.locale}
+        use24HourClock={use24HourClock}
         hours={date.getHours()}
         minutes={date.getMinutes()}
         visible={timeModalVisible}
