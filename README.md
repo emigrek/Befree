@@ -4,24 +4,45 @@
 
 **Befree** is addiction tracking mobile app, which helps to monitor and control your bad habits.
 
-App track your progress and motivates you to stay clean by providing a timeline of your addiction-free days and enabling you to achieve time goals such as day, week, month or year.
+- Tracks your progress and motivates you to stay clean by providing a timeline of your addiction-free days and enabling you to achieve time goals such as day, week, month and more.
+- Works in **offline mode**, so you can use it without internet connection. All data is synchronized with the cloud when the connection is available. Internet connection is required for authentication during the first login and uploading addiction image.
+- Supports **multiple languages**, by default comes with English and Polish translations. Translations are automatically detected based on the device's language settings.
+- Comes with over **21 screens**.
 
-App works in **offline mode**, so you can use it without internet connection. All data is synchronized with the cloud when the connection is available. Internet connection is required for authentication during the first login and uploading addiction image.
+## 👨‍💻 Major tech challanges
 
-App supports **multiple languages**, by default comes with English and Polish translations. Translations are automatically detected based on the device's language settings.
+1. **First mobile app** - This is my first mobile app, so I had to learn a lot about mobile development, especially about React Native and Expo. From past experience with web development I was familiar with thing like state management, internationalization, authentication, database, but I had to learn how to use native mobile features like notifications or storage.
+2. **Firebase authentication** - During the development I had to deal with Firebase authentication security issues that comes with storing user's token in the app. It turned out that the default `expo-secure-store` does not support storing values larger then 2048 bytes. I ended up using [Supabase's solution](https://supabase.com/docs/guides/getting-started/tutorials/with-expo-react-native?auth-store=secure-store#initialize-a-react-native-app) (what an irony! 😀) and added custom replacer function that replace firebase/auth unsupported characters.
+3. **Firestore data** - Because of lack of support for relational data in Firestore, I had to write abstraction that joins Firestore Addiction and Relapse collections into one object for easier data manipulation and rendering.
+4. **Firestore offline mode** - By default, @react-native-firebase support offline mode, but it requires to write custom code to handle the loading state as `@react-native-firebase` promises are not resolved when the app is offline which caused the app to hang.
+5. **Zustand state persistance** - In order theme and app state to persist between app restarts, I had to implement store persistance and hydration callback to avoid theme flickering.
+6. **React Native Navigation persistance** - I wanted to keep the navigation state between app restarts, so I had to implement hook that saves the navigation state to the async storage and loads it when the app starts.
+
+## 🐞 Known issues
+
+1. **Linked Data Deletion** - Currently when user deletes addiction, all related structures like relapses and image are deleted by the app code. This is not the best solution, as the deletion process could be interrupted by the user and the data would be left in the cloud. Firebase itself does not support linked data deletion, so I would have to write a cloud function that would handle this process.
+2. **Change user account** - To change the account, user has to clear app data. This is caused by the fact that I forgot to add the `GoogleSignin.revokeAccess()` to the logout function. The main branch has this issue fixed.
+
+## 🌱 Branches
+
+| 🌱 Branch               | 📋 Description                            |
+| ----------------------- | ----------------------------------------- |
+| `main`                  | Production branch                         |
+| `submission-14-02-2024` | Submission branch for the app competition |
 
 ## 📦 Used packages
 
-| 📦 Package         | 📋 Reasons                         |
-| ------------------ | ---------------------------------- |
-| Expo               | Cross-platform app development     |
-| Firebase           | Authentication, Firestore, Storage |
-| Zustand            | State management                   |
-| React Native Paper | Material Design components         |
-| Notifee            | Notifications                      |
-| i18n-js            | Internationalization               |
-| undraw             | Illustrations                      |
-| AppMockUp          | Repo app mockup                    |
+| 📦 Package             | 📋 Reasons                         |
+| ---------------------- | ---------------------------------- |
+| Expo                   | Cross-platform app development     |
+| @react-native-firebase | Authentication, Firestore, Storage |
+| Zustand                | State management                   |
+| React Native Paper     | Material Design components         |
+| Notifee                | Notifications                      |
+| i18n-js                | Internationalization               |
+| undraw                 | Illustrations                      |
+| AppMockUp              | Repo app mockup                    |
+| Lottie                 | Animations                         |
 
 ## 🚀 Running
 
