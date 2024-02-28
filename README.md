@@ -21,7 +21,6 @@
 ## 🐞 Known issues
 
 1. **Linked Data Deletion** - Currently when user deletes addiction, all related structures like relapses and image are deleted by the app code. This is not the best solution, as the deletion process could be interrupted by the user and the data would be left in the cloud. Firebase itself does not support linked data deletion, so I would have to write a cloud function that would handle this process.
-2. **Change user account** - To change the account, user has to clear app data. This is caused by the fact that I forgot to add the `GoogleSignin.revokeAccess()` to the logout function. The main branch has this issue fixed.
 
 ## 🌱 Branches
 
