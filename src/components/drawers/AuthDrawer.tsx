@@ -1,4 +1,5 @@
 import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -24,7 +25,10 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
       [
         {
           text: i18n.t(['labels', 'confirm']),
-          onPress: () => auth().signOut(),
+          onPress: () => {
+            auth().signOut();
+            GoogleSignin.revokeAccess();
+          },
           style: 'destructive',
         },
         {
