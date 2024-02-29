@@ -9,7 +9,7 @@ interface AppStateSubscription {
 
 export const useAppStateSubscription = ({
   onAppStateChange,
-}: AppStateSubscription) => {
+}: AppStateSubscription = {}) => {
   const { setAppState } = useAppStateStore();
 
   useEffect(() => {

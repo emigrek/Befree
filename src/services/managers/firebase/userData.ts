@@ -3,6 +3,11 @@ import { RelapseManager } from './relapse';
 
 import { Addiction, Relapse } from '@/structures';
 
+export enum UserDataUpdateTypes {
+  ADDICTION = 'addiction',
+  RELAPSE = 'relapse',
+}
+
 class UserDataManager {
   private userId: string;
   public addictions: AddictionManager;
@@ -14,19 +19,22 @@ class UserDataManager {
     this.relapses = new RelapseManager(userId);
   }
 
-  initializeDataListeners(updateCallback: (data: any) => void): void {
+  initializeDataListeners(
+    updateCallback: (data: Addiction[], type: UserDataUpdateTypes) => void,
+  ): void {
     // FIREBASE THINGS...
     this.addictions.listenToChanges(() => {
-      this.combineDataAndUpdate(updateCallback);
+      this.combineDataAndUpdate(updateCallback, UserDataUpdateTypes.ADDICTION);
     });
 
     this.relapses.listenToChanges(() => {
-      this.combineDataAndUpdate(updateCallback);
+      this.combineDataAndUpdate(updateCallback, UserDataUpdateTypes.RELAPSE);
     });
   }
 
   private async combineDataAndUpdate(
-    callback: (data: any) => void,
+    callback: (data: Addiction[], type: UserDataUpdateTypes) => void,
+    type: UserDataUpdateTypes,
   ): Promise<void> {
     const addictionsData = this.addictions.getAddictionsData();
     const relapsesData = this.relapses.getRelapsesData();
@@ -42,7 +50,7 @@ class UserDataManager {
       });
     });
 
-    callback(combinedAddictions);
+    callback(combinedAddictions, type);
   }
 
   unsubscribeFromChanges(): void {

@@ -1,6 +1,7 @@
 import { produce } from 'immer';
 import { StateCreator } from 'zustand';
 
+import { NotificationsBlacklistManager } from '@/services/managers/local';
 import { Addiction, Relapse } from '@/structures';
 
 export enum SortingField {
@@ -24,6 +25,8 @@ export interface AddictionsSlice {
   editAddiction: (id: string, addiction: Partial<Addiction>) => void;
   removeAddiction: (id: string) => void;
   setAddictionsLoading: (addictionsLoading: boolean) => void;
+  reloadNotifications: () => Promise<void[]>;
+  reset: () => void;
 }
 
 export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
@@ -78,6 +81,28 @@ export const createAddictionsSlice: StateCreator<AddictionsSlice> = (
   },
   setAddictionsLoading: (addictionsLoading: boolean) =>
     set({ addictionsLoading }),
+  reloadNotifications: async () => {
+    const { addictions } = get();
+    return Promise.all(
+      addictions.map(async addiction => {
+        const isBlacklisted =
+          await NotificationsBlacklistManager.getInstance().has(addiction.id);
+
+        if (isBlacklisted) return;
+
+        return addiction.achievements.notifications.reloadAll();
+      }),
+    );
+  },
+  reset: () =>
+    set({
+      sorting: {
+        direction: 'asc',
+        field: SortingField.relapses,
+      },
+      addictions: [],
+      addictionsLoading: false,
+    }),
 });
 
 export const getSortingFunction = (sorting: AddictionSorting) => {

@@ -5,10 +5,14 @@ import { Switch, Text } from 'react-native-paper';
 
 import { useNotificationsSettings } from '@/hooks/notification';
 import i18n from '@/i18n';
+import { useAddictionsStore } from '@/store';
 
 const Permissions: FC = () => {
   const { notificationSettings, requestAuthorization } =
     useNotificationsSettings();
+  const reloadNotifications = useAddictionsStore(
+    state => state.reloadNotifications,
+  );
 
   const onValueChange = useCallback(
     async (value: boolean) => {
@@ -17,10 +21,14 @@ const Permissions: FC = () => {
         notificationSettings?.authorizationStatus !==
           AuthorizationStatus.AUTHORIZED
       ) {
-        requestAuthorization();
+        const response = await requestAuthorization();
+
+        if (response?.authorizationStatus === AuthorizationStatus.AUTHORIZED) {
+          await reloadNotifications();
+        }
       }
     },
-    [requestAuthorization, notificationSettings],
+    [requestAuthorization, notificationSettings, reloadNotifications],
   );
 
   return (

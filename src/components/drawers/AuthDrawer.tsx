@@ -4,19 +4,19 @@ import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { IconButton, Title, Tooltip } from 'react-native-paper';
+import { Button, Title } from 'react-native-paper';
 
 import { UserAvatar } from '@/components/ui/UserAvatar';
 import i18n from '@/i18n';
-import { RootStackNavigationProp } from '@/navigation/types';
-import { useAuthStore } from '@/store';
+import { NotificationsManager } from '@/services/managers/local';
+import { useAddictionsStore, useAuthStore } from '@/store';
 
 const AuthDrawer: FC<DrawerContentComponentProps> = props => {
   const user = useAuthStore(state => state.user);
-  const navigation = useNavigation<RootStackNavigationProp>();
+  const resetAddictionsStore = useAddictionsStore(state => state.reset);
+  const [loading, setLoading] = useState(false);
 
   const handleSignOut = () => {
     Alert.alert(
@@ -25,10 +25,7 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
       [
         {
           text: i18n.t(['labels', 'confirm']),
-          onPress: () => {
-            auth().signOut();
-            GoogleSignin.revokeAccess();
-          },
+          onPress: signOut,
           style: 'destructive',
         },
         {
@@ -38,8 +35,13 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
     );
   };
 
-  const handleOnline = () => {
-    navigation.navigate('Authentication');
+  const signOut = async () => {
+    setLoading(true);
+    await NotificationsManager.getInstance().cancelAllTrigger();
+    await auth().signOut();
+    await GoogleSignin.revokeAccess();
+    resetAddictionsStore();
+    setLoading(false);
   };
 
   return (
@@ -48,19 +50,17 @@ const AuthDrawer: FC<DrawerContentComponentProps> = props => {
         <View style={style.user}>
           <View style={style.userDetails}>
             <UserAvatar size={40} user={user} />
-            {user ? (
-              <Tooltip title={i18n.t(['labels', 'signOut'])}>
-                <IconButton onPress={handleSignOut} size={20} icon={'logout'} />
-              </Tooltip>
-            ) : (
-              <Tooltip title={i18n.t(['labels', 'signIn'])}>
-                <IconButton onPress={handleOnline} size={20} icon={'login'} />
-              </Tooltip>
-            )}
+            <Button
+              mode="text"
+              onPress={handleSignOut}
+              loading={loading}
+              compact
+              icon={'logout'}
+            >
+              {i18n.t(['labels', 'signOut'])}
+            </Button>
           </View>
-          {user && (
-            <Title style={style.title}>{user.displayName ?? user.email}</Title>
-          )}
+          <Title style={style.title}>{user?.displayName ?? user?.email}</Title>
         </View>
       </View>
     </DrawerContentScrollView>

@@ -1,3 +1,4 @@
+import { AuthorizationStatus } from '@notifee/react-native';
 import { FC, useCallback, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -17,12 +18,15 @@ import { onboardingPages } from './onboardingPages';
 import { Screen } from '@/components/ui/Screen';
 import { useNotificationsSettings } from '@/hooks/notification';
 import i18n from '@/i18n';
-import { useGlobalStore } from '@/store';
+import { useAddictionsStore, useGlobalStore } from '@/store';
 
 const { width } = Dimensions.get('window');
 
 const OnboardingScreen: FC = () => {
   const setOnboarded = useGlobalStore(state => state.setOnboarded);
+  const reloadNotifications = useAddictionsStore(
+    state => state.reloadNotifications,
+  );
   const scrollRef = useAnimatedRef<ScrollView>();
   const translateX = useSharedValue(0);
   const [onLastPage, setOnLastPage] = useState<boolean>(false);
@@ -52,14 +56,24 @@ const OnboardingScreen: FC = () => {
   const handleSkip = useCallback(async () => {
     if (activePageIndex.value === onboardingPages.length - 1) {
       setOnboarded(true);
-      await requestAuthorization();
+      const response = await requestAuthorization();
+
+      if (response?.authorizationStatus === AuthorizationStatus.AUTHORIZED) {
+        await reloadNotifications();
+      }
       return;
     }
 
     scrollRef.current?.scrollTo({
       x: width * (onboardingPages.length - 1),
     });
-  }, [scrollRef, activePageIndex.value, setOnboarded, requestAuthorization]);
+  }, [
+    scrollRef,
+    activePageIndex.value,
+    setOnboarded,
+    requestAuthorization,
+    reloadNotifications,
+  ]);
 
   return (
     <Screen style={style.screen}>

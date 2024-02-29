@@ -2,7 +2,6 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from '@react-navigation/stack';
-import { useCallback } from 'react';
 
 import { AuthDrawerStack } from './AuthDrawerStack';
 import { RootStackParamList } from './types';
@@ -13,23 +12,16 @@ import {
   LoadingScreen,
   OnboardingScreen,
 } from '@/components/screens';
-import { useAuthStateListener } from '@/hooks/useAuthStateListener';
 import { useAuthStore, useGlobalStore } from '@/store';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStack = () => {
   const onboarded = useGlobalStore(state => state.onboarded);
-  const { user, setUser } = useAuthStore();
-
-  const { loading } = useAuthStateListener({
-    onUserChange: useCallback(
-      async u => {
-        setUser(u);
-      },
-      [setUser],
-    ),
-  });
+  const { user, loading } = useAuthStore(state => ({
+    user: state.user,
+    loading: state.loading,
+  }));
 
   return (
     <Stack.Navigator

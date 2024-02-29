@@ -12,6 +12,7 @@ import {
   useTriggerNotificationsSubscription,
 } from '@/hooks/notification';
 import { useAppStateSubscription } from '@/hooks/useAppStateSubscription';
+import { useAuthStateSubscription } from '@/hooks/useAuthStateSubscription';
 import { useLocalAuthenticationHardwareStatus } from '@/hooks/useLocalAuthenticationHardwareStatus';
 import { useNetInfoStateSubscription } from '@/hooks/useNetInfoStateSubscription';
 import { usePersistingNavigationState } from '@/hooks/usePersistingNavigationState';
@@ -52,6 +53,7 @@ export default function App() {
   useAddictionsSubscription();
   useTriggerNotificationsSubscription();
   useNotificationsBlacklistSubscription();
+  useAuthStateSubscription();
   useAppStateSubscription({
     onAppStateChange: newAppStateStatus => {
       if (newAppStateStatus !== 'active') {

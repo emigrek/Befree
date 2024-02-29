@@ -1,29 +1,44 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import { UserDataManager } from '@/services/managers/firebase';
+import {
+  UserDataManager,
+  UserDataUpdateTypes,
+} from '@/services/managers/firebase';
 import { useAddictionsStore, useAuthStore } from '@/store';
 
 export const useAddictionsSubscription = () => {
   const user = useAuthStore(state => state.user);
-  const { setAddictions, setLoading } = useAddictionsStore(state => ({
-    addictions: state.addictions,
-    setAddictions: state.setAddictions,
-    loading: state.addictionsLoading,
-    setLoading: state.setAddictionsLoading,
-  }));
+  const [userChanged, setUserChanged] = useState(false);
+  const { reloadNotifications, setAddictions, setLoading } = useAddictionsStore(
+    state => ({
+      setAddictions: state.setAddictions,
+      setLoading: state.setAddictionsLoading,
+      reloadNotifications: state.reloadNotifications,
+    }),
+  );
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setAddictions([]);
+      setUserChanged(true);
+      return;
+    }
+
     const userData = new UserDataManager(user.uid);
 
     setLoading(true);
-    userData.initializeDataListeners(data => {
+    userData.initializeDataListeners((data, type) => {
       setAddictions(data);
       setLoading(false);
+
+      if (userChanged && type === UserDataUpdateTypes.RELAPSE) {
+        reloadNotifications();
+        setUserChanged(false);
+      }
     });
 
     return () => {
       userData.unsubscribeFromChanges();
     };
-  }, [setAddictions, user, setLoading]);
+  }, [user, setAddictions, setLoading, userChanged, reloadNotifications]);
 };

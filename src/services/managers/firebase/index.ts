@@ -1,3 +1,3 @@
 export { AddictionManager } from './addiction';
 export { RelapseManager } from './relapse';
-export { UserDataManager } from './userData';
+export { UserDataManager, UserDataUpdateTypes } from './userData';
