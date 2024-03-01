@@ -23,7 +23,8 @@
 1. **Linked Data Deletion** - Currently when user deletes addiction, all related structures like relapses and image are deleted by the app code. This is not the best solution, as the deletion process could be interrupted by the user and the data would be left in the cloud. Firebase itself does not support linked data deletion, so I would have to write a cloud function that would handle this process.
 2. **Image upload** - Addiction image upload is not handled in offline mode. This is because the `@react-native-firebase` storage does not support offline mode. I would have to write custom code that would handle the image upload process and queue it when the connection is available.
 3. **Change user account** - To change the account, user has to clear app data. This is caused by the fact that I forgot to add the `GoogleSignin.revokeAccess()` to the logout function. This issue is fixed in `main` branch.
-4. **Notifications misc** - Addiction's notifications are not removed nor scheduled when user changes. This issue is fixed in `main` branch.
+4. **Notifications synchronization** - Addiction's notifications are not removed nor scheduled when user changes. This issue is fixed in `main` branch.
+5. **Timeline component bug** - There is a bug in the timeline component that causes transparent cells to be rendered when last relapse is in the past (more than 1 day). Bug is caused by wrong Timeline range. This issue is fixed in `main` branch.
 
 ## 🌱 Branches
 
