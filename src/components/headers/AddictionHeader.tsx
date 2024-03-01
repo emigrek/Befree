@@ -16,18 +16,16 @@ const AddictionHeader: FC<BottomTabHeaderProps> = ({
   return (
     <Appbar.Header style={style.header}>
       <Appbar.BackAction onPress={() => navigation.goBack()} />
-      <View style={style.container}>
-        <View style={style.center}>
-          <Text variant={'titleLarge'} style={{ textAlign: 'center' }}>
-            {title}
-          </Text>
-        </View>
-        {options.headerRight &&
-          options.headerRight({
-            pressColor: options.headerPressColor,
-            tintColor: options.headerTintColor,
-          })}
+      <View style={style.center}>
+        <Text variant={'titleLarge'} style={style.textCenter}>
+          {title}
+        </Text>
       </View>
+      {options.headerRight &&
+        options.headerRight({
+          pressColor: options.headerPressColor,
+          tintColor: options.headerTintColor,
+        })}
     </Appbar.Header>
   );
 };

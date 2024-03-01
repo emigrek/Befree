@@ -3,7 +3,7 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 
-import { AuthDrawerStack } from './AuthDrawerStack';
+import { ModalsStack } from './ModalsStack';
 import { RootStackParamList } from './types';
 
 import { RootHeader } from '@/components/headers';
@@ -26,7 +26,7 @@ const RootStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: !onboarded,
+        headerShown: !onboarded || !user,
         header: props => <RootHeader {...props} />,
         ...TransitionPresets.SlideFromRightIOS,
       }}
@@ -39,7 +39,7 @@ const RootStack = () => {
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
       )}
       {onboarded && user && (
-        <Stack.Screen name="Home" component={AuthDrawerStack} />
+        <Stack.Screen name="Home" component={ModalsStack} />
       )}
     </Stack.Navigator>
   );
