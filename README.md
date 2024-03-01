@@ -21,6 +21,7 @@
 ## 🐞 Known issues
 
 1. **Linked Data Deletion** - Currently when user deletes addiction, all related structures like relapses and image are deleted by the app code. This is not the best solution, as the deletion process could be interrupted by the user and the data would be left in the cloud. Firebase itself does not support linked data deletion, so I would have to write a cloud function that would handle this process.
+2. **Image upload** - Addiction image upload is not handled in offline mode. This is because the `@react-native-firebase` storage does not support offline mode. I would have to write custom code that would handle the image upload process and queue it when the connection is available.
 
 ## 🌱 Branches
 
