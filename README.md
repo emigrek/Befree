@@ -76,7 +76,26 @@ eas secret
 
 8. Extract client id from either `Google_Service_Info.plist` (ANDROID_CLIENT_ID) or `google-services.json` (client_id from client_type 3) and add to the Firebase Console -> Authentication -> Sign-in method -> Google -> Web client ID
 9. Repeat steps 4-8 for desired environments (development, production)
-10. Add authentication rules to the Firebase Firestore -> Rules:
+10. Add extracted client id to your .env file (note: when building preview or production app you might need to add it in eas.json file as well like this:)
+
+```JSON
+{
+  "build": {
+    "production": {
+      "android": {
+        "buildType": "apk",
+        "image": "ubuntu-20.04-jdk-11-ndk-r19c"
+      },
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "your web client id"
+      }
+    }
+  }
+}
+```
+
+11. Add authentication rules to the Firebase Firestore -> Rules:
 
 ```
 rules_version = '2';
@@ -101,7 +120,7 @@ service cloud.firestore {
 }
 ```
 
-11. Add authentication rules to the Firebase Storage -> Rules:
+12. Add authentication rules to the Firebase Storage -> Rules:
 
 ```
 rules_version = '2';
