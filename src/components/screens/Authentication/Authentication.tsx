@@ -10,6 +10,7 @@ import { Bold } from '@/components/ui/Text';
 import { keys } from '@/config/keys';
 import i18n from '@/i18n';
 import { useNetInfoStore } from '@/store';
+import { useTheme } from '@/theme';
 
 GoogleSignin.configure({
   scopes: ['email', 'profile'],
@@ -18,6 +19,7 @@ GoogleSignin.configure({
 
 const AuthenticationScreen: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const { colors } = useTheme();
   const netState = useNetInfoStore(state => state.netState);
 
   const handleSignIn = async () => {
@@ -53,7 +55,10 @@ const AuthenticationScreen: FC = () => {
           <Bold style={style.title} variant={'displayMedium'}>
             {i18n.t(['screens', 'authentication', 'title'])}
           </Bold>
-          <Text style={style.subtitle} variant={'bodyMedium'}>
+          <Text
+            style={[style.subtitle, { color: colors.outline }]}
+            variant={'bodyMedium'}
+          >
             {i18n.t(['screens', 'authentication', 'subtitle'])}
           </Text>
         </View>
@@ -90,7 +95,7 @@ const style = StyleSheet.create({
     gap: 50,
   },
   texts: {
-    gap: 5,
+    gap: 10,
     textAlign: 'center',
   },
   title: {

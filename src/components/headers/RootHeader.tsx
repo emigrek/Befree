@@ -8,19 +8,12 @@ import { style } from './style';
 import { Logo } from '@/components/ui/Logo';
 import { ThemeChanger } from '@/components/ui/ThemeChanger';
 
-const RootHeader: FC<StackHeaderProps> = ({ options }) => {
+const RootHeader: FC<StackHeaderProps> = () => {
   return (
     <Appbar.Header mode={'center-aligned'} style={style.header}>
-      <View style={style.container}>
-        <Logo />
-      </View>
+      <Logo />
       <View style={style.center} />
       <ThemeChanger />
-      {options.headerRight &&
-        options.headerRight({
-          pressColor: options.headerPressColor,
-          tintColor: options.headerTintColor,
-        })}
     </Appbar.Header>
   );
 };

@@ -100,7 +100,7 @@ const OnboardingScreen: FC = () => {
             />
           ))}
         </View>
-        <Button onPress={handleSkip} mode={'contained-tonal'}>
+        <Button onPress={handleSkip} mode={'contained'}>
           {onLastPage
             ? i18n.t(['screens', 'onboarding', 'getStarted'])
             : i18n.t(['screens', 'onboarding', 'skip'])}

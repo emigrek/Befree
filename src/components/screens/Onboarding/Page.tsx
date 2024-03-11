@@ -17,13 +17,13 @@ const Page: FC<OnboardingPage> = ({
   const { colors } = useTheme();
   return (
     <View style={style.page}>
-      {Illustration && <Illustration />}
-      <View>
-        <Bold style={style.title} variant="displaySmall">
+      <Illustration />
+      <View style={style.texts}>
+        <Bold style={style.text} variant="displaySmall">
           {title}
         </Bold>
         <Text
-          style={[style.description, { color: colors.outline }]}
+          style={[style.text, { color: colors.outline }]}
           variant={'bodyMedium'}
         >
           {description}
@@ -35,16 +35,16 @@ const Page: FC<OnboardingPage> = ({
 
 const style = StyleSheet.create({
   page: {
-    paddingHorizontal: 60,
+    paddingHorizontal: 50,
     width,
     justifyContent: 'space-evenly',
     paddingBottom: 60,
     flex: 1,
   },
-  title: {
-    textAlign: 'center',
+  texts: {
+    gap: 10,
   },
-  description: {
+  text: {
     textAlign: 'center',
   },
 });

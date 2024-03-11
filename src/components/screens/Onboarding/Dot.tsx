@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import Animated, {
-  Extrapolate,
+  Extrapolation,
   SharedValue,
   interpolate,
   useAnimatedStyle,
@@ -27,15 +27,12 @@ const Dot = ({
       translateX.value,
       [(index - 1) * width, index * width, (index + 1) * width],
       [15, 20, 15],
-      Extrapolate.CLAMP,
+      Extrapolation.CLAMP,
     );
     return {
-      backgroundColor: withTiming(
-        active ? colors.secondaryContainer : colors.border,
-        {
-          duration: 100,
-        },
-      ),
+      backgroundColor: withTiming(active ? colors.primary : colors.border, {
+        duration: 100,
+      }),
       width: widthAnimation,
     };
   });
