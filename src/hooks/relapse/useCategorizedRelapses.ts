@@ -13,6 +13,7 @@ import { capitalizeFirstLetter } from '@/utils';
 
 export interface RelapsesSection {
   title: string;
+  sortDate: Date;
   data: Relapse[];
 }
 
@@ -36,6 +37,7 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
           'timeSectionTitles',
           'today',
         ]),
+        sortDate: today,
         data: [],
       },
       {
@@ -47,6 +49,7 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
           'timeSectionTitles',
           'yesterday',
         ]),
+        sortDate: yesterday,
         data: [],
       },
       {
@@ -58,6 +61,7 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
           'timeSectionTitles',
           'last7Days',
         ]),
+        sortDate: last7DaysStart,
         data: [],
       },
       {
@@ -69,6 +73,7 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
           'timeSectionTitles',
           'last30Days',
         ]),
+        sortDate: last30DaysStart,
         data: [],
       },
     ];
@@ -100,6 +105,7 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
         const monthYear = capitalizeFirstLetter(format(relapseDate, 'LLLL'));
         monthlySections[monthYear] = monthlySections[monthYear] || {
           title: monthYear,
+          sortDate: relapseDate,
           data: [],
         };
         monthlySections[monthYear].data.push(relapse);
@@ -107,6 +113,7 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
         const year = format(relapseDate, 'yyyy');
         yearlySections[year] = yearlySections[year] || {
           title: year,
+          sortDate: relapseDate,
           data: [],
         };
         yearlySections[year].data.push(relapse);
@@ -122,6 +129,10 @@ const useCategorizedRelapses = (relapses: Relapse[]) => {
     ];
     return allSections
       .filter(section => section.data.length > 0)
+      .sort(
+        (a, b) =>
+          new Date(b.sortDate).getTime() - new Date(a.sortDate).getTime(),
+      )
       .map(section => ({
         ...section,
         data: [...section.data].reverse(),
