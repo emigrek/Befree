@@ -1,4 +1,4 @@
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { StateCreator } from 'zustand';
 
 export interface SessionSlice {
@@ -9,7 +9,7 @@ export interface SessionSlice {
 }
 
 export const createSessionSlice: StateCreator<SessionSlice> = set => ({
-  user: auth().currentUser,
+  user: null,
   setUser: (user: FirebaseAuthTypes.User | null) => set({ user }),
   loading: true,
   setLoading: (loading: boolean) => set({ loading }),
