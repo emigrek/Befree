@@ -43,12 +43,12 @@ const UserMenu: FC<UserMenuProps> = ({ user }) => {
 
   const signOut = async () => {
     setLoading(true);
-    handleClose();
     await NotificationsManager.getInstance().cancelAllTrigger();
     await auth().signOut();
     await GoogleSignin.revokeAccess();
     resetAddictionsStore();
     setLoading(false);
+    handleClose();
   };
 
   return (

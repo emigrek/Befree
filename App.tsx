@@ -25,6 +25,7 @@ import { usePersistedStoreHydrationState } from '@/store/usePersistedStoreHydrat
 import { useTheme } from '@/theme';
 import { useStatusBarTheme } from '@/theme/useStatusBarTheme';
 
+SplashScreen.preventAutoHideAsync();
 NavigationBar.setPositionAsync('absolute');
 NavigationBar.setBackgroundColorAsync('#ffffff00');
 SystemUI.setBackgroundColorAsync('transparent');
@@ -38,6 +39,7 @@ export default function App() {
     onNavigationStateChange,
   } = usePersistingNavigationState();
   const { setAuthenticated: setLocalAuthenticated } = useLocalAuthStore();
+  const { initializing: authInitializing } = useAuthStateSubscription();
 
   // Prevents white theme flash when Theme store is not hydrated
   const isHydrated = usePersistedStoreHydrationState<ThemeSlice & AppSlice>({
@@ -53,7 +55,6 @@ export default function App() {
   useAddictionsSubscription();
   useTriggerNotificationsSubscription();
   useNotificationsBlacklistSubscription();
-  useAuthStateSubscription();
   useAppStateSubscription({
     onAppStateChange: newAppStateStatus => {
       if (newAppStateStatus !== 'active') {
@@ -63,7 +64,7 @@ export default function App() {
   });
   useLocalAuthenticationHardwareStatus();
 
-  if (!isHydrated || !isNavigationRestored) return null;
+  if (!isHydrated || !isNavigationRestored || authInitializing) return null;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
