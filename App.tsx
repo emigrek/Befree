@@ -18,14 +18,10 @@ import { useNetInfoStateSubscription } from '@/hooks/useNetInfoStateSubscription
 import { usePersistingNavigationState } from '@/hooks/usePersistingNavigationState';
 import { modalsNavigationContainerRef } from '@/navigation/NavigationContainerRef';
 import { RootStack } from '@/navigation/RootStack';
-import { useGlobalStore, useLocalAuthStore } from '@/store';
-import { AppSlice } from '@/store/app';
-import { ThemeSlice } from '@/store/theme';
-import { usePersistedStoreHydrationState } from '@/store/usePersistedStoreHydrationState';
+import { useLocalAuthStore } from '@/store';
 import { useTheme } from '@/theme';
 import { useStatusBarTheme } from '@/theme/useStatusBarTheme';
 
-SplashScreen.preventAutoHideAsync();
 NavigationBar.setPositionAsync('absolute');
 NavigationBar.setBackgroundColorAsync('#ffffff00');
 SystemUI.setBackgroundColorAsync('transparent');
@@ -41,16 +37,6 @@ export default function App() {
   const { setAuthenticated: setLocalAuthenticated } = useLocalAuthStore();
   const { initializing: authInitializing } = useAuthStateSubscription();
 
-  // Prevents white theme flash when Theme store is not hydrated
-  const isHydrated = usePersistedStoreHydrationState<ThemeSlice & AppSlice>({
-    persistStore: useGlobalStore.persist,
-    onFinishHydration: async () => {
-      setTimeout(async () => {
-        await SplashScreen.hideAsync();
-      }, 500);
-    },
-  });
-
   useNetInfoStateSubscription();
   useAddictionsSubscription();
   useTriggerNotificationsSubscription();
@@ -64,7 +50,7 @@ export default function App() {
   });
   useLocalAuthenticationHardwareStatus();
 
-  if (!isHydrated || !isNavigationRestored || authInitializing) return null;
+  if (!isNavigationRestored || authInitializing) return null;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

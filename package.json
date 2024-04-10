@@ -3,6 +3,7 @@
   "version": "1.1.1",
   "scripts": {
     "dev": "expo start --dev-client",
+    "start": "expo start --minify --no-dev",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "lint": "eslint . --ext .tsx,.ts"
