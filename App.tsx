@@ -1,6 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
 import * as NavigationBar from 'expo-navigation-bar';
-import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
