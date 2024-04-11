@@ -147,6 +147,11 @@ const pl: Translation = {
             description:
               'Ukryte uzależnienia są zabezpieczone autoryzacją lokalną',
           },
+          inverseTimelineColor: {
+            name: 'Odwróć kolory',
+            description:
+              'Odwróć kolory na osi czasu (przydatne jeżeli nawyk jest pozytywny)',
+          },
           delete: {
             name: 'Usuń',
             description: 'Usuń uzależnienie (nieodwracalne)',
@@ -154,6 +159,7 @@ const pl: Translation = {
         },
         sections: {
           privacy: 'Prywatność',
+          display: 'Wyświetlanie',
           management: 'Zarządzanie',
         },
       },

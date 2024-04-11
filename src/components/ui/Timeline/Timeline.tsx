@@ -15,6 +15,7 @@ function Timeline({
   cellMargin = 1,
   fontSize = 8,
   mirrored = false,
+  invertColor = false,
   children,
   style: timelineStyle,
   ...props
@@ -28,6 +29,8 @@ function Timeline({
         cellSize,
         cellMargin,
         fontSize,
+        mirrored,
+        invertColor,
       }}
     >
       <View style={[timelineStyle, style.timeline]} {...props}>

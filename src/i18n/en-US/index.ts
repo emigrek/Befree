@@ -147,6 +147,11 @@ const enUS: Translation = {
             description:
               'Hidden addictions are protected by local authorization',
           },
+          inverseTimelineColor: {
+            name: 'Invert colors',
+            description:
+              'Invert colors on the timeline (useful if habit is positive)',
+          },
           delete: {
             name: 'Delete',
             description: 'Delete addiction (irreversible)',
@@ -154,6 +159,7 @@ const enUS: Translation = {
         },
         sections: {
           privacy: 'Privacy',
+          display: 'Display',
           management: 'Management',
         },
       },

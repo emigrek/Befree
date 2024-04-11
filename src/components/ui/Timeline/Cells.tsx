@@ -14,7 +14,8 @@ interface CellsProps {
 
 const Cells: FC<CellsProps> = ({ cellStyle }) => {
   const { colors } = useTheme();
-  const { cellsData, cellSize, cellMargin, mirrored } = useTimelineContext();
+  const { cellsData, cellSize, cellMargin, mirrored, invertColor } =
+    useTimelineContext();
 
   const renderItem = useMemo(
     () =>
@@ -52,7 +53,7 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
                 <Text
                   style={{
                     fontSize: 6,
-                    color: colors.text,
+                    color: invertColor ? colors.text : colors.border,
                     textAlign: 'center',
                   }}
                 >

@@ -14,6 +14,7 @@ import { useTheme } from '@/theme';
 
 export enum Section {
   PRIVACY = 'privacy',
+  DISPLAY = 'display',
   MANAGEMENT = 'management',
 }
 
@@ -86,6 +87,46 @@ export const useSettings = ({ addiction }: UseSettingsProps) => {
       },
       {
         id: 1,
+        section: Section.DISPLAY,
+        name: i18n.t([
+          'modals',
+          'addiction',
+          'settings',
+          'list',
+          'inverseTimelineColor',
+          'name',
+        ]),
+        description: i18n.t([
+          'modals',
+          'addiction',
+          'settings',
+          'list',
+          'inverseTimelineColor',
+          'description',
+        ]),
+        left: props => {
+          return <List.Icon {...props} icon="invert-colors" />;
+        },
+        right: () => {
+          return (
+            <View pointerEvents={'none'}>
+              <Switch
+                color={colors.primary}
+                value={addiction.inverseTimelineColor}
+              />
+            </View>
+          );
+        },
+        onChange: async () => {
+          if (!user) return;
+          const { addictions } = new UserDataManager(user.uid);
+          await addictions.update(addiction.id, {
+            inverseTimelineColor: !addiction.inverseTimelineColor,
+          });
+        },
+      },
+      {
+        id: 2,
         section: Section.MANAGEMENT,
         name: i18n.t([
           'modals',

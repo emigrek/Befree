@@ -8,6 +8,7 @@ interface FirebaseAddiction {
   image: string | null;
   relapses: Relapse[];
   hidden: boolean;
+  inverseTimelineColor: boolean;
   startedAt: Date;
   createdAt: Date;
 }
@@ -17,12 +18,13 @@ type UnidentifiedFirebaseAddiction = Omit<
   'id' | 'createdAt'
 >;
 
-class Addiction {
+class Addiction implements FirebaseAddiction {
   id: string;
   name: string;
   image: string | null;
   relapses: Relapse[];
   hidden: boolean;
+  inverseTimelineColor: boolean;
   startedAt: Date;
   createdAt: Date;
 
@@ -36,6 +38,7 @@ class Addiction {
     this.name = addiction.name;
     this.image = addiction.image;
     this.hidden = addiction.hidden;
+    this.inverseTimelineColor = addiction.inverseTimelineColor;
     this.startedAt = addiction.startedAt;
     this.createdAt = addiction.createdAt;
 

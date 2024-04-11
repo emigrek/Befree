@@ -18,6 +18,7 @@ class FirebaseDataParser {
           FirebaseDataParser.parseRelapseData(relapse),
       ),
       hidden: data.hidden,
+      inverseTimelineColor: data.inverseTimelineColor,
       startedAt: parseFirebaseTimestamp(data.startedAt),
       createdAt: parseFirebaseTimestamp(data.createdAt),
     };

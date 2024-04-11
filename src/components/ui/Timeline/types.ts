@@ -22,6 +22,7 @@ export interface TimelineProps {
   cellMargin?: number;
   fontSize?: number;
   mirrored?: boolean;
+  invertColor?: boolean;
 }
 
 export type TimelineComponentProps = TimelineProps & ViewProps;

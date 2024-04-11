@@ -21,11 +21,13 @@ const Timeline: FC<TimelineProps> = ({ addiction }) => {
 
   return (
     <TimelinePrimitive
+      key={addiction.inverseTimelineColor.toString()}
       data={data}
       range={range}
       cellSize={22}
       fontSize={12}
       mirrored
+      invertColor={addiction.inverseTimelineColor}
       style={style.container}
     >
       <TimelinePrimitive.Days />

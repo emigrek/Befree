@@ -12,11 +12,11 @@ import {
   sub,
 } from 'date-fns';
 import {
+  createContext,
   Dispatch,
   FC,
   ReactNode,
   SetStateAction,
-  createContext,
   useCallback,
   useContext,
   useMemo,
@@ -44,6 +44,8 @@ interface TimelineContextProps {
   setFontSize: Dispatch<SetStateAction<number>>;
   mirrored?: boolean;
   setMirrored?: Dispatch<SetStateAction<boolean>>;
+  invertColor?: boolean;
+  setInvertColor?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const TimelineContext = createContext<TimelineContextProps>({
@@ -76,6 +78,10 @@ export const TimelineContext = createContext<TimelineContextProps>({
   setMirrored: () => {
     //do nothing
   },
+  invertColor: false,
+  setInvertColor: () => {
+    //do nothing
+  },
 });
 
 interface TimelineContextProviderProps {
@@ -98,6 +104,9 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
   const [cellMargin, setCellMargin] = useState<number>(props.cellMargin || 1);
   const [fontSize, setFontSize] = useState<number>(props.fontSize || 8);
   const [mirrored, setMirrored] = useState<boolean>(props.mirrored || true);
+  const [invertColor, setInvertColor] = useState<boolean>(
+    props.invertColor || false,
+  );
 
   const startSunday = useMemo(() => {
     return isSunday(range[0]) ? range[0] : previousSunday(range[0]);
@@ -125,22 +134,26 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         (isAfter(day, range[0]) || isSameDay(day, range[0]));
       const future = isAfter(day, new Date());
       const past = isBefore(day, new Date());
+      const frequencyMax = Math.max(...Object.values(frequencyMap));
 
       if (future || !withinRange) {
         return 'transparent';
       }
 
       if (past && frequency !== 0) {
-        const frequencyMax = Math.max(...Object.values(frequencyMap));
-        return hexAlpha(
-          defaultTheme.colors.errorContainer,
-          frequency / frequencyMax,
-        );
+        return invertColor
+          ? defaultTheme.colors.primary
+          : hexAlpha(
+              defaultTheme.colors.errorContainer,
+              frequency / frequencyMax,
+            );
       }
 
-      return defaultTheme.colors.primary;
+      return invertColor
+        ? hexAlpha(defaultTheme.colors.errorContainer, 1)
+        : defaultTheme.colors.primary;
     },
-    [frequencyMap, range, defaultTheme],
+    [invertColor, frequencyMap, range, defaultTheme],
   );
 
   const cellsData = useMemo(() => {

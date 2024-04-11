@@ -132,6 +132,10 @@ export interface Translation {
             name: string;
             description: string;
           };
+          inverseTimelineColor: {
+            name: string;
+            description: string;
+          };
           delete: {
             name: string;
             description: string;
@@ -139,6 +143,7 @@ export interface Translation {
         };
         sections: {
           privacy: string;
+          display: string;
           management: string;
         };
       };
