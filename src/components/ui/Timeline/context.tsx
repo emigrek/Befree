@@ -207,6 +207,8 @@ const TimelineContextProvider: FC<TimelineContextProviderProps> = ({
         setFontSize,
         mirrored,
         setMirrored,
+        invertColor,
+        setInvertColor,
       }}
     >
       {children}

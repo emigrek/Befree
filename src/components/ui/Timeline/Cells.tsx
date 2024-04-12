@@ -19,7 +19,7 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
 
   const renderItem = useMemo(
     () =>
-      ({ item, row, col }: { item: Cell; row: number; col: number }) => {
+      ({ item }: { item: Cell; row: number; col: number }) => {
         return (
           <View
             style={[
@@ -52,8 +52,11 @@ const Cells: FC<CellsProps> = ({ cellStyle }) => {
               >
                 <Text
                   style={{
-                    fontSize: 6,
-                    color: invertColor ? colors.text : colors.border,
+                    fontSize: 8,
+                    fontWeight: 'bold',
+                    color: invertColor
+                      ? colors.onPrimary
+                      : colors.onErrorContainer,
                     textAlign: 'center',
                   }}
                 >
